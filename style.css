@@ -1,0 +1,40 @@
+table, th, td {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  font-size: 1.25rem;
+}
+
+table {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  background-color: #ebeff4;
+}
+
+.tableHead {
+  font-weight: bold;
+  font-size: 26px;
+  color: #626466;
+  text-align: center;
+}
+
+td {
+  width: 15rem;
+}
+
+body {
+  font-family: Raleway, sans-serif;
+  margin: 4rem;
+}
+
+img {
+  height: 30rem;
+}
+
+p {
+  font-size: 1.25rem;
+}
+
+.singleColumn {
+  width: 30rem;
+}
+
