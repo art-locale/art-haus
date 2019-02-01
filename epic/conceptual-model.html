@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>The Arts Haus</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet"/>
+  </head>
+  
+  <body>
+    <h1>Conceptual Model for The Arts Haus</h1>
+    
+    <ul>
+      <li><a href="./index.html">Home</a></li>
+      <li><a href="./persona-1.html">Persona 1</a></li>
+      <li><a href="./persona-2.html">Persona 2</a></li>
+	  <li><a href="./persona-3.html">Persona 3</a></li>
+      <li><a href="./conceptual-model.html">Conceptual Model</a></li>
+    </ul>
+    
+    <h2>Entities and Attributes</h2>
+    
+    <table>
+      <tr>
+          <td colspan="2" class="tableHead">Entity: user</td>
+      </tr>
+      <tr>
+        <th>Attribute:</th>
+        <th>notes:</th>
+      </tr>
+      <tr>
+        <td>userID</td>
+        <td>primary key</td>
+      </tr>
+      <tr>
+        <td>userName</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>userEmail</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>userPassword</td>
+        <td></td>
+      </tr>
+    </table>
+    
+    <table>
+      <tr>
+          <td colspan="2" class="tableHead">Entity: question</td>
+      </tr>
+      <tr>
+        <th>Attribute:</th>
+        <th>notes:</th>
+      </tr>
+      <tr>
+        <td>questionID</td>
+        <td>primary key</td>
+      </tr>
+      <tr>
+        <td>questionUserID</td>
+        <td>foreign key</td>
+      </tr>
+      <tr>
+        <td>questionContent</td>
+        <td></td>
+      </tr>
+    </table>
+    
+    <table>
+      <tr>
+          <td colspan="2" class="tableHead">Entity: answer</td>
+      </tr>
+      <tr>
+        <th>Attribute:</th>
+        <th>notes:</th>
+      </tr>
+      <tr>
+        <td>answerID</td>
+        <td>primary key</td>
+      </tr>
+      <tr>
+        <td>answerUserID</td>
+        <td>foreign key</td>
+      </tr>
+      <tr>
+        <td>answerQuestionID</td>
+        <td>foreign key</td>
+      </tr>
+      <tr>
+        <td>answerContent</td>
+        <td></td>
+      </tr>
+    </table>
+    
+    <table>
+      <tr>
+        <td colspan="2" class="tableHead">Entity: vote</td>
+      <tr>
+        <th>Attribute:</th>
+        <th>notes:</th>
+      </tr>
+      <tr>
+        <td>voteUserID</td>
+        <td>foreign key</td>
+      </tr>
+      <tr>
+        <td>voteAnswerID</td>
+        <td>foreign key</td>
+      </tr>
+      <tr>
+        <td>voteState</td>
+        <td></td>
+      </tr>
+    </table>
+    
+    <table class="singleColumn">
+      <tr>
+        <th class="tableHead">Relations:</th>
+      </tr>
+      <tr>
+        <td>1 user can ask many questions | 1 : m</td>
+      </tr>
+      <tr>
+        <td>1 user can answer many questions | 1 : m</td>
+      </tr>
+      <tr>
+        <td>many users can make 1 vote on many answers | m : 1 : m ( vote is weak entity/ intermediary)</td>
+      </tr>
+      <tr>
+        <td>1 question can have many answers | 1 : m</td>
+      </tr>
+    </table>
+    
+    <img src="./erdplus-diagram.png" alt="entity relationship diagram">
+    
+    <ul>
+      <li><a href="./index.html">Home</a></li>
+      <li><a href="./persona-1.html">Persona 1</a></li>
+      <li><a href="./persona-2.html">Persona 2</a></li>
+	  <li><a href="./persona-3.html">Persona 3</a></li>
+      <li><a href="./conceptual-model.html">Conceptual Model</a></li>
+    </ul>
+    
+  </body>
+</html>
