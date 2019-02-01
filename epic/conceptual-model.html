@@ -22,95 +22,124 @@
     
     <table>
       <tr>
-          <td colspan="2" class="tableHead">Entity: user</td>
+          <td colspan="2" class="tableHead">Entity: Profile</td>
       </tr>
       <tr>
         <th>Attribute:</th>
         <th>notes:</th>
       </tr>
       <tr>
-        <td>userID</td>
+        <td>profileID</td>
         <td>primary key</td>
       </tr>
       <tr>
-        <td>userName</td>
+        <td>profileActivationToken</td>
         <td></td>
       </tr>
       <tr>
-        <td>userEmail</td>
+        <td>profileDate</td>
         <td></td>
       </tr>
       <tr>
-        <td>userPassword</td>
+        <td>profileEmail</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>profileLocation</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>profileName</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>profilePassword</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>profileWebsite</td>
         <td></td>
       </tr>
     </table>
     
     <table>
       <tr>
-          <td colspan="2" class="tableHead">Entity: question</td>
+          <td colspan="2" class="tableHead">Entity: Image</td>
       </tr>
       <tr>
         <th>Attribute:</th>
         <th>notes:</th>
       </tr>
       <tr>
-        <td>questionID</td>
+        <td>imageID</td>
         <td>primary key</td>
       </tr>
       <tr>
-        <td>questionUserID</td>
+        <td>imageProfileID</td>
         <td>foreign key</td>
       </tr>
       <tr>
-        <td>questionContent</td>
+        <td>imageDate</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>imageTitle</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>imageURL</td>
         <td></td>
       </tr>
     </table>
     
     <table>
       <tr>
-          <td colspan="2" class="tableHead">Entity: answer</td>
+          <td colspan="2" class="tableHead">Entity: Gallery</td>
       </tr>
       <tr>
         <th>Attribute:</th>
         <th>notes:</th>
       </tr>
       <tr>
-        <td>answerID</td>
+        <td>galleryId</td>
         <td>primary key</td>
       </tr>
       <tr>
-        <td>answerUserID</td>
+        <td>galleryImageId</td>
         <td>foreign key</td>
       </tr>
       <tr>
-        <td>answerQuestionID</td>
+        <td>galleryProfileId</td>
         <td>foreign key</td>
       </tr>
       <tr>
-        <td>answerContent</td>
+        <td>galleryDate</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>galleryName</td>
         <td></td>
       </tr>
     </table>
-    
+
     <table>
       <tr>
-        <td colspan="2" class="tableHead">Entity: vote</td>
+        <td colspan="2" class="tableHead">Entity: Applaud</td>
+      </tr>
       <tr>
         <th>Attribute:</th>
         <th>notes:</th>
       </tr>
       <tr>
-        <td>voteUserID</td>
+        <td>applaudProfileId</td>
         <td>foreign key</td>
       </tr>
       <tr>
-        <td>voteAnswerID</td>
+        <td>applaudImageId</td>
         <td>foreign key</td>
       </tr>
       <tr>
-        <td>voteState</td>
+        <td>applaudBoolean</td>
         <td></td>
       </tr>
     </table>
@@ -120,16 +149,16 @@
         <th class="tableHead">Relations:</th>
       </tr>
       <tr>
-        <td>1 user can ask many questions | 1 : m</td>
+        <td>1 profile can have many images | 1 : m</td>
       </tr>
       <tr>
-        <td>1 user can answer many questions | 1 : m</td>
+        <td>1 profile can have many galleries | 1 : m</td>
       </tr>
       <tr>
-        <td>many users can make 1 vote on many answers | m : 1 : m ( vote is weak entity/ intermediary)</td>
+        <td>many profiles can applaud many images | m : 1 : m (applaud is weak entity/ intermediary)</td>
       </tr>
       <tr>
-        <td>1 question can have many answers | 1 : m</td>
+        <td>1 gallery can have many images | 1 : m (gallery is weak entity/ intermediary)</td>
       </tr>
     </table>
     
