@@ -39,7 +39,15 @@ p {
 }
 
 .wireframes {
-  width: 20rem;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+}
+
+.wireframes img {
+  width: 30rem;
   height: auto;
+  margin-bottom: 1rem;
+  border: 1px solid black;
 }
 
