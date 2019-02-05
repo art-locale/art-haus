@@ -1,4 +1,4 @@
-<?php
+*<?php
 namespace Wisengard\ArtLocale;
 
 require_once("autoload.php");
@@ -20,3 +20,38 @@ class Profile implements \JsonSerializable {
 	 * @var Uuid $profileId
 	 **/
 	private $profileId;
+  /**
+  * Activation token for intial profile creation
+  * @var string $profileActivationToken
+  **/
+  Private $profileActivationToken;
+  /**
+  * Date profile was created
+  * @var string $profileDate;
+  **/
+  private $profileDate;
+  /**
+  * Email address for profile owner
+  * @var string $profileEmail;
+  **/
+  private $profileEmail;
+  /**
+  * Location of profile owner
+  * @var string $profileLocation;
+  **/
+  private $profileLocation;
+  /**
+  * Name of profile owner
+  * @var string $profileName;
+  **/
+  private $profileName;
+  /**
+  * Profile owner account password
+  * @var string $profilePassword;
+  **/
+  private $profilePassword;
+  /**
+  * Website of profile owner
+  * @var string $profileWebsite;
+  **/
+  private $profileWebsite;
