@@ -81,3 +81,25 @@ class Profile implements \JsonSerializable {
 				$this->setProfileName($newProfileName);
 				$this->setProfilePassword($newProfilePassword);
 				$this->setProfileWebsite($newProfileWebsite);
+		 }
+			 //determine what exception type was thrown
+		 catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			 $exceptionType = get_class($exception);
+			 throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		 }
+	 }
+	 /**
+		* accessor method for profile id
+		*
+		* @return Uuid value of profile id
+		**/
+	 public function getProfileId() : Uuid {
+		 return($this->profileId);
+	 }
+	 /**
+		* mutator method for profile id
+		*
+		* @param Uuid|string $newProfileId new value of profile id
+		* @throws \RangeException if $newProfileId is not positive
+		* @throws \TypeError if $newProfileId is not a uuid or string
+		**/
