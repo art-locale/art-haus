@@ -442,3 +442,48 @@ public static function getProfileByProfileId(\PDO $pdo, $profileId) : ?Profile {
 	}
 	return($profile);
 }
+
+/**
+ * gets all profiles
+ *
+ * @param \PDO $pdo PDO connection object
+ * @return \SplFixedArray SplFixedArray of profiles found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when variables are not the correct data type
+ **/
+public static function getAllProfiles\PDO $pdo) : \SPLFixedArray {
+	// create query template
+	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLocation, profileName, profilePassword, profileWebsite FROM Profile";
+	$statement = $pdo->prepare($query);
+	$statement->execute();
+
+	// build an array of profiles
+	$profiles = new \SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	while(($row = $statement->fetch()) !== false) {
+		try {
+			$profile = new Profile($row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLocation"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+			$profiles[$profiles->key()] = $profile;
+			$profiles->next();
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+	}
+	return ($profiles);
+}
+/**
+ * formats the state variables for JSON serialization
+ *
+ * @return array resulting state variables to serialize
+ **/
+public function jsonSerialize() {
+	$fields = get_object_vars($this);
+	$fields["profileId"] = $this->profileId->toString();
+
+	//format the date so that the front end can consume it
+	$fields["profileDate"] = round(floatval($this->profileDate->format("U.u")) * 1000);
+	return ($fields);
+
+}
+}}
