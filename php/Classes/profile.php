@@ -103,3 +103,13 @@ class Profile implements \JsonSerializable {
 		* @throws \RangeException if $newProfileId is not positive
 		* @throws \TypeError if $newProfileId is not a uuid or string
 		**/
+		public function setProfileId( $newProfileId) : void {
+			try {
+				$uuid = self::validateUuid($newProfileId);
+			} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+				$exceptionType = get_class($exception);
+				throw(new $exceptionType($exception->getMessage(), 0, $exception));
+			}
+			// convert and store the author id
+			$this->profileId = $uuid;
+		}
