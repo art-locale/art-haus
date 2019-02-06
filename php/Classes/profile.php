@@ -113,3 +113,25 @@ class Profile implements \JsonSerializable {
 			// convert and store the author id
 			$this->profileId = $uuid;
 		}
+		/**
+		 * mutator method for activation token
+		 *
+		 * @param string $newProfileActivationToken new value of activation token
+		 * @throws \InvalidArgumentException if $newProfileActivationToken is not a string or insecure
+		 * @throws \RangeException if $newProfileActivationToken is > 32 characters
+		 * @throws \TypeError if $newProfileActivationToken is not a string
+		 **/
+		public function setProfileActivationToken(string $newProfileActivationToken) : void {
+			// verify the activation token content is secure
+			$newProfileActivationToken = trim($newProfileActivationToken);
+			$newProfileActivationToken = filter_var($newProfileActivationToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			if(empty($newProfileActivationToken) === true) {
+				throw(new \InvalidArgumentException("activation token is empty or insecure"));
+			}
+			// verify the activation token will fit in the database
+			if(strlen($newProfileActivationToken) > 32) {
+				throw(new \RangeException("activation token too large"));
+			}
+			// store the activation token
+			$this->profileActivationToken = $newProfileActivationToken;
+		}
