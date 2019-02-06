@@ -11,7 +11,7 @@ CREATE TABLE profile (
 	profileEmail VARCHAR(128) NOT NULL,
 	profileLocation, -- FIXME ask George latidute/long or city. as
 	profileName VARCHAR(32) NOT NULL,
-	profilePassword CHAR(97) NOT NULL,
+	profilePassword VARCHAR(140) NOT NULL,
 	profileWebsite VARCHAR(128) NULL,
 	-- this marks the following attributes unique
 	UNIQUE(profileEmail),-- FIXME do we want these? pros and cons?
