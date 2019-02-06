@@ -172,6 +172,14 @@ class Image implements \JsonSerializable {
 
 	//	START OF ACCESSOR & MUTATOR imageDate
 	/**
+	 * accessor method for image date
+	 *
+	 * @return \DateTime value of image date
+	 **/
+	public function getImageDate() : \DateTime {
+		return($this->imageDate);
+	}
+	/**
 	 * mutator method for image creation date
 	 *
 	 * @param \DateTime|string|null $newImageDate image date as a DateTime object or string (or null to load the current time)
@@ -194,6 +202,7 @@ class Image implements \JsonSerializable {
 		}
 		$this->imageDate = $newImageDate;
 	}
+
 //	//	END OF ACCESSOR & MUTATOR imageDate
 
 	//	START OF ACCESSOR & MUTATOR imageTitle
@@ -235,44 +244,35 @@ class Image implements \JsonSerializable {
 
 //	START OF ACCESSOR & MUTATOR imageUrl
 /**
- * accessor method for tweet content
+ * accessor method for image Url
  *
- * @return string value of tweet content
+ * @return string value of image Url
  **/
-public function getTweetContent() : string {
-	return($this->tweetContent);
+public function getImageUrl() : string {
+	return($this->imageUrl);
 }
 
 /**
- * mutator method for tweet content
+ * mutator method for image Url
  *
- * @param string $newImageContent new value of tweet content
- * @throws \InvalidArgumentException if $newImageContent is not a string or insecure
- * @throws \RangeException if $newTweetContent is > 140 characters
- * @throws \TypeError if $newTweetContent is not a string
+ * @param string $newImageUrl new value of image Url
+ * @throws \InvalidArgumentException if $newImageUrl is not a string or insecure
+ * @throws \RangeException if $newImageUrl is > 140 characters
+ * @throws \TypeError if $newImageUrl is not a string
  **/
-public function setTweetContent(string $newTweetContent) : void {
-	// verify the tweet content is secure
-	$newTweetContent = trim($newTweetContent);
-	$newTweetContent = filter_var($newTweetContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	if(empty($newTweetContent) === true) {
-		throw(new \InvalidArgumentException("tweet content is empty or insecure"));
+public function setImageUrl(string $newImageUrl) : void {
+	// verify the image Url is secure
+	$newImageUrl = trim($newImageUrl);
+	$newImageUrl = filter_var($newImageUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	if(empty($newImageUrl) === true) {
+		throw(new \InvalidArgumentException("image Url is empty or insecure"));
 	}
 
-	// verify the tweet content will fit in the database
-	if(strlen($newTweetContent) > 140) {
-		throw(new \RangeException("tweet content too large"));
+	// verify the image Url will fit in the database
+	if(strlen($newImageUrl) > 140) {
+		throw(new \RangeException("image Url too large"));
 	}
 
-	// store the tweet content
-	$this->tweetContent = $newTweetContent;
-}
-
-/**
- * accessor method for tweet date
- *
- * @return \DateTime value of tweet date
- **/
-public function getTweetDate() : \DateTime {
-	return($this->tweetDate);
+	// store the image Url
+	$this->imageUrl = $newImageUrl;
 }
