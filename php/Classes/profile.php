@@ -14,6 +14,7 @@ use Ramsey\Uuid\Uuid;
  **/
 
 class Profile implements \JsonSerializable {
+	use ValidateDate;
 	use ValidateUuid;
 	/**
 	 * id for this profile; this is the primary key
@@ -26,8 +27,8 @@ class Profile implements \JsonSerializable {
   **/
   Private $profileActivationToken;
   /**
-  * Date profile was created
-  * @var string $profileDate;
+  * Date and time profile was created, in a PHP DateTime object
+  * @var \DateTime $profileDate;
   **/
   private $profileDate;
   /**
@@ -59,7 +60,7 @@ class Profile implements \JsonSerializable {
    * constructor for this
    * @param Uuid|string $newProfileId new id of this profile or null if a new profile
    * @param string $newProfileActivationToken activation token for a new profile
-   * @param string $newProfileDate date profile was activated
+   * @param \DateTime|string|null $newProfileDate date and time profile was activated
    * @param string $newProfileEmail email address for new profile
    * @param string $newProfileLocation location for profile owner
    * @param string $newProfileName name of profile owner
@@ -88,6 +89,9 @@ class Profile implements \JsonSerializable {
 			 throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		 }
 	 }
+
+/** profileId **/
+
 	 /**
 		* accessor method for profile id
 		*
@@ -110,8 +114,19 @@ class Profile implements \JsonSerializable {
 				$exceptionType = get_class($exception);
 				throw(new $exceptionType($exception->getMessage(), 0, $exception));
 			}
-			// convert and store the author id
+			// convert and store the profile id
 			$this->profileId = $uuid;
+		}
+
+/** profileActivationToken **/
+
+		/**
+		 * accessor method for activation token
+		 *
+		 * @return string value of activation token
+		 **/
+		public function getProfileActivationToken() : string {
+			return($this->profileActivationToken);
 		}
 		/**
 		 * mutator method for activation token
@@ -135,3 +150,36 @@ class Profile implements \JsonSerializable {
 			// store the activation token
 			$this->profileActivationToken = $newProfileActivationToken;
 		}
+
+/** profileDate **/
+
+		/**
+		 * accessor method for profile date
+		 *
+		 * @return \DateTime value of profile date
+		 **/
+		public function getProfileDate() : \DateTime {
+			return($this->profileDate);
+		}
+		/**
+		 * mutator method for profile date
+		 *
+		 * @param \DateTime|string $newProfileDate new value of profile date as a DateTime object
+		 * @throws \InvalidArgumentException if $newProfileDate is not a string or insecure
+		 * @throws \RangeException if $newProfileDate is a date that does not exist
+		 **/
+		public function setProfileDate($newProfileDate = null) : void {
+			// base case: if the date is null, use the current date and time
+			if($newProfileDate === null) {
+					$this->profileDate = new \DateTime();
+					return;
+			}
+			// store the profile date using the ValidateDate trait
+			try {
+			$newProfileDate = self::validateDateTime($newProfileDate);
+		} catch(\InvalidArgumentException | \RangeException $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+		$this->profileDate = $newProfileDate;
+	}
