@@ -47,7 +47,7 @@ class Profile implements \JsonSerializable {
   **/
   private $profileName;
   /**
-  * Profile owner account password
+  * Hash of profile owner account password
   * @var string $profilePassword;
   **/
   private $profilePassword;
@@ -64,7 +64,7 @@ class Profile implements \JsonSerializable {
    * @param string $newProfileEmail email address for new profile
    * @param string $newProfileLocation location for profile owner
    * @param string $newProfileName name of profile owner
-   * @param string $newProfilePassword password for profile
+   * @param string $newProfilePassword hashed Locationpassword for profile
    * @param string $newProfileWebsite profile owner's website
    * @throws \InvalidArgumentException if data types are not valid
    * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
@@ -246,6 +246,39 @@ class Profile implements \JsonSerializable {
 			if(strlen($newProfileLocation) > 128) {
 				throw(new \RangeException("profile location too large"));
 			}
-			// store the activation token
+			// store the profile location
 			$this->profileLocation = $newProfileLocation;
+		}
+
+/** profileName**/
+
+		/**
+		 * accessor method for profile name
+		 *
+		 * @return string value of profile name
+		 **/
+		public function getProfileName() : string {
+			return($this->profileName);
+		}
+		/**
+		 * mutator method for profile name
+		 *
+		 * @param string $newProfileName new value of profile name
+		 * @throws \InvalidArgumentException if $newProfileName is not a string or insecure
+		 * @throws \RangeException if $newProfileName is > 32 characters
+		 * @throws \TypeError if $newProfileName is not a string
+		 **/
+		public function setProfileName(string $newProfileName) : void {
+			// verify the profile name content is secure
+			$newProfileName = trim($newProfileName);
+			$newProfileName = filter_var($newProfileName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			if(empty($newProfileName) === true) {
+				throw(new \InvalidArgumentException("profile name is empty or insecure"));
+			}
+			// verify the profile name will fit in the database
+			if(strlen($newProfileName) > 32) {
+				throw(new \RangeException("profile name too large"));
+			}
+			// store the profile name
+			$this->profileName = $newProfileName;
 		}
