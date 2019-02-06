@@ -5,19 +5,20 @@ ALTER DATABASE bhuffman1 CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 -- this creates the profile entity
 CREATE TABLE profile (
 	-- table's attributes list:
-	profileId BINARY(16) NOT NULL, -- FIXME any consideration here for Auto incrementing?
+	profileId BINARY(16) NOT NULL,
 	profileActivationToken CHAR(32),
-	profileDate DATETIME(6) NOT NULL, -- FIXME look into other options
+	profileDate DATETIME(6) NOT NULL,
 	profileEmail VARCHAR(128) NOT NULL,
-	profileLocation, -- FIXME ask George latidute/long or city. as
+	profileLocation, -- FIXME ask George latidute/long => Habersign, they will input address we change to Habersign.
 	profileName VARCHAR(32) NOT NULL,
-	profilePassword VARCHAR(140) NOT NULL,
+	profilePassword VARCHAR(140) NOT NULL, -- FIXME will need specifications
 	profileWebsite VARCHAR(128) NULL,
 	-- this marks the following attributes unique
-	UNIQUE(profileEmail),-- FIXME do we want these? pros and cons?
+	UNIQUE(profileEmail),
 	UNIQUE(profileName),
 	-- this creates an index
-	INDEX(profileEmail), -- FIXME do we want these? pros and cons?
+	INDEX(profileEmail), -- FIXME considerations: privacy, searchability,
+	INDEX(profileName),
 	-- this officiates the primary key for the entity
 	PRIMARY KEY(profileId)
 );
@@ -26,9 +27,9 @@ CREATE TABLE profile (
 -- this creates the gallery entity
 CREATE TABLE gallery (
 	-- table's attributes list:
-	galleryId BINARY(16) NOT NULL, -- FIXME any consideration here for Auto incrementing?
+	galleryId BINARY(16) NOT NULL,
 	galleryProfileId BINARY(16) NOT NULL,
-	galleryDate DATETIME(6) NOT NULL, -- FIXME look into other options
+	galleryDate DATETIME(6) NOT NULL,
 	galleryName VARCHAR(32) NOT NULL,
 	-- index the foreign keys
 	INDEX(galleryProfileId),
@@ -42,10 +43,10 @@ CREATE TABLE gallery (
 -- this creates the image entity
 CREATE TABLE image (
 	-- table's attributes list:
-	imageId BINARY(16) NOT NULL, -- FIXME any consideration here for Auto incrementing?
+	imageId BINARY(16) NOT NULL,
 	imageGalleryId BINARY(16) NOT NULL,
 	imageProfileId BINARY(16) NOT NULL,
-	imageDate DATETIME(6) NOT NULL, -- FIXME look into other options
+	imageDate DATETIME(6) NOT NULL,
 	imageTitle VARCHAR(32) NOT NULL,
 	imgageUrl VARCHAR(128) NULL,
 	-- index the foreign keys
@@ -64,12 +65,9 @@ CREATE TABLE applaud (
 	applaudProfileId BINARY(16) NOT NULL,
 	applaudImageId BINARY(16) NOT NULL,
 	applaudCount VARCHAR(50) NULL, -- FIXME verify what would be optimal here.
-# 	-- index the foreign keys --FIXME verify, indexing unnecessary since they are used as primary keys.
-# 	INDEX(applaudProfileId),
-# 	INDEX(applaudImageId),
 	-- create the foreign key relations
 	FOREIGN KEY(applaudProfileId) REFERENCES profile(profileId),
 	FOREIGN KEY(applaudImageId) REFERENCES image(imageId),
 	-- this officiates the primary key for the entity
-	PRIMARY KEY(applaudProfileId,applaudImageId) -- FIXME verify
+--	PRIMARY KEY(applaudProfileId,applaudImageId) -- FIXME verify Probably get rid of completely
 );
