@@ -65,7 +65,7 @@ class Gallery {
 	 *
 	 * @param Uuid|string $newGalleryId ID of this gallery
 	 * @param Uuid|string $newGalleryProfileId id of this gallery's associated profile ID
-	 * @param \DateTime|string|null $newTweetDate date and time gallery was created or null FIXME for some reason
+	 * @param \DateTime|string|null $newGalleryDate date and time gallery was created or null FIXME null for some reason
 	 * @param string $newGalleryName gallery's name
 	 *
 	 * @throws \InvalidArgumentException if data types are not valid
@@ -81,7 +81,7 @@ class Gallery {
 			$this->setGalleryDate($newGalleryDate);
 			$this->setGalleryName($newGalleryName);
 		} //determine what exception type was thrown
-		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+		catch(\InvalidArgumentException | \RangeException | \TypeError | \Exception $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
