@@ -184,35 +184,68 @@ class Profile implements \JsonSerializable {
 		$this->profileDate = $newProfileDate;
 	}
 
-	/** profileEmail **/
+/** profileEmail **/
 
-			/**
-			 * accessor method for profile email
-			 *
-			 * @return string value of profile email
-			 **/
-			public function getProfileEmail() : string {
-				return($this->profileEmail);
+		/**
+		 * accessor method for profile email
+		 *
+		 * @return string value of profile email
+		 **/
+		public function getProfileEmail() : string {
+			return($this->profileEmail);
+		}
+		/**
+		 * mutator method for profile email
+		 *
+		 * @param string $newProfileEmail new value of profile email
+		 * @throws \InvalidArgumentException if $newProfileEmail is not a string or insecure
+		 * @throws \RangeException if $newProfileEmail is > 128 characters
+		 * @throws \TypeError if $newProfileEmail is not a string
+		 **/
+		public function setProfileEmail(string $newProfileEmail) : void {
+			// verify the profile email content is secure
+			$newProfileEmail = trim($newProfileEmail);
+			$newProfileEmail = filter_var($newProfileEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			if(empty($newProfileEmail) === true) {
+				throw(new \InvalidArgumentException("profile email is empty or insecure"));
 			}
-			/**
-			 * mutator method for profile email
-			 *
-			 * @param string $newProfileEmail new value of profile email
-			 * @throws \InvalidArgumentException if $newProfileEmail is not a string or insecure
-			 * @throws \RangeException if $newProfileEmail is > 128 characters
-			 * @throws \TypeError if $newProfileEmail is not a string
-			 **/
-			public function setProfileEmail(string $newProfileEmail) : void {
-				// verify the profile email content is secure
-				$newProfileEmail = trim($newProfileEmail);
-				$newProfileEmail = filter_var($newProfileEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-				if(empty($newProfileEmail) === true) {
-					throw(new \InvalidArgumentException("profile email is empty or insecure"));
-				}
-				// verify the profile email will fit in the database
-				if(strlen($newProfileEmail) > 12/) {
-					throw(new \RangeException("profile email too large"));
-				}
-				// store the activation token
-				$this->profileEmail = $newProfileEmail;
+			// verify the profile email will fit in the database
+			if(strlen($newProfileEmail) > 128) {
+				throw(new \RangeException("profile email too large"));
 			}
+			// store the activation token
+			$this->profileEmail = $newProfileEmail;
+		}
+
+/** profileLocation**/
+
+		/**
+		 * accessor method for profile location
+		 *
+		 * @return string value of profile location
+		 **/
+		public function getProfileLocation() : string {
+			return($this->profileLocation);
+		}
+		/**
+		 * mutator method for profile location
+		 *
+		 * @param string $newProfileLocation new value of profile location
+		 * @throws \InvalidArgumentException if $newProfileLocation is not a string or insecure
+		 * @throws \RangeException if $newProfileLocation is > 128 characters
+		 * @throws \TypeError if $newProfileLocation is not a string
+		 **/
+		public function setProfileLocation(string $newProfileLocation) : void {
+			// verify the profile location content is secure
+			$newProfileLocation = trim($newProfileLocation);
+			$newProfileLocation = filter_var($newProfileLocation, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			if(empty($newProfileLocation) === true) {
+				throw(new \InvalidArgumentException("profile location is empty or insecure"));
+			}
+			// verify the profile location will fit in the database
+			if(strlen($newProfileLocation) > 128) {
+				throw(new \RangeException("profile location too large"));
+			}
+			// store the activation token
+			$this->profileLocation = $newProfileLocation;
+		}
