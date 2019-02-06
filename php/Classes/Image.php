@@ -195,3 +195,39 @@ class Image implements \JsonSerializable {
 		$this->imageDate = $newImageDate;
 	}
 //	//	END OF ACCESSOR & MUTATOR imageDate
+
+	//	START OF ACCESSOR & MUTATOR imageTitle
+	/**
+	 * accessor method for image title
+	 *
+	 * @return string value of image title
+	 **/
+	public function getimageTitle() : string {
+		return($this->imageTitle);
+	}
+
+	/**
+	 * mutator method for image title
+	 *
+	 * @param string $newImageTitle new value of image title
+	 * @throws \InvalidArgumentException if $newImageTitle is not a string or insecure
+	 * @throws \RangeException if $newImageTitle is > 32 characters
+	 * @throws \TypeError if $newImageTitle is not a string
+	 **/
+	public function setImageTitle(string $newImageTitle) : void {
+		// verify the image title is secure
+		$newImageTitle = trim($newImageTitle);
+		$newImageTitle = filter_var($newImageTitle, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newImageTitle) === true) {
+			throw(new \InvalidArgumentException("image title is empty or insecure"));
+		}
+
+		// verify the image title will fit in the database
+		if(strlen($newImageTitle) > 32) {
+			throw(new \RangeException("image title too large"));
+		}
+
+		// store the image title
+		$this->imageTitle = $newImageTitle;
+	}
+	//	//	END OF ACCESSOR & MUTATOR imageTitle
