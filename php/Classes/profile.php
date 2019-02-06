@@ -366,3 +366,21 @@ public function insert(\PDO $pdo) : void {
 	$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileDate" => $this->profileDate, "profileEmail" => $this->profileEmail, "profileLocation" => $this->profileLocation, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
 			$statement->execute($parameters);
 }
+
+/**
+ * deletes this profile from mySQL
+ *
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not a PDO connection object
+ **/
+public function delete(\PDO $pdo) : void {
+
+	// create query template
+	$query = "DELETE FROM Profile WHERE profileId = :profileId";
+	$statement = $pdo->prepare($query);
+
+	// bind the member variables to the place holder in the template
+	$parameters = ["profileId" => $this->profileId->getBytes()];
+	$statement->execute($parameters);
+}
