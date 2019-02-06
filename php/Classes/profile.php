@@ -183,3 +183,36 @@ class Profile implements \JsonSerializable {
 		}
 		$this->profileDate = $newProfileDate;
 	}
+
+	/** profileEmail **/
+
+			/**
+			 * accessor method for profile email
+			 *
+			 * @return string value of profile email
+			 **/
+			public function getProfileEmail() : string {
+				return($this->profileEmail);
+			}
+			/**
+			 * mutator method for profile email
+			 *
+			 * @param string $newProfileEmail new value of profile email
+			 * @throws \InvalidArgumentException if $newProfileEmail is not a string or insecure
+			 * @throws \RangeException if $newProfileEmail is > 128 characters
+			 * @throws \TypeError if $newProfileEmail is not a string
+			 **/
+			public function setProfileEmail(string $newProfileEmail) : void {
+				// verify the profile email content is secure
+				$newProfileEmail = trim($newProfileEmail);
+				$newProfileEmail = filter_var($newProfileEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+				if(empty($newProfileEmail) === true) {
+					throw(new \InvalidArgumentException("profile email is empty or insecure"));
+				}
+				// verify the profile email will fit in the database
+				if(strlen($newProfileEmail) > 12/) {
+					throw(new \RangeException("profile email too large"));
+				}
+				// store the activation token
+				$this->profileEmail = $newProfileEmail;
+			}
