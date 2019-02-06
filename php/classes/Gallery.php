@@ -293,94 +293,94 @@ class Gallery {
 
 
 	/* START SEARCH STATIC METHOD: RETURN OBJECT */
-	/**
-	 * gets the author's username by authorId
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @param Uuid|string $authorId author id to search for
-	 * @return author|null author found or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when a variable are not the correct data type
-	 **/
-	public static function getAuthorByAuthorId(\PDO $pdo, $authorId) : ?author {
-		// sanitize the authorId before searching
-		try {
-			$authorId = self::validateUuid($authorId);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-
-		// create query template
-		$query = "SELECT authorId, authorUsername FROM author WHERE authorId = :authorId";
-		$statement = $pdo->prepare($query);
-
-		// bind the author id to the place holder in the template
-		$parameters = ["authorId" => authorId];
-		$statement->execute($parameters);
-
-		// get the author from mySQL
-		try {
-			$author = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$author = new Author($row["authorId"], $row["authorUsername"]);
-			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-		return($author);
-	}
-	/* END SEARCH STATIC METHOD: RETURN OBJECT */
-
-
-	/* START SEARCH STATIC METHOD: RETURN ARRAY */
-	/**
-	 * gets the author username by email
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @param string $authorEmail author email to search for
-	 * @return \SplFixedArray SplFixedArray of authors found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
-	public static function getAuthorByEmail(\PDO $pdo, string $authorEmail) : \SplFixedArray {
-		// sanitize the description before searching
-		$authorEmail = trim($authorEmail);
-		$authorEmail = filter_var($authorEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($authorEmail) === true) {
-			throw(new \PDOException(" author email is invalid"));
-		}
-
-		// escape any mySQL wild cards
-		$authorEmail = str_replace("_", "\\_", str_replace("%", "\\%", $authorEmail));
-
-		// create query template
-		$query = "SELECT authrId, authorEmail, authorUsername FROM author WHERE authorEmail LIKE :authorEmail";
-		$statement = $pdo->prepare($query);
-
-		// bind the tweet content to the place holder in the template
-		$authorEmail = "%$authorEmail%";
-		$parameters = ["authorEmail" => $authorEmail];
-		$statement->execute($parameters);
-
-		// build an array of tweets
-		$authors = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$author = new Author($row["authorId"], $row["authorEmail"], $row["authorUsername"]);
-				$authors[$authors->key()] = $author;
-				$authors->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return($authors);
-	}
-	/* END SEARCH STATIC METHOD: RETURN ARRAY */
+//	/**
+//	 * gets the author's username by authorId
+//	 *
+//	 * @param \PDO $pdo PDO connection object
+//	 * @param Uuid|string $authorId author id to search for
+//	 * @return author|null author found or null if not found
+//	 * @throws \PDOException when mySQL related errors occur
+//	 * @throws \TypeError when a variable are not the correct data type
+//	 **/
+//	public static function getAuthorByAuthorId(\PDO $pdo, $authorId) : ?author {
+//		// sanitize the authorId before searching
+//		try {
+//			$authorId = self::validateUuid($authorId);
+//		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+//			throw(new \PDOException($exception->getMessage(), 0, $exception));
+//		}
+//
+//		// create query template
+//		$query = "SELECT authorId, authorUsername FROM author WHERE authorId = :authorId";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the author id to the place holder in the template
+//		$parameters = ["authorId" => authorId];
+//		$statement->execute($parameters);
+//
+//		// get the author from mySQL
+//		try {
+//			$author = null;
+//			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//			$row = $statement->fetch();
+//			if($row !== false) {
+//				$author = new Author($row["authorId"], $row["authorUsername"]);
+//			}
+//		} catch(\Exception $exception) {
+//			// if the row couldn't be converted, rethrow it
+//			throw(new \PDOException($exception->getMessage(), 0, $exception));
+//		}
+//		return($author);
+//	}
+//	/* END SEARCH STATIC METHOD: RETURN OBJECT */
+//
+//
+//	/* START SEARCH STATIC METHOD: RETURN ARRAY */
+//	/**
+//	 * gets the author username by email
+//	 *
+//	 * @param \PDO $pdo PDO connection object
+//	 * @param string $authorEmail author email to search for
+//	 * @return \SplFixedArray SplFixedArray of authors found
+//	 * @throws \PDOException when mySQL related errors occur
+//	 * @throws \TypeError when variables are not the correct data type
+//	 **/
+//	public static function getAuthorByEmail(\PDO $pdo, string $authorEmail) : \SplFixedArray {
+//		// sanitize the description before searching
+//		$authorEmail = trim($authorEmail);
+//		$authorEmail = filter_var($authorEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+//		if(empty($authorEmail) === true) {
+//			throw(new \PDOException(" author email is invalid"));
+//		}
+//
+//		// escape any mySQL wild cards
+//		$authorEmail = str_replace("_", "\\_", str_replace("%", "\\%", $authorEmail));
+//
+//		// create query template
+//		$query = "SELECT authrId, authorEmail, authorUsername FROM author WHERE authorEmail LIKE :authorEmail";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the tweet content to the place holder in the template
+//		$authorEmail = "%$authorEmail%";
+//		$parameters = ["authorEmail" => $authorEmail];
+//		$statement->execute($parameters);
+//
+//		// build an array of tweets
+//		$authors = new \SplFixedArray($statement->rowCount());
+//		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+//		while(($row = $statement->fetch()) !== false) {
+//			try {
+//				$author = new Author($row["authorId"], $row["authorEmail"], $row["authorUsername"]);
+//				$authors[$authors->key()] = $author;
+//				$authors->next();
+//			} catch(\Exception $exception) {
+//				// if the row couldn't be converted, rethrow it
+//				throw(new \PDOException($exception->getMessage(), 0, $exception));
+//			}
+//		}
+//		return($authors);
+//	}
+//	/* END SEARCH STATIC METHOD: RETURN ARRAY */
 
 } /* END OF CLASS AUTHOR */
 
