@@ -282,3 +282,36 @@ class Profile implements \JsonSerializable {
 			// store the profile name
 			$this->profileName = $newProfileName;
 		}
+
+/** profilePassword**/
+
+		/**
+		 * accessor method for profile password
+		 *
+		 * @return string value of profile password
+		 **/
+		public function getProfilePassword() : string {
+			return($this->profilePassword);
+		}
+		/**
+		 * mutator method for profile password
+		 *
+		 * @param string $newProfilePassword new value of profile password
+		 * @throws \InvalidArgumentException if $newProfilePassword is not a string or insecure
+		 * @throws \RangeException if $newProfilePassword is > 140 characters
+		 * @throws \TypeError if $newProfilePassword is not a string
+		 **/
+		public function setProfilePassword(string $newProfilePassword) : void {
+			// verify the profile password content is secure
+			$newProfileName = trim($newProfilePassword);
+			$newProfileName = filter_var($newProfilePassword, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			if(empty($newProfilePassword) === true) {
+				throw(new \InvalidArgumentException("profile password is empty or insecure"));
+			}
+			// verify the profile password will fit in the database
+			if(strlen($newProfilePassword) > 140) {
+				throw(new \RangeException("profile password too large"));
+			}
+			// store the profile password
+			$this->profileName = $newProfilePassword;
+		}
