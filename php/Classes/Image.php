@@ -9,7 +9,7 @@ use Ramsey\Uuid\Uuid;
 /**
  * Framework for Image class
  *
- * @author William Isengard <wisengard@cnm.edu>
+ * @author Brandon Huffman <bt_huffman@msn.com>
  * @version 1.0.0
  **/
 //Note FIXME do we want to have these states as protected or public instead?
@@ -45,7 +45,7 @@ class Image implements \JsonSerializable {
 	 * @var string $imageUrl;
 	 **/
 	private $imageUrl;
-//	START OF CONSTRUCTOR
+//**************************************************************************************************START OF CONSTRUCTOR
 	/**
 	 * constructor for each new image object/ instance/ record
 	 *
@@ -77,7 +77,7 @@ class Image implements \JsonSerializable {
 		}
 	}
 	//	END OF CONSTRUCTOR
-//	START OF ACCESSOR & MUTATOR imageId
+//***********************************************************************************START OF ACCESSOR & MUTATOR imageId
 	/**
 	 * accessor method for image id
 	 *
@@ -101,11 +101,11 @@ class Image implements \JsonSerializable {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
-		// convert and store the author id
+		// convert and store the image id
 		$this->imageId = $uuid;
 	}
-//	END OF ACCESSOR & MUTATOR imageGalleryId
-//	START OF ACCESSOR & MUTATOR imageGalleryId
+//	END OF ACCESSOR & MUTATOR imageId
+//****************************************************************************START OF ACCESSOR & MUTATOR imageGalleryId
 	/**
 	 * @return Uuid value of the gallery Id
 	 **/
@@ -127,13 +127,13 @@ class Image implements \JsonSerializable {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
-		// convert and store the author id
+		// convert and store the image gallery id
 		$this->imageGalleryId = $uuid;
 	}
-//	//	END OF ACCESSOR & MUTATOR imageProfileId
-//	START OF ACCESSOR & MUTATOR imageProfileId
+//	//	END OF ACCESSOR & MUTATOR imageGalleryId
+//	**************************************************************************START OF ACCESSOR & MUTATOR imageProfileId
 	/**
-	 * @return Uuid value of the profile Id
+	 * @return Uuid value of the image profile Id
 	 **/
 	public function getImageProfileId() : Uuid {
 		return($this->imageProfileId);
@@ -152,11 +152,11 @@ class Image implements \JsonSerializable {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
-		// convert and store the author id
+		// convert and store the image profile id
 		$this->imageProfileId = $uuid;
 	}
 //	//	END OF ACCESSOR & MUTATOR imageProfileId
-	//	START OF ACCESSOR & MUTATOR imageDate
+//*********************************************************************************START OF ACCESSOR & MUTATOR imageDate
 	/**
 	 * accessor method for image date
 	 *
@@ -188,7 +188,7 @@ class Image implements \JsonSerializable {
 		$this->imageDate = $newImageDate;
 	}
 //	//	END OF ACCESSOR & MUTATOR imageDate
-	//	START OF ACCESSOR & MUTATOR imageTitle
+//********************************************************************************START OF ACCESSOR & MUTATOR imageTitle
 	/**
 	 * accessor method for image title
 	 *
@@ -222,7 +222,7 @@ class Image implements \JsonSerializable {
 	}
 	//	//	END OF ACCESSOR & MUTATOR imageTitle
 }
-//	START OF ACCESSOR & MUTATOR imageUrl
+//**********************************************************************************START OF ACCESSOR & MUTATOR imageUrl
 /**
  * accessor method for image Url
  *
@@ -259,7 +259,7 @@ public function setImageUrl(string $newImageUrl) : void {
  * START OF THE UNIT TESTING
  *****************************************************************************************************************/
 /**
- * inserts this profile into mySQL
+ * inserts this image into mySQL
  *
  * @param \PDO $pdo PDO connection object
  * @throws \PDOException when mySQL related errors occur
@@ -268,11 +268,11 @@ public function setImageUrl(string $newImageUrl) : void {
 public function insert(\PDO $pdo) : void {
 
 	// create query template
-	$query = "INSERT INTO Profile(profileId, profileActivationToken, profileDate, profileEmail, profileLocation, profileName, profilePassword, profileWebsite) VALUES(:profileId, :profileActivationToken, :profileDate, :profileEmail, :profileLocation, :profileName, :profilePassword, :profileWebsite)";
+	$query = "INSERT INTO Image(imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl) VALUES(:imageId, :imageGalleryId, :imageProfileId, :imageDate, :imageTitle, :imageUrl)";
 	$statement = $pdo->prepare($query);
 
 	// bind the member variables to the place holder in the template
-	$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileDate" => $this->profileDate, "profileEmail" => $this->profileEmail, "profileLocation" => $this->profileLocation, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
+	$parameters = ["imageId" => $this->imageId->getBytes(), "imageGalleryId" => $this->imageGalleryId->getBytes(),"imageProfileId" => $this->imageProfileId->getBytes(), "imageDate" => $this->profileDate, "profileEmail" => $this->profileEmail, "profileLocation" => $this->profileLocation, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
 	$statement->execute($parameters);
 }
 
