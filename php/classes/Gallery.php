@@ -9,7 +9,7 @@ require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
 use Ramsey\Uuid\Uuid;
 
 /**
- * Capstone project for Art Locale team, Deepdive cohort 23, Spring 2019
+ * Capstone project for Art-Locale team, Deepdive cohort 23, Spring 2019
  *
  * This assignment creates a class for galleries and builds a PHP program
  * that populates and manipulates the corresponding SQL table.
@@ -35,52 +35,38 @@ class Gallery {
 	*/
 
 	/**
-	 * the author's ID; this is the primary key
-	 * @var string $authorId
+	 * the gallery's ID; this is the primary key
+	 * @var string $galleryId
 	 **/
-	private $authorId;
+	private $galleryId;
 
 	/**
-	 * the URL that links to the author's avatar image file
-	 * @var string authorAvatarUrl
+	 * the associated profile's ID; this is a foreign key
+	 * @var string $galleryProfileId
 	 **/
-	private $authorAvatarUrl;
+	private $galleryProfileId;
 
 	/**
-	 * the author's activation token
-	 * @var string $authorActivationToken
+	 * date and time this Tweet was sent, in a PHP DateTime object
+	 * @var \DateTime $galleryDate
 	 **/
-	private $authorActivationToken;
+	private $galleryDate;
 
 	/**
-	 * the author's email address
-	 * @var string authorEmail
+	 * the gallery's name
+	 * @var string $galleryName
 	 **/
-	private $authorEmail;
-
-	/**
-	 * the author's hash
-	 * @var string $authorHash
-	 **/
-	private $authorHash;
-
-	/**
-	 * the author's user name
-	 * @var string $authorUsername
-	 **/
-	private $authorUsername;
+	private $galleryName;
 
 
 	/* START CONSTRUCTOR METHOD*/
 	/**
 	 * constructor for each new author object/ instance/ record
 	 *
-	 * @param Uuid|string $newAuthorId id of this author
-	 * @param string $newAuthorAvatarUrl url of the avatar image
-	 * @param string $newAuthorActivationToken string containing activation token
-	 * @param string $newAuthorEmail author's email address
-	 * @param string $newAuthorHash string containing hash (password)
-	 * @param string $newAuthorUsername author's user name
+	 * @param Uuid|string $newGalleryId ID of this gallery
+	 * @param Uuid|string $newGalleryProfileId id of this gallery's associated profile ID
+	 * @param \DateTime|string|null $newTweetDate date and time gallery was created or null FIXME for some reason
+	 * @param string $newGalleryName gallery's name
 	 *
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
@@ -88,14 +74,12 @@ class Gallery {
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct($newAuthorId, $newAuthorAvatarUrl, $newAuthorActivationToken, $newAuthorEmail, $newAuthorHash, $newAuthorUsername) {
+	public function __construct($newGalleryId, $newGalleryProfileId, $newGalleryDate, $newGalleryName) {
 		try {
-			$this->setAuthorId($newAuthorId);
-			$this->setAuthorAvatarUrl($newAuthorAvatarUrl);
-			$this->setAuthorActivationToken($newAuthorActivationToken);
-			$this->setAuthorEmail($newAuthorEmail);
-			$this->setAuthorHash($newAuthorHash);
-			$this->setAuthorUsername($newAuthorUsername);
+			$this->setGalleryId($newGalleryId);
+			$this->setGalleryProfileId($newGalleryProfileId);
+			$this->setGalleryDate($newGalleryDate);
+			$this->setGalleryName($newGalleryName);
 		} //determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
@@ -104,193 +88,112 @@ class Gallery {
 	} /* END CONSTRUCTOR METHOD*/
 
 
-	/* START AUTHOR ID METHODS*/
+	/* START GALLERY-ID METHODS*/
 	/**
-	 * GETTER accessor method for author id
+	 * GETTER accessor method for gallery id
 	 *
-	 * @return string value of author id
+	 * @return string value of gallery id
 	 **/
-	public function getAuthorId(): string {
-		return ($this->authorId);
+	public function getGalleryId(): string {
+		return ($this->galleryId);
 	}
 
 	/**
-	 * SETTER mutator method for author id
+	 * SETTER mutator method for gallery id
 	 *
-	 * @param Uuid|string $newAuthorId new value of author id
-	 * @throws \RangeException if $newAuthorId is not positive
-	 * @throws \TypeError if $newAuthorId is not a uuid or string
+	 * @param Uuid|string $newGalleryId new value of gallery id
+	 * @throws \RangeException if $newGalleryId is not positive
+	 * @throws \TypeError if $newGalleryId is not a uuid or string
 	 **/
-	public function setAuthorId($newAuthorId): void {
+	public function setGalleryId($newGalleryId): void {
 		try {
-			$uuid = self::validateUuid($newAuthorId);
+			$uuid = self::validateUuid($newGalleryId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
 		// convert and store the author id
-		$this->authorId = $uuid;
+		$this->galleryId = $uuid;
 	}
-	/* END AUTHOR ID METHODS*/
+	/* END GALLERY-ID METHODS*/
 
 
-	/* START AVATAR URL METHODS*/
+	/* START GALLERY-PROFILE-ID METHODS*/
 	/**
-	 * GETTER accessor method for avatar url
+	 * GETTER accessor method for gallery id
 	 *
-	 * @return string value of avatar url
+	 * @return string value of gallery id
 	 **/
-	public function getAuthorAvatarUrl(): string {
-		return ($this->authorAvatarUrl);
-	}
-
-	/**
-	 * SETTER mutator method for avatar url
-	 *
-	 * @param string $newAuthorAvatarUrl new value of avatar url
-	 * @throws \InvalidArgumentException if $newAuthorAvatarUrl is not a string or insecure
-	 * @throws \RangeException if $newAuthorAvatarUrl is > 140 characters
-	 * @throws \TypeError if $newAuthorAvatarUrl is not a string
-	 **/
-	public function setAuthorAvatarUrl(string $newAuthorAvatarUrl): void {
-		// verify the avatar url content is secure
-		$newAuthorAvatarUrl = trim($newAuthorAvatarUrl);
-		$newAuthorAvatarUrl = filter_var($newAuthorAvatarUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newAuthorAvatarUrl) === true) {
-			throw(new \InvalidArgumentException("avatar url is empty or insecure"));
-		}
-
-		// verify the avatar url will fit in the database
-		if(strlen($newAuthorAvatarUrl) > 255) {
-			throw(new \RangeException("url too large"));
-		}
-
-		// store the avatar url
-		$this->authorAvatarUrl = $newAuthorAvatarUrl;
-	}
-	/* END AVATAR URL METHODS*/
-
-
-	/* START ACTIVATION TOKEN METHODS*/
-	/**
-	 * GETTER accessor method for activation token
-	 *
-	 * @return string value of activation token
-	 **/
-	public function getAuthorActivationToken(): string {
-		return ($this->authorActivationToken);
+	public function getGalleryProfileId(): string {
+		return ($this->galleryId);
 	}
 
 	/**
-	 * SETTER mutator method for activation token
+	 * SETTER mutator method for author id
 	 *
-	 * @param string $newAuthorActivationToken new value of activation token
-	 * @throws \InvalidArgumentException if $newAuthorActivationToken is not a string or insecure
-	 * @throws \RangeException if $newAuthorActivationToken is > 32 characters
-	 * @throws \TypeError if $newAuthorActivationToken is not a string
+	 * @param Uuid|string $newGalleryId new value of author id
+	 * @throws \RangeException if $newGalleryId is not positive
+	 * @throws \TypeError if $newGalleryId is not a uuid or string
 	 **/
-	public function setAuthorActivationToken(string $newAuthorActivationToken): void {
-		// verify the activation token is secure
-		$newAuthorActivationToken = trim($newAuthorActivationToken);
-		$newAuthorActivationToken = filter_var($newAuthorActivationToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newAuthorActivationToken) === true) {
-			throw(new \InvalidArgumentException("activation token is empty or insecure"));
+	public function setGalleryProfileId($newGalleryId): void {
+		try {
+			$uuid = self::validateUuid($newGalleryId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
-		// verify the activation token will fit in the database
-		if(strlen($newAuthorActivationToken) > 32) {
-			throw(new \RangeException("activation token too large"));
-		}
-
-		// store the activation token
-		$this->authorActivationToken = $newAuthorActivationToken;
+		// convert and store the author id
+		$this->galleryId = $uuid;
 	}
-	/* END ACTIVATION TOKEN METHODS*/
+	/* END GALLERY-PROFILE-ID METHODS*/
 
 
-	/* START EMAIL METHODS*/
+	/* START GALLERY-DATE METHODS*/
 	/**
-	 * GETTER accessor method for author email
+	 * accessor method for tweet date
 	 *
-	 * @return string value of author email
+	 * @return \DateTime value of tweet date
 	 **/
-	public function getAuthorEmail(): string {
-		return ($this->authorEmail);
+	public function getGalleryDate() : \DateTime {
+		return($this->galleryDate);
 	}
 
 	/**
-	 * SETTER mutator method for author email
+	 * mutator method for gallery creation date
 	 *
-	 * @param string $newAuthorEmail new value of author email
-	 * @throws \InvalidArgumentException if $newAuthorEmail is not a string or insecure
-	 * @throws \RangeException if $newAuthorEmail is > 140 characters
-	 * @throws \TypeError if $newAuthorEmail is not a string
+	 * @param \DateTime|string|null $newGalleryDate gallery date as a DateTime object or string (or null to load the current time)
+	 * @throws \InvalidArgumentException if $newGalleryDate is not a valid object or string
+	 * @throws \RangeException if $newGalleryDate is a date that does not exist
 	 **/
-	public function setAuthorEmail(string $newAuthorEmail): void {
-		// verify the email content is secure
-		$newAuthorEmail = trim($newAuthorEmail);
-		$newAuthorEmail = filter_var($newAuthorEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newAuthorEmail) === true) {
-			throw(new \InvalidArgumentException("author email is empty or insecure"));
+	public function setGalleryDate($newGalleryDate = null) : void {
+		// base case: if the date is null, use the current date and time
+		if($newGalleryDate === null) {
+			$this->galleryDate = new \DateTime();
+			return;
 		}
 
-		// verify the author email will fit in the database
-		if(strlen($newAuthorEmail) > 255) {
-			throw(new \RangeException("author email too large"));
+		// store the like date using the ValidateDate trait
+		try {
+			$newGalleryDate = self::validateDateTime($newGalleryDate);
+		} catch(\InvalidArgumentException | \RangeException $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
-
-		// store the author email
-		$this->authorEmail = $newAuthorEmail;
+		$this->galleryDate = $newGalleryDate;
 	}
-	/* END EMAIL METHODS*/
+	/* END GALLERY-DATE METHODS*/
 
 
-	/* START HASH METHODS*/
-	/**
-	 * GETTER accessor method for author's hash (password)
-	 *
-	 * @return string value of author's hash (password)
-	 **/
-	public function getAuthorHash(): string {
-		return ($this->authorHash);
-	}
-
-	/**
-	 * SETTER mutator method for author's hash (password)
-	 *
-	 * @param string $newAuthorHash new value of author's hash (password)
-	 * @throws \InvalidArgumentException if $newAuthorHash is not a string or insecure
-	 * @throws \RangeException if $newAuthorHash is > 97 characters
-	 * @throws \TypeError if $newAuthorHash is not a string
-	 **/
-	public function setAuthorHash(string $newAuthorHash): void {
-		// verify the hash is secure
-		$newAuthorHash = trim($newAuthorHash);
-		$newAuthorHash = filter_var($newAuthorHash, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newAuthorHash) === true) {
-			throw(new \InvalidArgumentException("author's hash (password) is empty or insecure"));
-		}
-
-		// verify the author's hash (password) url will fit in the database
-		if(strlen($newAuthorHash) > 97) {
-			throw(new \RangeException("author's hash (password) too large"));
-		}
-
-		// store the author's hash (password)
-		$this->authorHash = $newAuthorHash;
-	}
-	/* END HASH METHODS*/
-
-
-	/* START USERNAME METHODS*/
+	/* START GALLERY-NAME METHODS*/
 	/**
 	 * GETTER accessor method for author's username
 	 *
 	 * @return string value of author's username
 	 **/
-	public function getAuthorUsername(): string {
-		return ($this->authorUsername);
+	public function getGalleryName(): string {
+		return ($this->galleryName);
 	}
 
 	/**
@@ -301,7 +204,7 @@ class Gallery {
 	 * @throws \RangeException if $newAuthorUsername is > 140 characters
 	 * @throws \TypeError if $newAuthorUsername is not a string
 	 **/
-	public function setAuthorUsername(string $newAuthorUsername): void {
+	public function setGalleryName(string $newAuthorUsername): void {
 		// verify the author's username is secure
 		$newAuthorUsername = trim($newAuthorUsername);
 		$newAuthorUsername = filter_var($newAuthorUsername, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -315,9 +218,9 @@ class Gallery {
 		}
 
 		// store the author's username
-		$this->authorUsername = $newAuthorUsername;
+		$this->galleryName = $newAuthorUsername;
 	}
-	/* END USER NAME METHODS*/
+	/* END GALLERY-NAME METHODS*/
 
 
 	//Object Oriented Part 2:
@@ -342,7 +245,7 @@ class Gallery {
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["authorId" => $this->authorId->getBytes(), "authorAvatarUrl" => $this->authorAvatarUrl, "authorActivationToken" => $this->authorActivationToken, "authorEmail" => $this->authorEmail, "authorHash" => $this->authorHash, "authorUsername" => $this->authorUsername];
+		$parameters = ["authorId" => $this->galleryId->getBytes(), "authorAvatarUrl" => $this->authorAvatarUrl, "authorActivationToken" => $this->authorActivationToken, "authorEmail" => $this->authorEmail, "authorHash" => $this->authorHash, "authorUsername" => $this->galleryName];
 		$statement->execute($parameters);
 	}
 	/* END INSERT METHOD */
@@ -363,7 +266,7 @@ class Gallery {
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holder in the template
-		$parameters = ["authorId" => $this->authorId->getBytes()];
+		$parameters = ["authorId" => $this->galleryId->getBytes()];
 		$statement->execute($parameters);
 	}
 	/* END DELETE METHOD */
@@ -371,7 +274,7 @@ class Gallery {
 
 	/* START UPDATE METHOD */
 	/**
-	 * updates this author's info in mySQL database
+	 * updates this gallery's info in mySQL database
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -380,10 +283,10 @@ class Gallery {
 	public function update(\PDO $pdo) : void {
 
 		// create query template
-		$query = "UPDATE author SET authorId = :authorId, authorAvatarUrl = :authorAvatarUrl, authorActivationToken = :authorActivationToken WHERE authorEmail = :authorEmail, authorHash = :authorHash, authorUsername = :authorUsername";
+		$query = "UPDATE author SET galleryId = :galleryId, galleryProfileId = :galleryProfileId, galleryDate = :galleryDate, galleryName = :galleryName";
 		$statement = $pdo->prepare($query);
 
-		$parameters = ["authorId" => $this->authorId->getBytes(),"authorAvatarUrl" => $this->authorAvatarUrl, "authorActivationToken" => $this->authorActivationToken, "authorEmail" => $this->authorEmail, "authorHash" => $this->authorHash, "authorUsername" => $this->authorUsername];
+		$parameters = ["authorId" => $this->galleryId->getBytes(),"authorAvatarUrl" => $this->authorAvatarUrl, "authorActivationToken" => $this->authorActivationToken, "authorEmail" => $this->authorEmail, "authorHash" => $this->authorHash, "authorUsername" => $this->galleryName];
 		$statement->execute($parameters);
 	}
 	/* END UPDATE METHOD */
