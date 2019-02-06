@@ -315,3 +315,36 @@ class Profile implements \JsonSerializable {
 			// store the profile password
 			$this->profileName = $newProfilePassword;
 		}
+
+/** profileWebsite*/
+
+		/**
+		 * accessor method for profile website url
+		 *
+		 * @return string value of profile website url
+		 **/
+		public function getProfileWebsite() : string {
+			return($this->ProfileWebsite);
+		}
+		/**
+		 * mutator method for profile website url
+		 *
+		 * @param string $newProfileWebsite new value of profile website url
+		 * @throws \InvalidArgumentException if $newProfileWebsite is not a string or insecure
+		 * @throws \RangeException if $newProfileWebsite is > 128 characters
+		 * @throws \TypeError if $newProfileWebsite is not a string
+		 **/
+		public function setProfileWebsite(string $newProfileWebsite) : void {
+			// verify the profile website url content is secure
+			$newProfileWebsite = trim($newProfileWebsite);
+			$newProfileWebsite = filter_var($newProfileWebsite, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			if(empty($newProfileWebsite) === true) {
+				throw(new \InvalidArgumentException("profile website url is empty or insecure"));
+			}
+			// verify the profile website url will fit in the database
+			if(strlen($newProfileWebsite) > 128) {
+				throw(new \RangeException("profile website url too large"));
+			}
+			// store the profile website url
+			$this->profileWebsite = $newProfileWebsite;
+		}
