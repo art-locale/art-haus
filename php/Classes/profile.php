@@ -402,3 +402,43 @@ public function update(\PDO $pdo) : void {
 	$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileDate" => $this->profileDate, "profileEmail" => $this->profileEmail, "profileLocation" => $this->profileLocation, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
 	$statement->execute($parameters);
 }
+
+/**
+ * gets the profile by profileId
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param Uuid|string $profileId profile id to search for
+ * @return profile|null profile found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when a variable are not the correct data type
+ **/
+public static function getProfileByProfileId(\PDO $pdo, $profileId) : ?Profile {
+	// sanitize the profileId before searching
+	try {
+		$profileId = self::validateUuid($profileId);
+	} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+
+	// create query template
+	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLocation, profileName, profilePassword, profileWebsite FROM Profile WHERE profileId = :profileId";
+	$statement = $pdo->prepare($query);
+
+	// bind the profile id to the place holder in the template
+	$parameters = ["profileId" => $profileId->getBytes()];
+	$statement->execute($parameters);
+
+	// grab the profile from mySQL
+	try {
+		$profile = null;
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		$row = $statement->fetch();
+		if($row !== false) {
+			$profile = new Profile($row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLocation"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+		}
+	} catch(\Exception $exception) {
+		// if the row couldn't be converted, rethrow it
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+	return($profile);
+}
