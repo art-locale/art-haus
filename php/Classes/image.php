@@ -59,15 +59,13 @@ class Image implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct($newImageId, $newImageGalleryId, $newImageProfileId, string $newImageDate, string $newImageEmail, string $newImageLocation, string $newImageTitle, string $newImagePassword, string $newImageUrl) {
+	public function __construct($newImageId, $newImageGalleryId, $newImageProfileId, string $newImageDate, string $newImageTitle, string $newImageUrl) {
 		try {
 			$this->setImageId($newImageId);
-			$this->setImageActivationToken($newImageActivationToken);
+			$this->setImageGalleryId($newImageGalleryId);
+			$this->setImageProfileId($newImageProfileId);
 			$this->setImageDate($newImageDate);
-			$this->setImageEmail($newImageEmail);
-			$this->setImageLocation($newImageLocation);
 			$this->setImageTitle($newImageTitle);
-			$this->setImagePassword($newImagePassword);
 			$this->setImageUrl($newImageUrl);
 		}
 			//determine what exception type was thrown
@@ -101,3 +99,8 @@ class Image implements \JsonSerializable {
 		// convert and store the author id
 		$this->imageId = $uuid;
 	}
+
+
+
+
+
