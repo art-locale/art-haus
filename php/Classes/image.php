@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
  * @author William Isengard <wisengard@cnm.edu>
  * @version 1.0.0
  **/
-
+//Note FIXME do we want to have these states as protected or public instead?
 class Image implements \JsonSerializable {
 	use ValidateUuid;
 	/**
@@ -41,27 +41,25 @@ class Image implements \JsonSerializable {
 	 **/
 	private $imageTitle;
 	/**
-	 * Url of image owner
+	 * Url of image
 	 * @var string $imageUrl;
 	 **/
 	private $imageUrl;
 	/**
 	 * constructor for this
-	 * @param Uuid|string $newImageId new id of this image or null if a new image
-	 * @param string $newImageActivationToken activation token for a new image
+	 * @param Uuid|string $newImageId new id of this image or null if a new image FIXME would it really be null?
+	 * @param Uuid|string $newImageGalleryId id of the gallery that has this image
+	 * @param Uuid|string $newImageProfileId id of the profile that created this image
 	 * @param string $newImageDate date image was activated
-	 * @param string $newImageEmail email address for new image
-	 * @param string $newImageLocation location for image owner
-	 * @param string $newImageTitle title of image owner
-	 * @param string $newImagePassword password for image
-	 * @param string $newImageWebsite image owner's website
+	 * @param string $newImageTitle title of image
+	 * @param string $newImageUrl image's url
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct($newImageId, string $newImageActivationToken, string $newImageDate, string $newImageEmail, string $newImageLocation, string $newImageTitle, string $newImagePassword, string $newImageWebsite) {
+	public function __construct($newImageId, $newImageGalleryId, $newImageProfileId, string $newImageDate, string $newImageEmail, string $newImageLocation, string $newImageTitle, string $newImagePassword, string $newImageUrl) {
 		try {
 			$this->setImageId($newImageId);
 			$this->setImageActivationToken($newImageActivationToken);
@@ -70,7 +68,7 @@ class Image implements \JsonSerializable {
 			$this->setImageLocation($newImageLocation);
 			$this->setImageTitle($newImageTitle);
 			$this->setImagePassword($newImagePassword);
-			$this->setImageWebsite($newImageWebsite);
+			$this->setImageUrl($newImageUrl);
 		}
 			//determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
