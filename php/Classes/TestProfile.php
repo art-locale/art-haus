@@ -108,3 +108,4 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
     $this->VALID_SUNSETDATE = new\DateTime();
     $this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
   }
+
