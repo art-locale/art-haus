@@ -1,5 +1,5 @@
 <?php
-namespace ArtLocale\ArtHaus;
+namespace ArtLocale\ArtHaus\ArtHausTest;
 
 use ArtLocale\ArtHaus\{Profile};
 
@@ -83,4 +83,29 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
    * @var string $VALID_PROFILEWEBSITE
    **/
   protected $VALID_PROFILEWEBSITE = "PHPUnit test still passing";
+
+  /**
+   * create dependent objects before running each test
+   **/
+  public final function setUp()  : void {
+    // run the default setUp() method first
+    parent::setUp();
+    $password = "abc123";
+    $this->VALID_PROFILEPASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
+
+    // create and insert a Profile to own the test Profile
+    $this->profile = new Profile(generateUuidV4(), "ActivationTokenActivationTokenAc", null, "test@test.com", "Latitude/Longitude", "Spiderman The Artist", $this->VALID_PROFILEPASSWORD, "www.test.com");
+    $this->profile->insert($this->getPDO());
+
+    // calculate the date (just use the time the unit test was setup...)
+    $this->VALID_PROFILEDATE = new \DateTime();
+
+    //format the sunrise date to use for testing
+    $this->VALID_SUNRISEDATE = new \DateTime();
+    $this->VALID_SUNRISEDATE->sub(new \DateInterval("P10D"));
+
+    //format the sunset date to use for testing
+    $this->VALID_SUNSETDATE = new\DateTime();
+    $this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
+  }
 
