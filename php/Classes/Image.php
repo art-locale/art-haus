@@ -272,7 +272,7 @@ public function insert(\PDO $pdo) : void {
 	$statement = $pdo->prepare($query);
 
 	// bind the member variables to the place holder in the template
-	$parameters = ["imageId" => $this->imageId->getBytes(), "imageGalleryId" => $this->imageGalleryId->getBytes(),"imageProfileId" => $this->imageProfileId->getBytes(), "imageDate" => $this->profileDate, "profileEmail" => $this->profileEmail, "profileLocation" => $this->profileLocation, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
+	$parameters = ["imageId" => $this->imageId->getBytes(), "imageGalleryId" => $this->imageGalleryId->getBytes(),"imageProfileId" => $this->imageProfileId->getBytes(), "imageDate" => $this->profileDate, "imageTitle" => $this->imageTitle, "profileLocation" => $this->profileLocation, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
 	$statement->execute($parameters);
 }
 
