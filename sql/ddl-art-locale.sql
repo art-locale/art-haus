@@ -9,7 +9,7 @@ CREATE TABLE profile (
 	profileActivationToken CHAR(32),
 	profileDate DATETIME(6) NOT NULL,
 	profileEmail VARCHAR(128) NOT NULL,
-	profileLocation, -- FIXME ask George latidute/long => Habersign, they will input address we change to Habersign.
+	profileLocation,-- FIXME ask George latidute/long => Habersign, they will input address we change to Habersign.
 	profileName VARCHAR(32) NOT NULL,
 	profilePassword VARCHAR(140) NOT NULL, -- FIXME will need specifications
 	profileWebsite VARCHAR(128) NULL,
