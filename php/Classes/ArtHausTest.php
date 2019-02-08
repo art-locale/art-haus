@@ -97,3 +97,5 @@ abstract class ArtHausTest extends TestCase {
 		return($this->getConnection()->getConnection());
 	}
 }
+
+
