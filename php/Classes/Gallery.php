@@ -1,5 +1,5 @@
 <?php
-namespace ArtLocale/ArtHaus;
+namespace ArtLocale\ArtHaus;
 
 // use my local autoload I made:
 require_once("autoload.php");
