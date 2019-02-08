@@ -308,6 +308,12 @@ class Profile implements \JsonSerializable {
 			if(empty($newProfilePassword) === true) {
 				throw(new \InvalidArgumentException("profile password is empty or insecure"));
 			}
+			//enforce the password is really an argon hash
+			$profilePasswordInfo = password_get_info($newProfilePassword);
+			if($profilePasswordInfo["algoName"] !== "argon2i") {
+				throw(new \InvalidArgumentException("profile password is not a valid hash"));
+			}
+
 			// verify the profile password will fit in the database
 			if(strlen($newProfilePassword) > 140) {
 				throw(new \RangeException("profile password too large"));
