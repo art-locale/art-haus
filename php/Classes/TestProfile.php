@@ -109,3 +109,57 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
     $this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
   }
 
+  //   /**
+  //  * test inserting a Tweet, editing it, and then updating it
+  //  **/
+  // public function testUpdateValidTweet() : void {
+  //   // count the number of rows and save it for later
+  //   $numRows = $this->getConnection()->getRowCount("tweet");
+  //
+  //   // create a new Tweet and insert to into mySQL
+  //   $tweetId = generateUuidV4();
+  //   $tweet = new Tweet($tweetId, $this->profile->getProfileId(), $this->VALID_TWEETCONTENT, $this->VALID_TWEETDATE);
+  //   $tweet->insert($this->getPDO());
+  //
+  //   // edit the Tweet and update it in mySQL
+  //   $tweet->setTweetContent($this->VALID_TWEETCONTENT2);
+  //   $tweet->update($this->getPDO());
+  //
+  //   // grab the data from mySQL and enforce the fields match our expectations
+  //   $pdoTweet = Tweet::getTweetByTweetId($this->getPDO(), $tweet->getTweetId());
+  //   $this->assertEquals($pdoTweet->getTweetId(), $tweetId);
+  //   $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tweet"));
+  //   $this->assertEquals($pdoTweet->getTweetProfileId(), $this->profile->getProfileId());
+  //   $this->assertEquals($pdoTweet->getTweetContent(), $this->VALID_TWEETCONTENT2);
+  //   //format the date too seconds since the beginning of time to avoid round off error
+  //   $this->assertEquals($pdoTweet->getTweetDate()->getTimestamp(), $this->VALID_TWEETDATE->getTimestamp());
+  // }
+
+  /**
+   * test grabbing a Tweet by tweet content
+   **/
+  public function testGetValidProfileByProfileName() : void {
+    // count the number of rows and save it for later
+    $numRows = $this->getConnection()->getRowCount("profile");
+
+    // create a new Profile and insert to into mySQL
+    $profileId = generateUuidV4();
+    $profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
+    $profile->insert($this->getPDO());
+
+  //   // grab the data from mySQL and enforce the fields match our expectations
+  //   $results = Tweet::getTweetByTweetContent($this->getPDO(), $tweet->getTweetContent());
+  //   $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tweet"));
+  //   $this->assertCount(1, $results);
+  //
+  //   // enforce no other objects are bleeding into the test
+  //   $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DataDesign\\Tweet", $results);
+  //
+  //   // grab the result from the array and validate it
+  //   $pdoTweet = $results[0];
+  //   $this->assertEquals($pdoTweet->getTweetId(), $tweetId);
+  //   $this->assertEquals($pdoTweet->getTweetProfileId(), $this->profile->getProfileId());
+  //   $this->assertEquals($pdoTweet->getTweetContent(), $this->VALID_TWEETCONTENT);
+  //   //format the date too seconds since the beginning of time to avoid round off error
+  //   $this->assertEquals($pdoTweet->getTweetDate()->getTimestamp(), $this->VALID_TWEETDATE->getTimestamp());
+  // }
