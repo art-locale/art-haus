@@ -9,16 +9,18 @@ CREATE TABLE profile (
 	profileActivationToken CHAR(32),
 	profileDate DATETIME(6) NOT NULL,
 	profileEmail VARCHAR(128) NOT NULL,
-	profileLocation,-- FIXME ask George latidute/long => Habersign, they will input address we change to Habersign.
+	profileLocation VARCHAR(128),-- FIXME ask George latidute/long => Habersign, they will input address we change to Habersign.
 	profileName VARCHAR(32) NOT NULL,
-	profilePassword VARCHAR(140) NOT NULL, -- FIXME will need specifications
+	profilePassword VARCHAR(97) NOT NULL, -- FIXME will need specifications
 	profileWebsite VARCHAR(128) NULL,
 	-- this marks the following attributes unique
 	UNIQUE(profileEmail),
 	UNIQUE(profileName),
 	-- this creates an index
-	INDEX(profileEmail), -- FIXME considerations: privacy, searchability,
+	INDEX(profileEmail),
 	INDEX(profileName),
+	-- index a searchable attribute
+	INDEX(profileWebsite),
 	-- this officiates the primary key for the entity
 	PRIMARY KEY(profileId)
 );
@@ -33,6 +35,8 @@ CREATE TABLE gallery (
 	galleryName VARCHAR(32) NOT NULL,
 	-- index the foreign keys
 	INDEX(galleryProfileId),
+	-- index a searchable attribute
+	INDEX(galleryName),
 	-- create the foreign key relations
 	FOREIGN KEY(galleryProfileId) REFERENCES profile(profileId),
 	-- this officiates the primary key for the entity
@@ -53,6 +57,8 @@ CREATE TABLE image (
 	-- index the foreign keys
 INDEX(imageGalleryId),
 INDEX(imageProfileId),
+-- index a searchable attribute
+INDEX(imageTitle),
 	-- create the foreign key relations
 FOREIGN KEY(imageGalleryId) REFERENCES gallery(galleryId),
 FOREIGN KEY(imageProfileId) REFERENCES profile(profileId),

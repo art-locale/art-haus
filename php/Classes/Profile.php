@@ -1,4 +1,4 @@
-*<?php
+<?php
 namespace ArtLocale\ArtHaus;
 
 require_once("autoload.php");
@@ -137,15 +137,17 @@ class Profile implements \JsonSerializable {
 		 * @throws \TypeError if $newProfileActivationToken is not a string
 		 **/
 		public function setProfileActivationToken(string $newProfileActivationToken) : void {
-			// verify the activation token content is secure
-			$newProfileActivationToken = trim($newProfileActivationToken);
-			$newProfileActivationToken = filter_var($newProfileActivationToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-			if(empty($newProfileActivationToken) === true) {
-				throw(new \InvalidArgumentException("activation token is empty or insecure"));
+			if($newProfileActivationToken === null) {
+				$this->profileActivationToken = null;
+				return;
 			}
-			// verify the activation token will fit in the database
-			if(strlen($newProfileActivationToken) > 32) {
-				throw(new \RangeException("activation token too large"));
+			$newProfileActivationToken = strtolower(trim($newProfileActivationToken));
+			if(ctype_xdigit($newProfileActivationToken) === false) {
+				throw(new\RangeException("user activation is not valid"));
+			}
+			//make sure user activation token is 32 characters
+			if(strlen($newProfileActivationToken) !== 32) {
+				throw(new\RangeException("user activation token has to be 32"));
 			}
 			// store the activation token
 			$this->profileActivationToken = $newProfileActivationToken;
@@ -298,7 +300,7 @@ class Profile implements \JsonSerializable {
 		 *
 		 * @param string $newProfilePassword new value of profile password
 		 * @throws \InvalidArgumentException if $newProfilePassword is not a string or insecure
-		 * @throws \RangeException if $newProfilePassword is > 140 characters
+		 * @throws \RangeException if $newProfilePassword is > 97 characters
 		 * @throws \TypeError if $newProfilePassword is not a string
 		 **/
 		public function setProfilePassword(string $newProfilePassword) : void {
@@ -315,7 +317,7 @@ class Profile implements \JsonSerializable {
 			}
 
 			// verify the profile password will fit in the database
-			if(strlen($newProfilePassword) > 140) {
+			if(strlen($newProfilePassword) > 97) {
 				throw(new \RangeException("profile password too large"));
 			}
 			// store the profile password
