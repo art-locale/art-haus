@@ -9,7 +9,7 @@ use Ramsey\Uuid\Uuid;
 /**
  * Framework for Image class
  *
- * @author William Isengard <wisengard@cnm.edu>
+ * @author Brandon Huffman <bt_huffman@msn.com>
  * @version 1.0.0
  **/
 //Note FIXME do we want to have these states as protected or public instead?
@@ -45,15 +45,14 @@ class Image implements \JsonSerializable {
 	 * @var string $imageUrl;
 	 **/
 	private $imageUrl;
-
-//	START OF CONSTRUCTOR
+//**************************************************************************************************START OF CONSTRUCTOR
 	/**
 	 * constructor for each new image object/ instance/ record
 	 *
 	 * @param Uuid|string $newImageId new id of this image or null if a new image FIXME would it really be null?
 	 * @param Uuid|string $newImageGalleryId id of the gallery that has this image
 	 * @param Uuid|string $newImageProfileId id of the profile that created this image
-	 * @param string $newImageDate date image was activated
+	 * @param \DateTime|string|null $newImageDate date image was activated
 	 * @param string $newImageTitle title of image
 	 * @param string $newImageUrl image's url
 	 * @throws \InvalidArgumentException if data types are not valid
@@ -78,8 +77,7 @@ class Image implements \JsonSerializable {
 		}
 	}
 	//	END OF CONSTRUCTOR
-
-//	START OF ACCESSOR & MUTATOR imageId
+//***********************************************************************************START OF ACCESSOR & MUTATOR imageId
 	/**
 	 * accessor method for image id
 	 *
@@ -103,12 +101,11 @@ class Image implements \JsonSerializable {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
-		// convert and store the author id
+		// convert and store the image id
 		$this->imageId = $uuid;
 	}
-//	END OF ACCESSOR & MUTATOR imageGalleryId
-
-//	START OF ACCESSOR & MUTATOR imageGalleryId
+//	END OF ACCESSOR & MUTATOR imageId
+//****************************************************************************START OF ACCESSOR & MUTATOR imageGalleryId
 	/**
 	 * @return Uuid value of the gallery Id
 	 **/
@@ -130,14 +127,13 @@ class Image implements \JsonSerializable {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
-		// convert and store the author id
+		// convert and store the image gallery id
 		$this->imageGalleryId = $uuid;
 	}
-//	//	END OF ACCESSOR & MUTATOR imageProfileId
-
-//	START OF ACCESSOR & MUTATOR imageProfileId
+//	//	END OF ACCESSOR & MUTATOR imageGalleryId
+//	**************************************************************************START OF ACCESSOR & MUTATOR imageProfileId
 	/**
-	 * @return Uuid value of the profile Id
+	 * @return Uuid value of the image profile Id
 	 **/
 	public function getImageProfileId() : Uuid {
 		return($this->imageProfileId);
@@ -156,11 +152,11 @@ class Image implements \JsonSerializable {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
-		// convert and store the author id
+		// convert and store the image profile id
 		$this->imageProfileId = $uuid;
 	}
 //	//	END OF ACCESSOR & MUTATOR imageProfileId
-
+//*********************************************************************************START OF ACCESSOR & MUTATOR imageDate
 	/**
 	 * accessor method for image date
 	 *
@@ -169,8 +165,6 @@ class Image implements \JsonSerializable {
 	public function getImageDate() : \DateTime {
 		return($this->imageDate);
 	}
-
-	//	START OF ACCESSOR & MUTATOR imageDate
 	/**
 	 * mutator method for image creation date
 	 *
@@ -184,8 +178,7 @@ class Image implements \JsonSerializable {
 			$this->imageDate = new \DateTime();
 			return;
 		}
-
-		// store the like date using the ValidateDate trait
+		// store the image date using the ValidateDate trait
 		try {
 			$newImageDate = self::validateDateTime($newImageDate);
 		} catch(\InvalidArgumentException | \RangeException $exception) {
@@ -195,8 +188,7 @@ class Image implements \JsonSerializable {
 		$this->imageDate = $newImageDate;
 	}
 //	//	END OF ACCESSOR & MUTATOR imageDate
-
-	//	START OF ACCESSOR & MUTATOR imageTitle
+//********************************************************************************START OF ACCESSOR & MUTATOR imageTitle
 	/**
 	 * accessor method for image title
 	 *
@@ -205,7 +197,6 @@ class Image implements \JsonSerializable {
 	public function getimageTitle() : string {
 		return($this->imageTitle);
 	}
-
 	/**
 	 * mutator method for image title
 	 *
@@ -221,7 +212,6 @@ class Image implements \JsonSerializable {
 		if(empty($newImageTitle) === true) {
 			throw(new \InvalidArgumentException("image title is empty or insecure"));
 		}
-
 		// verify the image title will fit in the database
 		if(strlen($newImageTitle) > 32) {
 			throw(new \RangeException("image title too large"));
@@ -232,47 +222,177 @@ class Image implements \JsonSerializable {
 	}
 	//	//	END OF ACCESSOR & MUTATOR imageTitle
 }
-
-//	START OF ACCESSOR & MUTATOR imageUrl
+//**********************************************************************************START OF ACCESSOR & MUTATOR imageUrl
 /**
- * accessor method for tweet content
+ * accessor method for image Url
  *
- * @return string value of tweet content
+ * @return string value of image Url
  **/
-public function getTweetContent() : string {
-	return($this->tweetContent);
+public function getImageUrl() : string {
+	return($this->imageUrl);
+}
+/**
+ * mutator method for image Url
+ *
+ * @param string $newImageUrl new value of image Url
+ * @throws \InvalidArgumentException if $newImageUrl is not a string or insecure
+ * @throws \RangeException if $newImageUrl is > 128 characters
+ * @throws \TypeError if $newImageUrl is not a string
+ **/
+public function setImageUrl(string $newImageUrl) : void {
+	// verify the image Url is secure
+	$newImageUrl = trim($newImageUrl);
+	$newImageUrl = filter_var($newImageUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	if(empty($newImageUrl) === true) {
+		throw(new \InvalidArgumentException("image Url is empty or insecure"));
+	}
+	// verify the image Url will fit in the database
+	if(strlen($newImageUrl) > 128) {
+		throw(new \RangeException("image Url too large"));
+	}
+	// store the image Url
+	$this->imageUrl = $newImageUrl;
+}
+//	END OF ACCESSOR & MUTATOR imageUrl
+
+/***********************************************************************************************************************
+ * START OF THE UNIT TESTING
+ *****************************************************************************************************************/
+/**
+ * inserts this image into mySQL
+ *
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not a PDO connection object
+ **/
+public function insert(\PDO $pdo) : void {
+
+	// create query template
+	$query = "INSERT INTO Image(imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl) VALUES(:imageId, :imageGalleryId, :imageProfileId, :imageDate, :imageTitle, :imageUrl)";
+	$statement = $pdo->prepare($query);
+
+	// bind the member variables to the place holder in the template
+	$parameters = ["imageId" => $this->imageId->getBytes(), "imageGalleryId" => $this->imageGalleryId->getBytes(),"imageProfileId" => $this->imageProfileId->getBytes(), "imageDate" => $this->profileDate, "profileEmail" => $this->profileEmail, "profileLocation" => $this->profileLocation, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
+	$statement->execute($parameters);
 }
 
 /**
- * mutator method for tweet content
+ * deletes this profile from mySQL
  *
- * @param string $newImageContent new value of tweet content
- * @throws \InvalidArgumentException if $newImageContent is not a string or insecure
- * @throws \RangeException if $newTweetContent is > 140 characters
- * @throws \TypeError if $newTweetContent is not a string
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not a PDO connection object
  **/
-public function setTweetContent(string $newTweetContent) : void {
-	// verify the tweet content is secure
-	$newTweetContent = trim($newTweetContent);
-	$newTweetContent = filter_var($newTweetContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	if(empty($newTweetContent) === true) {
-		throw(new \InvalidArgumentException("tweet content is empty or insecure"));
+public function delete(\PDO $pdo) : void {
+
+	// create query template
+	$query = "DELETE FROM Profile WHERE profileId = :profileId";
+	$statement = $pdo->prepare($query);
+
+	// bind the member variables to the place holder in the template
+	$parameters = ["profileId" => $this->profileId->getBytes()];
+	$statement->execute($parameters);
+}
+
+/**
+ * updates this profile in mySQL
+ *
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not a PDO connection object
+ **/
+public function update(\PDO $pdo) : void {
+
+	// create query template
+	$query = "UPDATE Profile SET profileId = :profileId, profileActivationToken = :profileActivationToken, profileDate = :profileDate, profileEmail = :profileEmail, profileLocation = :profileLocation, profileName = :profileName, profilePassword = :profilePassword, profileWebsite = :profileWebsite WHERE profileId = :profileId";
+	$statement = $pdo->prepare($query);
+
+	// bind the member variables to the place holder in the template
+	$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileDate" => $this->profileDate, "profileEmail" => $this->profileEmail, "profileLocation" => $this->profileLocation, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
+	$statement->execute($parameters);
+}
+
+/**
+ * gets the profile by profileId
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param Uuid|string $profileId profile id to search for
+ * @return profile|null profile found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when a variable are not the correct data type
+ **/
+public static function getProfileByProfileId(\PDO $pdo, $profileId) : ?Profile {
+	// sanitize the profileId before searching
+	try {
+		$profileId = self::validateUuid($profileId);
+	} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
 	}
 
-	// verify the tweet content will fit in the database
-	if(strlen($newTweetContent) > 140) {
-		throw(new \RangeException("tweet content too large"));
-	}
+	// create query template
+	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLocation, profileName, profilePassword, profileWebsite FROM Profile WHERE profileId = :profileId";
+	$statement = $pdo->prepare($query);
 
-	// store the tweet content
-	$this->tweetContent = $newTweetContent;
+	// bind the profile id to the place holder in the template
+	$parameters = ["profileId" => $profileId->getBytes()];
+	$statement->execute($parameters);
+
+	// grab the profile from mySQL
+	try {
+		$profile = null;
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		$row = $statement->fetch();
+		if($row !== false) {
+			$profile = new Profile($row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLocation"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+		}
+	} catch(\Exception $exception) {
+		// if the row couldn't be converted, rethrow it
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+	return($profile);
 }
 
 /**
- * accessor method for tweet date
+ * gets all profiles
  *
- * @return \DateTime value of tweet date
+ * @param \PDO $pdo PDO connection object
+ * @return \SplFixedArray SplFixedArray of profiles found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when variables are not the correct data type
  **/
-public function getTweetDate() : \DateTime {
-	return($this->tweetDate);
+public static function getAllProfiles\PDO $pdo) : \SPLFixedArray {
+		// create query template
+		$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLocation, profileName, profilePassword, profileWebsite FROM Profile";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		// build an array of profiles
+		$profiles = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$profile = new Profile($row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLocation"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+				$profiles[$profiles->key()] = $profile;
+				$profiles->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($profiles);
+	}
+/**
+ * formats the state variables for JSON serialization
+ *
+ * @return array resulting state variables to serialize
+ **/
+public function jsonSerialize() {
+	$fields = get_object_vars($this);
+	$fields["profileId"] = $this->profileId->toString();
+
+	//format the date so that the front end can consume it
+	$fields["profileDate"] = round(floatval($this->profileDate->format("U.u")) * 1000);
+	return ($fields);
+
 }
+}}

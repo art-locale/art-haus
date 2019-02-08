@@ -164,7 +164,7 @@ class Profile implements \JsonSerializable {
 		/**
 		 * mutator method for profile date
 		 *
-		 * @param \DateTime|string $newProfileDate new value of profile date as a DateTime object
+		 * @param \DateTime|string|null $newProfileDate new value of profile date as a DateTime object
 		 * @throws \InvalidArgumentException if $newProfileDate is not a string or insecure
 		 * @throws \RangeException if $newProfileDate is a date that does not exist
 		 **/
@@ -486,4 +486,4 @@ public function jsonSerialize() {
 	return ($fields);
 
 }
-}}
+}

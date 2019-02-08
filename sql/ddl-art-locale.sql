@@ -49,6 +49,7 @@ CREATE TABLE image (
 	imageDate DATETIME(6) NOT NULL,
 	imageTitle VARCHAR(32) NOT NULL,
 	imgageUrl VARCHAR(128) NULL,
+--	imageTotalApplauds SMALLINT(2) NULL, -- FIXME count the applauds from all profileId's where the imageId - that particular image. Connection between applauds and total. Case for having: If not would have a query that calculates this total number from the database. Would we index?
 	-- index the foreign keys
 INDEX(imageGalleryId),
 INDEX(imageProfileId),
@@ -64,10 +65,10 @@ CREATE TABLE applaud (
 	-- table's attributes list:
 	applaudProfileId BINARY(16) NOT NULL,
 	applaudImageId BINARY(16) NOT NULL,
-	applaudCount VARCHAR(50) NULL, -- FIXME verify what would be optimal here.
+	applaudCount TINYINT(1) NULL, -- FIXME verify what would be optimal here.
 	-- create the foreign key relations
 	FOREIGN KEY(applaudProfileId) REFERENCES profile(profileId),
-	FOREIGN KEY(applaudImageId) REFERENCES image(imageId),
+	FOREIGN KEY(applaudImageId) REFERENCES image(imageId)-- ,
 	-- this officiates the primary key for the entity
 --	PRIMARY KEY(applaudProfileId,applaudImageId) -- FIXME verify Probably get rid of completely
 );
