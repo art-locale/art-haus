@@ -1,4 +1,4 @@
-*<?php
+<?php
 namespace ArtLocale\ArtHaus;
 
 require_once("autoload.php");
