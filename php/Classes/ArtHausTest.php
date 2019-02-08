@@ -1,5 +1,5 @@
 <?php
-namespace ArtLocale\ArtHaus;
+namespace ArtLocale\ArtHaus\ArtHausTest;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\DbUnit\TestCaseTrait;
@@ -18,17 +18,9 @@ require_once(dirname(__DIR__, 3) . "/vendor/autoload.php");
  * This class is designed to lay the foundation of the unit tests per project. It loads the all the database
  * parameters about the project so that table specific tests can share the parameters in on place. To use it:
  *
- * 1. Rename the class from DataDesignTest to a project specific name (e.g., ProjectNameTest)
- * 2. Rename the namespace to be the same as in (1) (e.g., Edu\Cnm\ProjectName\Test)
- * 3. Modify DataDesignTest::getDataSet() to include all the tables in your project.
- * 4. Modify DataDesignTest::getConnection() to include the correct mySQL properties file.
- * 5. Have all table specific tests include this class.
- *
- * *NOTE*: Tables must be added in the order they were created in step (2).
- *
  * @author Dylan McDonald <dmcdonald21@cnm.edu>
  **/
-abstract class DataDesignTest extends TestCase {
+abstract class ArtHausTest extends TestCase {
 	use TestCaseTrait;
 
 	/**
@@ -48,9 +40,9 @@ abstract class DataDesignTest extends TestCase {
 		// add all the tables for the project here
 		// THESE TABLES *MUST* BE LISTED IN THE SAME ORDER THEY WERE CREATED!!!!
 		$dataset->addTable("profile");
-		$dataset->addTable("tweet");
-		// the second parameter is required because like is also a SQL keyword and is the only way PHPUnit can query the like table
-		$dataset->addTable("like", "SELECT likeProfileId, likeTweetId, likeDate FROM `like`");
+		$dataset->addTable("gallery");
+		$dataset->addTable("image");
+    $dataset->addTable("applaud");
 		return($dataset);
 	}
 
