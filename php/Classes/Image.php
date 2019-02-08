@@ -275,7 +275,7 @@ public function insert(\PDO $pdo) : void {
 	$parameters = ["imageId" => $this->imageId->getBytes(), "imageGalleryId" => $this->imageGalleryId->getBytes(),"imageProfileId" => $this->imageProfileId->getBytes(), "imageDate" => $this->profileDate, "imageTitle" => $this->imageTitle, "profileLocation" => $this->profileLocation, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
 	$statement->execute($parameters);
 }
-
+//HEy HEYYYYYY
 /**
  * deletes this profile from mySQL
  *
