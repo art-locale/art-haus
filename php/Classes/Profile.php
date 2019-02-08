@@ -22,7 +22,7 @@ class Profile implements \JsonSerializable {
 	 **/
 	private $profileId;
   /**
-  * Activation token for intial profile creation
+  * Activation token for initial profile creation
   * @var string $profileActivationToken
   **/
   Private $profileActivationToken;
