@@ -1,6 +1,6 @@
 <phpunit>
 	<testsuites>
-		<testsuite name="Art Haus Unit Testing">
+		<testsuite name="ArtHausTest">
       <file>applaudTest.php</file>
 			<file>galleryTest.php</file>
       <file>imageTest.php</file>
