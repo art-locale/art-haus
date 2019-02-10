@@ -362,7 +362,7 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 	return($image);
 }
 /***********************************************************************************************************************
- * START OF GET IMAGE BY IMAGE TITLE METHOD FIXME esp. not certain about the code here. Instead of being like the search by imageId above maybe more like search for all images method below.
+ * START OF GET IMAGE BY IMAGE TITLE METHOD FIXME Consider the fact reaching into an array of image titles.. What should I really have here? Something like the search all images method below instead of being like the search by imageId above
  *****************************************************************************************************************/
 /**
  * gets the image by imageTitle
