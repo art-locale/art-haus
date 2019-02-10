@@ -256,7 +256,7 @@ public function setImageUrl(string $newImageUrl) : void {
 //	END OF ACCESSOR & MUTATOR imageUrl
 
 /***********************************************************************************************************************
- * START OF THE UNIT TESTING
+ * START OF INSERT METHOD
  *****************************************************************************************************************/
 /**
  * inserts this image into mySQL
@@ -272,11 +272,15 @@ public function insert(\PDO $pdo) : void {
 	$statement = $pdo->prepare($query);
 
 	// bind the member variables to the place holder in the template
-	$parameters = ["imageId" => $this->imageId->getBytes(), "imageGalleryId" => $this->imageGalleryId->getBytes(),"imageProfileId" => $this->imageProfileId->getBytes(), "imageDate" => $this->profileDate, "imageTitle" => $this->imageTitle, "image" => $this->profileLocation, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
+	$parameters = ["imageId" => $this->imageId->getBytes(), "imageGalleryId" => $this->imageGalleryId,"imageProfileId" => $this->imageProfileId, "imageDate" => $this->imageDate, "imageTitle" => $this->imageTitle, "imageUrl" => $this->imageUrl];
 	$statement->execute($parameters);
 }
+
+/***********************************************************************************************************************
+ * START OF DELETE METHOD
+ *****************************************************************************************************************/
 /**
- * deletes this profile from mySQL
+ * deletes this image from mySQL
  *
  * @param \PDO $pdo PDO connection object
  * @throws \PDOException when mySQL related errors occur
@@ -285,16 +289,19 @@ public function insert(\PDO $pdo) : void {
 public function delete(\PDO $pdo) : void {
 
 	// create query template
-	$query = "DELETE FROM Profile WHERE profileId = :profileId";
+	$query = "DELETE FROM image WHERE imageId = :imageId";
 	$statement = $pdo->prepare($query);
 
 	// bind the member variables to the place holder in the template
-	$parameters = ["profileId" => $this->profileId->getBytes()];
+	$parameters = ["imageId" => $this->imageId->getBytes(), "imageGalleryId" => $this->imageGalleryId, "imageProfileId" => $this->imageProfileId,"imageTitle" => $this->imageTitle, "imageUrl" => $this->imageUrl];
 	$statement->execute($parameters);
 }
 
+/***********************************************************************************************************************
+ * START OF UPDATE METHOD
+ *****************************************************************************************************************/
 /**
- * updates this profile in mySQL
+ * updates this image in mySQL
  *
  * @param \PDO $pdo PDO connection object
  * @throws \PDOException when mySQL related errors occur
@@ -303,82 +310,89 @@ public function delete(\PDO $pdo) : void {
 public function update(\PDO $pdo) : void {
 
 	// create query template
-	$query = "UPDATE Profile SET profileId = :profileId, profileActivationToken = :profileActivationToken, profileDate = :profileDate, profileEmail = :profileEmail, profileLocation = :profileLocation, profileName = :profileName, profilePassword = :profilePassword, profileWebsite = :profileWebsite WHERE profileId = :profileId";
+	$query = "UPDATE image SET imageId = :imageId, imageGalleryId = :imageGalleryId, imageProfileId = :imageProfileId, imageDate = :imageDate, imageTitle = :imageTitle, imageUrl = :imageUrl";
 	$statement = $pdo->prepare($query);
 
 	// bind the member variables to the place holder in the template
-	$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileDate" => $this->profileDate, "profileEmail" => $this->profileEmail, "profileLocation" => $this->profileLocation, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
+	$parameters = ["imageId" => $this->imageId->getBytes(), "imageGalleryId" => $this->imageGalleryId, "imageProfileId" => $this->imageProfileId,"imageTitle" => $this->imageTitle, "imageUrl" => $this->imageUrl];
 	$statement->execute($parameters);
 }
 
+
+/***********************************************************************************************************************
+ * START OF GET IMAGE BY IMAGEID METHOD
+ *****************************************************************************************************************/
 /**
- * gets the profile by profileId
+ * gets the image by imageId
  *
  * @param \PDO $pdo PDO connection object
- * @param Uuid|string $profileId profile id to search for
- * @return profile|null profile found or null if not found
+ * @param Uuid|string $imageId image id to search for
+ * @return image|null image found or null if not found
  * @throws \PDOException when mySQL related errors occur
  * @throws \TypeError when a variable are not the correct data type
  **/
-public static function getProfileByProfileId(\PDO $pdo, $profileId) : ?Profile {
-	// sanitize the profileId before searching
+public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
+	// sanitize the imageId before searching
 	try {
-		$profileId = self::validateUuid($profileId);
+		$imageId = self::validateUuid($imageId);
 	} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 		throw(new \PDOException($exception->getMessage(), 0, $exception));
 	}
 
 	// create query template
-	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLocation, profileName, profilePassword, profileWebsite FROM Profile WHERE profileId = :profileId";
+	$query = "SELECT imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl FROM image WHERE imageId = :imageId";
 	$statement = $pdo->prepare($query);
 
-	// bind the profile id to the place holder in the template
-	$parameters = ["profileId" => $profileId->getBytes()];
+	// bind the image id to the place holder in the template
+	$parameters = ["imageId" => $imageId->getBytes()];
 	$statement->execute($parameters);
 
-	// grab the profile from mySQL
+	// grab the image from mySQL
 	try {
-		$profile = null;
+		$image = null;
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		$row = $statement->fetch();
 		if($row !== false) {
-			$profile = new Profile($row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLocation"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+			$image = new image($row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
 		}
 	} catch(\Exception $exception) {
 		// if the row couldn't be converted, rethrow it
 		throw(new \PDOException($exception->getMessage(), 0, $exception));
 	}
-	return($profile);
+	return($image);
 }
 
+/***********************************************************************************************************************
+ * START OF GET ALL IMAGES METHOD
+ *****************************************************************************************************************/
 /**
- * gets all profiles
+ * gets all images
  *
  * @param \PDO $pdo PDO connection object
- * @return \SplFixedArray SplFixedArray of profiles found or null if not found
+ * @return \SplFixedArray SplFixedArray of images found or null if not found
  * @throws \PDOException when mySQL related errors occur
  * @throws \TypeError when variables are not the correct data type
  **/
-public static function getAllProfiles\PDO $pdo) : \SPLFixedArray {
+public static function getAllImages\PDO $pdo) : \SPLFixedArray {
 		// create query template
-		$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLocation, profileName, profilePassword, profileWebsite FROM Profile";
+		$query = "SELECT imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl FROM image";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
-		// build an array of profiles
-		$profiles = new \SplFixedArray($statement->rowCount());
+		// build an array of images
+		$images = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$profile = new Profile($row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLocation"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
-				$profiles[$profiles->key()] = $profile;
-				$profiles->next();
+				$image = new image($row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
+				$images[$images->key()] = $image;
+				$images->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($profiles);
+		return ($images);
 	}
 /**
  * formats the state variables for JSON serialization
@@ -387,10 +401,10 @@ public static function getAllProfiles\PDO $pdo) : \SPLFixedArray {
  **/
 public function jsonSerialize() {
 	$fields = get_object_vars($this);
-	$fields["profileId"] = $this->profileId->toString();
+	$fields["imageId"] = $this->imageId->toString();
 
 	//format the date so that the front end can consume it
-	$fields["profileDate"] = round(floatval($this->profileDate->format("U.u")) * 1000);
+	$fields["imageDate"] = round(floatval($this->imageDate->format("U.u")) * 1000);
 	return ($fields);
 
 }
