@@ -320,7 +320,7 @@ public function update(\PDO $pdo) : void {
 
 
 /***********************************************************************************************************************
- * START OF GET IMAGE BY IMAGEID METHOD
+ * START OF GET IMAGE BY IMAGEID METHOD FIXME Is this a useful method or will consume scarce time/resources?
  *****************************************************************************************************************/
 /**
  * gets the image by imageId
@@ -346,6 +346,55 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 	// bind the image id to the place holder in the template
 	$parameters = ["imageId" => $imageId->getBytes()];
 	$statement->execute($parameters);
+
+	// grab the image from mySQL
+	try {
+		$image = null;
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		$row = $statement->fetch();
+		if($row !== false) {
+			$image = new image($row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
+		}
+	} catch(\Exception $exception) {
+		// if the row couldn't be converted, rethrow it
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+	return($image);
+}
+/***********************************************************************************************************************
+ * START OF GET IMAGE BY IMAGE TITLE METHOD FIXME esp. not certain about the code here. Instead of being like the search by imageId above maybe more like search for all images method below.
+ *****************************************************************************************************************/
+/**
+ * gets the image by imageTitle
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param string $imageTitle image title to search for
+ * @return image|null image found or null if not found
+ * @throws \InvalidArgumentException if $newProfileName is not a string or insecure
+ * @throws \RangeException if $newProfileName is > 32 characters
+ * @throws \TypeError if $newProfileName is not a string
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when a variable are not the correct data type
+ **/
+public static function getImageByImageTitle(\PDO $pdo, string $imageTitle) : ?image {
+	// sanitize the imageTitle before searching
+		$imageTitle = trim($imageTitle);
+		$imageTitle = filter_var($imageTitle, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($imageTitle) === true) {
+			throw(new \InvalidArgumentException("image title is empty or insecure"));
+		}
+		// verify the image title will fit in the database
+		if(strlen($imageTitle) > 32) {
+			throw(new \RangeException("image title too large"));
+		}
+
+	// create query template
+	$query = "SELECT imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl FROM image WHERE imageTitle = :imageTitle";
+	$statement = $pdo->prepare($query);
+
+	// bind the image title to the place holder in the template
+	$parameters = ["imageTitle" => $imageTitle];
+	$statement->execute($parameters); //FIXME This seems misplaced.
 
 	// grab the image from mySQL
 	try {
