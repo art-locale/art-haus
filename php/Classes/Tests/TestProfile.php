@@ -19,7 +19,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  * @author William Isengard <william.isengard@gmail.com>
  **/
 
- class ProfileTest extends ArtHausTest {
+ class TestProfile extends ArtHausTest {
  	/**
  	 * valid Art Haus user profile
  	 * @var Profile profile
