@@ -1,10 +1,10 @@
 <?php
 namespace ArtLocale\ArtHaus\Tests;
 
-use ArtLocale\ArtHaus\{Profile};
+use ArtLocale\ArtHaus\{profile};
 
 // access the class under scrutiny
-require_once(dirname(__DIR__) . "/autoload.php");
+require_once(dirname(__DIR__, 1) . "/autoload.php");
 
 // access the uuid generator
 require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
