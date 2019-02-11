@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\ArtHaus\Test;
+namespace ArtLocale\ArtHaus\Test;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\DbUnit\TestCaseTrait;
