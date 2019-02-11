@@ -1,5 +1,5 @@
 <?php
-namespace ArtLocale\ArtHaus;
+namespace Edu\Cnm\ArtHaus;
 /**
  * Trait to Validate a mySQL Date
  *
