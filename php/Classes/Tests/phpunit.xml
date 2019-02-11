@@ -1,6 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <phpunit>
 	<testsuites>
-		<testsuite name="ArtHausTest">
+		<testsuite name="ArtHaus-Test">
       <!--<file>TestApplaud.php</file>-->
 			<!--<file>TestGallery.php</file>-->
       <!--<file>TestImage.php</file>-->
