@@ -81,7 +81,7 @@ abstract class ArtHausTest extends TestCase {
 			// connect to mySQL and provide the interface to PHPUnit
 
 
-			$secrets =  new Secrets("/etc/apache2/capstone-mysql/ddctwitter.ini"); /***REPLACE WITH CORRECT FILE NAME**/
+			$secrets =  new Secrets("/etc/apache2/capstone-mysql/cohort23/arthaus.ini");
 			$pdo = $secrets->getPdoObject();
 			$this->connection = $this->createDefaultDBConnection($pdo, $secrets->getDatabase());
 		}
@@ -97,5 +97,3 @@ abstract class ArtHausTest extends TestCase {
 		return($this->getConnection()->getConnection());
 	}
 }
-
-

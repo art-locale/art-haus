@@ -21,7 +21,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 
  class ProfileTest extends ArtHausTest {
  	/**
- 	 * Art Haus user profile
+ 	 * valid Art Haus user profile
  	 * @var Profile profile
  	 **/
  	protected $profile = null;
@@ -33,10 +33,10 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  	protected $VALID_PROFILEID;
 
  	/**
- 	 * Activation token for initial profile creation
+ 	 * placeholder activation token for initial profile creation
  	 * @var string $VALID_PROFILEACTIVATIONTOKEN
  	 **/
- 	protected $VALID_PROFILEACTIVATIONTOKEN = "PHPUnit test passing";
+ 	protected $VALID_PROFILEACTIVATIONTOKEN
 
  	/**
  	 * Date and time profile was created; this starts as null and is assigned later
@@ -55,34 +55,58 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  	protected $VALID_SUNSETDATE = null;
 
   /**
-   * Email address for profile owner
+   * valid email address for profile owner
    * @var string $VALID_PROFILEEMAIL
    **/
-  protected $VALID_PROFILEEMAIL = "PHPUnit test still passing";
+  protected $VALID_PROFILEEMAIL = "test@test.com";
 
   /**
-   * Location of profile owner
+   * updated email address
+   * @var string $VALID_PROFILEEMAIL2
+   **/
+  protected $VALID_PROFILEEMAIL = "newtest@test.com";
+
+  /**
+   * Location of profile owner /*Temporarily City*/
    * @var string $VALID_PROFILELOCATION
    **/
-  protected $VALID_PROFILELOCATION = "PHPUnit test still passing";
+  protected $VALID_PROFILELOCATION = "Albuquerque";
 
   /**
-   * Name of profile owner
+   * New location of profile owner /*Temporarily City*/
+   * @var string $VALID_PROFILELOCATION
+   **/
+  protected $VALID_PROFILELOCATION = "Denver";
+
+  /**
+   * valid name of profile owner
    * @var string $VALID_PROFILENAME
    **/
-  protected $VALID_PROFILENAME = "PHPUnit test still passing";
+  protected $VALID_PROFILENAME = "Jane Doe";
 
   /**
-   * Hash of profile owner account password
+   * updated profile name
+   * @var string $VALID_PROFILENAME2
+   **/
+  protected $VALID_PROFILENAME = "John Doe";
+
+  /**
+   * hash of profile owner account password
    * @var string $VALID_PROFILEPASSWORD
    **/
-  protected $VALID_PROFILEPASSWORD = "PHPUnit test still passing";
+  protected $VALID_PROFILEPASSWORD
 
   /**
-   * Website of profile owner
+   * website of profile owner
    * @var string $VALID_PROFILEWEBSITE
    **/
-  protected $VALID_PROFILEWEBSITE = "PHPUnit test still passing";
+  protected $VALID_PROFILEWEBSITE = "www.etsy.com";
+
+  /**
+   * updated website of profile owner
+   * @var string $VALID_PROFILEWEBSITE
+   **/
+  protected $VALID_PROFILEWEBSITE = "www.linkedin.com";
 
   /**
    * create dependent objects before running each test
@@ -138,7 +162,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
   /**
    * test grabbing a Tweet by tweet content
    **/
-  public function testGetValidProfileByProfileName() : void {
+  public function testGetValidProfileByProfileId() : void {
     // count the number of rows and save it for later
     $numRows = $this->getConnection()->getRowCount("profile");
 
@@ -147,21 +171,19 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
     $profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
     $profile->insert($this->getPDO());
 
-  //   // grab the data from mySQL and enforce the fields match our expectations
-  //   $results = Tweet::getTweetByTweetContent($this->getPDO(), $tweet->getTweetContent());
-  //   $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tweet"));
-  //   $this->assertCount(1, $results);
-  //
-  //   // enforce no other objects are bleeding into the test
-  //   $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DataDesign\\Tweet", $results);
-  //
-  //   // grab the result from the array and validate it
-  //   $pdoTweet = $results[0];
-  //   $this->assertEquals($pdoTweet->getTweetId(), $tweetId);
-  //   $this->assertEquals($pdoTweet->getTweetProfileId(), $this->profile->getProfileId());
-  //   $this->assertEquals($pdoTweet->getTweetContent(), $this->VALID_TWEETCONTENT);
-  //   //format the date too seconds since the beginning of time to avoid round off error
-  //   $this->assertEquals($pdoTweet->getTweetDate()->getTimestamp(), $this->VALID_TWEETDATE->getTimestamp());
-  // }
+    // grab the data from mySQL and enforce the fields match our expectations
+    $results = Profile::getProfileByProfileId($this->getPDO(), $tweet->getTweetContent());
+    $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tweet"));
+    $this->assertCount(1, $results);
 
+    // enforce no other objects are bleeding into the test
+    $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DataDesign\\Tweet", $results);
 
+    // grab the result from the array and validate it
+    $pdoTweet = $results[0];
+    $this->assertEquals($pdoTweet->getTweetId(), $tweetId);
+    $this->assertEquals($pdoTweet->getTweetProfileId(), $this->profile->getProfileId());
+    $this->assertEquals($pdoTweet->getTweetContent(), $this->VALID_TWEETCONTENT);
+    //format the date too seconds since the beginning of time to avoid round off error
+    $this->assertEquals($pdoTweet->getTweetDate()->getTimestamp(), $this->VALID_TWEETDATE->getTimestamp());
+  }
