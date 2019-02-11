@@ -64,19 +64,19 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
    * updated email address
    * @var string $VALID_PROFILEEMAIL2
    **/
-  protected $VALID_PROFILEEMAIL = "newtest@test.com";
+  protected $VALID_PROFILEEMAIL2 = "newtest@test.com";
 
   /**
-   * Location of profile owner /*Temporarily City*/
+   * Location of profile owner /*Temporarily City*/ // FIXME Change to lat/long
    * @var string $VALID_PROFILELOCATION
    **/
   protected $VALID_PROFILELOCATION = "Albuquerque";
 
   /**
-   * New location of profile owner /*Temporarily City*/
-   * @var string $VALID_PROFILELOCATION
+   * New location of profile owner /*Temporarily City*/ // FIXME change to lat/long
+   * @var string $VALID_PROFILELOCATION2
    **/
-  protected $VALID_PROFILELOCATION = "Denver";
+  protected $VALID_PROFILELOCATION2 = "Denver";
 
   /**
    * valid name of profile owner
@@ -88,13 +88,13 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
    * updated profile name
    * @var string $VALID_PROFILENAME2
    **/
-  protected $VALID_PROFILENAME = "John Doe";
+  protected $VALID_PROFILENAME2 = "John Doe";
 
   /**
    * hash of profile owner account password
    * @var string $VALID_PROFILEPASSWORD
    **/
-  protected $VALID_PROFILEPASSWORD
+  protected $VALID_PROFILEPASSWORD  // FIXME- Do we need a profilepassword2?
 
   /**
    * website of profile owner
@@ -104,9 +104,9 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 
   /**
    * updated website of profile owner
-   * @var string $VALID_PROFILEWEBSITE
+   * @var string $VALID_PROFILEWEBSITE2
    **/
-  protected $VALID_PROFILEWEBSITE = "www.linkedin.com";
+  protected $VALID_PROFILEWEBSITE2 = "www.linkedin.com";
 
   /**
 	 * setup operation to create hash and salt.
@@ -124,6 +124,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 	public function testCreateProfile() : void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
+    // create a new Profile and insert into database
 		$profileId = generateUuidV4();
 		$profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
 		$profile->insert($this->getPDO());
@@ -140,21 +141,38 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 		$this->assertEquals($pdoProfile->getProfileWebsite(), $this->VALID_PROFILEWEBSITE);
 	}
 
-
   /**
-   * create dependent objects before running each test
-   **/
-  public final function setUp()  : void {
-    // run the default setUp() method first
-    parent::setUp();
-    $password = "abc123";
-    $this->VALID_PROFILEPASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
+	 * test inserting a profile and updating it
+	 **/
+	public function testUpdateProfile() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+		// create a new Profile and insert into database
+		$profileId = generateUuidV4();
+		$profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
+		$profile->insert($this->getPDO());
+		// edit the Profile and update it in mySQL
+		$profile->setProfileEmail($this->$VALID_PROFILEEMAIL2);
+		$profile->setProfileLocation($this->$VALID_PROFILELOCATION2);
+		$profile->setProfileName($this->$VALID_PROFILENAME2);
+		$profile->setProfilePassword($this->VALID_PROFILEPASSWORD2); // FIXME Is this correct?
+		$profile->setProfileWebsite($this->$VALID_PROFILEEMAIL2);
+		$profile->update($this->getPDO());
+		// access the data from database and confirm the data matches expectations
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+    $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertEquals($pdoProfile->getProfileId(), $profileId);
+		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
+		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
+		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL2);
+		$this->assertEquals($pdoProfile->getProfileLocation(), $this->VALID_PROFILELOCATION2);
+		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME2);
+		$this->assertEquals($pdoProfile->getProfilePassword(), $this->VALID_PROFILEPASSWORD2); //FIXME- Is this correct?
+		$this->assertEquals($pdoProfile->getProfileWebsite(), $this->VALID_PROFILEWEBSITE2);
 
-    // create and insert a Profile to own the test Profile
-    $this->profile = new Profile(generateUuidV4(), "ActivationTokenActivationTokenAc", null, "test@test.com", "Latitude/Longitude", "Spiderman The Artist", $this->VALID_PROFILEPASSWORD, "www.test.com");
-    $this->profile->insert($this->getPDO());
+	}
 
-    // calculate the date (just use the time the unit test was setup...)
+      // calculate the date (just use the time the unit test was setup...)
     $this->VALID_PROFILEDATE = new \DateTime();
 
     //format the sunrise date to use for testing
@@ -166,31 +184,4 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
     $this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
   }
 
-  /**
-   * test grabbing a Tweet by tweet content
-   **/
-  public function testGetValidProfileByProfileId() : void {
-    // count the number of rows and save it for later
-    $numRows = $this->getConnection()->getRowCount("profile");
-
-    // create a new Profile and insert to into mySQL
-    $profileId = generateUuidV4();
-    $profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
-    $profile->insert($this->getPDO());
-
-    // grab the data from mySQL and enforce the fields match our expectations
-    $results = Profile::getProfileByProfileId($this->getPDO(), $tweet->getTweetContent());
-    $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tweet"));
-    $this->assertCount(1, $results);
-
-    // enforce no other objects are bleeding into the test
-    $this->assertContainsOnlyInstancesOf("Edu\\Cnm\\DataDesign\\Tweet", $results);
-
-    // grab the result from the array and validate it
-    $pdoTweet = $results[0];
-    $this->assertEquals($pdoTweet->getTweetId(), $tweetId);
-    $this->assertEquals($pdoTweet->getTweetProfileId(), $this->profile->getProfileId());
-    $this->assertEquals($pdoTweet->getTweetContent(), $this->VALID_TWEETCONTENT);
-    //format the date too seconds since the beginning of time to avoid round off error
-    $this->assertEquals($pdoTweet->getTweetDate()->getTimestamp(), $this->VALID_TWEETDATE->getTimestamp());
-  }
+  
