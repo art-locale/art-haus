@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\ArtHaus;
+namespace ArtLocale\ArtHaus;
 require_once(dirname(__DIR__, 3) . "/vendor/autoload.php");
 use Ramsey\Uuid\Uuid;
 /**
