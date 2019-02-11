@@ -2,6 +2,13 @@
 -- bhuffman1 MIGHT BE the username assigned DEPENDING ON THE configuration of the mysql database
 ALTER DATABASE bhuffman1 CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
+-- Code for dropping tables (was used to change spelling of image attribute "imgage" to "image".
+-- Drop applaud table
+DROP TABLE applaud;
+-- Drop image table
+DROP TABLE image;
+
+
 -- this creates the profile entity
 CREATE TABLE profile (
 	-- table's attributes list:
@@ -52,7 +59,7 @@ CREATE TABLE image (
 	imageProfileId BINARY(16) NOT NULL,
 	imageDate DATETIME(6) NOT NULL,
 	imageTitle VARCHAR(32) NOT NULL,
-	imgageUrl VARCHAR(128) NULL,
+	imageUrl VARCHAR(128) NULL,
 --	imageTotalApplauds SMALLINT(2) NULL, -- FIXME count the applauds from all profileId's where the imageId - that particular image. Connection between applauds and total. Case for having: If not would have a query that calculates this total number from the database. Would we index?
 	-- index the foreign keys
 INDEX(imageGalleryId),
