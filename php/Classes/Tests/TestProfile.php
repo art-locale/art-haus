@@ -1,7 +1,7 @@
 <?php
-namespace Edu\Cnm\ArtHaus\Test;
+namespace ArtLocale\ArtHaus\Test;
 
-use Edu\Cnm\ArtHaus\Profile;
+use ArtLocale\ArtHaus\Profile;
 
 // access the class under scrutiny
 require_once(dirname(__DIR__) . "/autoload.php");
