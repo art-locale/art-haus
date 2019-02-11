@@ -4,7 +4,7 @@ namespace ArtLocale\ArtHaus;
 // use my local autoload I made:
 require_once("autoload.php");
 // use autoload via composer (PHP's package manager):
-require_once(dirname(__DIR__, 3) . "/vendor/autoload.php");
+require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
 
 use Ramsey\Uuid\Uuid;
 
