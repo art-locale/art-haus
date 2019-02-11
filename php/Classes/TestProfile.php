@@ -109,9 +109,38 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
   protected $VALID_PROFILEWEBSITE = "www.linkedin.com";
 
   /**
+	 * setup operation to create hash and salt.
+	 */
+	public final function setUp() : void {
+		parent::setUp();
+		$password = "password1234";
+		$this->VALID_PROFILEPASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
+		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
+	}
+
+  /**
+	 * test creating a valid profile
+	 **/
+	public function testCreateProfile() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+		$profileId = generateUuidV4();
+		$profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
+		$profile->insert($this->getPDO());
+		// grab the data from mySQL and enforce the fields match expectations
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertEquals($pdoProfile->getProfileId(), $profileId);
+		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
+		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
+		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL);
+		$this->assertEquals($pdoProfile->getProfileLocation(), $this->VALID_PROFILELOCATION);
+		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME);
+		$this->assertEquals($pdoProfile->getProfilePassword(), $this->VALID_PROFILEPASSWORD);
+		$this->assertEquals($pdoProfile->getProfileWebsite(), $this->VALID_PROFILEWEBSITE);
+	}
 
 
-  
   /**
    * create dependent objects before running each test
    **/
@@ -136,32 +165,6 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
     $this->VALID_SUNSETDATE = new\DateTime();
     $this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
   }
-
-  //   /**
-  //  * test inserting a Tweet, editing it, and then updating it
-  //  **/
-  // public function testUpdateValidTweet() : void {
-  //   // count the number of rows and save it for later
-  //   $numRows = $this->getConnection()->getRowCount("tweet");
-  //
-  //   // create a new Tweet and insert to into mySQL
-  //   $tweetId = generateUuidV4();
-  //   $tweet = new Tweet($tweetId, $this->profile->getProfileId(), $this->VALID_TWEETCONTENT, $this->VALID_TWEETDATE);
-  //   $tweet->insert($this->getPDO());
-  //
-  //   // edit the Tweet and update it in mySQL
-  //   $tweet->setTweetContent($this->VALID_TWEETCONTENT2);
-  //   $tweet->update($this->getPDO());
-  //
-  //   // grab the data from mySQL and enforce the fields match our expectations
-  //   $pdoTweet = Tweet::getTweetByTweetId($this->getPDO(), $tweet->getTweetId());
-  //   $this->assertEquals($pdoTweet->getTweetId(), $tweetId);
-  //   $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tweet"));
-  //   $this->assertEquals($pdoTweet->getTweetProfileId(), $this->profile->getProfileId());
-  //   $this->assertEquals($pdoTweet->getTweetContent(), $this->VALID_TWEETCONTENT2);
-  //   //format the date too seconds since the beginning of time to avoid round off error
-  //   $this->assertEquals($pdoTweet->getTweetDate()->getTimestamp(), $this->VALID_TWEETDATE->getTimestamp());
-  // }
 
   /**
    * test grabbing a Tweet by tweet content
