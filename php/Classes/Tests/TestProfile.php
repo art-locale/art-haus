@@ -36,7 +36,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  	 * placeholder activation token for initial profile creation
  	 * @var string $VALID_PROFILEACTIVATIONTOKEN
  	 **/
- 	protected $VALID_PROFILEACTIVATIONTOKEN;
+ 	protected $VALID_PROFILEACTIVATIONTOKEN
 
  	/**
  	 * Date and time profile was created; this starts as null and is assigned later
