@@ -1,7 +1,7 @@
 <?php
-namespace ArtLocale\ArtHaus\ArtHausTest;
+namespace Edu\Cnm\ArtHaus\ArtHausTest;
 
-use ArtLocale\ArtHaus\{Profile};
+use Edu\Cnm\art-haus\{Profile};
 
 // access the class under scrutiny
 require_once(dirname(__DIR__) . "/autoload.php");
@@ -67,13 +67,13 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
   protected $VALID_PROFILEEMAIL2 = "newtest@test.com";
 
   /**
-   * Location of profile owner /*Temporarily City*/ // FIXME Change to lat/long
+   * Location of profile owner- Temp set to city
    * @var string $VALID_PROFILELOCATION
    **/
   protected $VALID_PROFILELOCATION = "Albuquerque";
 
   /**
-   * New location of profile owner /*Temporarily City*/ // FIXME change to lat/long
+   * New location of profile owner- Temp set to city
    * @var string $VALID_PROFILELOCATION2
    **/
   protected $VALID_PROFILELOCATION2 = "Denver";
@@ -94,13 +94,13 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
    * hash of profile owner account password
    * @var string $VALID_PROFILEPASSWORD
    **/
-  protected $VALID_PROFILEPASSWORD
+  protected $VALID_PROFILEPASSWORD;
 
   /**
    * updated hash of profile owner account password
    * @var string $VALID_PROFILEPASSWORD2
    **/
-  protected $VALID_PROFILEPASSWORD2
+  protected $VALID_PROFILEPASSWORD2;
 
   /**
    * website of profile owner
@@ -206,4 +206,4 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
   //   //format the sunset date to use for testing
   //   $this->VALID_SUNSETDATE = new\DateTime();
   //   $this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
-  // }
+}
