@@ -1,10 +1,10 @@
 <phpunit>
 	<testsuites>
 		<testsuite name="ArtHausTest">
-      <file>applaudTest.php</file>
-			<file>galleryTest.php</file>
-      <file>imageTest.php</file>
-      <file>profileTest.php</file>
+      <file>TestApplaud.php</file>
+			<file>TestGallery.php</file>
+      <file>TestImage.php</file>
+      <file>TestProfile.php</file>
 		</testsuite>
 	</testsuites>
 	<filter>
