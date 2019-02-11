@@ -169,8 +169,26 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME2);
 		$this->assertEquals($pdoProfile->getProfilePassword(), $this->VALID_PROFILEPASSWORD2); //FIXME- Is this correct?
 		$this->assertEquals($pdoProfile->getProfileWebsite(), $this->VALID_PROFILEWEBSITE2);
-
 	}
+
+  /**
+   * test to create a profile and delete it
+   **/
+  public function testDeleteProfile() : void {
+    // count the number of rows and save it for later
+    $numRows = $this->getConnection()->getRowCount("profile");
+    // create a new profile and insert into database
+    $profileId = generateUuidV4();
+    $profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
+    $profile->insert($this->getPDO());
+    // delete the profile from database
+    $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+    $profile->delete($this->getPDO());
+    // access database and confirm profile deleted
+    $pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+    $this->assertNull($pdoProfile);
+    $this->assertEquals($numRows, $this->getConnection()->getRowCount("profile"));
+  }
 
       // calculate the date (just use the time the unit test was setup...)
     $this->VALID_PROFILEDATE = new \DateTime();
@@ -183,5 +201,3 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
     $this->VALID_SUNSETDATE = new\DateTime();
     $this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
   }
-
-  
