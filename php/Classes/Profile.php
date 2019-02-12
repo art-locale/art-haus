@@ -37,13 +37,13 @@ class Profile implements \JsonSerializable {
   **/
   private $profileEmail;
   /**
-  * Location of profile owner
-  * @var string $profileLocation;
+  * Latitude location of profile owner
+  * @var string $profileLatitude;
   **/
   private $profileLatitude;
   /**
-  * Name of profile owner
-  * @var string $profileName;
+  * Longitude location of profile owner
+  * @var string $profileLongitude;
   **/
 	private $profileLongitude;
 	/**
@@ -67,10 +67,10 @@ class Profile implements \JsonSerializable {
    * @param string $newProfileActivationToken activation token for a new profile
    * @param \DateTime|string|null $newProfileDate date and time profile was activated
    * @param string $newProfileEmail email address for new profile
-   * @param string $newProfileLatitude location for profile owner --fixme string?
-	* @param string $newProfileLongitude location for profile owner --fixme string?
+   * @param float $newProfileLatitude latitude of this profile owner's location
+	* @param float $newProfileLongitude longitude of this profile owner's location
    * @param string $newProfileName name of profile owner
-   * @param string $newProfilePassword hashed Locationpassword for profile
+   * @param string $newProfilePassword hashed password for profile
    * @param string $newProfileWebsite profile owner's website
    * @throws \InvalidArgumentException if data types are not valid
    * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
@@ -78,7 +78,7 @@ class Profile implements \JsonSerializable {
    * @throws \Exception if some other exception occurs
    * @Documentation https://php.net/manual/en/language.oop5.decon.php
    **/
-	 public function __construct($newProfileId, string $newProfileActivationToken, string $newProfileDate, string $newProfileEmail, string $newProfileLocation, string $newProfileName, string $newProfilePassword, string $newProfileWebsite) {
+	 public function __construct($newProfileId, string $newProfileActivationToken, string $newProfileDate, string $newProfileEmail, string $newProfileLatitude, string $newProfileLongitude, string $newProfileName, string $newProfilePassword, string $newProfileWebsite) {
 		 try {
 			 	$this->setProfileId($newProfileId);
 			 	$this->setProfileActivationToken($newProfileActivationToken);
@@ -226,70 +226,61 @@ class Profile implements \JsonSerializable {
 			$this->profileEmail = $newProfileEmail;
 		}
 
-/** profileLocation**/
+/** profileLatitude**/
 
-		/**
-		 * accessor method for profile location
-		 *
-		 * @return string value of profile location
-		 **/
-		public function getProfileLocation() : string {
-			return($this->profileLocation);
-		}
-		/**
-		 * mutator method for profile location
-		 *
-		 * @param string $newProfileLocation new value of profile location
-		 * @throws \InvalidArgumentException if $newProfileLocation is not a string or insecure
-		 * @throws \RangeException if $newProfileLocation is > 128 characters
-		 * @throws \TypeError if $newProfileLocation is not a string
-		 **/
-		public function setProfileLocation(string $newProfileLocation) : void {
-			// verify the profile location content is secure
-			$newProfileLocation = trim($newProfileLocation);
-			$newProfileLocation = filter_var($newProfileLocation, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-			if(empty($newProfileLocation) === true) {
-				throw(new \InvalidArgumentException("profile location is empty or insecure"));
-			}
-			// verify the profile location will fit in the database
-			if(strlen($newProfileLocation) > 128) {
-				throw(new \RangeException("profile location too large"));
-			}
-			// store the profile location
-			$this->profileLocation = $newProfileLocation;
-		}
-
-	/** profileLocation**/
-
-	/**
-	 * accessor method for profile location
+	/** accessor method for profile latitude
 	 *
-	 * @return string value of profile location
+	 * @return float value of profile latitude
 	 **/
-	public function getProfileLocation() : string {
-		return($this->profileLocation);
+	public function getProfileLatitude() : float {
+		return($this->profileLatitude);
 	}
-	/**
-	 * mutator method for profile location
+	/** mutator method for profile latitude
 	 *
-	 * @param string $newProfileLocation new value of profile location
-	 * @throws \InvalidArgumentException if $newProfileLocation is not a string or insecure
-	 * @throws \RangeException if $newProfileLocation is > 128 characters
-	 * @throws \TypeError if $newProfileLocation is not a string
+	 * @param float $newProfileLatitude new value of profile latitude
+	 * @throws \InvalidArgumentException if $newProfileLatitude is not a float or insecure
+	 * @throws \RangeException if $newProfileLatitude is not within -90 to 90
+	 * @throws \TypeError if $newProfileLatitude is not a float
 	 **/
-	public function setProfileLocation(string $newProfileLocation) : void {
-		// verify the profile location content is secure
-		$newProfileLocation = trim($newProfileLocation);
-		$newProfileLocation = filter_var($newProfileLocation, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newProfileLocation) === true) {
-			throw(new \InvalidArgumentException("profile location is empty or insecure"));
+	public function setProfileLatitude(float $newProfileLatitude) : void {
+		// verify if the latitude exists
+		if(floatval($newProfileLatitude) > 90) {
+			throw(new \RangeException("profile latitude is not between -90 and 90"));
 		}
-		// verify the profile location will fit in the database
-		if(strlen($newProfileLocation) > 128) {
-			throw(new \RangeException("profile location too large"));
+		if (floatval($newProfileLatitude) < -90) {
+			throw(new \RangeException("profile latitude is not between -90 and 90"));
 		}
-		// store the profile location
-		$this->profileLocation = $newProfileLocation;
+		// store the latitude
+		$this->profileLatitude = $newProfileLatitude;
+	}
+
+	/** profileLongitude**/
+
+	/** accessor method for profile longitude
+	 *
+	 *
+	 * @return float value of profile longitude
+	 **/
+	public function getProfileLongitude() : float {
+		return($this->profileLongitude);
+	}
+	/** mutator method for profile longitude
+	 *
+	 * @param float $newProfileLongitude new value of profile longitude
+	 * @throws \InvalidArgumentException if $newProfileLongitude is not a float or insecure
+	 * @throws \RangeException if $newProfileLongitude is not within -180 to 180
+	 * @throws \TypeError if $newProfileLongitude is not a float
+	 **/
+	public function setProfileLongitude(float $newProfileLongitude) : void {
+		// verify the longitude exists
+		if(floatval($newProfileLongitude) > 180) {
+			throw(new \RangeException("profile longitude is not between -180 and 180"));
+		}
+		if (floatval($newProfileLongitude) < -180) {
+			throw(new \RangeException("profile longitude is not between -180 and 180"));
+		}
+		// store the longitude
+		$this->profileLongitude = $newProfileLongitude;
 	}
 
 /** profileName**/
@@ -411,7 +402,7 @@ public function insert(\PDO $pdo) : void {
 	$statement = $pdo->prepare($query);
 
 	// bind the member variables to the place holder in the template
-	$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileDate" => $this->profileDate, "profileEmail" => $this->profileEmail, "profileLocation" => $this->profileLocation, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
+	$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileDate" => $this->profileDate, "profileEmail" => $this->profileEmail, "profileLatitude" => $this->profileLatitude, "profileLongitude" => $this->profileLongitude, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
 			$statement->execute($parameters);
 }
 
@@ -443,11 +434,11 @@ public function delete(\PDO $pdo) : void {
 public function update(\PDO $pdo) : void {
 
 	// create query template
-	$query = "UPDATE Profile SET profileId = :profileId, profileActivationToken = :profileActivationToken, profileDate = :profileDate, profileEmail = :profileEmail, profileLocation = :profileLocation, profileName = :profileName, profilePassword = :profilePassword, profileWebsite = :profileWebsite WHERE profileId = :profileId";
+	$query = "UPDATE Profile SET profileId = :profileId, profileActivationToken = :profileActivationToken, profileDate = :profileDate, profileEmail = :profileEmail, profileLatitude = :profileLatitude, profileLongitude = :profileLongitude, profileName = :profileName, profilePassword = :profilePassword, profileWebsite = :profileWebsite WHERE profileId = :profileId";
 	$statement = $pdo->prepare($query);
 
 	// bind the member variables to the place holder in the template
-	$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileDate" => $this->profileDate, "profileEmail" => $this->profileEmail, "profileLocation" => $this->profileLocation, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
+	$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileDate" => $this->profileDate, "profileEmail" => $this->profileEmail, "profileLatitude" => $this->profileLatitude, "profileLongitude" => $this->profileLongitude, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
 	$statement->execute($parameters);
 }
 
@@ -469,7 +460,7 @@ public static function getProfileByProfileId(\PDO $pdo, $profileId) : ?Profile {
 	}
 
 	// create query template
-	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLocation, profileName, profilePassword, profileWebsite FROM Profile WHERE profileId = :profileId";
+	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile WHERE profileId = :profileId";
 	$statement = $pdo->prepare($query);
 
 	// bind the profile id to the place holder in the template
@@ -482,7 +473,7 @@ public static function getProfileByProfileId(\PDO $pdo, $profileId) : ?Profile {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		$row = $statement->fetch();
 		if($row !== false) {
-			$profile = new Profile($row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLocation"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+			$profile = new Profile($row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"],  $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
 		}
 	} catch(\Exception $exception) {
 		// if the row couldn't be converted, rethrow it
@@ -501,7 +492,7 @@ public static function getProfileByProfileId(\PDO $pdo, $profileId) : ?Profile {
  **/
 public static function getAllProfiles\PDO $pdo) : \SPLFixedArray {
 	// create query template
-	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLocation, profileName, profilePassword, profileWebsite FROM Profile";
+	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile";
 	$statement = $pdo->prepare($query);
 	$statement->execute();
 
@@ -510,7 +501,7 @@ public static function getAllProfiles\PDO $pdo) : \SPLFixedArray {
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
 	while(($row = $statement->fetch()) !== false) {
 		try {
-			$profile = new Profile($row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLocation"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+			$profile = new Profile($row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
 			$profiles[$profiles->key()] = $profile;
 			$profiles->next();
 		} catch(\Exception $exception) {
