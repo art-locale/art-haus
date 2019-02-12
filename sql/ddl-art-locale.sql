@@ -16,7 +16,7 @@ DROP TABLE image;
 CREATE TABLE profile (
 	-- table's attributes list:
 	profileId BINARY(16) NOT NULL,
-	profileActivationToken CHAR(32),
+	profileActivationToken CHAR(32) NULL,
 	profileDate DATETIME(6) NOT NULL,
 	profileEmail VARCHAR(128) NOT NULL,
 	profileLatitude DECIMAL(12, 9) NOT NULL,
