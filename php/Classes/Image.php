@@ -380,7 +380,7 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
  * @throws \PDOException when mySQL related errors occur
  * @throws \TypeError when variables are not the correct data type
  **/
-public static function getAllImages\PDO $pdo) : \SplFixedArray {
+public static function getAllImages(\PDO $pdo) : \SplFixedArray {
 		// create query template
 		$query = "SELECT imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl FROM image";
 		$statement = $pdo->prepare($query);
@@ -415,4 +415,4 @@ public function jsonSerialize() {
 	return ($fields);
 
 }
-}}
+}

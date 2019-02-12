@@ -473,7 +473,7 @@ public static function getProfileByProfileId(\PDO $pdo, $profileId) : ?Profile {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		$row = $statement->fetch();
 		if($row !== false) {
-			$profile = new Profile($row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"],  $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+			$profile = new Profile($row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
 		}
 	} catch(\Exception $exception) {
 		// if the row couldn't be converted, rethrow it
@@ -490,7 +490,7 @@ public static function getProfileByProfileId(\PDO $pdo, $profileId) : ?Profile {
  * @throws \PDOException when mySQL related errors occur
  * @throws \TypeError when variables are not the correct data type
  **/
-public static function getAllProfiles\PDO $pdo) : \SPLFixedArray {
+public static function getAllProfiles(\PDO $pdo) : \SPLFixedArray {
 	// create query template
 	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile";
 	$statement = $pdo->prepare($query);
