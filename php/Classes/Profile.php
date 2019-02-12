@@ -40,11 +40,16 @@ class Profile implements \JsonSerializable {
   * Location of profile owner
   * @var string $profileLocation;
   **/
-  private $profileLocation;
+  private $profileLatitude;
   /**
   * Name of profile owner
   * @var string $profileName;
   **/
+	private $profileLongitude;
+	/**
+	 * Name of profile owner
+	 * @var string $profileName;
+	 **/
   private $profileName;
   /**
   * Hash of profile owner account password
@@ -62,7 +67,8 @@ class Profile implements \JsonSerializable {
    * @param string $newProfileActivationToken activation token for a new profile
    * @param \DateTime|string|null $newProfileDate date and time profile was activated
    * @param string $newProfileEmail email address for new profile
-   * @param string $newProfileLocation location for profile owner
+   * @param string $newProfileLatitude location for profile owner --fixme string?
+	* @param string $newProfileLongitude location for profile owner --fixme string?
    * @param string $newProfileName name of profile owner
    * @param string $newProfilePassword hashed Locationpassword for profile
    * @param string $newProfileWebsite profile owner's website
@@ -78,7 +84,8 @@ class Profile implements \JsonSerializable {
 			 	$this->setProfileActivationToken($newProfileActivationToken);
 				$this->setProfileDate($newProfileDate);
 				$this->setProfileEmail($newProfileEmail);
-				$this->setProfileLocation($newProfileLocation);
+				$this->setProfileLatitude($newProfileLatitude);
+				$this->setProfileLatitude($newProfileLongitude);
 				$this->setProfileName($newProfileName);
 				$this->setProfilePassword($newProfilePassword);
 				$this->setProfileWebsite($newProfileWebsite);
@@ -252,6 +259,39 @@ class Profile implements \JsonSerializable {
 			$this->profileLocation = $newProfileLocation;
 		}
 
+	/** profileLocation**/
+
+	/**
+	 * accessor method for profile location
+	 *
+	 * @return string value of profile location
+	 **/
+	public function getProfileLocation() : string {
+		return($this->profileLocation);
+	}
+	/**
+	 * mutator method for profile location
+	 *
+	 * @param string $newProfileLocation new value of profile location
+	 * @throws \InvalidArgumentException if $newProfileLocation is not a string or insecure
+	 * @throws \RangeException if $newProfileLocation is > 128 characters
+	 * @throws \TypeError if $newProfileLocation is not a string
+	 **/
+	public function setProfileLocation(string $newProfileLocation) : void {
+		// verify the profile location content is secure
+		$newProfileLocation = trim($newProfileLocation);
+		$newProfileLocation = filter_var($newProfileLocation, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newProfileLocation) === true) {
+			throw(new \InvalidArgumentException("profile location is empty or insecure"));
+		}
+		// verify the profile location will fit in the database
+		if(strlen($newProfileLocation) > 128) {
+			throw(new \RangeException("profile location too large"));
+		}
+		// store the profile location
+		$this->profileLocation = $newProfileLocation;
+	}
+
 /** profileName**/
 
 		/**
@@ -367,7 +407,7 @@ class Profile implements \JsonSerializable {
 public function insert(\PDO $pdo) : void {
 
 	// create query template
-	$query = "INSERT INTO Profile(profileId, profileActivationToken, profileDate, profileEmail, profileLocation, profileName, profilePassword, profileWebsite) VALUES(:profileId, :profileActivationToken, :profileDate, :profileEmail, :profileLocation, :profileName, :profilePassword, :profileWebsite)";
+	$query = "INSERT INTO Profile(profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite) VALUES(:profileId, :profileActivationToken, :profileDate, :profileEmail, :profileLatitude, profileLongitude :profileName, :profilePassword, :profileWebsite)";
 	$statement = $pdo->prepare($query);
 
 	// bind the member variables to the place holder in the template
