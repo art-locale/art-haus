@@ -38,12 +38,12 @@ class Profile implements \JsonSerializable {
   private $profileEmail;
   /**
   * Latitude location of profile owner
-  * @var string $profileLatitude;
+  * @var float $profileLatitude;
   **/
   private $profileLatitude;
   /**
   * Longitude location of profile owner
-  * @var string $profileLongitude;
+  * @var float $profileLongitude;
   **/
 	private $profileLongitude;
 	/**
@@ -78,7 +78,7 @@ class Profile implements \JsonSerializable {
    * @throws \Exception if some other exception occurs
    * @Documentation https://php.net/manual/en/language.oop5.decon.php
    **/
-	 public function __construct($newProfileId, string $newProfileActivationToken, string $newProfileDate, string $newProfileEmail, float $newProfileLatitude, float $newProfileLongitude, string $newProfileName, string $newProfilePassword, string $newProfileWebsite) {
+	 public function __construct($newProfileId, ?string $newProfileActivationToken, ?string $newProfileDate, string $newProfileEmail, float $newProfileLatitude, float $newProfileLongitude, string $newProfileName, string $newProfilePassword, string $newProfileWebsite) {
 		 try {
 			 	$this->setProfileId($newProfileId);
 			 	$this->setProfileActivationToken($newProfileActivationToken);
