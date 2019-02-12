@@ -221,7 +221,7 @@ class Image implements \JsonSerializable {
 		$this->imageTitle = $newImageTitle;
 	}
 	//	//	END OF ACCESSOR & MUTATOR imageTitle
-}
+
 //**********************************************************************************START OF ACCESSOR & MUTATOR imageUrl
 /**
  * accessor method for image Url
@@ -368,7 +368,7 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
  * gets the image by imageTitle
  *
 */
-\
+
 /***********************************************************************************************************************
  * START OF GET ALL IMAGES METHOD
  *****************************************************************************************************************/
@@ -380,7 +380,7 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
  * @throws \PDOException when mySQL related errors occur
  * @throws \TypeError when variables are not the correct data type
  **/
-public static function getAllImages\PDO $pdo) : \SPLFixedArray {
+public static function getAllImages\PDO $pdo) : \SplFixedArray {
 		// create query template
 		$query = "SELECT imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl FROM image";
 		$statement = $pdo->prepare($query);
