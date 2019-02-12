@@ -119,6 +119,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 	 */
 	public final function setUp() : void {
 		parent::setUp();
+    //
 		$password = "password1234";
 		$this->VALID_PROFILEPASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
 		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));

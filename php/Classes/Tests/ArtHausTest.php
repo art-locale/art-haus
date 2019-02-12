@@ -80,7 +80,7 @@ abstract class ArtHausTest extends TestCase {
 		if($this->connection === null) {
 			// connect to mySQL and provide the interface to PHPUnit
 
-			$secrets =  new Secrets("/etc/apache2/capstone-mysql/cohort23/arthaus.ini");
+			$secrets =  new \Secrets("/etc/apache2/capstone-mysql/cohort23/arthaus.ini");
 			$pdo = $secrets->getPdoObject();
 			$this->connection = $this->createDefaultDBConnection($pdo, $secrets->getDatabase());
 		}
