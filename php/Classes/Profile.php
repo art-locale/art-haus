@@ -78,7 +78,7 @@ class Profile implements \JsonSerializable {
    * @throws \Exception if some other exception occurs
    * @Documentation https://php.net/manual/en/language.oop5.decon.php
    **/
-	 public function __construct($newProfileId, ?string $newProfileActivationToken, ?string $newProfileDate, string $newProfileEmail, float $newProfileLatitude, float $newProfileLongitude, string $newProfileName, string $newProfilePassword, string $newProfileWebsite) {
+	 public function __construct($newProfileId, ?string $newProfileActivationToken, \DateTime $newProfileDate, string $newProfileEmail, float $newProfileLatitude, float $newProfileLongitude, string $newProfileName, string $newProfilePassword, string $newProfileWebsite) {
 		 try {
 			 	$this->setProfileId($newProfileId);
 			 	$this->setProfileActivationToken($newProfileActivationToken);
@@ -398,7 +398,7 @@ class Profile implements \JsonSerializable {
 public function insert(\PDO $pdo) : void {
 
 	// create query template
-	$query = "INSERT INTO Profile(profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite) VALUES(:profileId, :profileActivationToken, :profileDate, :profileEmail, :profileLatitude, profileLongitude :profileName, :profilePassword, :profileWebsite)";
+	$query = "INSERT INTO Profile(profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite) VALUES(:profileId, :profileActivationToken, :profileDate, :profileEmail, :profileLatitude, :profileLongitude :profileName, :profilePassword, :profileWebsite)";
 	$statement = $pdo->prepare($query);
 
 	// bind the member variables to the place holder in the template

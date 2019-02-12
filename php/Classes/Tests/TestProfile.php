@@ -42,7 +42,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  	 * Date and time profile was created- this starts as null and is assigned later
  	 * @var \DateTime $VALID_PROFILEDATE
  	 **/
- 	protected $VALID_PROFILEDATE = null;
+ 	protected $VALID_PROFILEDATE;
 
  	/**
  	 * Valid timestamp to use as sunriseProfileDate
@@ -70,25 +70,25 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
    * Latitude of profile owner- Temp set to city
    * @var float $VALID_PROFILELATITUDE
    **/
-  protected $VALID_PROFILELATITUDE= "120.123456789";
+  protected $VALID_PROFILELATITUDE= "75";
 
   /**
    * New latitude of profile owner- Temp set to city
    * @var float $VALID_PROFILELATITUDE2
    **/
-  protected $VALID_PROFILELATITUDE2 = "150.123456789";
+  protected $VALID_PROFILELATITUDE2 = "35";
 
 	 /**
 	  * longitude of profile owner- Temp set to city
 	  * @var float $VALID_PROFILELONGITUDE
 	  **/
-	 protected $VALID_PROFILELONGITUDE= "90.123456789";
+	 protected $VALID_PROFILELONGITUDE= "50";
 
 	 /**
 	  * New logitude of profile owner- Temp set to city
 	  * @var float $VALID_PROFILELONGITUDE2
 	  **/
-	 protected $VALID_PROFILELONGITUDE2 = "-50.123456789";
+	 protected $VALID_PROFILELONGITUDE2 = "30";
 
   /**
    * valid name of profile owner
@@ -135,7 +135,11 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 		$password = "password1234";
 		$this->VALID_PROFILEPASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
 		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
+    $this->VALID_PROFILEDATE = new \DateTime();
 	}
+
+  //     // calculate the date (just use the time the unit test was setup...)
+  //   $this->VALID_PROFILEDATE = new \DateTime();
 
   /**
 	 * test creating a valid profile
@@ -152,7 +156,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileId(), $profileId);
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
-		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
+		$this->assertEquals($pdoProfile->getProfileDate()->getTimestamp(), $this->VALID_PROFILEDATE->getTimeStamp());
 		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL);
 		$this->assertEquals($pdoProfile->getProfileLatitude(), $this->VALID_PROFILELATITUDE);
 		$this->assertEquals($pdoProfile->getProfileLongitude(), $this->VALID_PROFILELONGITUDE);
@@ -212,8 +216,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
   //   $this->assertEquals($numRows, $this->getConnection()->getRowCount("profile"));
   // }
   //
-  //     // calculate the date (just use the time the unit test was setup...)
-  //   $this->VALID_PROFILEDATE = new \DateTime();
+
   //
   //   //format the sunrise date to use for testing
   //   $this->VALID_SUNRISEDATE = new \DateTime();
