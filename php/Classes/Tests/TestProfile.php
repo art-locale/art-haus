@@ -67,16 +67,28 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
   protected $VALID_PROFILEEMAIL2 = "newtest@test.com";
 
   /**
-   * Location of profile owner- Temp set to city
-   * @var string $VALID_PROFILELOCATION
+   * Latitude of profile owner- Temp set to city
+   * @var string $VALID_PROFILELATITUDE
    **/
-  protected $VALID_PROFILELOCATION = "Albuquerque";
+  protected $VALID_PROFILELATITUDE= "120.123456789";
 
   /**
-   * New location of profile owner- Temp set to city
-   * @var string $VALID_PROFILELOCATION2
+   * New latitude of profile owner- Temp set to city
+   * @var string $VALID_PROFILELATITUDE2
    **/
-  protected $VALID_PROFILELOCATION2 = "Denver";
+  protected $VALID_PROFILELATITUDE2 = "150.123456789";
+
+	 /**
+	  * longitude of profile owner- Temp set to city
+	  * @var string $VALID_PROFILELONGITUDE
+	  **/
+	 protected $VALID_PROFILELONGITUDE= "90.123456789";
+
+	 /**
+	  * New logitude of profile owner- Temp set to city
+	  * @var string $VALID_PROFILELONGITUDE2
+	  **/
+	 protected $VALID_PROFILELONGITUDE2 = "-50.123456789";
 
   /**
    * valid name of profile owner
@@ -133,7 +145,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 		$numRows = $this->getConnection()->getRowCount("profile");
     // create a new Profile and insert into database
 		$profileId = generateUuidV4();
-		$profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
+		$profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELATITUDE, $this->VALID_PROFILELONGITUDE, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
 		$profile->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
@@ -142,7 +154,8 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
 		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
 		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL);
-		$this->assertEquals($pdoProfile->getProfileLocation(), $this->VALID_PROFILELOCATION);
+		$this->assertEquals($pdoProfile->getProfileLatitude(), $this->VALID_PROFILELATITUDE);
+		$this->assertEquals($pdoProfile->getProfileLongitude(), $this->VALID_PROFILELONGITUDE);
 		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME);
 		$this->assertEquals($pdoProfile->getProfilePassword(), $this->VALID_PROFILEPASSWORD);
 		$this->assertEquals($pdoProfile->getProfileWebsite(), $this->VALID_PROFILEWEBSITE);
@@ -156,11 +169,12 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 	// 	$numRows = $this->getConnection()->getRowCount("profile");
 	// 	// create a new Profile and insert into database
 	// 	$profileId = generateUuidV4();
-	// 	$profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
+	// 	$profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELATITUDE, $this->VALID_PROFILELONGITUDE, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
 	// 	$profile->insert($this->getPDO());
 	// 	// edit the Profile and update it in mySQL
 	// 	$profile->setProfileEmail($this->$VALID_PROFILEEMAIL2);
-	// 	$profile->setProfileLocation($this->$VALID_PROFILELOCATION2);
+	// 	$profile->setProfileLatitude($this->$VALID_PROFILELatitude);
+	// 	$profile->setProfileLongitude($this->$VALID_PROFILELongitude);
 	// 	$profile->setProfileName($this->$VALID_PROFILENAME2);
 	// 	$profile->setProfilePassword($this->VALID_PROFILEPASSWORD2);
 	// 	$profile->setProfileWebsite($this->$VALID_PROFILEEMAIL2);
@@ -172,7 +186,8 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 	// 	$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
 	// 	$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
 	// 	$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL2);
-	// 	$this->assertEquals($pdoProfile->getProfileLocation(), $this->VALID_PROFILELOCATION2);
+	// 	$this->assertEquals($pdoProfile->getProfileLatitude(), $this->VALID_PROFILELATITUDE2);
+	 // 	$this->assertEquals($pdoProfile->getProfileLongitude(), $this->VALID_PROFILELONGITUDE2);
 	// 	$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME2);
 	// 	$this->assertEquals($pdoProfile->getProfilePassword(), $this->VALID_PROFILEPASSWORD2);
 	// 	$this->assertEquals($pdoProfile->getProfileWebsite(), $this->VALID_PROFILEWEBSITE2);
@@ -186,7 +201,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
   //   $numRows = $this->getConnection()->getRowCount("profile");
   //   // create a new profile and insert into database
   //   $profileId = generateUuidV4();
-  //   $profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELOCATION, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
+  //   $profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELATITUDE, $this->VALID_PROFILELONGITUDE, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
   //   $profile->insert($this->getPDO());
   //   // delete the profile from database
   //   $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));

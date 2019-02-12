@@ -3,10 +3,13 @@
 ALTER DATABASE bhuffman1 CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 -- Code for dropping tables (was used to change spelling of image attribute "imgage" to "image".
+
 -- Drop applaud table
 DROP TABLE applaud;
 -- Drop image table
 DROP TABLE image;
+
+
 
 
 -- this creates the profile entity
@@ -82,7 +85,7 @@ CREATE TABLE applaud (
 	applaudCount TINYINT(1) NULL, -- FIXME verify what would be optimal here.
 	-- create the foreign key relations
 	FOREIGN KEY(applaudProfileId) REFERENCES profile(profileId),
-	FOREIGN KEY(applaudImageId) REFERENCES image(imageId)-- ,
+	FOREIGN KEY(applaudImageId) REFERENCES image(imageId),
 	-- this officiates the primary key for the entity
 --	PRIMARY KEY(applaudProfileId,applaudImageId) -- FIXME verify Probably get rid of completely
 );
