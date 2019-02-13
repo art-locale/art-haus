@@ -181,20 +181,24 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 	 * test inserting a profile and updating it
 	 **/
 	public function testUpdateProfile() {
+
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
+
 		// create a new Profile and insert into database
 		$profileId = generateUuidV4();
 		$profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELATITUDE, $this->VALID_PROFILELONGITUDE, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
 		$profile->insert($this->getPDO());
+
 		// edit the Profile and update it in mySQL
 		$profile->setProfileEmail($this->$VALID_PROFILEEMAIL2);
+		$profile->update($this->getPDO());
 		// $profile->setProfileLatitude($this->$VALID_PROFILELatitude);
 		// $profile->setProfileLongitude($this->$VALID_PROFILELongitude);
 		// $profile->setProfileName($this->$VALID_PROFILENAME2);
 		// $profile->setProfilePassword($this->VALID_PROFILEPASSWORD2);
 		// $profile->setProfileWebsite($this->$VALID_PROFILEEMAIL2);
-		$profile->update($this->getPDO());
+
 		// access the data from database and confirm the data matches expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 

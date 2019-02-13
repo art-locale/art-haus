@@ -463,7 +463,7 @@ public static function getProfileByProfileId(\PDO $pdo, $profileId) : ?Profile {
 	}
 
 	// create query template
-	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile WHERE profileId = :profileId";
+	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM profile WHERE profileId = :profileId";
 	$statement = $pdo->prepare($query);
 
 	// bind the profile id to the place holder in the template
@@ -503,7 +503,7 @@ public static function getProfileByEmail(\PDO $pdo, string $profileEmail) : ?Pro
 	}
 
 	// create query template
-	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile WHERE profileEmail = :profileEmail";
+	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM profile WHERE profileEmail = :profileEmail";
 	$statement = $pdo->prepare($query);
 
 	// bind the profile email to the placeholder in template
@@ -542,7 +542,7 @@ public static function getProfileByProfileActivationToken(\PDO $pdo, string $pro
 	}
 
  // create query template
- $query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile WHERE profileActivationToken = :profileActivationToken";
+ $query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM profile WHERE profileActivationToken = :profileActivationToken";
  $statement = $pdo->prepare($query);
 
  // bind activation token to placeholder in template
@@ -582,7 +582,7 @@ public static function getProfileByName(\PDO $pdo, string $profileName) : ?Profi
 	}
 
 	// create query template
-	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile WHERE profileName = :profileName";
+	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM profile WHERE profileName = :profileName";
 	$statement = $pdo->prepare($query);
 
 	// bind the profile name to the placeholder in template
@@ -618,7 +618,7 @@ public static function getProfileByName(\PDO $pdo, string $profileName) : ?Profi
  **/
 public static function getAllProfiles(\PDO $pdo) : \SPLFixedArray {
 	// create query template
-	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile";
+	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM profile";
 	$statement = $pdo->prepare($query);
 	$statement->execute();
 
