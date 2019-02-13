@@ -94,7 +94,7 @@ class Gallery {
 	 *
 	 * @return uuid | string value of gallery id
 	 **/
-	public function getGalleryId(): uuid | string {
+	public function getGalleryId(): uuid  {
 		return ($this->galleryId);
 	}
 
@@ -125,7 +125,7 @@ class Gallery {
 	 *
 	 * @return string value of gallery profile id
 	 **/
-	public function getGalleryProfileId(): uuid | string {
+	public function getGalleryProfileId(): uuid  {
 		return ($this->galleryProfileId);
 	}
 
@@ -138,7 +138,7 @@ class Gallery {
 	 **/
 	public function setGalleryProfileId($newGalleryProfileId): void {
 		try {
-			$uuid = self::validateUuid($newGalleryId);
+			$uuid = self::validateUuid($newGalleryProfileId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
@@ -296,7 +296,7 @@ class Gallery {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getGalleryByGalleryId()(\PDO $pdo, $galleryId) : ?gallery {
+	public static function getGalleryByGalleryId(\PDO $pdo, $galleryId) : ?gallery {
 		// sanitize the galleryId before searching
 		try {
 			$galleryId = self::validateUuid($galleryId);
