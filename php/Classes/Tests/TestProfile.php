@@ -136,7 +136,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 		$this->VALID_PROFILEPASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
 		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
 
-    $this->VALID_PROFILEDATE = new \DateTime();
+    	$this->VALID_PROFILEDATE = new \DateTime();
 
     // //format the sunrise date to use for testing
     // $this->VALID_SUNRISEDATE = new \DateTime();
@@ -147,8 +147,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
     // $this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
 	}
 
-  //     // calculate the date (just use the time the unit test was setup...)
-  //   $this->VALID_PROFILEDATE = new \DateTime();
+
 
   /**
 	 * test creating a valid profile
