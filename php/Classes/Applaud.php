@@ -150,6 +150,7 @@ class Applaud {
 	 * @throws \RangeException if $newApplaudCount is > 140 characters
 	 * @throws \TypeError if $newApplaudCount is not a string
 	 **/
+	 //TODO treat applaudCount like an int
 	public function setApplaudCount(string $newApplaudCount): void {
 		// verify the author's username is secure
 		$newApplaudCount = trim($newApplaudCount);
@@ -235,11 +236,9 @@ class Applaud {
 		$query = "UPDATE applaud SET applaudProfileId = :applaudProfileId, applaudImageId = :applaudImageId, applaudCount = :applaudCount";
 		$statement = $pdo->prepare($query);
 
-		$parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes(), "applaudImageId" => $this->applaudImageId, "applaudCount" => $this->applaudCount];
+		$parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes(), "applaudImageId" => $this->applaudImageId->getBytes(), "applaudCount" => $this->applaudCount];
 		$statement->execute($parameters);
 	}
-	/* END UPDATE METHOD */
+	/* END UPDATE METHOD
+	//write getApplaudByApplaudImageIdandAppluadProfileId, getApplaudByAppluadProfileId getApplaudByApplaudImageId
 }
-
-
-

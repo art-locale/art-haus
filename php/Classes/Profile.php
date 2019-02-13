@@ -68,7 +68,7 @@ class Profile implements \JsonSerializable {
    * @param \DateTime|string|null $newProfileDate date and time profile was activated
    * @param string $newProfileEmail email address for new profile
    * @param float $newProfileLatitude latitude of this profile owner's location
-	* @param float $newProfileLongitude longitude of this profile owner's location
+	 * @param float $newProfileLongitude longitude of this profile owner's location
    * @param string $newProfileName name of profile owner
    * @param string $newProfilePassword hashed password for profile
    * @param string $newProfileWebsite profile owner's website
@@ -85,7 +85,7 @@ class Profile implements \JsonSerializable {
 				$this->setProfileDate($newProfileDate);
 				$this->setProfileEmail($newProfileEmail);
 				$this->setProfileLatitude($newProfileLatitude);
-				$this->setProfileLatitude($newProfileLongitude);
+				$this->setProfileLongitude($newProfileLongitude);
 				$this->setProfileName($newProfileName);
 				$this->setProfilePassword($newProfilePassword);
 				$this->setProfileWebsite($newProfileWebsite);
@@ -132,7 +132,7 @@ class Profile implements \JsonSerializable {
 		 *
 		 * @return string value of activation token
 		 **/
-		public function getProfileActivationToken() : string {
+		public function getProfileActivationToken() : ?string {
 			return($this->profileActivationToken);
 		}
 		/**
@@ -143,7 +143,7 @@ class Profile implements \JsonSerializable {
 		 * @throws \RangeException if $newProfileActivationToken is > 32 characters
 		 * @throws \TypeError if $newProfileActivationToken is not a string
 		 **/
-		public function setProfileActivationToken(string $newProfileActivationToken) : void {
+		public function setProfileActivationToken(?string $newProfileActivationToken) : void {
 			if($newProfileActivationToken === null) {
 				$this->profileActivationToken = null;
 				return;
@@ -176,6 +176,8 @@ class Profile implements \JsonSerializable {
 		 * @param \DateTime|string|null $newProfileDate new value of profile date as a DateTime object
 		 * @throws \InvalidArgumentException if $newProfileDate is not a string or insecure
 		 * @throws \RangeException if $newProfileDate is a date that does not exist
+		 * @throws \TypeError if $newProfileDate is not a string
+		 * @throws \Exception if $newProfileDate throws a generic exception
 		 **/
 		public function setProfileDate($newProfileDate = null) : void {
 			// base case: if the date is null, use the current date and time
@@ -183,10 +185,10 @@ class Profile implements \JsonSerializable {
 					$this->profileDate = new \DateTime();
 					return;
 			}
-			// store the profile date using the ValidateDate trait
+			// store the profile date using the ValidateDate trait.
 			try {
-			$newProfileDate = self::validateDateTime($newProfileDate);
-		} catch(\InvalidArgumentException | \RangeException $exception) {
+			$newProfileDate = self::validateDate($newProfileDate);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
@@ -244,10 +246,10 @@ class Profile implements \JsonSerializable {
 	 **/
 	public function setProfileLatitude(float $newProfileLatitude) : void {
 		// verify if the latitude exists
-		if(floatval($newProfileLatitude) > 90) {
+		if(($newProfileLatitude) > 90) {
 			throw(new \RangeException("profile latitude is not between -90 and 90"));
 		}
-		if (floatval($newProfileLatitude) < -90) {
+		if (($newProfileLatitude) < -90) {
 			throw(new \RangeException("profile latitude is not between -90 and 90"));
 		}
 		// store the latitude
@@ -273,10 +275,10 @@ class Profile implements \JsonSerializable {
 	 **/
 	public function setProfileLongitude(float $newProfileLongitude) : void {
 		// verify the longitude exists
-		if(floatval($newProfileLongitude) > 180) {
+		if(($newProfileLongitude) > 180) {
 			throw(new \RangeException("profile longitude is not between -180 and 180"));
 		}
-		if (floatval($newProfileLongitude) < -180) {
+		if (($newProfileLongitude) < -180) {
 			throw(new \RangeException("profile longitude is not between -180 and 180"));
 		}
 		// store the longitude
@@ -513,6 +515,9 @@ public static function getAllProfiles(\PDO $pdo) : \SPLFixedArray {
 	}
 	return ($profiles);
 }
+
+//TODO Add a getProfileByEmail, getProfileByProfileActivationToken, getProfileByProfileName, getProfileByProfileDistance
+
 /**
  * formats the state variables for JSON serialization
  *
@@ -523,6 +528,7 @@ public function jsonSerialize() {
 	$fields["profileId"] = $this->profileId->toString();
 
 	//format the date so that the front end can consume it
+	unset($fields["profilePassword"]);
 	$fields["profileDate"] = round(floatval($this->profileDate->format("U.u")) * 1000);
 	return ($fields);
 

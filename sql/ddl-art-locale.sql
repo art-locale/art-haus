@@ -16,11 +16,11 @@ DROP TABLE image;
 CREATE TABLE profile (
 	-- table's attributes list:
 	profileId BINARY(16) NOT NULL,
-	profileActivationToken CHAR(32) NULL,
+	profileActivationToken CHAR(32),
 	profileDate DATETIME(6) NOT NULL,
 	profileEmail VARCHAR(128) NOT NULL,
-	profileLatitude DECIMAL(12, 9) NOT NULL,
-	profileLongitude DECIMAL(12, 9) NOT NULL,-- FIXME ask George latidute/long => Habersign, they will input address we change to Habersign.
+	profileLatitude DECIMAL(9, 6) NOT NULL,
+	profileLongitude DECIMAL(9, 6) NOT NULL,-- FIXME ask George latidute/long => Habersign, they will input address we change to Habersign.
 	profileName VARCHAR(32) NOT NULL,
 	profilePassword VARCHAR(97) NOT NULL,-- FIXME will need specifications
 	profileWebsite VARCHAR(128) NULL,
@@ -29,9 +29,6 @@ CREATE TABLE profile (
 	UNIQUE(profileName),
 	-- this creates an index
 	INDEX(profileEmail),
-	INDEX(profileName),
-	-- index a searchable attribute
-	INDEX(profileWebsite),
 	-- this officiates the primary key for the entity
 	PRIMARY KEY(profileId)
 );
@@ -46,8 +43,6 @@ CREATE TABLE gallery (
 	galleryName VARCHAR(32) NOT NULL,
 	-- index the foreign keys
 	INDEX(galleryProfileId),
-	-- index a searchable attribute
-	INDEX(galleryName),
 	-- create the foreign key relations
 	FOREIGN KEY(galleryProfileId) REFERENCES profile(profileId),
 	-- this officiates the primary key for the entity
@@ -63,13 +58,11 @@ CREATE TABLE image (
 	imageProfileId BINARY(16) NOT NULL,
 	imageDate DATETIME(6) NOT NULL,
 	imageTitle VARCHAR(32) NOT NULL,
-	imageUrl VARCHAR(128) NULL,
+	imageUrl VARCHAR(255) NOT NULL,
 --	imageTotalApplauds SMALLINT(2) NULL, -- FIXME count the applauds from all profileId's where the imageId - that particular image. Connection between applauds and total. Case for having: If not would have a query that calculates this total number from the database. Would we index?
 	-- index the foreign keys
 INDEX(imageGalleryId),
 INDEX(imageProfileId),
--- index a searchable attribute
-INDEX(imageTitle),
 	-- create the foreign key relations
 FOREIGN KEY(imageGalleryId) REFERENCES gallery(galleryId),
 FOREIGN KEY(imageProfileId) REFERENCES profile(profileId),
@@ -83,9 +76,12 @@ CREATE TABLE applaud (
 	applaudProfileId BINARY(16) NOT NULL,
 	applaudImageId BINARY(16) NOT NULL,
 	applaudCount TINYINT(1) NULL, -- FIXME verify what would be optimal here.
+	-- index the foreign keys
+	INDEX(applaudProfileId),
+	INDEX(applaudImageId),
 	-- create the foreign key relations
 	FOREIGN KEY(applaudProfileId) REFERENCES profile(profileId),
 	FOREIGN KEY(applaudImageId) REFERENCES image(imageId),
 	-- this officiates the primary key for the entity
---	PRIMARY KEY(applaudProfileId,applaudImageId) -- FIXME verify Probably get rid of completely
+	PRIMARY KEY(applaudProfileId,applaudImageId)
 );

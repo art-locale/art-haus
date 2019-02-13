@@ -15,6 +15,7 @@ use Ramsey\Uuid\Uuid;
 //Note FIXME do we want to have these states as protected or public instead?
 class Image implements \JsonSerializable {
 	use ValidateUuid;
+	use ValidateDate;
 	/**
 	 * id for this image; this is the primary key
 	 * @var Uuid $imageId
@@ -32,7 +33,7 @@ class Image implements \JsonSerializable {
 	private $imageProfileId;
 	/**
 	 * Date image was created
-	 * @var string $imageDate;
+	 * @var \DateTime $imageDate;
 	 **/
 	private $imageDate;
 	/**
@@ -61,7 +62,7 @@ class Image implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct($newImageId, $newImageGalleryId, $newImageProfileId, string $newImageDate, string $newImageTitle, string $newImageUrl) {
+	public function __construct($newImageId, $newImageGalleryId, $newImageProfileId, $newImageDate = null, string $newImageTitle, string $newImageUrl) {
 		try {
 			$this->setImageId($newImageId);
 			$this->setImageGalleryId($newImageGalleryId);
@@ -83,7 +84,7 @@ class Image implements \JsonSerializable {
 	 *
 	 * @return Uuid value of image id
 	 **/
-//	FIXME noticed that Will's mutator method for gallery Id targets a string not a Uuid. Which is correct?
+
 	public function getImageId() : Uuid {
 		return($this->imageId);
 	}
@@ -236,7 +237,7 @@ public function getImageUrl() : string {
  *
  * @param string $newImageUrl new value of image Url
  * @throws \InvalidArgumentException if $newImageUrl is not a string or insecure
- * @throws \RangeException if $newImageUrl is > 128 characters
+ * @throws \RangeException if $newImageUrl is > 255 characters
  * @throws \TypeError if $newImageUrl is not a string
  **/
 public function setImageUrl(string $newImageUrl) : void {
@@ -247,7 +248,7 @@ public function setImageUrl(string $newImageUrl) : void {
 		throw(new \InvalidArgumentException("image Url is empty or insecure"));
 	}
 	// verify the image Url will fit in the database
-	if(strlen($newImageUrl) > 128) {
+	if(strlen($newImageUrl) > 255) {
 		throw(new \RangeException("image Url too large"));
 	}
 	// store the image Url
@@ -268,11 +269,13 @@ public function setImageUrl(string $newImageUrl) : void {
 public function insert(\PDO $pdo) : void {
 
 	// create query template
+
 	$query = "INSERT INTO Image(imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl) VALUES(:imageId, :imageGalleryId, :imageProfileId, :imageDate, :imageTitle, :imageUrl)";
 	$statement = $pdo->prepare($query);
 
 	// bind the member variables to the place holder in the template
-	$parameters = ["imageId" => $this->imageId->getBytes(), "imageGalleryId" => $this->imageGalleryId,"imageProfileId" => $this->imageProfileId, "imageDate" => $this->imageDate, "imageTitle" => $this->imageTitle, "imageUrl" => $this->imageUrl];
+	//TODO Add formatDate
+	$parameters = ["imageId" => $this->imageId->getBytes(), "imageGalleryId" => $this->imageGalleryId->getBytes(),"imageProfileId" => $this->imageProfileId->getBytes(), "imageDate" => $this->imageDate, "imageTitle" => $this->imageTitle, "imageUrl" => $this->imageUrl];
 	$statement->execute($parameters);
 }
 
@@ -293,7 +296,7 @@ public function delete(\PDO $pdo) : void {
 	$statement = $pdo->prepare($query);
 
 	// bind the member variables to the place holder in the template
-	$parameters = ["imageId" => $this->imageId->getBytes(), "imageGalleryId" => $this->imageGalleryId, "imageProfileId" => $this->imageProfileId,"imageTitle" => $this->imageTitle, "imageUrl" => $this->imageUrl];
+	$parameters = ["imageId" => $this->imageId->getBytes()];
 	$statement->execute($parameters);
 }
 
@@ -314,7 +317,7 @@ public function update(\PDO $pdo) : void {
 	$statement = $pdo->prepare($query);
 
 	// bind the member variables to the place holder in the template
-	$parameters = ["imageId" => $this->imageId->getBytes(), "imageGalleryId" => $this->imageGalleryId, "imageProfileId" => $this->imageProfileId,"imageTitle" => $this->imageTitle, "imageUrl" => $this->imageUrl];
+	$parameters = ["imageId" => $this->imageId->getBytes(), "imageGalleryId" => $this->imageGalleryId->getBytes(), "imageProfileId" => $this->imageProfileId->getBytes(),"imageTitle" => $this->imageTitle, "imageUrl" => $this->imageUrl];
 	$statement->execute($parameters);
 }
 
@@ -361,6 +364,9 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 	}
 	return($image);
 }
+
+//TODO getImageByGalleryId, getImageByProfileId, and getImageByProfileDistance (repurse getAllImages for one of them)
+
 /***********************************************************************************************************************
  * START OF GET IMAGE BY IMAGE TITLE METHOD FIXME Consider the fact reaching into an array of image titles.. What should I really have here? Something like the search all images method below instead of being like the search by imageId above
  *****************************************************************************************************************/

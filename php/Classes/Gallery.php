@@ -176,7 +176,7 @@ class Gallery {
 
 		// store the like date using the ValidateDate trait
 		try {
-			$newGalleryDate = self::validateDateTime($newGalleryDate);
+			$newGalleryDate = self::validateDate($newGalleryDate);
 		} catch(\InvalidArgumentException | \RangeException $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
@@ -293,6 +293,7 @@ class Gallery {
 
 
 	/* START SEARCH STATIC METHOD: RETURN OBJECT */
+	//TODO write getGalleryByGalleryId() and getGalleryByGalleryProfileId()
 //	/**
 //	 * gets the author's username by authorId
 //	 *
@@ -383,6 +384,3 @@ class Gallery {
 //	/* END SEARCH STATIC METHOD: RETURN ARRAY */
 
 } /* END OF CLASS AUTHOR */
-
-
-
