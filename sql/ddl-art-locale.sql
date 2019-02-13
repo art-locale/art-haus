@@ -1,6 +1,6 @@
 -- The statement below sets the collation of the database to utf8
 -- bhuffman1 MIGHT BE the username assigned DEPENDING ON THE configuration of the mysql database
-ALTER DATABASE bhuffman1 CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER DATABASE arthaus CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 -- Code for dropping tables (was used to change spelling of image attribute "imgage" to "image".
 
