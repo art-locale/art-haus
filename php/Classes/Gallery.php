@@ -11,7 +11,7 @@ use Ramsey\Uuid\Uuid;
 /**
  * Capstone project for Art-Locale team, Deepdive cohort 23, Spring 2019
  *
- * This assignment creates a class for galleries and builds a PHP program
+ * This creates a class for galleries and builds a PHP program
  * that populates and manipulates the corresponding SQL table.
  *
  * @author Will Tredway <jtredway@cnm.edu>
@@ -22,9 +22,9 @@ class Gallery {
 	use ValidateUuid;
 
 	/*  The database attributes:
-            galleryId BINARY(16) NOT NULL, -- FIXME any consideration here for Auto incrementing?
+            galleryId BINARY(16) NOT NULL,
             galleryProfileId BINARY(16) NOT NULL,
-            galleryDate DATETIME(6) NOT NULL, -- FIXME look into other options
+            galleryDate DATETIME(6) NOT NULL,
             galleryName VARCHAR(32) NOT NULL,
 
         simplified attribute names:
@@ -47,7 +47,7 @@ class Gallery {
 	private $galleryProfileId;
 
 	/**
-	 * date and time this Tweet was sent, in a PHP DateTime object
+	 * date and time this Tweet was created, in a PHP DateTime object
 	 * @var \DateTime $galleryDate
 	 **/
 	private $galleryDate;
@@ -61,11 +61,11 @@ class Gallery {
 
 	/* START CONSTRUCTOR METHOD*/
 	/**
-	 * constructor for each new author object/ instance/ record
+	 * constructor for each new gallery object/ instance
 	 *
 	 * @param Uuid|string $newGalleryId ID of this gallery
 	 * @param Uuid|string $newGalleryProfileId id of this gallery's associated profile ID
-	 * @param \DateTime|string|null $newGalleryDate date and time gallery was created or null FIXME null for some reason
+	 * @param \DateTime|string|null $newGalleryDate date and time gallery was created or null
 	 * @param string $newGalleryName gallery's name
 	 *
 	 * @throws \InvalidArgumentException if data types are not valid
@@ -92,9 +92,9 @@ class Gallery {
 	/**
 	 * GETTER accessor method for gallery id
 	 *
-	 * @return string value of gallery id
+	 * @return uuid | string value of gallery id
 	 **/
-	public function getGalleryId(): string {
+	public function getGalleryId(): uuid | string {
 		return ($this->galleryId);
 	}
 
@@ -113,7 +113,7 @@ class Gallery {
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
-		// convert and store the author id
+		// convert and store the gallery id
 		$this->galleryId = $uuid;
 	}
 	/* END GALLERY-ID METHODS*/
@@ -121,22 +121,22 @@ class Gallery {
 
 	/* START GALLERY-PROFILE-ID METHODS*/
 	/**
-	 * GETTER accessor method for gallery id
+	 * GETTER accessor method for gallery profile id
 	 *
-	 * @return string value of gallery id
+	 * @return string value of gallery profile id
 	 **/
-	public function getGalleryProfileId(): string {
-		return ($this->galleryId);
+	public function getGalleryProfileId(): uuid | string {
+		return ($this->galleryProfileId);
 	}
 
 	/**
-	 * SETTER mutator method for author id
+	 * SETTER mutator method for gallery profile id
 	 *
-	 * @param Uuid|string $newGalleryId new value of author id
-	 * @throws \RangeException if $newGalleryId is not positive
-	 * @throws \TypeError if $newGalleryId is not a uuid or string
+	 * @param Uuid|string $newGalleryProfileId new value of gallery profile id
+	 * @throws \RangeException if $newGalleryProfileId is not positive
+	 * @throws \TypeError if $newGalleryProfileId is not a uuid or string
 	 **/
-	public function setGalleryProfileId($newGalleryId): void {
+	public function setGalleryProfileId($newGalleryProfileId): void {
 		try {
 			$uuid = self::validateUuid($newGalleryId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -152,9 +152,9 @@ class Gallery {
 
 	/* START GALLERY-DATE METHODS*/
 	/**
-	 * accessor method for tweet date
+	 * accessor method for gallery date
 	 *
-	 * @return \DateTime value of tweet date
+	 * @return \DateTime value of gallery date
 	 **/
 	public function getGalleryDate() : \DateTime {
 		return($this->galleryDate);
@@ -188,51 +188,44 @@ class Gallery {
 
 	/* START GALLERY-NAME METHODS*/
 	/**
-	 * GETTER accessor method for author's username
+	 * GETTER accessor method for gallery's name
 	 *
-	 * @return string value of author's username
+	 * @return string value of gallery's name
 	 **/
 	public function getGalleryName(): string {
 		return ($this->galleryName);
 	}
 
 	/**
-	 * SETTER mutator method for author's username
+	 * SETTER mutator method for gallery name
 	 *
-	 * @param string $newAuthorUsername new value of author's username
-	 * @throws \InvalidArgumentException if $newAuthorUsername is not a string or insecure
-	 * @throws \RangeException if $newAuthorUsername is > 140 characters
-	 * @throws \TypeError if $newAuthorUsername is not a string
+	 * @param string $newGalleryName new value of gallery's name
+	 * @throws \InvalidArgumentException if $newGalleryName is not a string or insecure
+	 * @throws \RangeException if $newGalleryName is > 140 characters
+	 * @throws \TypeError if $newGalleryName is not a string
 	 **/
-	public function setGalleryName(string $newAuthorUsername): void {
-		// verify the author's username is secure
-		$newAuthorUsername = trim($newAuthorUsername);
-		$newAuthorUsername = filter_var($newAuthorUsername, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newAuthorUsername) === true) {
+	public function setGalleryName(string $newGalleryName): void {
+		// verify the gallery's name is secure
+		$newGalleryName = trim($newGalleryName);
+		$newAuthorUsername = filter_var($newGalleryName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newGalleryName) === true) {
 			throw(new \InvalidArgumentException("author's username is empty or insecure"));
 		}
 
 		// verify the author's username will fit in the database
-		if(strlen($newAuthorUsername) > 255) {
+		if(strlen($newGalleryName) > 255) {
 			throw(new \RangeException("author's username too large"));
 		}
 
-		// store the author's username
-		$this->galleryName = $newAuthorUsername;
+		// store the gallery's name
+		$this->galleryName = $newGalleryName;
 	}
 	/* END GALLERY-NAME METHODS*/
 
 
-	//Object Oriented Part 2:
-//Write and Document an insert statement method
-//Write and Document an update statement method
-//Write and Document a delete statement method
-//Write and document a getFooByBar method that returns a single object
-//Write and document a getFooByBar method that returns a full array
-
 	/* START INSERT METHOD */
 	/**
-	 * inserts an already-made author object (instance of Author class) into the mySQL database (into the author table)
+	 * inserts an already-made gallery object (instance of Gallery class) into the mySQL database (into the gallery table)
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -241,11 +234,11 @@ class Gallery {
 	public function insert(\PDO $pdo) : void {
 
 		// create query template with associative array indexes:
-		$query = "INSERT INTO author(authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername) VALUES(:authorId, :authorAvatarUrl, :authorActivationToken, :authorEmail, :authorHash, :authorUsername)";
+		$query = "INSERT INTO gallery(galleryId, galleryProfileId, galleryDate, galleryName) VALUES(:galleryId, :galleryProfileId, :galleryDate, :galleryName)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["authorId" => $this->galleryId->getBytes(), "authorAvatarUrl" => $this->authorAvatarUrl, "authorActivationToken" => $this->authorActivationToken, "authorEmail" => $this->authorEmail, "authorHash" => $this->authorHash, "authorUsername" => $this->galleryName];
+		$parameters = ["galleryId" => $this->galleryId->getBytes(), "galleryProfileId" => $this->galleryProfileId, "galleryDate" => $this->galleryDate, "galleryName" => $this->galleryName];
 		$statement->execute($parameters);
 	}
 	/* END INSERT METHOD */
@@ -253,7 +246,7 @@ class Gallery {
 
 	/* START DELETE METHOD */
 	/**
-	 * deletes an author from the mySQL database
+	 * deletes a gallery from the mySQL database
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
@@ -262,11 +255,11 @@ class Gallery {
 	public function delete(\PDO $pdo) : void {
 
 		// create query template
-		$query = "DELETE FROM author WHERE authorId = :authorId";
+		$query = "DELETE FROM author WHERE galleryId = :galleryId";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holder in the template
-		$parameters = ["authorId" => $this->galleryId->getBytes()];
+		$parameters = ["galleryId" => $this->galleryId->getBytes()];
 		$statement->execute($parameters);
 	}
 	/* END DELETE METHOD */
@@ -283,10 +276,10 @@ class Gallery {
 	public function update(\PDO $pdo) : void {
 
 		// create query template
-		$query = "UPDATE author SET galleryId = :galleryId, galleryProfileId = :galleryProfileId, galleryDate = :galleryDate, galleryName = :galleryName";
+		$query = "UPDATE gallery SET galleryId = :galleryId, galleryProfileId = :galleryProfileId, galleryDate = :galleryDate, galleryName = :galleryName";
 		$statement = $pdo->prepare($query);
 
-		$parameters = ["authorId" => $this->galleryId->getBytes(),"authorAvatarUrl" => $this->authorAvatarUrl, "authorActivationToken" => $this->authorActivationToken, "authorEmail" => $this->authorEmail, "authorHash" => $this->authorHash, "authorUsername" => $this->galleryName];
+		$parameters = ["galleryId" => $this->galleryId->getBytes(), "galleryProfileId" => $this->galleryProfileId, "galleryDate" => $this->galleryDate, "galleryName" => $this->galleryName];
 		$statement->execute($parameters);
 	}
 	/* END UPDATE METHOD */
@@ -294,93 +287,93 @@ class Gallery {
 
 	/* START SEARCH STATIC METHOD: RETURN OBJECT */
 	//TODO write getGalleryByGalleryId() and getGalleryByGalleryProfileId()
-//	/**
-//	 * gets the author's username by authorId
-//	 *
-//	 * @param \PDO $pdo PDO connection object
-//	 * @param Uuid|string $authorId author id to search for
-//	 * @return author|null author found or null if not found
-//	 * @throws \PDOException when mySQL related errors occur
-//	 * @throws \TypeError when a variable are not the correct data type
-//	 **/
-//	public static function getAuthorByAuthorId(\PDO $pdo, $authorId) : ?author {
-//		// sanitize the authorId before searching
-//		try {
-//			$authorId = self::validateUuid($authorId);
-//		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-//			throw(new \PDOException($exception->getMessage(), 0, $exception));
-//		}
-//
-//		// create query template
-//		$query = "SELECT authorId, authorUsername FROM author WHERE authorId = :authorId";
-//		$statement = $pdo->prepare($query);
-//
-//		// bind the author id to the place holder in the template
-//		$parameters = ["authorId" => authorId];
-//		$statement->execute($parameters);
-//
-//		// get the author from mySQL
-//		try {
-//			$author = null;
-//			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-//			$row = $statement->fetch();
-//			if($row !== false) {
-//				$author = new Author($row["authorId"], $row["authorUsername"]);
-//			}
-//		} catch(\Exception $exception) {
-//			// if the row couldn't be converted, rethrow it
-//			throw(new \PDOException($exception->getMessage(), 0, $exception));
-//		}
-//		return($author);
-//	}
-//	/* END SEARCH STATIC METHOD: RETURN OBJECT */
-//
-//
-//	/* START SEARCH STATIC METHOD: RETURN ARRAY */
-//	/**
-//	 * gets the author username by email
-//	 *
-//	 * @param \PDO $pdo PDO connection object
-//	 * @param string $authorEmail author email to search for
-//	 * @return \SplFixedArray SplFixedArray of authors found
-//	 * @throws \PDOException when mySQL related errors occur
-//	 * @throws \TypeError when variables are not the correct data type
-//	 **/
-//	public static function getAuthorByEmail(\PDO $pdo, string $authorEmail) : \SplFixedArray {
-//		// sanitize the description before searching
-//		$authorEmail = trim($authorEmail);
-//		$authorEmail = filter_var($authorEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-//		if(empty($authorEmail) === true) {
-//			throw(new \PDOException(" author email is invalid"));
-//		}
-//
-//		// escape any mySQL wild cards
-//		$authorEmail = str_replace("_", "\\_", str_replace("%", "\\%", $authorEmail));
-//
-//		// create query template
-//		$query = "SELECT authrId, authorEmail, authorUsername FROM author WHERE authorEmail LIKE :authorEmail";
-//		$statement = $pdo->prepare($query);
-//
-//		// bind the tweet content to the place holder in the template
-//		$authorEmail = "%$authorEmail%";
-//		$parameters = ["authorEmail" => $authorEmail];
-//		$statement->execute($parameters);
-//
-//		// build an array of tweets
-//		$authors = new \SplFixedArray($statement->rowCount());
-//		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-//		while(($row = $statement->fetch()) !== false) {
-//			try {
-//				$author = new Author($row["authorId"], $row["authorEmail"], $row["authorUsername"]);
-//				$authors[$authors->key()] = $author;
-//				$authors->next();
-//			} catch(\Exception $exception) {
-//				// if the row couldn't be converted, rethrow it
-//				throw(new \PDOException($exception->getMessage(), 0, $exception));
-//			}
-//		}
-//		return($authors);
-//	}
-//	/* END SEARCH STATIC METHOD: RETURN ARRAY */
+	/**
+	 * gets the author's username by authorId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param Uuid|string $authorId author id to search for
+	 * @return author|null author found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when a variable are not the correct data type
+	 **/
+	public static function getGalleryByGalleryId()(\PDO $pdo, $galleryId) : ?gallery {
+		// sanitize the galleryId before searching
+		try {
+			$galleryId = self::validateUuid($galleryId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+
+		// create query template
+		$query = "SELECT galleryId, galleryName FROM gallery WHERE galleryId = :galleryId";
+		$statement = $pdo->prepare($query);
+
+		// bind the gallery id to the place holder in the template
+		$parameters = ["galleryId" => galleryId];
+		$statement->execute($parameters);
+
+		// get the gallery from mySQL
+		try {
+			$gallery = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$author = new Gallery($row["galleryId"], $row["galleryName"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($gallery);
+	}
+	/* END SEARCH STATIC METHOD: RETURN OBJECT */
+
+
+	/* START SEARCH STATIC METHOD: RETURN ARRAY */
+	/**
+	 * gets the author username by email
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $authorEmail author email to search for
+	 * @return \SplFixedArray SplFixedArray of authors found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getAuthorByEmail(\PDO $pdo, string $authorEmail) : \SplFixedArray {
+		// sanitize the description before searching
+		$authorEmail = trim($authorEmail);
+		$authorEmail = filter_var($authorEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($authorEmail) === true) {
+			throw(new \PDOException(" author email is invalid"));
+		}
+
+		// escape any mySQL wild cards
+		$authorEmail = str_replace("_", "\\_", str_replace("%", "\\%", $authorEmail));
+
+		// create query template
+		$query = "SELECT authrId, authorEmail, authorUsername FROM author WHERE authorEmail LIKE :authorEmail";
+		$statement = $pdo->prepare($query);
+
+		// bind the tweet content to the place holder in the template
+		$authorEmail = "%$authorEmail%";
+		$parameters = ["authorEmail" => $authorEmail];
+		$statement->execute($parameters);
+
+		// build an array of tweets
+		$authors = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$author = new Author($row["authorId"], $row["authorEmail"], $row["authorUsername"]);
+				$authors[$authors->key()] = $author;
+				$authors->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($authors);
+	}
+	/* END SEARCH STATIC METHOD: RETURN ARRAY */
 
 } /* END OF CLASS AUTHOR */
