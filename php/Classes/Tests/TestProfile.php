@@ -136,19 +136,18 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 		$this->VALID_PROFILEPASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
 		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
 
-    $this->VALID_PROFILEDATE = new \DateTime();
+    	$this->VALID_PROFILEDATE = new \DateTime();
 
-    //format the sunrise date to use for testing
-    $this->VALID_SUNRISEDATE = new \DateTime();
-    $this->VALID_SUNRISEDATE->sub(new \DateInterval("P10D"));
-
-    //format the sunset date to use for testing
-    $this->VALID_SUNSETDATE = new\DateTime();
-    $this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
+    // //format the sunrise date to use for testing
+    // $this->VALID_SUNRISEDATE = new \DateTime();
+    // $this->VALID_SUNRISEDATE->sub(new \DateInterval("P10D"));
+    //
+    // //format the sunset date to use for testing
+    // $this->VALID_SUNSETDATE = new \DateTime();
+    // $this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
 	}
 
-  //     // calculate the date (just use the time the unit test was setup...)
-  //   $this->VALID_PROFILEDATE = new \DateTime();
+
 
   /**
 	 * test creating a valid profile
@@ -177,42 +176,42 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 		$this->assertEquals($pdoProfile->getProfileWebsite(), $this->VALID_PROFILEWEBSITE);
 	}
 
-  /**
-	 * test inserting a profile and updating it
-	 **/
-	public function testUpdateProfile() {
-
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("profile");
-
-		// create a new Profile and insert into database
-		$profileId = generateUuidV4();
-		$profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELATITUDE, $this->VALID_PROFILELONGITUDE, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
-		$profile->insert($this->getPDO());
-
-		// edit the Profile and update it in mySQL
-		$profile->setProfileEmail($this->$VALID_PROFILEEMAIL2);
-		$profile->update($this->getPDO());
-		// $profile->setProfileLatitude($this->$VALID_PROFILELatitude);
-		// $profile->setProfileLongitude($this->$VALID_PROFILELongitude);
-		// $profile->setProfileName($this->$VALID_PROFILENAME2);
-		// $profile->setProfilePassword($this->VALID_PROFILEPASSWORD2);
-		// $profile->setProfileWebsite($this->$VALID_PROFILEEMAIL2);
-
-		// access the data from database and confirm the data matches expectations
-		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
-
-    $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertEquals($pdoProfile->getProfileId(), $profileId);
-		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
-		$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
-		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL2);
-		$this->assertEquals($pdoProfile->getProfileLatitude(), $this->VALID_PROFILELATITUDE);
-	 	$this->assertEquals($pdoProfile->getProfileLongitude(), $this->VALID_PROFILELONGITUDE);
-		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME);
-		$this->assertEquals($pdoProfile->getProfilePassword(), $this->VALID_PROFILEPASSWORD);
-		$this->assertEquals($pdoProfile->getProfileWebsite(), $this->VALID_PROFILEWEBSITE);
-	}
+  // /**
+	//  * test inserting a profile and updating it
+	//  **/
+	// public function testUpdateProfile() {
+  //
+	// 	// count the number of rows and save it for later
+	// 	$numRows = $this->getConnection()->getRowCount("profile");
+  //
+	// 	// create a new Profile and insert into database
+	// 	$profileId = generateUuidV4();
+	// 	$profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELATITUDE, $this->VALID_PROFILELONGITUDE, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
+	// 	$profile->insert($this->getPDO());
+  //
+	// 	// edit the Profile and update it in mySQL
+	// 	$profile->setProfileEmail($this->$VALID_PROFILEEMAIL2);
+	// 	$profile->update($this->getPDO());
+	// 	// $profile->setProfileLatitude($this->$VALID_PROFILELatitude);
+	// 	// $profile->setProfileLongitude($this->$VALID_PROFILELongitude);
+	// 	// $profile->setProfileName($this->$VALID_PROFILENAME2);
+	// 	// $profile->setProfilePassword($this->VALID_PROFILEPASSWORD2);
+	// 	// $profile->setProfileWebsite($this->$VALID_PROFILEEMAIL2);
+  //
+	// 	// access the data from database and confirm the data matches expectations
+	// 	$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+  //
+  //   $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+	// 	$this->assertEquals($pdoProfile->getProfileId(), $profileId);
+	// 	$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
+	// 	$this->assertEquals($pdoProfile->getProfileDate(), $this->VALID_PROFILEDATE);
+	// 	$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL2);
+	// 	$this->assertEquals($pdoProfile->getProfileLatitude(), $this->VALID_PROFILELATITUDE);
+	//  	$this->assertEquals($pdoProfile->getProfileLongitude(), $this->VALID_PROFILELONGITUDE);
+	// 	$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME);
+	// 	$this->assertEquals($pdoProfile->getProfilePassword(), $this->VALID_PROFILEPASSWORD);
+	// 	$this->assertEquals($pdoProfile->getProfileWebsite(), $this->VALID_PROFILEWEBSITE);
+	// }
 
   // /**
   //  * test to create a profile and delete it

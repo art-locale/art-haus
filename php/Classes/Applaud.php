@@ -24,7 +24,7 @@ class Applaud {
 	/*  The database attributes:
 				applaudProfileId BINARY(16) NOT NULL,
 				applaudImageId BINARY(16) NOT NULL,
-				applaudCount TINYINT(1) NULL,
+				applaudCount INT(1) NULL,
 
         simplified attribute names:
             applaudProfileId,
@@ -34,13 +34,13 @@ class Applaud {
 
 	/**
 	 * the profile ID of the user that applauded; this is a foreign key
-	 * @var string $galleryId
+	 * @var uuid | string $applaudProfileId
 	 **/
 	private $applaudProfileId;
 
 	/**
 	 * the associated images's ID; this is a foreign key
-	 * @var string $applaudImageId
+	 * @var uuid | string $applaudImageId
 	 **/
 	private $applaudImageId;
 
@@ -117,7 +117,7 @@ class Applaud {
 	 * @return string value of applaud image id
 	 **/
 	public function getApplaudImageId(): string {
-		return ($this->galleryId);
+		return ($this->imageId);
 	}
 
 	/**
@@ -150,9 +150,9 @@ class Applaud {
 	 * @throws \RangeException if $newApplaudCount is > 140 characters
 	 * @throws \TypeError if $newApplaudCount is not a string
 	 **/
-	 //TODO treat applaudCount like an int
+	//TODO treat applaudCount like an int
 	public function setApplaudCount(string $newApplaudCount): void {
-		// verify the author's username is secure
+		// verify the applaud count is secure
 		$newApplaudCount = trim($newApplaudCount);
 		$newApplaudCount = filter_var($newApplaudCount, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newApplaudCount) === true) {
@@ -239,6 +239,147 @@ class Applaud {
 		$parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes(), "applaudImageId" => $this->applaudImageId->getBytes(), "applaudCount" => $this->applaudCount];
 		$statement->execute($parameters);
 	}
-	/* END UPDATE METHOD
-	//write getApplaudByApplaudImageIdandAppluadProfileId, getApplaudByAppluadProfileId getApplaudByApplaudImageId
+	//END UPDATE METHOD
+
+
+
+	/* START SEARCH STATIC METHODS: RETURN OBJECT */
+//********************************************************************************************
+	/**
+	 * gets the applaud object by applaudProfileId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param Uuid $applaudProfileId applaud profile id to search for
+	 * @return applaud|null applaud found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when a variable are not the correct data type
+	 **/
+	public static function getApplaudByApplaudProfileId(\PDO $pdo, $applaudProfileId) : ?applaud {
+		// sanitize the applaudProfileId before searching
+		try {
+			$applaudProfileId = self::validateUuid($applaudProfileId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+
+		// create query template
+
+		"SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile WHERE profileName = :profileName";
+
+		$query = "SELECT applaudProfileId,applaudImageId, applaudCount FROM applaud WHERE applaudProfileId = :applaudProfileId";
+		$statement = $pdo->prepare($query);
+
+		// bind the applaudProfileId to the place holder in the template
+		$parameters = ["applaudProfileId" => applaudProfileId];
+		$statement->execute($parameters);
+
+		// get the gallery from mySQL
+		try {
+			$applaud = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$applaud = new Applaud($row["applaudProfileId"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($applaud);
+	} // end getApplaudByApplaudProfileId
+
+//****************************************************************************************
+
+	/**
+	 * gets the applaud object by applaudImageId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param Uuid applaudImageId applaud image id to search for
+	 * @return applaud|null applaud found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when a variable are not the correct data type
+	 **/
+	public static function getApplaudByApplaudImageId(\PDO $pdo, $applaudImageId) : ?applaud {
+		// sanitize the applaudImageId before searching
+		try {
+			applaudImageId = self::validateUuid($applaudImageId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+
+		// create query template
+		$query = "SELECT applaudProfileId,applaudImageId, applaudCount FROM applaud WHERE applaudImageId = :applaudImageId";
+		$statement = $pdo->prepare($query);
+
+		// bind the applaudImageId to the place holder in the template
+		$parameters = ["applaudImageId" => applaudImageId];
+		$statement->execute($parameters);
+
+		// get the applaud from mySQL
+		try {
+			$applaud = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$applaud = new Applaud($row["applaudImageId"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($applaud);
+	} // end getApplaudByApplaudImageId
+
+	//****************************************************************************************
+				//FIXME: this function is mangled
+	/**
+	 * gets the applaud object by applaudImageId AND applaudProfileId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param Uuid applaudImageId applaud image id to search for
+	 * @param Uuid applaudProfileId applaud profile id to search for
+	 * @return applaud|null applaud found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when a variable are not the correct data type
+	 **/
+	public static function getApplaudByApplaudImageIdandApplaudProfileId(\PDO $pdo, $applaudImageId) : ?applaud {
+		// sanitize the applaudImageId before searching
+		try {
+			applaudImageId = self::validateUuid($applaudImageId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+
+		// create query template
+		$query = "SELECT applaudProfileId,applaudImageId, applaudCount FROM applaud WHERE applaudImageId = :applaudImageId && applaudProfileId = :applaudProfileId" ;
+		$statement = $pdo->prepare($query);
+
+		// bind the applaudImageId and applaudProfileId to the place holder in the template
+		$parameters = ["applaudImageId" => applaudImageId];
+		$parameters = ["applaudProfileId" => applaudProfileId];
+		$statement->execute($parameters);
+
+		// get the applaud from mySQL
+		try {
+			$applaud = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$applaud = new Applaud($row["applaudImageId"]);
+				$applaud = new Applaud($row["applaudProfileId"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($applaud);
+	} // end getApplaudByApplaudImageIdandApplaudProfileId
+
+
+
+
 }
+
+
+
+
