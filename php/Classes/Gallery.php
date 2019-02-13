@@ -94,7 +94,7 @@ class Gallery {
 	 *
 	 * @return uuid | string value of gallery id
 	 **/
-	public function getGalleryId(): uuid | string {
+	public function getGalleryId(): uuid  {
 		return ($this->galleryId);
 	}
 
@@ -125,7 +125,7 @@ class Gallery {
 	 *
 	 * @return string value of gallery profile id
 	 **/
-	public function getGalleryProfileId(): uuid | string {
+	public function getGalleryProfileId(): uuid  {
 		return ($this->galleryProfileId);
 	}
 
@@ -138,7 +138,7 @@ class Gallery {
 	 **/
 	public function setGalleryProfileId($newGalleryProfileId): void {
 		try {
-			$uuid = self::validateUuid($newGalleryId);
+			$uuid = self::validateUuid($newGalleryProfileId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
@@ -285,18 +285,18 @@ class Gallery {
 	/* END UPDATE METHOD */
 
 
-	/* START SEARCH STATIC METHOD: RETURN OBJECT */
-	//TODO write getGalleryByGalleryId() and getGalleryByGalleryProfileId()
+	/* START SEARCH STATIC METHODS: RETURN OBJECT */
+
 	/**
-	 * gets the author's username by authorId
+	 * gets the gallery name by galleryProfileId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param Uuid|string $authorId author id to search for
-	 * @return author|null author found or null if not found
+	 * @param Uuid $galleryProfileId gallery profile id to search for
+	 * @return gallery|null author found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getGalleryByGalleryId()(\PDO $pdo, $galleryId) : ?gallery {
+	public static function getGalleryByGalleryId(\PDO $pdo, $galleryId) : ?gallery {
 		// sanitize the galleryId before searching
 		try {
 			$galleryId = self::validateUuid($galleryId);
@@ -326,54 +326,48 @@ class Gallery {
 		}
 		return($gallery);
 	}
-	/* END SEARCH STATIC METHOD: RETURN OBJECT */
 
 
-	/* START SEARCH STATIC METHOD: RETURN ARRAY */
 	/**
-	 * gets the author username by email
+	 * gets the gallery name by GalleryProfileId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $authorEmail author email to search for
-	 * @return \SplFixedArray SplFixedArray of authors found
+	 * @param Uuid $GalleryProfileId profile id to search for
+	 * @return author|null author found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
+	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getAuthorByEmail(\PDO $pdo, string $authorEmail) : \SplFixedArray {
-		// sanitize the description before searching
-		$authorEmail = trim($authorEmail);
-		$authorEmail = filter_var($authorEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($authorEmail) === true) {
-			throw(new \PDOException(" author email is invalid"));
+	public static function getGalleryByGalleryProfileId(\PDO $pdo, $GalleryProfileId) : ?gallery {
+		// sanitize the galleryProfileId before searching
+		try {
+			$galleryId = self::validateUuid($GalleryProfileId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-
-		// escape any mySQL wild cards
-		$authorEmail = str_replace("_", "\\_", str_replace("%", "\\%", $authorEmail));
 
 		// create query template
-		$query = "SELECT authrId, authorEmail, authorUsername FROM author WHERE authorEmail LIKE :authorEmail";
+		$query = "SELECT galleryId, galleryName FROM gallery WHERE galleryProfileId = :galleryProfileId";
 		$statement = $pdo->prepare($query);
 
-		// bind the tweet content to the place holder in the template
-		$authorEmail = "%$authorEmail%";
-		$parameters = ["authorEmail" => $authorEmail];
+		// bind the gallery id to the place holder in the template
+		$parameters = ["galleryProfileId" => galleryProfileId];
 		$statement->execute($parameters);
 
-		// build an array of tweets
-		$authors = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$author = new Author($row["authorId"], $row["authorEmail"], $row["authorUsername"]);
-				$authors[$authors->key()] = $author;
-				$authors->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
+		// get the gallery from mySQL
+		try {
+			$gallery = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$gallery = new Gallery($row["galleryProfileId"], $row["galleryName"]);
 			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($authors);
+		return($gallery);
 	}
-	/* END SEARCH STATIC METHOD: RETURN ARRAY */
+	/* END SEARCH STATIC METHODS: RETURN OBJECT */
+
 
 } /* END OF CLASS AUTHOR */
