@@ -42,7 +42,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  	 * Date and time profile was created- this starts as null and is assigned later
  	 * @var \DateTime $VALID_PROFILEDATE
  	 **/
- 	protected $VALID_PROFILEDATE;
+ 	protected $VALID_PROFILEDATE = null;
 
  	/**
  	 * Valid timestamp to use as sunriseProfileDate
@@ -135,7 +135,15 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 		$password = "password1234";
 		$this->VALID_PROFILEPASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
 		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
-    $this->VALID_PROFILEDATE = new \DateTime();
+    	$this->VALID_PROFILEDATE = new \DateTime();
+
+    //format the sunrise date to use for testing
+    $this->VALID_SUNRISEDATE = new \DateTime();
+    $this->VALID_SUNRISEDATE->sub(new \DateInterval("P10D"));
+
+    //format the sunset date to use for testing
+    $this->VALID_SUNSETDATE = new\DateTime();
+    $this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
 	}
 
   //     // calculate the date (just use the time the unit test was setup...)
@@ -151,7 +159,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 		$profileId = generateUuidV4();
 		$profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELATITUDE, $this->VALID_PROFILELONGITUDE, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
 		$profile->insert($this->getPDO());
-		// grab the data from mySQL and enforce the fields match expectations
+			// grab the data from mySQL and enforce the fields match expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileId(), $profileId);
