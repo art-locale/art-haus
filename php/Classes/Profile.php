@@ -507,11 +507,11 @@ public static function getProfileByEmail(\PDO $pdo, string $profileEmail) : ?Pro
 	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile WHERE profileEmail = :profileEmail";
 	$statement = $pdo->prepare($query);
 
-	// bind the profile id to the place holder in the template
+	// bind the profile email to the placeholder in template
 	$parameters = ["profileEmail" => $profileEmail];
 	$statement->execute($parameters);
 
-	// grab the profile from mySQL
+	// grab profile from database
 	try {
 		$profile = null;
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -527,43 +527,42 @@ public static function getProfileByEmail(\PDO $pdo, string $profileEmail) : ?Pro
 }
 
 /**
- * gets the profile by getProfileByProfileActivationToken
+ * gets the profile by activation token
  *
  * @param \PDO $pdo PDO connection object
- * @param Uuid|string $profileId profile id to search for
- * @return profile|null profile found or null if not found
+ * @param string $profileActivationToken profile activation token to search for
+ * @return Profile|null profile found or null if not found
  * @throws \PDOException when mySQL related errors occur
  * @throws \TypeError when a variable are not the correct data type
  **/
-public static function getProfileByProfileId(\PDO $pdo, $profileId) : ?Profile {
-	// sanitize the profileId before searching
-	try {
-		$profileId = self::validateUuid($profileId);
-	} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-		throw(new \PDOException($exception->getMessage(), 0, $exception));
+public static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken) : ?Profile {
+	//verify activation token is in correct format and a string representation of hexidecimal
+	$profileActivationToken = trim($profileActivationToken);
+	if(ctype_xdigit($profileActivationToken) === false) {
+		throw(new \InvalidArgumentException("activation token is empty or incorrect format"));
 	}
 
-	// create query template
-	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile WHERE profileId = :profileId";
-	$statement = $pdo->prepare($query);
+ // create query template
+ $query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile WHERE profileActivationToken = :profileActivationToken";
+ $statement = $pdo->prepare($query);
 
-	// bind the profile id to the place holder in the template
-	$parameters = ["profileId" => $profileId->getBytes()];
-	$statement->execute($parameters);
+ // bind activation token to placeholder in template
+ $parameters = ["profileActivationToken" => $profileActivationToken];
+ $statement->execute($parameters);
 
-	// grab the profile from mySQL
-	try {
-		$profile = null;
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		$row = $statement->fetch();
-		if($row !== false) {
-			$profile = new Profile($row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
-		}
-	} catch(\Exception $exception) {
-		// if the row couldn't be converted, rethrow it
-		throw(new \PDOException($exception->getMessage(), 0, $exception));
-	}
-	return($profile);
+ // grab profile from database
+ try {
+	 $profile = null;
+	 $statement->setFetchMode(\PDO::FETCH_ASSOC);
+	 $row = $statement->fetch();
+	 if($row !== false) {
+		 $profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+	 }
+ } catch(\Exception $exception) {
+	 // if the row couldn't be converted, rethrow it
+	 throw(new \PDOException($exception->getMessage(), 0, $exception));
+ }
+ return($profile);
 }
 
 /**
