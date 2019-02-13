@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
  * @author Brandon Huffman <bt_huffman@msn.com>
  * @version 1.0.0
  **/
-//Note FIXME do we want to have these states as protected or public instead?
+// FIXME should these docs match that in the TestImage.php (protected there, it's  private here)
 class Image implements \JsonSerializable {
 	use ValidateUuid;
 	use ValidateDate;
@@ -50,7 +50,7 @@ class Image implements \JsonSerializable {
 	/**
 	 * constructor for each new image object/ instance/ record
 	 *
-	 * @param Uuid|string $newImageId new id of this image or null if a new image FIXME would it really be null?
+	 * @param Uuid|string $newImageId new id of this image or null if a new image
 	 * @param Uuid|string $newImageGalleryId id of the gallery that has this image
 	 * @param Uuid|string $newImageProfileId id of the profile that created this image
 	 * @param \DateTime|string|null $newImageDate date image was activated
@@ -270,12 +270,14 @@ public function insert(\PDO $pdo) : void {
 
 	// create query template
 
-	$query = "INSERT INTO Image(imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl) VALUES(:imageId, :imageGalleryId, :imageProfileId, :imageDate, :imageTitle, :imageUrl)";
+	$query = "INSERT INTO image (imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl) VALUES(:imageId, :imageGalleryId, :imageProfileId, :imageDate, :imageTitle, :imageUrl)";
 	$statement = $pdo->prepare($query);
 
 	// bind the member variables to the place holder in the template
-	//TODO Add formatDate
-	$parameters = ["imageId" => $this->imageId->getBytes(), "imageGalleryId" => $this->imageGalleryId->getBytes(),"imageProfileId" => $this->imageProfileId->getBytes(), "imageDate" => $this->imageDate, "imageTitle" => $this->imageTitle, "imageUrl" => $this->imageUrl];
+
+	$formattedDate = $this->imageDate->format("Y-m-d H:i:s.u");
+
+	$parameters = ["imageId" => $this->imageId->getBytes(), "imageGalleryId" => $this->imageGalleryId->getBytes(), "imageProfileId" => $this->imageProfileId->getBytes(),"imageDate" => $formattedDate, "imageTitle" => $this->imageTitle, "imageUrl" => $this->imageUrl];
 	$statement->execute($parameters);
 }
 
@@ -310,20 +312,23 @@ public function delete(\PDO $pdo) : void {
  * @throws \PDOException when mySQL related errors occur
  * @throws \TypeError if $pdo is not a PDO connection object
  **/
-public function update(\PDO $pdo) : void {
+	public function update(\PDO $pdo) : void {
 
-	// create query template
-	$query = "UPDATE image SET imageId = :imageId, imageGalleryId = :imageGalleryId, imageProfileId = :imageProfileId, imageDate = :imageDate, imageTitle = :imageTitle, imageUrl = :imageUrl";
-	$statement = $pdo->prepare($query);
+		// create query template
+		$query = "UPDATE image SET imageId = :imageId, imageGalleryId = :imageGalleryId, imageProfileId = :imageProfileId, imageDate = :imageDate, imageTitle = :imageTitle, imageUrl = :imageUrl";
+		$statement = $pdo->prepare($query);
 
-	// bind the member variables to the place holder in the template
-	$parameters = ["imageId" => $this->imageId->getBytes(), "imageGalleryId" => $this->imageGalleryId->getBytes(), "imageProfileId" => $this->imageProfileId->getBytes(),"imageTitle" => $this->imageTitle, "imageUrl" => $this->imageUrl];
-	$statement->execute($parameters);
-}
+		// bind the member variables to the place holder in the template
+
+		$formattedDate = $this->imageDate->format("Y-m-d H:i:s.u");
+
+		$parameters = ["imageId" => $this->imageId->getBytes(), "imageGalleryId" => $this->imageGalleryId->getBytes(), "imageProfileId" => $this->imageProfileId->getBytes(),"imageDate" => $formattedDate, "imageTitle" => $this->imageTitle, "imageUrl" => $this->imageUrl];
+		$statement->execute($parameters);
+	}
 
 
 /***********************************************************************************************************************
- * START OF GET IMAGE BY IMAGEID METHOD FIXME Is this a useful method or will consume scarce time/resources?
+ * START OF GET IMAGE BY IMAGEID METHOD
  *****************************************************************************************************************/
 /**
  * gets the image by imageId
@@ -356,7 +361,7 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		$row = $statement->fetch();
 		if($row !== false) {
-			$image = new image($row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
+			$image = new Image($row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
 		}
 	} catch(\Exception $exception) {
 		// if the row couldn't be converted, rethrow it
@@ -365,15 +370,50 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 	return($image);
 }
 
-//TODO getImageByGalleryId, getImageByProfileId, and getImageByProfileDistance (repurse getAllImages for one of them)
 
-/***********************************************************************************************************************
- * START OF GET IMAGE BY IMAGE TITLE METHOD FIXME Consider the fact reaching into an array of image titles.. What should I really have here? Something like the search all images method below instead of being like the search by imageId above
- *****************************************************************************************************************/
-/**
- * gets the image by imageTitle
- *
-*/
+	/***********************************************************************************************************************
+	 * START OF GET IMAGE BY GALLERY ID
+	 *****************************************************************************************************************/
+	/**
+	 * gets the image by imageId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param Uuid|string $imageId image id to search for
+	 * @return image|null image found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when a variable are not the correct data type
+	 **/
+	public static function getImageByGalleryId(\PDO $pdo, $imageId) : ?image {
+		// sanitize the imageId before searching
+		try {
+			$imageId = self::validateUuid($imageId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+
+		// create query template
+		$query = "SELECT imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl FROM image WHERE imageId = :imageId";
+		$statement = $pdo->prepare($query);
+
+		// bind the image id to the place holder in the template
+		$parameters = ["imageId" => $imageId->getBytes()];
+		$statement->execute($parameters);
+
+		// grab the image from mySQL
+		try {
+			$image = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$image = new Image($row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($image);
+	}
+//TODO getImageByGalleryId, getImageByProfileId, and getImageByProfileDistance (repurse getAllImages for one of them)
 
 /***********************************************************************************************************************
  * START OF GET ALL IMAGES METHOD
@@ -397,7 +437,7 @@ public static function getAllImages(\PDO $pdo) : \SplFixedArray {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$image = new image($row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
+				$image = new Image($row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
 				$images[$images->key()] = $image;
 				$images->next();
 			} catch(\Exception $exception) {
