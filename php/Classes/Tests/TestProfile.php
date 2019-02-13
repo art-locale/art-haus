@@ -70,25 +70,25 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
    * Latitude of profile owner- Temp set to city
    * @var float $VALID_PROFILELATITUDE
    **/
-  protected $VALID_PROFILELATITUDE= "75";
+  protected $VALID_PROFILELATITUDE= "75.555555";
 
   /**
    * New latitude of profile owner- Temp set to city
    * @var float $VALID_PROFILELATITUDE2
    **/
-  protected $VALID_PROFILELATITUDE2 = "35";
+  protected $VALID_PROFILELATITUDE2 = "35.555555";
 
 	 /**
 	  * longitude of profile owner- Temp set to city
 	  * @var float $VALID_PROFILELONGITUDE
 	  **/
-	 protected $VALID_PROFILELONGITUDE= "50";
+	 protected $VALID_PROFILELONGITUDE= "50.555555";
 
 	 /**
 	  * New logitude of profile owner- Temp set to city
 	  * @var float $VALID_PROFILELONGITUDE2
 	  **/
-	 protected $VALID_PROFILELONGITUDE2 = "30";
+	 protected $VALID_PROFILELONGITUDE2 = "30.555555";
 
   /**
    * valid name of profile owner
