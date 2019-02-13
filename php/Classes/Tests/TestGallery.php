@@ -10,33 +10,38 @@ require_once(dirname(__DIR__) . "/autoload.php");
 require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 
 /**
- * Full PHPUnit test for the Profile class
+ * Full PHPUnit test for the Gallery class
  *
- * This is a complete PHPUnit test of the Profile class. It is complete because *ALL* mySQL/PDO enabled methods
+ * This is a complete PHPUnit test of the Gallery class. It is complete because *ALL* mySQL/PDO enabled methods
  * are tested for both invalid and valid inputs.
  *
  * @see Profile
- * @author William Isengard <william.isengard@gmail.com>
+ * @author Jaeren William Tredway <jwilliamtredway@gmail.com>
  **/
 
-class TestProfile extends ArtHausTest {
+//	galleryId BINARY(16) NOT NULL,
+//	galleryProfileId BINARY(16) NOT NULL,
+//	galleryDate DATETIME(6) NOT NULL,
+//	galleryName VARCHAR(32) NOT NULL
+
+class TestGallery extends ArtHausTest {
 	/**
-	 * valid Art Haus user profile
-	 * @var Profile profile
+	 * valid Art Haus gallery
+	 * @var Gallery gallery
 	 **/
-	protected $profile = null;
+	protected $gallery = null;
 
 	/**
-	 * id for this profile
-	 * @var Uuid $VALID_PROFILEID
+	 * id for this gallery
+	 * @var Uuid $VALID_GALLERYID
 	 */
-	protected $VALID_PROFILEID;
+	protected $VALID_GALLERYID;
 
 	/**
-	 * placeholder activation token for initial profile creation
-	 * @var string $VALID_PROFILEACTIVATIONTOKEN
-	 **/
-	protected $VALID_PROFILEACTIVATIONTOKEN;
+	 * id for this gallery
+	 * @var Uuid $VALID_GALLERYID
+	 */
+	protected $VALID_GALLERYID;
 
 	/**
 	 * Date and time profile was created- this starts as null and is assigned later
@@ -70,7 +75,7 @@ class TestProfile extends ArtHausTest {
 	 * Latitude of profile owner- Temp set to city
 	 * @var float $VALID_PROFILELATITUDE
 	 **/
-	protected $VALID_PROFILELATITUDE= "75";
+	protected $VALID_PROFILELATITUDE = "75";
 
 	/**
 	 * New latitude of profile owner- Temp set to city
@@ -82,7 +87,7 @@ class TestProfile extends ArtHausTest {
 	 * longitude of profile owner- Temp set to city
 	 * @var float $VALID_PROFILELONGITUDE
 	 **/
-	protected $VALID_PROFILELONGITUDE= "50";
+	protected $VALID_PROFILELONGITUDE = "50";
 
 	/**
 	 * New logitude of profile owner- Temp set to city
@@ -129,7 +134,7 @@ class TestProfile extends ArtHausTest {
 	/**
 	 * setup operation to create hash and salt.
 	 */
-	public final function setUp() : void {
+	public final function setUp(): void {
 		parent::setUp();
 		//
 		$password = "password1234";
@@ -144,7 +149,7 @@ class TestProfile extends ArtHausTest {
 	/**
 	 * test creating a valid profile
 	 **/
-	public function testCreateProfile() : void {
+	public function testCreateProfile(): void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 		// create a new Profile and insert into database
@@ -164,3 +169,4 @@ class TestProfile extends ArtHausTest {
 		$this->assertEquals($pdoProfile->getProfilePassword(), $this->VALID_PROFILEPASSWORD);
 		$this->assertEquals($pdoProfile->getProfileWebsite(), $this->VALID_PROFILEWEBSITE);
 	}
+}
