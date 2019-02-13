@@ -209,14 +209,14 @@ class Profile implements \JsonSerializable {
 		 * mutator method for profile email
 		 *
 		 * @param string $newProfileEmail new value of profile email
-		 * @throws \InvalidArgumentException if $newProfileEmail is not a string or insecure
+		 * @throws \InvalidArgumentException if $newProfileEmail is not a valid email or insecure
 		 * @throws \RangeException if $newProfileEmail is > 128 characters
 		 * @throws \TypeError if $newProfileEmail is not a string
 		 **/
 		public function setProfileEmail(string $newProfileEmail) : void {
 			// verify the profile email content is secure
 			$newProfileEmail = trim($newProfileEmail);
-			$newProfileEmail = filter_var($newProfileEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			$newProfileEmail = filter_var($newProfileEmail, FILTER_VALIDATE_EMAIL);
 			if(empty($newProfileEmail) === true) {
 				throw(new \InvalidArgumentException("profile email is empty or insecure"));
 			}
@@ -332,14 +332,13 @@ class Profile implements \JsonSerializable {
 		 * mutator method for profile password
 		 *
 		 * @param string $newProfilePassword new value of profile password
-		 * @throws \InvalidArgumentException if $newProfilePassword is not a string or insecure
+		 * @throws \InvalidArgumentException if $newProfilePassword is insecure
 		 * @throws \RangeException if $newProfilePassword is > 97 characters
 		 * @throws \TypeError if $newProfilePassword is not a string
 		 **/
 		public function setProfilePassword(string $newProfilePassword) : void {
-			// verify the profile password content is secure
-			$newProfileName = trim($newProfilePassword);
-			$newProfileName = filter_var($newProfilePassword, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			// verify the profile password is formatted correctly
+			$newProfilePassword = trim($newProfilePassword);
 			if(empty($newProfilePassword) === true) {
 				throw(new \InvalidArgumentException("profile password is empty or insecure"));
 			}
@@ -354,7 +353,7 @@ class Profile implements \JsonSerializable {
 				throw(new \RangeException("profile password too large"));
 			}
 			// store the profile password
-			$this->profileName = $newProfilePassword;
+			$this->profilePassword = $newProfilePassword;
 		}
 
 /** profileWebsite*/
@@ -372,7 +371,7 @@ class Profile implements \JsonSerializable {
 		 *
 		 * @param string $newProfileWebsite new value of profile website url
 		 * @throws \InvalidArgumentException if $newProfileWebsite is not a string or insecure
-		 * @throws \RangeException if $newProfileWebsite is > 128 characters
+		 * @throws \RangeException if $newProfileWebsite is > 255 characters
 		 * @throws \TypeError if $newProfileWebsite is not a string
 		 **/
 		public function setProfileWebsite(string $newProfileWebsite) : void {
@@ -383,7 +382,7 @@ class Profile implements \JsonSerializable {
 				throw(new \InvalidArgumentException("profile website url is empty or insecure"));
 			}
 			// verify the profile website url will fit in the database
-			if(strlen($newProfileWebsite) > 128) {
+			if(strlen($newProfileWebsite) > 255) {
 				throw(new \RangeException("profile website url too large"));
 			}
 			// store the profile website url
@@ -487,6 +486,129 @@ public static function getProfileByProfileId(\PDO $pdo, $profileId) : ?Profile {
 }
 
 /**
+ * gets the profile by email
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param string $profileEmail profile email to search for
+ * @return Profile|null profile found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when a variable are not the correct data type
+ **/
+public static function getProfileByEmail(\PDO $pdo, string $profileEmail) : ?Profile {
+	// sanitize the profileEmail before searching
+	$profileEmail = trim($profileEmail);
+	$profileEmail = filter_var($profileEmail, FILTER_VALIDATE_EMAIL);
+	if(empty($profileEmail) === true) {
+		throw(new \PDOException("not a valid email"));
+	}
+
+	// create query template
+	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile WHERE profileEmail = :profileEmail";
+	$statement = $pdo->prepare($query);
+
+	// bind the profile email to the placeholder in template
+	$parameters = ["profileEmail" => $profileEmail];
+	$statement->execute($parameters);
+
+	// grab profile from database
+	try {
+		$profile = null;
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		$row = $statement->fetch();
+		if($row !== false) {
+			$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+		}
+	} catch(\Exception $exception) {
+		// if the row couldn't be converted, rethrow it
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+	return($profile);
+}
+
+/**
+ * gets the profile by activation token
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param string $profileActivationToken profile activation token to search for
+ * @return Profile|null profile found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when a variable are not the correct data type
+ **/
+public static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken) : ?Profile {
+	//verify activation token is in correct format and a string representation of hexidecimal
+	$profileActivationToken = trim($profileActivationToken);
+	if(ctype_xdigit($profileActivationToken) === false) {
+		throw(new \InvalidArgumentException("activation token is empty or incorrect format"));
+	}
+
+ // create query template
+ $query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile WHERE profileActivationToken = :profileActivationToken";
+ $statement = $pdo->prepare($query);
+
+ // bind activation token to placeholder in template
+ $parameters = ["profileActivationToken" => $profileActivationToken];
+ $statement->execute($parameters);
+
+ // grab profile from database
+ try {
+	 $profile = null;
+	 $statement->setFetchMode(\PDO::FETCH_ASSOC);
+	 $row = $statement->fetch();
+	 if($row !== false) {
+		 $profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+	 }
+ } catch(\Exception $exception) {
+	 // if the row couldn't be converted, rethrow it
+	 throw(new \PDOException($exception->getMessage(), 0, $exception));
+ }
+ return($profile);
+}
+
+/**
+ * gets the profile by profile name
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param string $profileName profile name to search for
+ * @return Profile|null profile found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when a variable are not the correct data type
+ **/
+public static function getProfileByName(\PDO $pdo, string $profileName) : ?Profile {
+	// sanitize the profileName before searching
+	$profileName = trim($profileName);
+	$profileName = filter_var($profileName, FILTER_VALIDATE_NAME);
+	if(empty($profileName) === true) {
+		throw(new \PDOException("not a valid name"));
+	}
+
+	// create query template
+	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile WHERE profileName = :profileName";
+	$statement = $pdo->prepare($query);
+
+	// bind the profile name to the placeholder in template
+	$parameters = ["profileName" => $profileName];
+	$statement->execute($parameters);
+
+	// grab profile from database
+	try {
+		$profile = null;
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		$row = $statement->fetch();
+		if($row !== false) {
+			$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+		}
+	} catch(\Exception $exception) {
+		// if the row couldn't be converted, rethrow it
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+	return($profile);
+}
+
+/**
+ * TODO- Add get profile by Profile Distance getProfileByProfileDistance
+ **/
+
+/**
  * gets all profiles
  *
  * @param \PDO $pdo PDO connection object
@@ -516,8 +638,6 @@ public static function getAllProfiles(\PDO $pdo) : \SPLFixedArray {
 	return ($profiles);
 }
 
-//TODO Add a getProfileByEmail, getProfileByProfileActivationToken, getProfileByProfileName, getProfileByProfileDistance
-
 /**
  * formats the state variables for JSON serialization
  *
@@ -534,3 +654,5 @@ public function jsonSerialize() {
 
 }
 }
+
+//---------------------------------------------------------------//

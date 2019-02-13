@@ -20,7 +20,7 @@ CREATE TABLE profile (
 	profileDate DATETIME(6) NOT NULL,
 	profileEmail VARCHAR(128) NOT NULL,
 	profileLatitude DECIMAL(9, 6) NOT NULL,
-	profileLongitude DECIMAL(9, 6) NOT NULL,-- FIXME ask George latidute/long => Habersign, they will input address we change to Habersign.
+	profileLongitude DECIMAL(9, 6) NOT NULL,
 	profileName VARCHAR(32) NOT NULL,
 	profilePassword VARCHAR(97) NOT NULL,-- FIXME will need specifications
 	profileWebsite VARCHAR(128) NULL,

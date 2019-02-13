@@ -39,66 +39,47 @@ class TestImage extends ArtHausTest {
 	protected $VALID_IMAGEGALLERYID;
 
 	/**
-	 * Date and time profile was created- this starts as null and is assigned later
-	 * @var \DateTime $VALID_PROFILEDATE
+	 * placeholder image profile id for initial image creation
+	 * @var string $VALID_IMAGEPROFILEID
 	 **/
-	protected $VALID_PROFILEDATE;
+	protected $VALID_IMAGEPROFILEID;
+	/**
+	 * Date image was created- this starts as null and is assigned later
+	 * @var \Date $VALID_IMAGEDATE
+	 **/
+	protected $VALID_IMAGEDATE;
 
 	/**
-	 * Valid timestamp to use as sunriseProfileDate
+	 * Valid timestamp to use as sunriseImageDate
 	 */
 	protected $VALID_SUNRISEDATE = null;
 
 	/**
-	 * Valid timestamp to use as sunsetProfileDate
+	 * Valid timestamp to use as sunsetImageDate
 	 */
 	protected $VALID_SUNSETDATE = null;
 
 	/**
-	 * valid email address for profile owner
-	 * @var string $VALID_PROFILEEMAIL
+	 * valid title for image title
+	 * @var string $VALID_IMAGETITLE
 	 **/
-	protected $VALID_PROFILEEMAIL = "test@test.com";
+	protected $VALID_IMAGETITLE = "test test 123";
 
 	/**
-	 * updated email address
-	 * @var string $VALID_PROFILEEMAIL2
+	 * valid url of image url
+	 * @var string $VALID_IMAGEURL
 	 **/
-	protected $VALID_PROFILEEMAIL2 = "newtest@test.com";
+	protected $VALID_IMAGEURL = "https://www.nps.gov/common/uploads/grid_builder/stli/crop16_9/89721987-1DD8-B71B-0BE77EEAE39E0520.jpg?width=950&quality=90&mode=crop";
 
 	/**
-	 * Latitude of profile owner- Temp set to city
-	 * @var float $VALID_PROFILELATITUDE
+	 * valid url of image url
+	 * @var string $VALID_IMAGEURL2
 	 **/
-	protected $VALID_PROFILELATITUDE= "75";
+	protected $VALID_IMAGEURL2 = null;
 
 	/**
-	 * New latitude of profile owner- Temp set to city
-	 * @var float $VALID_PROFILELATITUDE2
-	 **/
-	protected $VALID_PROFILELATITUDE2 = "35";
-
-	/**
-	 * longitude of profile owner- Temp set to city
-	 * @var float $VALID_PROFILELONGITUDE
-	 **/
-	protected $VALID_PROFILELONGITUDE= "50";
-
-	/**
-	 * New logitude of profile owner- Temp set to city
-	 * @var float $VALID_PROFILELONGITUDE2
-	 **/
-	protected $VALID_PROFILELONGITUDE2 = "30";
-
-	/**
-	 * valid name of profile owner
-	 * @var string $VALID_PROFILENAME
-	 **/
-	protected $VALID_PROFILENAME = "Jane Doe";
-
-	/**
-	 * updated profile name
-	 * @var string $VALID_PROFILENAME2
+	 * updated image tite
+	 * @var string $VALID_IMAGETITLE2
 	 **/
 	protected $VALID_PROFILENAME2 = "John Doe";
 
