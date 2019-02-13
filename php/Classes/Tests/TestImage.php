@@ -113,7 +113,7 @@ class TestImage extends ArtHausTest {
 	 * START OF OPERATIONS
 	 *****************************************************************************************************************/
 
-	/** FIXME Ask george about compontents needed here?
+	/** FIXME Ask george if need to change any of the components here
 	 * setup operation to create hash and salt.
 	 */
 	public final function setUp() : void {
@@ -134,34 +134,32 @@ class TestImage extends ArtHausTest {
 		$this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
 	}
 
+	//Fixme What of this?
 	//     // calculate the date (just use the time the unit test was setup...)
-	//   $this->VALID_PROFILEDATE = new \DateTime();
+	//   $this->VALID_IMAGEDATE = new \DateTime();
 
-	/**
-	 * test creating a valid profile
-	 **/
-	public function testCreateProfile() : void {
+	/****************************************************************************************************************
+	 * TEST CREATING A VALID IMAGE
+	 **************************************************************************************************************/
+	public function testCreateImage() : void {
 
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("profile");
+		$numRows = $this->getConnection()->getRowCount("image");
 
-		// create a new Profile and insert into database
-		$profileId = generateUuidV4();
+		// create a new Image and insert into database
+		$imageId = generateUuidV4();
 
-		$profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELATITUDE, $this->VALID_PROFILELONGITUDE, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
-		$profile->insert($this->getPDO());
+		image = new Image ("imageId", $this->VALID_IMAGEGALLERYID, $this->VALID_IMAGEPROFILEID, $this->VALID_IMAGEDATE,$this->VALID_IMAGETITLE, $this->VALID_IMAGEURL);
+		$image->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match expectations
-		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertEquals($pdoProfile->getProfileId(), $profileId);
-		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
-		$this->assertEquals($pdoProfile->getProfileDate()->getTimestamp(), $this->VALID_PROFILEDATE->getTimeStamp());
-		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL);
-		$this->assertEquals($pdoProfile->getProfileLatitude(), $this->VALID_PROFILELATITUDE);
-		$this->assertEquals($pdoProfile->getProfileLongitude(), $this->VALID_PROFILELONGITUDE);
-		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME);
-		$this->assertEquals($pdoProfile->getProfilePassword(), $this->VALID_PROFILEPASSWORD);
-		$this->assertEquals($pdoProfile->getProfileWebsite(), $this->VALID_PROFILEWEBSITE);
+		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+		$this->assertEquals($pdoImage->getImageId(), $ImageId);
+		$this->assertEquals($pdoImage->getImageGalleryId(), $this->VALID_IMAGEGALLERYID);
+		$this->assertEquals($pdoImage->getImageProfileId(), $this->VALID_IMAGEPROFILEID);
+		$this->assertEquals($pdoImage->getImageDate()->getTimestamp(), $this->VALID_IMAGEDATE->getTimestamp());
+		$this->assertEquals($pdoImage->getImageTitle(), $this->VALID_IMAGETITLE);
+		$this->assertEquals($pdoProfile->getImageUrl->VALID_IMAGEURL);
 	}
 
 	/**

@@ -627,7 +627,7 @@ public static function getAllProfiles(\PDO $pdo) : \SPLFixedArray {
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
 	while(($row = $statement->fetch()) !== false) {
 		try {
-			$profile = new Profile($row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+			$profile = new Profile ($row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
 			$profiles[$profiles->key()] = $profile;
 			$profiles->next();
 		} catch(\Exception $exception) {
