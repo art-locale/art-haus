@@ -399,7 +399,7 @@ class Profile implements \JsonSerializable {
 public function insert(\PDO $pdo) : void {
 
 	// create query template
-	$query = "INSERT INTO Profile(profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite) VALUES(:profileId, :profileActivationToken, :profileDate, :profileEmail, :profileLatitude, :profileLongitude, :profileName, :profilePassword, :profileWebsite)";
+	$query = "INSERT INTO profile (profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite) VALUES(:profileId, :profileActivationToken, :profileDate, :profileEmail, :profileLatitude, :profileLongitude, :profileName, :profilePassword, :profileWebsite)";
 	$statement = $pdo->prepare($query);
 
 	// bind the member variables to the place holder in the template

@@ -65,6 +65,13 @@ class TestImage extends ArtHausTest {
 	 **/
 	protected $VALID_IMAGETITLE = "test test 123";
 
+
+	/**
+	 * updated image title
+	 * @var string $VALID_IMAGETITLE
+	 **/
+	protected $VALID_IMAGETITLE = "John Doe";
+
 	/**
 	 * valid url of image url
 	 * @var string $VALID_IMAGEURL
@@ -77,17 +84,12 @@ class TestImage extends ArtHausTest {
 	 **/
 	protected $VALID_IMAGEURL2 = null;
 
-	/**
-	 * updated image tite
-	 * @var string $VALID_IMAGETITLE2
-	 **/
-	protected $VALID_PROFILENAME2 = "John Doe";
 
 	/**
-	 * hash of profile owner account password
-	 * @var string $VALID_PROFILEPASSWORD
+	 * update url of image uprl
+	 * @var string $VALID_IMAGEURL2
 	 **/
-	protected $VALID_PROFILEPASSWORD;
+	protected $VALID_IMAGEURL2 = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Statue_of_Liberty_7.jpg/250px-Statue_of_Liberty_7.jpg";
 
 	/**
 	 * updated hash of profile owner account password
@@ -107,17 +109,7 @@ class TestImage extends ArtHausTest {
 	 **/
 	protected $VALID_PROFILEWEBSITE2 = "www.linkedin.com";
 
-	/**
-	 * setup operation to create hash and salt.
-	 */
-	public final function setUp() : void {
-		parent::setUp();
-		//
-		$password = "password1234";
-		$this->VALID_PROFILEPASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
-		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
-		$this->VALID_PROFILEDATE = new \DateTime();
-	}
+
 
 	//     // calculate the date (just use the time the unit test was setup...)
 	//   $this->VALID_PROFILEDATE = new \DateTime();
