@@ -149,7 +149,7 @@ class TestImage extends ArtHausTest {
 		// create a new Image and insert into database
 		$imageId = generateUuidV4();
 
-		image = new Image ("imageId", $this->VALID_IMAGEGALLERYID, $this->VALID_IMAGEPROFILEID, $this->VALID_IMAGEDATE,$this->VALID_IMAGETITLE, $this->VALID_IMAGEURL);
+		image = new Image ($imageId, $this->VALID_IMAGEGALLERYID, $this->VALID_IMAGEPROFILEID, $this->VALID_IMAGEDATE,$this->VALID_IMAGETITLE, $this->VALID_IMAGEURL);
 		$image->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match expectations
 		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
@@ -159,24 +159,24 @@ class TestImage extends ArtHausTest {
 		$this->assertEquals($pdoImage->getImageProfileId(), $this->VALID_IMAGEPROFILEID);
 		$this->assertEquals($pdoImage->getImageDate()->getTimestamp(), $this->VALID_IMAGEDATE->getTimestamp());
 		$this->assertEquals($pdoImage->getImageTitle(), $this->VALID_IMAGETITLE);
-		$this->assertEquals($pdoProfile->getImageUrl->VALID_IMAGEURL);
+		$this->assertEquals($pdoImage->getImageUrl(),$this->VALID_IMAGEURL);
 	}
 
-	// /**
-	//  * test inserting a image and updating it
-	//  **/
-	 public function testUpdateProfile() {
+	 /**
+	  * test inserting an image and updating it
+	  **/
+	 public function testUpdateImage() {
 
 	 	// count the number of rows and save it for later
-	 	$numRows = $this->getConnection()->getRowCount("profile");
+	 	$numRows = $this->getConnection()->getRowCount("image");
 
-	 	// create a new Profile and insert into database
-	 	$profileId = generateUuidV4();
-	 	$profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELATITUDE, $this->VALID_PROFILELONGITUDE, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
-	 	$profile->insert($this->getPDO());
+	 	// create a new Image and insert into database
+	 	$imageId = generateUuidV4();
+	 	$image = new Image($imageId, $this->VALID_IMAGEGALLERYID, $this->VALID_IMAGEPROFILEID, $this->VALID_IMAGEDATE,$this->VALID_IMAGETITLE, $this->VALID_IMAGEURL);
+	 	$image->insert($this->getPDO());
 
-	 	// edit the Profile and update it in mySQL
-	 	$profile->setProfileEmail($this->$VALID_PROFILEEMAIL2);
+	 	// edit the Image and update it in mySQL
+	 	$image->setImageEmail($this->$VALID_PROFILEEMAIL2);
 	 	$profile->update($this->getPDO());
 	 	// $profile->setProfileLatitude($this->$VALID_PROFILELatitude);
 	 	// $profile->setProfileLongitude($this->$VALID_PROFILELongitude);
