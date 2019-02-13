@@ -12,7 +12,6 @@ use Ramsey\Uuid\Uuid;
  * @author Brandon Huffman <bt_huffman@msn.com>
  * @version 1.0.0
  **/
-// FIXME should these docs match that in the TestImage.php (protected there, it's  private here)
 class Image implements \JsonSerializable {
 	use ValidateUuid;
 	use ValidateDate;
@@ -389,7 +388,7 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 		$statement->execute();
 
 		// build an array of images
-		$image = new \SplFixedArray($statement->rowCount());
+		$images = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
@@ -412,11 +411,11 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 		$fields = get_object_vars($this);
 		$fields["imageId"] = $this->imageId->toString();
 
+		//Fixme I think george said not to use this.
 		//format the date so that the front end can consume it
 		$fields["imageDate"] = round(floatval($this->imageDate->format("U.u")) * 1000);
 		return ($fields);
 	}
-//Fixme getImageByProfileId (based on getImageByGalleryId)?
 //TODO getImageByProfileDistance get unit testing done before this last
 
 /***********************************************************************************************************************
