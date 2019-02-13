@@ -120,7 +120,7 @@ class Image implements \JsonSerializable {
 	 * @throws \RangeException if $newImageGalleryId is not positive
 	 * @throws \TypeError if $newImageGalleryId is not a uuid or string
 	 **/
-//	FIXME noticed that Will's mutator may have an error, the "public function setGalleryProfileId ($newGalleryId)" s.b. "($newGalleryProfileId)
+
 	public function setImageGalleryId( $newImageGalleryId) : void {
 		try {
 			$uuid = self::validateUuid($newImageGalleryId);
