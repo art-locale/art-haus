@@ -79,7 +79,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct($newProfileId, ?string $newProfileActivationToken, \DateTime $newProfileDate, string $newProfileEmail, float $newProfileLatitude, float $newProfileLongitude, string $newProfileName, string $newProfilePassword, string $newProfileWebsite) {
+	public function __construct($newProfileId, ?string $newProfileActivationToken, $newProfileDate = null, string $newProfileEmail, float $newProfileLatitude, float $newProfileLongitude, string $newProfileName, string $newProfilePassword, string $newProfileWebsite) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileActivationToken($newProfileActivationToken);
@@ -169,7 +169,7 @@ class Profile implements \JsonSerializable {
 	 *
 	 * @return \DateTime value of profile date
 	 **/
-	public function getProfileDate(): \DateTime {
+	public function getProfileDate() : \DateTime {
 		return ($this->profileDate);
 	}
 
@@ -182,7 +182,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError if $newProfileDate is not a string
 	 * @throws \Exception if $newProfileDate throws a generic exception
 	 **/
-	public function setProfileDate($newProfileDate = null): void {
+	public function setProfileDate($newProfileDate = null) : void {
 		// base case: if the date is null, use the current date and time
 		if($newProfileDate === null) {
 			$this->profileDate = new \DateTime();
@@ -190,7 +190,7 @@ class Profile implements \JsonSerializable {
 		}
 		// store the profile date using the ValidateDate trait.
 		try {
-			$newProfileDate = self::validateDate($newProfileDate);
+			$newProfileDate = self::validateDateTime($newProfileDate);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
@@ -663,4 +663,5 @@ class Profile implements \JsonSerializable {
 
 	}
 }
+?>
 //---------------------------------------------------------------//

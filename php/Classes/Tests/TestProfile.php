@@ -138,13 +138,13 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 
     	$this->VALID_PROFILEDATE = new \DateTime();
 
-    // //format the sunrise date to use for testing
-    // $this->VALID_SUNRISEDATE = new \DateTime();
-    // $this->VALID_SUNRISEDATE->sub(new \DateInterval("P10D"));
-    //
-    // //format the sunset date to use for testing
-    // $this->VALID_SUNSETDATE = new \DateTime();
-    // $this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
+    //format the sunrise date to use for testing
+    $this->VALID_SUNRISEDATE = new \DateTime();
+    $this->VALID_SUNRISEDATE->sub(new \DateInterval("P10D"));
+
+    //format the sunset date to use for testing
+    $this->VALID_SUNSETDATE = new \DateTime();
+    $this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
 	}
 
 
@@ -167,7 +167,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileId(), $profileId);
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
-		$this->assertEquals($pdoProfile->getProfileDate()->getTimestamp(), $this->VALID_PROFILEDATE->getTimeStamp());
+		$this->assertEquals($pdoProfile->getProfileDate()->getTimestamp(), $this->VALID_PROFILEDATE->getTimestamp());
 		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL);
 		$this->assertEquals($pdoProfile->getProfileLatitude(), $this->VALID_PROFILELATITUDE);
 		$this->assertEquals($pdoProfile->getProfileLongitude(), $this->VALID_PROFILELONGITUDE);
@@ -242,3 +242,4 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
   //   $this->VALID_SUNSETDATE = new\DateTime();
   //   $this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
 }
+?>
