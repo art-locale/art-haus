@@ -372,7 +372,7 @@ class Profile implements \JsonSerializable {
 		 *
 		 * @param string $newProfileWebsite new value of profile website url
 		 * @throws \InvalidArgumentException if $newProfileWebsite is not a string or insecure
-		 * @throws \RangeException if $newProfileWebsite is > 128 characters
+		 * @throws \RangeException if $newProfileWebsite is > 255 characters
 		 * @throws \TypeError if $newProfileWebsite is not a string
 		 **/
 		public function setProfileWebsite(string $newProfileWebsite) : void {
@@ -383,7 +383,7 @@ class Profile implements \JsonSerializable {
 				throw(new \InvalidArgumentException("profile website url is empty or insecure"));
 			}
 			// verify the profile website url will fit in the database
-			if(strlen($newProfileWebsite) > 128) {
+			if(strlen($newProfileWebsite) > 255) {
 				throw(new \RangeException("profile website url too large"));
 			}
 			// store the profile website url
@@ -487,6 +487,166 @@ public static function getProfileByProfileId(\PDO $pdo, $profileId) : ?Profile {
 }
 
 /**
+ * gets the profile by email
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param string $profileEmail profile email to search for
+ * @return Profile|null profile found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when a variable are not the correct data type
+ **/
+public static function getProfileByEmail(\PDO $pdo, string $profileEmail) : ?Profile {
+	// sanitize the profileEmail before searching
+	$profileEmail = trim($profileEmail);
+	$profileEmail = filter_var($profileEmail, FILTER_VALIDATE_EMAIL);
+	if(empty($profileEmail) === true) {
+		throw(new \PDOException("not a valid email"));
+	}
+
+	// create query template
+	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile WHERE profileEmail = :profileEmail";
+	$statement = $pdo->prepare($query);
+
+	// bind the profile id to the place holder in the template
+	$parameters = ["profileEmail" => $profileEmail];
+	$statement->execute($parameters);
+
+	// grab the profile from mySQL
+	try {
+		$profile = null;
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		$row = $statement->fetch();
+		if($row !== false) {
+			$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+		}
+	} catch(\Exception $exception) {
+		// if the row couldn't be converted, rethrow it
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+	return($profile);
+}
+
+/**
+ * gets the profile by getProfileByProfileActivationToken
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param Uuid|string $profileId profile id to search for
+ * @return profile|null profile found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when a variable are not the correct data type
+ **/
+public static function getProfileByProfileId(\PDO $pdo, $profileId) : ?Profile {
+	// sanitize the profileId before searching
+	try {
+		$profileId = self::validateUuid($profileId);
+	} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+
+	// create query template
+	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile WHERE profileId = :profileId";
+	$statement = $pdo->prepare($query);
+
+	// bind the profile id to the place holder in the template
+	$parameters = ["profileId" => $profileId->getBytes()];
+	$statement->execute($parameters);
+
+	// grab the profile from mySQL
+	try {
+		$profile = null;
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		$row = $statement->fetch();
+		if($row !== false) {
+			$profile = new Profile($row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+		}
+	} catch(\Exception $exception) {
+		// if the row couldn't be converted, rethrow it
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+	return($profile);
+}
+
+/**
+ * gets the profile by getProfileByProfileName
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param Uuid|string $profileId profile id to search for
+ * @return profile|null profile found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when a variable are not the correct data type
+ **/
+public static function getProfileByProfileId(\PDO $pdo, $profileId) : ?Profile {
+	// sanitize the profileId before searching
+	try {
+		$profileId = self::validateUuid($profileId);
+	} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+
+	// create query template
+	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile WHERE profileId = :profileId";
+	$statement = $pdo->prepare($query);
+
+	// bind the profile id to the place holder in the template
+	$parameters = ["profileId" => $profileId->getBytes()];
+	$statement->execute($parameters);
+
+	// grab the profile from mySQL
+	try {
+		$profile = null;
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		$row = $statement->fetch();
+		if($row !== false) {
+			$profile = new Profile($row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+		}
+	} catch(\Exception $exception) {
+		// if the row couldn't be converted, rethrow it
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+	return($profile);
+}
+
+/**
+ * gets the profile by getProfileByProfileDistance
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param Uuid|string $profileId profile id to search for
+ * @return profile|null profile found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when a variable are not the correct data type
+ **/
+public static function getProfileByProfileId(\PDO $pdo, $profileId) : ?Profile {
+	// sanitize the profileId before searching
+	try {
+		$profileId = self::validateUuid($profileId);
+	} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+
+	// create query template
+	$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile WHERE profileId = :profileId";
+	$statement = $pdo->prepare($query);
+
+	// bind the profile id to the place holder in the template
+	$parameters = ["profileId" => $profileId->getBytes()];
+	$statement->execute($parameters);
+
+	// grab the profile from mySQL
+	try {
+		$profile = null;
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		$row = $statement->fetch();
+		if($row !== false) {
+			$profile = new Profile($row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+		}
+	} catch(\Exception $exception) {
+		// if the row couldn't be converted, rethrow it
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+	return($profile);
+}
+
+/**
  * gets all profiles
  *
  * @param \PDO $pdo PDO connection object
@@ -516,8 +676,6 @@ public static function getAllProfiles(\PDO $pdo) : \SPLFixedArray {
 	return ($profiles);
 }
 
-//TODO Add a getProfileByEmail, getProfileByProfileActivationToken, getProfileByProfileName, getProfileByProfileDistance
-
 /**
  * formats the state variables for JSON serialization
  *
@@ -534,3 +692,5 @@ public function jsonSerialize() {
 
 }
 }
+
+//---------------------------------------------------------------//
