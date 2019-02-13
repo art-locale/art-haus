@@ -375,45 +375,49 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 	 * START OF GET IMAGE BY GALLERY ID
 	 *****************************************************************************************************************/
 	/**
-	 * gets the image by imageId
+	 * gets image by gallery id
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param Uuid|string $imageId image id to search for
-	 * @return image|null image found or null if not found
+	 * @return \SplFixedArray SplFixedArray of images found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when a variable are not the correct data type
+	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getImageByGalleryId(\PDO $pdo, $imageId) : ?image {
-		// sanitize the imageId before searching
-		try {
-			$imageId = self::validateUuid($imageId);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-
+	public static function getImageByGalleryId(\PDO $pdo) : \SplFixedArray {
 		// create query template
-		$query = "SELECT imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl FROM image WHERE imageId = :imageId";
+		$query = "SELECT imageGalleryId, imageTitle, FROM image WHERE imageGalleryId = :imageGalleryId";
 		$statement = $pdo->prepare($query);
+		$statement->execute();
 
-		// bind the image id to the place holder in the template
-		$parameters = ["imageId" => $imageId->getBytes()];
-		$statement->execute($parameters);
-
-		// grab the image from mySQL
-		try {
-			$image = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
+		// build an array of images
+		$image = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
 				$image = new Image($row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
+				$images[$images->key()] = $image;
+				$images->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($image);
+		return ($images);
 	}
-//TODO getImageByGalleryId, getImageByProfileId, and getImageByProfileDistance (repurse getAllImages for one of them)
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		$fields["imageId"] = $this->imageId->toString();
+
+		//format the date so that the front end can consume it
+		$fields["imageDate"] = round(floatval($this->imageDate->format("U.u")) * 1000);
+		return ($fields);
+	}
+//Fixme getImageByProfileId (based on getImageByGalleryId)?
+//TODO getImageByProfileDistance get unit testing done before this last
 
 /***********************************************************************************************************************
  * START OF GET ALL IMAGES METHOD
@@ -459,6 +463,5 @@ public function jsonSerialize() {
 	//format the date so that the front end can consume it
 	$fields["imageDate"] = round(floatval($this->imageDate->format("U.u")) * 1000);
 	return ($fields);
-
 }
 }
