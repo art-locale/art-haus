@@ -1,7 +1,7 @@
 <?php
 namespace ArtLocale\ArtHaus\Tests;
 
-use ArtLocale\ArtHaus\Profile;
+use ArtLocale\ArtHaus\Image;
 
 // access the class under scrutiny
 require_once(dirname(__DIR__) . "/autoload.php");
@@ -10,33 +10,33 @@ require_once(dirname(__DIR__) . "/autoload.php");
 require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 
 /**
- * Full PHPUnit test for the Profile class
+ * Full PHPUnit test for the Image class
  *
- * This is a complete PHPUnit test of the Profile class. It is complete because *ALL* mySQL/PDO enabled methods
+ * This is a complete PHPUnit test of the Image class. It is complete because *ALL* mySQL/PDO enabled methods
  * are tested for both invalid and valid inputs.
  *
- * @see Profile
+ * @see Image
  * @author William Isengard <william.isengard@gmail.com>
  **/
 
-class TestProfile extends ArtHausTest {
+class TestImage extends ArtHausTest {
 	/**
-	 * valid Art Haus user profile
-	 * @var Profile profile
+	 * valid Art Haus user image ]
+	 * @var Image image
 	 **/
-	protected $profile = null;
+	protected $image = null;
 
 	/**
-	 * id for this profile
-	 * @var Uuid $VALID_PROFILEID
+	 * id for this imageId
+	 * @var Uuid $VALID_IMAGEID
 	 */
-	protected $VALID_PROFILEID;
+	protected $VALID_IMAGEID;
 
 	/**
-	 * placeholder activation token for initial profile creation
-	 * @var string $VALID_PROFILEACTIVATIONTOKEN
+	 * placeholder image gallery id for initial image creation
+	 * @var string $VALID_IMAGEGALLERYID
 	 **/
-	protected $VALID_PROFILEACTIVATIONTOKEN;
+	protected $VALID_IMAGEGALLERYID;
 
 	/**
 	 * Date and time profile was created- this starts as null and is assigned later
