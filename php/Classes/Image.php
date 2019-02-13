@@ -116,7 +116,7 @@ class Image implements \JsonSerializable {
 	/**
 	 * mutator method for image gallery id
 	 *
-	 * @param Uuid|string $newImageGalleryId new value of image gallrey id
+	 * @param Uuid|string $newImageGalleryId new value of image gallery id
 	 * @throws \RangeException if $newImageGalleryId is not positive
 	 * @throws \TypeError if $newImageGalleryId is not a uuid or string
 	 **/
