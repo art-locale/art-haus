@@ -1,7 +1,7 @@
 <?php
 namespace ArtLocale\ArtHaus\Tests;
 
-use ArtLocale\ArtHaus\Profile;
+use ArtLocale\ArtHaus\{Gallery, Profile};
 
 // access the class under scrutiny
 require_once(dirname(__DIR__) . "/autoload.php");
@@ -32,141 +32,85 @@ class TestGallery extends ArtHausTest {
 	protected $gallery = null;
 
 	/**
-	 * id for this gallery
-	 * @var Uuid $VALID_GALLERYID
-	 */
-	protected $VALID_GALLERYID;
-
-	/**
-	 * id for this gallery
-	 * @var Uuid $VALID_GALLERYID
-	 */
-	protected $VALID_GALLERYID;
-
-	/**
-	 * Date and time profile was created- this starts as null and is assigned later
-	 * @var \DateTime $VALID_PROFILEDATE
+	 * valid Art Haus profile
+	 * @var Profile profile
 	 **/
-	protected $VALID_PROFILEDATE;
+	protected $profile = null;
 
 	/**
-	 * Valid timestamp to use as sunriseProfileDate
+	 * id for this gallery
+	 * @var Uuid $VALID_GALLERYID
+	 */
+	protected $VALID_GALLERYID;
+
+	/**
+	 * associated profile id for this gallery
+	 * @var Uuid $VALID_GALLERYPROFILEID
+	 */
+	protected $VALID_GALLERYPROFILEID;
+
+	/**
+	 * Date and time gallery was created- this starts as null and is assigned later
+	 * @var \DateTime $VALID_GALLERYDATE
+	 **/
+	protected $VALID_GALLERYDATE = null;
+
+	/**
+	 * Valid timestamp to use as sunriseGalleryDate
 	 */
 	protected $VALID_SUNRISEDATE = null;
 
 	/**
-	 * Valid timestamp to use as sunsetProfileDate
+	 * Valid timestamp to use as sunsetGalleryDate
 	 */
 	protected $VALID_SUNSETDATE = null;
 
 	/**
-	 * valid email address for profile owner
-	 * @var string $VALID_PROFILEEMAIL
+	 * valid name for gallery
+	 * @var string $VALID_GALLERYNAME
 	 **/
-	protected $VALID_PROFILEEMAIL = "test@test.com";
+	protected $VALID_GALLERYNAME = "My Gallery";
 
-	/**
-	 * updated email address
-	 * @var string $VALID_PROFILEEMAIL2
-	 **/
-	protected $VALID_PROFILEEMAIL2 = "newtest@test.com";
+	/*
+	 * test for valid hash
+	 */
+	protected $VALID_PASSWORD;
 
-	/**
-	 * Latitude of profile owner- Temp set to city
-	 * @var float $VALID_PROFILELATITUDE
-	 **/
-	protected $VALID_PROFILELATITUDE = "75";
+	/*
+	 * test for valid activation token
+	 */
+	protected $VALID_ACTIVATION;
 
-	/**
-	 * New latitude of profile owner- Temp set to city
-	 * @var float $VALID_PROFILELATITUDE2
-	 **/
-	protected $VALID_PROFILELATITUDE2 = "35";
 
-	/**
-	 * longitude of profile owner- Temp set to city
-	 * @var float $VALID_PROFILELONGITUDE
-	 **/
-	protected $VALID_PROFILELONGITUDE = "50";
-
-	/**
-	 * New logitude of profile owner- Temp set to city
-	 * @var float $VALID_PROFILELONGITUDE2
-	 **/
-	protected $VALID_PROFILELONGITUDE2 = "30";
-
-	/**
-	 * valid name of profile owner
-	 * @var string $VALID_PROFILENAME
-	 **/
-	protected $VALID_PROFILENAME = "Jane Doe";
-
-	/**
-	 * updated profile name
-	 * @var string $VALID_PROFILENAME2
-	 **/
-	protected $VALID_PROFILENAME2 = "John Doe";
-
-	/**
-	 * hash of profile owner account password
-	 * @var string $VALID_PROFILEPASSWORD
-	 **/
-	protected $VALID_PROFILEPASSWORD;
-
-	/**
-	 * updated hash of profile owner account password
-	 * @var string $VALID_PROFILEPASSWORD2
-	 **/
-	protected $VALID_PROFILEPASSWORD2;
-
-	/**
-	 * website of profile owner
-	 * @var string $VALID_PROFILEWEBSITE
-	 **/
-	protected $VALID_PROFILEWEBSITE = "www.etsy.com";
-
-	/**
-	 * updated website of profile owner
-	 * @var string $VALID_PROFILEWEBSITE2
-	 **/
-	protected $VALID_PROFILEWEBSITE2 = "www.linkedin.com";
-
-	/**
-	 * setup operation to create hash and salt.
+	/*
+	 * @throws \Exception
 	 */
 	public final function setUp(): void {
 		parent::setUp();
-		//
-		$password = "password1234";
-		$this->VALID_PROFILEPASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
-		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
-		$this->VALID_PROFILEDATE = new \DateTime();
+		$password = "test123";
+		$this->VALID_PASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
+		$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
+		$this->profile = new Profile(generateUuidV4(), $this->VALID_ACTIVATION, null, "testUser@gmail.com", 85.12345, 75.12345, "Jack Johnson", $this->VALID_PASSWORD, "www.myWebsite.com");
+
+		$this->profile->insert($this->getPDO());
 	}
 
-	//     // calculate the date (just use the time the unit test was setup...)
-	//   $this->VALID_PROFILEDATE = new \DateTime();
-
 	/**
-	 * test creating a valid profile
+	 * test creating a valid gallery
 	 **/
-	public function testCreateProfile(): void {
+	public function testCreateGallery(): void {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("profile");
-		// create a new Profile and insert into database
-		$profileId = generateUuidV4();
-		$profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELATITUDE, $this->VALID_PROFILELONGITUDE, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
-		$profile->insert($this->getPDO());
+		$numRows = $this->getConnection()->getRowCount("gallery");
+		// create a new gallery and insert into database
+		$galleryId = generateUuidV4();
+		$gallery = new Gallery($galleryId, $this->VALID_GALLERYPROFILEID, $this->VALID_GALLERYDATE, $this->VALID_GALLERYNAME);
+		$gallery->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match expectations
-		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertEquals($pdoProfile->getProfileId(), $profileId);
-		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
-		$this->assertEquals($pdoProfile->getProfileDate()->getTimestamp(), $this->VALID_PROFILEDATE->getTimeStamp());
-		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL);
-		$this->assertEquals($pdoProfile->getProfileLatitude(), $this->VALID_PROFILELATITUDE);
-		$this->assertEquals($pdoProfile->getProfileLongitude(), $this->VALID_PROFILELONGITUDE);
-		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME);
-		$this->assertEquals($pdoProfile->getProfilePassword(), $this->VALID_PROFILEPASSWORD);
-		$this->assertEquals($pdoProfile->getProfileWebsite(), $this->VALID_PROFILEWEBSITE);
+		$pdoGallery = Gallery::getGalleryByProfileId($this->getPDO(), $gallery->getGalleryId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("gallery"));
+		$this->assertEquals($pdoGallery->getGalleryId(), $galleryId);
+		$this->assertEquals($pdoGallery->getGalleryProfileId(), $this->VALID_GALLERYPROFILEID);
+		$this->assertEquals($pdoGallery->getGalleryDate()->getTimestamp(), $this->VALID_GALLERYDATE->getTimeStamp());
+		$this->assertEquals($pdoGallery->getGalleryName(), $this->VALID_GALLERYNAME);
 	}
 }
