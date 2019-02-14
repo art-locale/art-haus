@@ -84,6 +84,20 @@ class TestImage extends ArtHausTest {
 	 **/
 	protected $VALID_IMAGEURL2 = null;
 
+/**********************************************************************************************************************
+ * PROBLEM VARIABLES SECTION: FIXME once other unit tests work, recommend elminating the galleryId and profileId here and use the code in the setUp function below.
+ * ******************************************************************************************************************/
+/*
+ * set galleryId
+ * @var string $VALID_IMAGEGALLERYID
+ * */
+protected $VALID_IMAGEGALLERYID = "aacb6ccc-9616-4f19-91c4-ae57c1578c18";
+
+/*
+* set profileId
+* @var string $VALID_IMAGEPROFILEID
+* */
+	protected $VALID_IMAGEPROFILEID = "9fc67e8e-30a3-11e9-b210-d663bd873d93";
 
 	/**
 	 * update url of image uprl
@@ -137,9 +151,11 @@ class TestImage extends ArtHausTest {
 		// create a new Image and insert into database
 		$imageId = generateUuidV4();
 
+
+		//fixme sb 			$this->gallery->getGalleryId,			$this->profile->getProfileId,
 		$image = new Image($imageId,
-			$this->gallery->getGalleryId,
-			$this->profile->getProfileId,
+			$this->VALID_IMAGEGALLERYID,
+			$this->VALID_IMAGEPROFILEID,
 			$this->VALID_IMAGEDATE,
 			$this->VALID_IMAGETITLE,
 			$this->VALID_IMAGEURL
@@ -150,8 +166,8 @@ class TestImage extends ArtHausTest {
 		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
 		$this->assertEquals($pdoImage->getImageId(), $ImageId);
-		$this->assertEquals($pdoImage->getImageGalleryId(), $this->gallery->getGalleryId());
-		$this->assertEquals($pdoImage->getImageProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoImage->getImageGalleryId(), $this->VALID_IMAGEGALLERYID); //fixme sb $this->gallery->getGalleryId());
+		$this->assertEquals($pdoImage->getImageProfileId(), $this->VALID_IMAGEPROFILEID); //fixme sb $this->profile->getProfileId());
 		$this->assertEquals($pdoImage->getImageDate()->getTimestamp(), $this->VALID_IMAGEDATE->getTimestamp());
 		$this->assertEquals($pdoImage->getImageTitle(), $this->VALID_IMAGETITLE);
 		$this->assertEquals($pdoImage->getImageUrl(),$this->VALID_IMAGEURL);

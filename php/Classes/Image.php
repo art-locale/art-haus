@@ -120,7 +120,7 @@ class Image implements \JsonSerializable {
 	 * @throws \TypeError if $newImageGalleryId is not a uuid or string
 	 **/
 
-	public function setImageGalleryId( $newImageGalleryId) : void {
+	public function setImageGalleryId($newImageGalleryId) : void {
 		try {
 			$uuid = self::validateUuid($newImageGalleryId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -402,20 +402,7 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 		}
 		return ($images);
 	}
-	/**
-	 * formats the state variables for JSON serialization
-	 *
-	 * @return array resulting state variables to serialize
-	 **/
-	public function jsonSerialize() {
-		$fields = get_object_vars($this);
-		$fields["imageId"] = $this->imageId->toString();
 
-		//Fixme I think george said not to use this.
-		//format the date so that the front end can consume it
-		$fields["imageDate"] = round(floatval($this->imageDate->format("U.u")) * 1000);
-		return ($fields);
-	}
 //TODO getImageByProfileDistance get unit testing done before this last
 
 /***********************************************************************************************************************
@@ -462,8 +449,13 @@ public function jsonSerialize() {
 //foreign keys
 	$fields["imageGalleryId"] = $this->imageGalleryId->toString();
 	$fields["imageProfileId"] = $this->imageProfileId->toString();
+
+//	Fixme I think george said not to use this date thing
 	//format the date so that the front end can consume it
 	$fields["imageDate"] = round(floatval($this->imageDate->format("U.u")) * 1000);
 	return ($fields);
 }
 }
+?>
+
+//
