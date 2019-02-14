@@ -427,7 +427,7 @@ class Profile implements \JsonSerializable {
 	public function delete(\PDO $pdo): void {
 
 		// create query template
-		$query = "DELETE FROM Profile WHERE profileId = :profileId";
+		$query = "DELETE FROM profile WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holder in the template
@@ -445,7 +445,7 @@ class Profile implements \JsonSerializable {
 	public function update(\PDO $pdo): void {
 
 		// create query template
-		$query = "UPDATE Profile SET profileId = :profileId, profileActivationToken = :profileActivationToken, profileDate = :profileDate, profileEmail = :profileEmail, profileLatitude = :profileLatitude, profileLongitude = :profileLongitude, profileName = :profileName, profilePassword = :profilePassword, profileWebsite = :profileWebsite WHERE profileId = :profileId";
+		$query = "UPDATE profile SET profileId = :profileId, profileActivationToken = :profileActivationToken, profileDate = :profileDate, profileEmail = :profileEmail, profileLatitude = :profileLatitude, profileLongitude = :profileLongitude, profileName = :profileName, profilePassword = :profilePassword, profileWebsite = :profileWebsite WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holder in the template

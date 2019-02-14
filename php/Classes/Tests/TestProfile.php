@@ -20,17 +20,17 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  **/
 
  class TestProfile extends ArtHausTest {
- 	// /**
- 	//  * valid Art Haus user profile
- 	//  * @var Profile profile
- 	//  **/
- 	// protected $profile = null;
-  //
- 	// /**
- 	//  * id for this profile
- 	//  * @var Uuid $VALID_PROFILEID
- 	//  */
- 	// protected $VALID_PROFILEID;
+ 	/**
+ 	 * valid Art Haus user profile
+ 	 * @var Profile profile
+ 	 **/
+ 	protected $profile = null;
+
+ 	/**
+ 	 * id for this profile
+ 	 * @var Uuid $VALID_PROFILEID
+ 	 */
+ 	protected $VALID_PROFILEID;
 
  	/**
  	 * placeholder activation token for initial profile creation
@@ -135,8 +135,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 		$password = "password1234";
 		$this->VALID_PROFILEPASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
 		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
-
-    	$this->VALID_PROFILEDATE = new \DateTime();
+    $this->VALID_PROFILEDATE = new \DateTime();
 
     //format the sunrise date to use for testing
     $this->VALID_SUNRISEDATE = new \DateTime();
@@ -162,7 +161,8 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 
 		$profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELATITUDE, $this->VALID_PROFILELONGITUDE, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
 		$profile->insert($this->getPDO());
-			// grab the data from database and enforce the fields match expectations
+
+		// grab the data from database and enforce the fields match expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileId(), $profileId);
@@ -202,6 +202,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 
     $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+
 		$this->assertEquals($pdoProfile->getProfileId(), $profileId);
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
 		$this->assertEquals($pdoProfile->getProfileDate()->getTimestamp(), $this->VALID_PROFILEDATE->getTimestamp());
@@ -226,9 +227,11 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 
     $profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELATITUDE, $this->VALID_PROFILELONGITUDE, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
     $profile->insert($this->getPDO());
+
     // delete the profile from database
     $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
     $profile->delete($this->getPDO());
+
     // access database and confirm profile deleted
     $pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
     $this->assertNull($pdoProfile);
