@@ -27,6 +27,18 @@ class TestImage extends ArtHausTest {
 	protected $profile = null;
 
 	/**
+	 * placeholder activation token for initial profile creation
+	 * @var string $VALID_PROFILEACTIVATIONTOKEN
+	 **/
+	protected $VALID_PROFILEACTIVATIONTOKEN;
+
+	/**
+	 * Date and time profile was created- this starts as null and is assigned later
+	 * @var \DateTime $VALID_PROFILEDATE
+	 **/
+	protected $VALID_PROFILEDATE = null;
+
+	/**
 	 * valid profile password to create profile object to own the test
 	 * @var string VALID_PROFILEPASSWORD
 	 */
@@ -140,10 +152,10 @@ protected $VALID_IMAGEGALLERYID; //"9fc67e8e30a311e9b210d663bd873d93";
 		$this->profile->insert($this->getPDO());
 
 		//Fixme: Note this appears to break if not uncommented in the phpunit.xml
-//		Fixme Maybe unnecessary. Not in our profileTest, but then again it doesn't have foreign keys.
-//		create and insert a Gallery to own the test Image
-//		$this->profile = new Gallery(generateUuidV4(), $this->profile->getProfileId(), $this->VALID_TIMESTAMP, "handle");
-//		$this->profile->insert($this->getPDO());
+	//	Fixme Maybe unnecessary. Not in our profileTest, but then again it doesn't have foreign keys.
+		//create and insert a Gallery to own the test Image
+		$this->profile = new Gallery(generateUuidV4(), $this->profile->getProfileId(), $this->VALID_GALLERYDATE, "handle");
+		$this->profile->insert($this->getPDO());
 	}
 	/****************************************************************************************************************
 	 * TEST CREATING A VALID IMAGE
@@ -159,8 +171,8 @@ protected $VALID_IMAGEGALLERYID; //"9fc67e8e30a311e9b210d663bd873d93";
 
 
 		//fixme sb 			$this->gallery->getGalleryId(),			$this->profile->getProfileId(),					$this->VALID_IMAGEPROFILEID,
-		$image = new Image($this->VALID_IMAGEID,
-			$this->VALID_IMAGEGALLERYID,
+		$image = new Image($imageId,
+			$this->gallery->getGalleryId(),
 			$this->profile->getProfileId(),
 			$this->VALID_IMAGEDATE,
 			$this->VALID_IMAGETITLE,
@@ -171,8 +183,8 @@ protected $VALID_IMAGEGALLERYID; //"9fc67e8e30a311e9b210d663bd873d93";
 		// grab the data from mySQL and enforce the fields match expectations
 		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
-		$this->assertEquals($pdoImage->getImageId(), $this->VALID_IMAGEID);
-		$this->assertEquals($pdoImage->getImageGalleryId(), $this->VALID_IMAGEGALLERYID); //fixme sb $this->gallery->getGalleryId());
+		$this->assertEquals($pdoImage->getImageId(), $imageId);
+		$this->assertEquals($pdoImage->getImageGalleryId(), $this->gallery->getGalleryId()); //fixme sb $this->gallery->getGalleryId());
 		$this->assertEquals($pdoImage->getImageProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoImage->getImageDate()->getTimestamp(), $this->VALID_IMAGEDATE->getTimestamp());
 		$this->assertEquals($pdoImage->getImageTitle(), $this->VALID_IMAGETITLE);
