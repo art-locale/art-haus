@@ -220,7 +220,7 @@ class Profile implements \JsonSerializable {
 	public function setProfileEmail(string $newProfileEmail): void {
 		// verify the profile email content is secure
 		$newProfileEmail = trim($newProfileEmail);
-		$newProfileEmail = filter_var($newProfileEmail, FILTER_VALIDATE_EMAIL);
+		$newProfileEmail = filter_var($newProfileEmail, FILTER_SANITIZE_EMAIL, FILTER_VALIDATE_EMAIL, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newProfileEmail) === true) {
 			throw(new \InvalidArgumentException("profile email is empty or insecure"));
 		}
@@ -386,7 +386,7 @@ class Profile implements \JsonSerializable {
 	public function setProfileWebsite(string $newProfileWebsite): void {
 		// verify the profile website url content is secure
 		$newProfileWebsite = trim($newProfileWebsite);
-		$newProfileWebsite = filter_var($newProfileWebsite, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		$newProfileWebsite = filter_var($newProfileWebsite, FILTER_SANITIZE_URL, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newProfileWebsite) === true) {
 			throw(new \InvalidArgumentException("profile website url is empty or insecure"));
 		}
@@ -585,7 +585,7 @@ class Profile implements \JsonSerializable {
 	public static function getProfileByName(\PDO $pdo, string $profileName): ?Profile {
 		// sanitize the profileName before searching
 		$profileName = trim($profileName);
-		$profileName = filter_var($profileName, FILTER_VALIDATE_NAME);
+		$profileName = filter_var($profileName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($profileName) === true) {
 			throw(new \PDOException("not a valid name"));
 		}
