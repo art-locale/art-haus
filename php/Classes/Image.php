@@ -457,8 +457,11 @@ public static function getAllImages(\PDO $pdo) : \SplFixedArray {
  **/
 public function jsonSerialize() {
 	$fields = get_object_vars($this);
+	//primary key
 	$fields["imageId"] = $this->imageId->toString();
-
+//foreign keys
+	$fields["imageGalleryId"] = $this->imageGalleryId->toString();
+	$fields["imageProfileId"] = $this->imageProfileId->toString();
 	//format the date so that the front end can consume it
 	$fields["imageDate"] = round(floatval($this->imageDate->format("U.u")) * 1000);
 	return ($fields);

@@ -38,7 +38,7 @@ class TestImage extends ArtHausTest {
 	 **/
 //	protected $VALID_IMAGEGALLERYID;
 
-	/**	/** //FIXME don't see example of this in documentation
+	/**   /** //FIXME don't see example of this in documentation
 	 * placeholder image profile id for initial image creation
 	 * @var string $VALID_IMAGEPROFILEID
 	 **/
@@ -82,21 +82,22 @@ class TestImage extends ArtHausTest {
 	 * valid url of image url
 	 * @var string $VALID_IMAGEURL2
 	 **/
-	protected $VALID_IMAGEURL = null;
+	protected $VALID_IMAGEURL2 = null;
 
 
 	/**
 	 * update url of image uprl
 	 * @var string $VALID_IMAGEURL2
-	 **/
-	protected $VALID_IMAGEURL2 = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Statue_of_Liberty_7.jpg/250px-Statue_of_Liberty_7.jpg";
+	 **///FIXME this commented out
+//	protected $VALID_IMAGEURL2 = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Statue_of_Liberty_7.jpg/250px-Statue_of_Liberty_7.jpg";
 	/***********************************************************************************************************************
-	 * START OF OPERATIONS*****************************************************************************************************************/
+	 * START OF OPERATIONS
+	 *****************************************************************************************************************/
 
 	/** FIXME Ask george if need to change any of the components here
 	 * setup operation to create hash and salt.
 	 */
-	public final function setUp() : void {
+	public final function setUp(): void {
 		parent::setUp();
 		//
 		$password = "password1234";
@@ -114,15 +115,16 @@ class TestImage extends ArtHausTest {
 		$this->VALID_SUNSETDATE = new\DateTime();
 		$this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
 
+		//Fixme: Note this appears to break if not uncommented in the phpunit.xml
 //		Fixme Maybe unnecessary. Not in our profileTest, but then again it doesn't have foreign keys.
 		//create and insert a Gallery to own the test Image
-//		$this->profile = new Gallery(generateUuidV4(), null, null,"@handle", 89.1234, 100.098, "this title", $this->VALID_PROFILE_HASH, null); //FIXME ProfilePassword?
+//		$this->profile = new Gallery(generateUuidV4(), null, null, "@handle", 89.1234, 100.098, "this title", $this->VALID_PROFILE_HASH, null); //FIXME ProfilePassword?
 //		$this->profile->insert($this->getPDO());
 
-		//create and insert a Profile to own the test Image
-		$this->profile = new Profile(generateUuidV4(), null, null,"@handle", 89.1234, 100.098, "this title", $this->VALID_PROFILE_HASH, null); //FIXME ProfilePassword?
-$this->profile->insert($this->getPDO());
-
+//		//create and insert a Profile to own the test Image
+//		$this->profile = new Profile(generateUuidV4(), null, null, "@handle", 89.1234, 100.098, "this title", $this->VALID_PROFILE_HASH, null); //FIXME ProfilePassword?
+//		$this->profile->insert($this->getPDO());
+	}
 	/****************************************************************************************************************
 	 * TEST CREATING A VALID IMAGE
 	 **************************************************************************************************************/
@@ -135,7 +137,7 @@ $this->profile->insert($this->getPDO());
 		// create a new Image and insert into database
 		$imageId = generateUuidV4();
 
-		$image = new Image ($imageId,
+		$image = new Image($imageId,
 			$this->gallery->getGalleryId,
 			$this->profile->getProfileId,
 			$this->VALID_IMAGEDATE,
@@ -153,7 +155,7 @@ $this->profile->insert($this->getPDO());
 		$this->assertEquals($pdoImage->getImageDate()->getTimestamp(), $this->VALID_IMAGEDATE->getTimestamp());
 		$this->assertEquals($pdoImage->getImageTitle(), $this->VALID_IMAGETITLE);
 		$this->assertEquals($pdoImage->getImageUrl(),$this->VALID_IMAGEURL);
-	}
+		}
 
 	/****************************************************************************************************************
 	 * TEST INSERTING AN IMAGE AND UPDATING IT
@@ -213,4 +215,4 @@ $this->profile->insert($this->getPDO());
 //	   $this->assertNull($pdoImage);
 //	   $this->assertEquals($numRows, $this->getConnection()->getRowCount("profile"));
 //	 }
-
+}
