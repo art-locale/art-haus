@@ -360,11 +360,18 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
    }
 
    /**
-  * test accessing a profile by profile latitude and longitude that does not exist TODO Ask George For Help w/ Lat/Long
+  * test accessing a profile by profile latitude that does not exist
   **/
 
+  public function testGetProfileByInvalidLatitude() : void {
+
+    // Access profile latitude that does not exists
+    $profile = Profile::getProfileByLatitude($this->getPDO(), "12.123456");
+    $this->assertNull($profile);
+  }
+
   /**
-  * test accessing a profile by logitude
+  * test accessing a profile by longitude
   **/
 
   public function testAccessProfileByLongitude() : void {
@@ -391,6 +398,17 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
     $this->assertEquals($pdoProfile->getProfilePassword(), $this->VALID_PROFILEPASSWORD);
     $this->assertEquals($pdoProfile->getProfileWebsite(), $this->VALID_PROFILEWEBSITE);
   }
+
+  /**
+ * test accessing a profile by profile longitude that does not exist
+ **/
+
+ public function testGetProfileByInvalidLongitude() : void {
+
+   // Access profile latitude that does not exists
+   $profile = Profile::getProfileByLongitude($this->getPDO(), "23.987654");
+   $this->assertNull($profile);
+ }
 
    /**
 	 * test accessing a profile by activation token
