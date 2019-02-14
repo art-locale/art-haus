@@ -100,12 +100,8 @@ class TestImage extends ArtHausTest {
 		parent::setUp();
 		//
 		$password = "password1234";
-		$this->VALID_PROFILE_HASH = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
+		$this->VALID_PROFILEPASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
 		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
-
-		//create and insert a Profile to own the test Image
-		$this->profile = new Profile(generateUuidV4(), null, null,"@handle", 89.1234, 100.098, "this title", $this->VALID_PROFILE_HASH, null); //FIXME ProfilePassword?
-$this->profile->insert($this->getPDO());
 
 		// calculate the date (just use the time the unit test was setup)
 		$this->VALID_TIMESTAMP = new \DateTime();
@@ -117,10 +113,17 @@ $this->profile->insert($this->getPDO());
 		//format the sunset date to use for testing //FIXME Necessary?
 		$this->VALID_SUNSETDATE = new\DateTime();
 		$this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
-	}
+
+//		Fixme Appears unnecessary. Not in profile
+//		//create and insert a Profile to own the test Image
+//		$this->profile = new Profile(generateUuidV4(), null, null,"@handle", 89.1234, 100.098, "this title", $this->VALID_PROFILE_HASH, null); //FIXME ProfilePassword?
+//$this->profile->insert($this->getPDO());
+
+
 
 	/****************************************************************************************************************
-	 * TEST CREATING A VALID IMAGE**************************************************************************************************************/
+	 * TEST CREATING A VALID IMAGE
+	 **************************************************************************************************************/
 
 	public function testCreateImage() : void {
 
@@ -132,6 +135,7 @@ $this->profile->insert($this->getPDO());
 
 		$image = new Image ($imageId, $this->VALID_IMAGEGALLERYID, $this->VALID_IMAGEPROFILEID, $this->VALID_IMAGEDATE,$this->VALID_IMAGETITLE, $this->VALID_IMAGEURL);
 		$image->insert($this->getPDO());
+
 		// grab the data from mySQL and enforce the fields match expectations
 		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
