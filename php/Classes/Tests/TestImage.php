@@ -64,7 +64,7 @@ class TestImage extends ArtHausTest {
 
 	/**
 	 * Date image was created- this starts as null and is assigned later
-	 * @var \Date $VALID_IMAGEDATE
+	 * @var \DateTime $VALID_IMAGEDATE
 	 **/
 	protected $VALID_IMAGEDATE = null;
 
@@ -101,6 +101,13 @@ class TestImage extends ArtHausTest {
 	 * @var string $VALID_IMAGEURL2
 	 **/
 	protected $VALID_IMAGEURL2 = null;
+
+	/**
+	 * Date image was created- this starts as null and is assigned later
+	 * @var \DateTime $VALID_GALLERYDATE
+	 **/
+	protected $VALID_GALLERYDATE = null;
+
 
 /**********************************************************************************************************************
  * PROBLEM VARIABLES SECTION: FIXME once other unit tests work, recommend elminating the galleryId and profileId here and use the code in the setUp function below.
@@ -154,8 +161,8 @@ protected $VALID_IMAGEGALLERYID; //"9fc67e8e30a311e9b210d663bd873d93";
 		//Fixme: Note this appears to break if not uncommented in the phpunit.xml
 	//	Fixme Maybe unnecessary. Not in our profileTest, but then again it doesn't have foreign keys.
 		//create and insert a Gallery to own the test Image
-		$this->profile = new Gallery(generateUuidV4(), $this->profile->getProfileId(), $this->VALID_GALLERYDATE, "handle");
-		$this->profile->insert($this->getPDO());
+		$this->gallery = new Gallery(generateUuidV4(), $this->profile->getProfileId(), $this->VALID_GALLERYDATE, "handle");
+		$this->gallery->insert($this->getPDO());
 	}
 	/****************************************************************************************************************
 	 * TEST CREATING A VALID IMAGE
