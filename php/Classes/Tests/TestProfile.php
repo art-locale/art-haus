@@ -134,6 +134,9 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
     //
 		$password = "password1234";
 		$this->VALID_PROFILEPASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
+    $password2 = "newPassword4321";
+		$this->VALID_PROFILEPASSWORD2 = password_hash($password2, PASSWORD_ARGON2I, ["time_cost" => 384]);
+
 		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
     $this->VALID_PROFILEDATE = new \DateTime();
 
@@ -190,13 +193,13 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 		$profile->insert($this->getPDO());
 
 		// edit the profile and update it in database
-		$profile->setProfileName($this->$VALID_PROFILENAME2);
-		$profile->update($this->getPDO());
-		// $profile->setProfileLatitude($this->$VALID_PROFILELatitude);
-		// $profile->setProfileLongitude($this->$VALID_PROFILELongitude);
-		// $profile->setProfileName($this->$VALID_PROFILENAME2);
-		// $profile->setProfilePassword($this->VALID_PROFILEPASSWORD2);
-		// $profile->setProfileWebsite($this->$VALID_PROFILEEMAIL2);
+		$profile->setProfileLatitude($this->VALID_PROFILELATITUDE2);
+		$profile->setProfileLongitude($this->VALID_PROFILELONGITUDE2);
+		$profile->setProfileEmail($this->VALID_PROFILEEMAIL2);
+    $profile->setProfileName($this->VALID_PROFILENAME2);
+		$profile->setProfilePassword($this->VALID_PROFILEPASSWORD2);
+		$profile->setProfileWebsite($this->VALID_PROFILEWEBSITE2);
+    $profile->update($this->getPDO());
 
 		// access the data from database and confirm the data matches expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
@@ -206,12 +209,12 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 		$this->assertEquals($pdoProfile->getProfileId(), $profileId);
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
 		$this->assertEquals($pdoProfile->getProfileDate()->getTimestamp(), $this->VALID_PROFILEDATE->getTimestamp());
-		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL);
-		$this->assertEquals($pdoProfile->getProfileLatitude(), $this->VALID_PROFILELATITUDE);
-	 	$this->assertEquals($pdoProfile->getProfileLongitude(), $this->VALID_PROFILELONGITUDE);
+		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL2);
+		$this->assertEquals($pdoProfile->getProfileLatitude(), $this->VALID_PROFILELATITUDE2);
+	 	$this->assertEquals($pdoProfile->getProfileLongitude(), $this->VALID_PROFILELONGITUDE2);
 		$this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME2);
-		$this->assertEquals($pdoProfile->getProfilePassword(), $this->VALID_PROFILEPASSWORD);
-		$this->assertEquals($pdoProfile->getProfileWebsite(), $this->VALID_PROFILEWEBSITE);
+		$this->assertEquals($pdoProfile->getProfilePassword(), $this->VALID_PROFILEPASSWORD2);
+		$this->assertEquals($pdoProfile->getProfileWebsite(), $this->VALID_PROFILEWEBSITE2);
 	}
 
   /**
