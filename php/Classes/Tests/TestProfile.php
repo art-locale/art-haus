@@ -284,7 +284,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
    /**
   * test accessing a profile by profile name that does not exist
   **/
-  public function testGetProfileByInvalidProfileName() : void {
+  public function testGetProfileByInvalidName() : void {
 
     // Access profile name that does not exists
     $profile = Profile::getProfileByName($this->getPDO(), "Fake Name");
@@ -299,13 +299,21 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
   * test accessing a profile by profile email that does not exist
   **/
 
+  public function testGetProfileByInvalidEmail() : void {
+
+    // Access profile name that does not exists
+    $profile = Profile::getProfileByEmail($this->getPDO(), "doesnotexist@gmail.com");
+    $this->assertNull($profile);
+  }
+
    /**
-	 * test accessing a profile by latitude and longitude
+	 * test accessing a profile by latitude and longitude TODO Ask George For Help w/ Lat/Long
 	 **/
 
    /**
-  * test accessing a profile by profile latitude and longitude that does not exist
+  * test accessing a profile by profile latitude and longitude that does not exist TODO Ask George For Help w/ Lat/Long
   **/
+
 
    /**
 	 * test accessing a profile by activation token
@@ -314,6 +322,13 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
    /**
   * test accessing a profile by activation token that does not exist
   **/
+
+  public function testGetProfileByInvaliActivationToken() : void {
+
+    // Access profile name that does not exists
+    $profile = Profile::getProfileByProfileActivationToken($this->getPDO(), "9dc8ec939f2191519ebfc91434c2590f");
+    $this->assertNull($profile);
+  }
 
    /**
 	 * test accessing all profiles
