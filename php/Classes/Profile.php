@@ -1,18 +1,14 @@
 <?php
 namespace ArtLocale\ArtHaus;
-
 require_once("autoload.php");
 require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
-
 use Ramsey\Uuid\Uuid;
-
 /**
  * Framework for Profile class
  *
  * @author William Isengard <wisengard@cnm.edu>
  * @version 1.0.0
  **/
-
 class Profile implements \JsonSerializable {
 	use ValidateDate;
 	use ValidateUuid;
@@ -61,7 +57,6 @@ class Profile implements \JsonSerializable {
 	 * @var string $profileWebsite ;
 	 **/
 	private $profileWebsite;
-
 	/**
 	 * constructor for this
 	 * @param Uuid|string $newProfileId new id of this profile or null if a new profile
@@ -96,9 +91,7 @@ class Profile implements \JsonSerializable {
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 	}
-
 	/** profileId **/
-
 	/**
 	 * accessor method for profile id
 	 *
@@ -107,7 +100,6 @@ class Profile implements \JsonSerializable {
 	public function getProfileId(): Uuid {
 		return ($this->profileId);
 	}
-
 	/**
 	 * mutator method for profile id
 	 *
@@ -125,9 +117,7 @@ class Profile implements \JsonSerializable {
 		// convert and store the profile id
 		$this->profileId = $uuid;
 	}
-
 	/** profileActivationToken **/
-
 	/**
 	 * accessor method for activation token
 	 *
@@ -136,7 +126,6 @@ class Profile implements \JsonSerializable {
 	public function getProfileActivationToken(): ?string {
 		return ($this->profileActivationToken);
 	}
-
 	/**
 	 * mutator method for activation token
 	 *
@@ -161,9 +150,7 @@ class Profile implements \JsonSerializable {
 		// store the activation token
 		$this->profileActivationToken = $newProfileActivationToken;
 	}
-
 	/** profileDate **/
-
 	/**
 	 * accessor method for profile date
 	 *
@@ -172,7 +159,6 @@ class Profile implements \JsonSerializable {
 	public function getProfileDate() : \DateTime {
 		return ($this->profileDate);
 	}
-
 	/**
 	 * mutator method for profile date
 	 *
@@ -197,9 +183,7 @@ class Profile implements \JsonSerializable {
 		}
 		$this->profileDate = $newProfileDate;
 	}
-
 	/** profileEmail **/
-
 	/**
 	 * accessor method for profile email
 	 *
@@ -208,7 +192,6 @@ class Profile implements \JsonSerializable {
 	public function getProfileEmail(): string {
 		return ($this->profileEmail);
 	}
-
 	/**
 	 * mutator method for profile email
 	 *
@@ -231,9 +214,7 @@ class Profile implements \JsonSerializable {
 		// store the activation token
 		$this->profileEmail = $newProfileEmail;
 	}
-
 	/** profileLatitude**/
-
 	/** accessor method for profile latitude
 	 *
 	 * @return float value of profile latitude
@@ -241,7 +222,6 @@ class Profile implements \JsonSerializable {
 	public function getProfileLatitude(): float {
 		return ($this->profileLatitude);
 	}
-
 	/** mutator method for profile latitude
 	 *
 	 * @param float $newProfileLatitude new value of profile latitude
@@ -260,9 +240,7 @@ class Profile implements \JsonSerializable {
 		// store the latitude
 		$this->profileLatitude = $newProfileLatitude;
 	}
-
 	/** profileLongitude**/
-
 	/** accessor method for profile longitude
 	 *
 	 *
@@ -271,7 +249,6 @@ class Profile implements \JsonSerializable {
 	public function getProfileLongitude(): float {
 		return ($this->profileLongitude);
 	}
-
 	/** mutator method for profile longitude
 	 *
 	 * @param float $newProfileLongitude new value of profile longitude
@@ -290,9 +267,7 @@ class Profile implements \JsonSerializable {
 		// store the longitude
 		$this->profileLongitude = $newProfileLongitude;
 	}
-
 	/** profileName**/
-
 	/**
 	 * accessor method for profile name
 	 *
@@ -301,7 +276,6 @@ class Profile implements \JsonSerializable {
 	public function getProfileName(): string {
 		return ($this->profileName);
 	}
-
 	/**
 	 * mutator method for profile name
 	 *
@@ -324,9 +298,7 @@ class Profile implements \JsonSerializable {
 		// store the profile name
 		$this->profileName = $newProfileName;
 	}
-
 	/** profilePassword**/
-
 	/**
 	 * accessor method for profile password
 	 *
@@ -335,7 +307,6 @@ class Profile implements \JsonSerializable {
 	public function getProfilePassword(): string {
 		return ($this->profilePassword);
 	}
-
 	/**
 	 * mutator method for profile password
 	 *
@@ -355,7 +326,6 @@ class Profile implements \JsonSerializable {
 		if($profilePasswordInfo["algoName"] !== "argon2i") {
 			throw(new \InvalidArgumentException("profile password is not a valid hash"));
 		}
-
 		// verify the profile password will fit in the database
 		if(strlen($newProfilePassword) > 97) {
 			throw(new \RangeException("profile password too large"));
@@ -363,9 +333,7 @@ class Profile implements \JsonSerializable {
 		// store the profile password
 		$this->profilePassword = $newProfilePassword;
 	}
-
 	/** profileWebsite*/
-
 	/**
 	 * accessor method for profile website url
 	 *
@@ -374,7 +342,6 @@ class Profile implements \JsonSerializable {
 	public function getProfileWebsite(): ?string {
 		return ($this->profileWebsite);
 	}
-
 	/**
 	 * mutator method for profile website url
 	 *
@@ -397,7 +364,6 @@ class Profile implements \JsonSerializable {
 		// store the profile website url
 		$this->profileWebsite = $newProfileWebsite;
 	}
-
 	/**
 	 * inserts this profile into mySQL
 	 *
@@ -406,17 +372,14 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function insert(\PDO $pdo): void {
-
 		// create query template
 		$query = "INSERT INTO profile (profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite) VALUES(:profileId, :profileActivationToken, :profileDate, :profileEmail, :profileLatitude, :profileLongitude, :profileName, :profilePassword, :profileWebsite)";
 		$statement = $pdo->prepare($query);
-
 		// bind the member variables to the place holder in the template
 		$formattedDate = $this->profileDate->format("Y-m-d H:i:s.u");
 		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileDate" => $formattedDate, "profileEmail" => $this->profileEmail, "profileLatitude" => $this->profileLatitude, "profileLongitude" => $this->profileLongitude, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
 		$statement->execute($parameters);
 	}
-
 	/**
 	 * deletes this profile from mySQL
 	 *
@@ -425,16 +388,13 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function delete(\PDO $pdo): void {
-
 		// create query template
 		$query = "DELETE FROM profile WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
-
 		// bind the member variables to the place holder in the template
 		$parameters = ["profileId" => $this->profileId->getBytes()];
 		$statement->execute($parameters);
 	}
-
 	/**
 	 * updates this profile in mySQL
 	 *
@@ -443,17 +403,14 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function update(\PDO $pdo): void {
-
 		// create query template
 		$query = "UPDATE profile SET profileId = :profileId, profileActivationToken = :profileActivationToken, profileDate = :profileDate, profileEmail = :profileEmail, profileLatitude = :profileLatitude, profileLongitude = :profileLongitude, profileName = :profileName, profilePassword = :profilePassword, profileWebsite = :profileWebsite WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
-
 		// bind the member variables to the place holder in the template
 		$formattedDate = $this->profileDate->format("Y-m-d H:i:s.u");
 		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileDate" => $formattedDate, "profileEmail" => $this->profileEmail, "profileLatitude" => $this->profileLatitude, "profileLongitude" => $this->profileLongitude, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
 		$statement->execute($parameters);
 	}
-
 	/**
 	 * gets the profile by profileId
 	 *
@@ -470,15 +427,12 @@ class Profile implements \JsonSerializable {
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-
 		// create query template
 		$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM profile WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
-
 		// bind the profile id to the place holder in the template
 		$parameters = ["profileId" => $profileId->getBytes()];
 		$statement->execute($parameters);
-
 		// grab the profile from mySQL
 		try {
 			$profile = null;
@@ -493,7 +447,6 @@ class Profile implements \JsonSerializable {
 		}
 		return ($profile);
 	}
-
 	/**
 	 * gets the profile by email
 	 *
@@ -510,15 +463,12 @@ class Profile implements \JsonSerializable {
 		if(empty($profileEmail) === true) {
 			throw(new \PDOException("not a valid email"));
 		}
-
 		// create query template
 		$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM profile WHERE profileEmail = :profileEmail";
 		$statement = $pdo->prepare($query);
-
 		// bind the profile email to the placeholder in template
 		$parameters = ["profileEmail" => $profileEmail];
 		$statement->execute($parameters);
-
 		// grab profile from database
 		try {
 			$profile = null;
@@ -533,7 +483,6 @@ class Profile implements \JsonSerializable {
 		}
 		return ($profile);
 	}
-
 	/**
 	 * gets the profile by activation token
 	 *
@@ -549,15 +498,12 @@ class Profile implements \JsonSerializable {
 		if(ctype_xdigit($profileActivationToken) === false) {
 			throw(new \InvalidArgumentException("activation token is empty or incorrect format"));
 		}
-
 		// create query template
 		$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM profile WHERE profileActivationToken = :profileActivationToken";
 		$statement = $pdo->prepare($query);
-
 		// bind activation token to placeholder in template
 		$parameters = ["profileActivationToken" => $profileActivationToken];
 		$statement->execute($parameters);
-
 		// grab profile from database
 		try {
 			$profile = null;
@@ -572,7 +518,6 @@ class Profile implements \JsonSerializable {
 		}
 		return ($profile);
 	}
-
 	/**
 	 * gets the profile by profile name
 	 *
@@ -589,15 +534,12 @@ class Profile implements \JsonSerializable {
 		if(empty($profileName) === true) {
 			throw(new \PDOException("not a valid name"));
 		}
-
 		// create query template
 		$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM profile WHERE profileName = :profileName";
 		$statement = $pdo->prepare($query);
-
 		// bind the profile name to the placeholder in template
 		$parameters = ["profileName" => $profileName];
 		$statement->execute($parameters);
-
 		// grab profile from database
 		try {
 			$profile = null;
@@ -612,11 +554,9 @@ class Profile implements \JsonSerializable {
 		}
 		return ($profile);
 	}
-
 	/**
 	 * TODO- Add get profile by Profile Distance getProfileByProfileDistance
 	 **/
-
 	/**
 	 * gets all profiles
 	 *
@@ -630,7 +570,6 @@ class Profile implements \JsonSerializable {
 		$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM profile";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
-
 		// build an array of profiles
 		$profiles = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -646,7 +585,6 @@ class Profile implements \JsonSerializable {
 		}
 		return ($profiles);
 	}
-
 	/**
 	 * formats the state variables for JSON serialization
 	 *
@@ -655,12 +593,10 @@ class Profile implements \JsonSerializable {
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
 		$fields["profileId"] = $this->profileId->toString();
-
 		//format the date so that the front end can consume it
 		unset($fields["profilePassword"]);
 		$fields["profileDate"] = round(floatval($this->profileDate->format("U.u")) * 1000);
 		return ($fields);
-
 	}
 }
 ?>
