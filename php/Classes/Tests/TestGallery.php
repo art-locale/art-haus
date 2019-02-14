@@ -1,7 +1,7 @@
 <?php
 namespace ArtLocale\ArtHaus\Tests;
 
-use ArtLocale\ArtHaus\Profile;
+use ArtLocale\ArtHaus\{Gallery, Profile};
 
 // access the class under scrutiny
 require_once(dirname(__DIR__) . "/autoload.php");
@@ -32,6 +32,12 @@ class TestGallery extends ArtHausTest {
 	protected $gallery = null;
 
 	/**
+	 * valid Art Haus profile
+	 * @var Profile profile
+	 **/
+	protected $profile = null;
+
+	/**
 	 * id for this gallery
 	 * @var Uuid $VALID_GALLERYID
 	 */
@@ -47,7 +53,7 @@ class TestGallery extends ArtHausTest {
 	 * Date and time gallery was created- this starts as null and is assigned later
 	 * @var \DateTime $VALID_GALLERYDATE
 	 **/
-	protected $VALID_GALLERYDATE;
+	protected $VALID_GALLERYDATE = null;
 
 	/**
 	 * Valid timestamp to use as sunriseGalleryDate
@@ -65,9 +71,29 @@ class TestGallery extends ArtHausTest {
 	 **/
 	protected $VALID_GALLERYNAME = "My Gallery";
 
+	/*
+	 * test for valid hash
+	 */
+	protected $VALID_PASSWORD;
 
-//	  // calculate the date (just use the time the unit test was setup...)
-//	$this->$VALID_GALLERYDATE = new \DateTime();
+	/*
+	 * test for valid activation token
+	 */
+	protected $VALID_ACTIVATION;
+
+
+	/*
+	 * @throws \Exception
+	 */
+	public final function setUp(): void {
+		parent::setUp();
+		$password = "test123";
+		$this->VALID_PASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
+		$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
+		$this->profile = new Profile(generateUuidV4(), $this->VALID_ACTIVATION, null, "testUser@gmail.com", 85.12345, 75.12345, "Jack Johnson", $this->VALID_PASSWORD, "www.myWebsite.com");
+
+		$this->profile->insert($this->getPDO());
+	}
 
 	/**
 	 * test creating a valid gallery
