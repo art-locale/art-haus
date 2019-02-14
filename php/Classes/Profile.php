@@ -371,8 +371,8 @@ class Profile implements \JsonSerializable {
 	 *
 	 * @return string value of profile website url
 	 **/
-	public function getProfileWebsite(): string {
-		return ($this->ProfileWebsite);
+	public function getProfileWebsite(): ?string {
+		return ($this->profileWebsite);
 	}
 
 	/**
