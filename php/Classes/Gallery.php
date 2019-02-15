@@ -36,7 +36,7 @@ class Gallery {
 
 	/**
 	 * the gallery's ID; this is the primary key
-	 * @var string $galleryId
+	 * @var Uuid $galleryId
 	 **/
 	private $galleryId;
 
@@ -92,7 +92,7 @@ class Gallery {
 	/**
 	 * GETTER accessor method for gallery id
 	 *
-	 * @return uuid | string value of gallery id
+	 * @return uuid value of gallery id
 	 **/
 	public function getGalleryId(): uuid  {
 		return ($this->galleryId);
@@ -256,7 +256,7 @@ class Gallery {
 	public function delete(\PDO $pdo) : void {
 
 		// create query template
-		$query = "DELETE FROM author WHERE galleryId = :galleryId";
+		$query = "DELETE FROM gallery WHERE galleryId = :galleryId";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holder in the template
@@ -293,7 +293,7 @@ class Gallery {
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param Uuid $galleryProfileId gallery profile id to search for
-	 * @return gallery|null author found or null if not found
+	 * @return string|null gallery author found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
@@ -306,7 +306,7 @@ class Gallery {
 		}
 
 		// create query template
-		$query = "SELECT galleryId, galleryName FROM gallery WHERE galleryId = :galleryId";
+		$query = "SELECT galleryId, galleryProfileId, galleryDate, galleryName FROM gallery WHERE galleryId = :galleryId";
 		$statement = $pdo->prepare($query);
 
 		// bind the gallery id to the place holder in the template
@@ -334,7 +334,7 @@ class Gallery {
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param Uuid $GalleryProfileId profile id to search for
-	 * @return author|null author found or null if not found
+	 * @return string|null author found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
@@ -347,7 +347,7 @@ class Gallery {
 		}
 
 		// create query template
-		$query = "SELECT galleryId, galleryName FROM gallery WHERE galleryProfileId = :galleryProfileId";
+		$query = "SELECT galleryId, galleryProfileId, galleryDate, galleryName FROM gallery WHERE galleryProfileId = :galleryProfileId";
 		$statement = $pdo->prepare($query);
 
 		// bind the gallery id to the place holder in the template
