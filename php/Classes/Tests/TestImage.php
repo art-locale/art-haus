@@ -50,17 +50,17 @@ class TestImage extends ArtHausTest {
 	 * */
 	protected $VALID_IMAGEID;
 
-	/** //FIXME don't see example of this in documentation
-	 * placeholder image gallery id for initial image creation
-	 * @var string $VALID_IMAGEGALLERYID
-	 **/
-//	protected $VALID_IMAGEGALLERYID;
-
-	/**   /** //FIXME don't see example of this in documentation
-	 * placeholder image profile id for initial image creation
-	 * @var string $VALID_IMAGEPROFILEID
-	 **/
-//	protected $VALID_IMAGEPROFILEID;
+	// /** //FIXME don't see example of this in documentation
+	//  * placeholder image gallery id for initial image creation
+	//  * @var string $VALID_IMAGEGALLERYID
+	//  **/
+ 	// protected $VALID_IMAGEGALLERYID;
+	//
+	// /** //FIXME don't see example of this in documentation
+	//  * placeholder image profile id for initial image creation
+	//  * @var string $VALID_IMAGEPROFILEID
+	//  **/
+	//  protected $VALID_IMAGEPROFILEID;
 
 	/**
 	 * Date image was created- this starts as null and is assigned later
@@ -122,7 +122,7 @@ protected $VALID_IMAGEGALLERYID; //"9fc67e8e30a311e9b210d663bd873d93";
 * set profileId
 * @var string $VALID_IMAGEPROFILEID
 * */
-	protected $VALID_IMAGEPROFILEID; // = null;
+	protected $VALID_IMAGEPROFILEID;
 
 	/**
 	 * update url of image uprl
@@ -155,13 +155,13 @@ protected $VALID_IMAGEGALLERYID; //"9fc67e8e30a311e9b210d663bd873d93";
 		$this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
 
 		//create and insert a Profile to own the test Image
-		$this->profile = new Profile(generateUuidV4(), $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, "bt@handletest.com", "89.123445", "100.098109", "this title", $this->VALID_PROFILEPASSWORD, "www.msn.com"); //FIXME ProfilePassword?
+		$this->profile = new Profile(generateUuidV4(), $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE->getTimestamp(), "bt@handletest.com", "89.123445", "100.098109", "this title", $this->VALID_PROFILEPASSWORD, "www.msn.com"); //FIXME ProfilePassword?
 		$this->profile->insert($this->getPDO());
 
 		//Fixme: Note this appears to break if not uncommented in the phpunit.xml
 	//	Fixme Maybe unnecessary. Not in our profileTest, but then again it doesn't have foreign keys.
 		//create and insert a Gallery to own the test Image
-		$this->gallery = new Gallery(generateUuidV4(), $this->profile->getProfileId(), $this->VALID_GALLERYDATE, "handle");
+		$this->gallery = new Gallery(generateUuidV4(), $this->profile->getProfileId(), $this->VALID_GALLERYDATE->getTimestamp(), "handle");
 		$this->gallery->insert($this->getPDO());
 	}
 	/****************************************************************************************************************
