@@ -234,11 +234,12 @@ class Gallery {
 	public function insert(\PDO $pdo) : void {
 
 		// create query template with associative array indexes:
-		$query = "INSERT INTO gallery(galleryId, galleryProfileId, galleryDate, galleryName) VALUES(:galleryId, :galleryProfileId, :galleryDate, :galleryName)";
+		$query = "INSERT INTO gallery (galleryId, galleryProfileId, galleryDate, galleryName) VALUES(:galleryId, :galleryProfileId, :galleryDate, :galleryName)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["galleryId" => $this->galleryId->getBytes(), "galleryProfileId" => $this->galleryProfileId, "galleryDate" => $this->galleryDate, "galleryName" => $this->galleryName];
+		$formattedDate = $this->galleryDate->format("Y-m-d H:i:s.u");
+		$parameters = ["galleryId" => $this->galleryId->getBytes(), "galleryProfileId" => $this->galleryProfileId->getBytes(), "galleryDate" => $formattedDate, "galleryName" => $this->galleryName];
 		$statement->execute($parameters);
 	}
 	/* END INSERT METHOD */

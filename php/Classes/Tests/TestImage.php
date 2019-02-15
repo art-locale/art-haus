@@ -118,8 +118,8 @@ class TestImage extends ArtHausTest {
 
 		// calculate the date (just use the time the unit test was setup)
 		$this->VALID_IMAGEDATE = new \DateTime();
-		$this->VALID_PROFILEDATE = new \DateTime();
-		$this->VALID_GALLERYDATE = new \DateTime();
+		// $this->VALID_PROFILEDATE = new \DateTime();
+		// $this->VALID_GALLERYDATE = new \DateTime();
 
 		//format the sunrise date to use for testing //FIXME Necessary?
 		$this->VALID_SUNRISEDATE = new \DateTime();
@@ -130,13 +130,13 @@ class TestImage extends ArtHausTest {
 		$this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
 
 		//create and insert a Profile to own the test Image
-		$this->profile = new Profile(generateUuidV4(), $this->VALID_PROFILEACTIVATIONTOKEN, new \DateTime(), "bt@handletest.com", 89.123445, 35.098109, "this title", $this->VALID_PROFILEPASSWORD, "www.msn.com"); //FIXME ProfilePassword?
+		$this->profile = new Profile(generateUuidV4(), $this->VALID_PROFILEACTIVATIONTOKEN, new \DateTime, "bt@handletest.com", 89.123445, 35.098109, "this title", $this->VALID_PROFILEPASSWORD, "www.msn.com"); //FIXME ProfilePassword?
 		$this->profile->insert($this->getPDO());
 
 		//Fixme: Note this appears to break if not uncommented in the phpunit.xml
 	//	Fixme Maybe unnecessary. Not in our profileTest, but then again it doesn't have foreign keys.
 		//create and insert a Gallery to own the test Image
-		$this->gallery = new Gallery(generateUuidV4(), $this->profile->getProfileId(), new \DateTime(), "handle");
+		$this->gallery = new Gallery(generateUuidV4(), $this->profile->getProfileId(), new \DateTime, "handle");
 		$this->gallery->insert($this->getPDO());
 	}
 	/****************************************************************************************************************
