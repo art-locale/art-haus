@@ -27,46 +27,34 @@ class TestImage extends ArtHausTest {
 	protected $profile = null;
 
 	/**
-	 * placeholder activation token for initial profile creation
-	 * @var string $VALID_PROFILEACTIVATIONTOKEN
+	 * Gallery that houses image; for foreign key relations
+	 * @var Gallery gallery
 	 **/
-	protected $VALID_PROFILEACTIVATIONTOKEN;
+	protected $gallery = null;
 
 	/**
-	 * Date and time profile was created- this starts as null and is assigned later
-	 * @var \DateTime $VALID_PROFILEDATE
+	 * id for this image
+	 * @var Uuid $VALID_IMAGEID
 	 **/
-	protected $VALID_PROFILEDATE = null;
-
-	/**
-	 * valid profile password to create profile object to own the test
-	 * @var string VALID_PROFILEPASSWORD
-	 */
-	protected $VALID_PROFILEPASSWORD;
-
-	/*
-	 * heres a image id
-	 * @var string | uuid imageId
-	 * */
 	protected $VALID_IMAGEID;
-
-	// /** //FIXME don't see example of this in documentation
-	//  * placeholder image gallery id for initial image creation
-	//  * @var string $VALID_IMAGEGALLERYID
-	//  **/
- 	// protected $VALID_IMAGEGALLERYID;
-	//
-	// /** //FIXME don't see example of this in documentation
-	//  * placeholder image profile id for initial image creation
-	//  * @var string $VALID_IMAGEPROFILEID
-	//  **/
-	//  protected $VALID_IMAGEPROFILEID;
 
 	/**
 	 * Date image was created- this starts as null and is assigned later
 	 * @var \DateTime $VALID_IMAGEDATE
 	 **/
 	protected $VALID_IMAGEDATE = null;
+
+	/**
+	 * Date image was created- this starts as null and is assigned later
+	 * @var \DateTime $VALID_PROFILEDATE
+	 **/
+	protected $VALID_PROFILEDATE = null;
+
+	/**
+	 * Date image was created- this starts as null and is assigned later
+	 * @var \DateTime $VALID_GALLERYDATE
+	 **/
+	protected $VALID_GALLERYDATE = null;
 
 	/**
 	 * Valid timestamp to use as sunriseImageDate
@@ -100,40 +88,25 @@ class TestImage extends ArtHausTest {
 	 * valid url of image url
 	 * @var string $VALID_IMAGEURL2
 	 **/
-	protected $VALID_IMAGEURL2 = null;
+	protected $VALID_IMAGEURL2 = "www.google.com";
 
 	/**
-	 * Date image was created- this starts as null and is assigned later
-	 * @var \DateTime $VALID_GALLERYDATE
+	 * placeholder activation token for initial profile creation
+	 * @var string $VALID_PROFILEACTIVATIONTOKEN
 	 **/
-	protected $VALID_GALLERYDATE = null;
-
-
-/**********************************************************************************************************************
- * PROBLEM VARIABLES SECTION: FIXME once other unit tests work, recommend elminating the galleryId and profileId here and use the code in the setUp function below.
- * ******************************************************************************************************************/
-/*
- * set galleryId
- * @var string $VALID_IMAGEGALLERYID
- * */
-protected $VALID_IMAGEGALLERYID; //"9fc67e8e30a311e9b210d663bd873d93";
-
-/*
-* set profileId
-* @var string $VALID_IMAGEPROFILEID
-* */
-	protected $VALID_IMAGEPROFILEID;
+	protected $VALID_PROFILEACTIVATIONTOKEN;
 
 	/**
-	 * update url of image uprl
-	 * @var string $VALID_IMAGEURL2
-	 **///FIXME this commented out
-//	protected $VALID_IMAGEURL2 = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Statue_of_Liberty_7.jpg/250px-Statue_of_Liberty_7.jpg";
+	 * hash of profile owner account password
+	 * @var string $VALID_PROFILEPASSWORD
+	 **/
+	protected $VALID_PROFILEPASSWORD;
+
 	/***********************************************************************************************************************
 	 * START OF OPERATIONS
 	 *****************************************************************************************************************/
 
-	/** FIXME Ask george if need to change any of the components here
+	/**
 	 * setup operation to create hash and salt.
 	 */
 	public final function setUp(): void {
@@ -144,24 +117,26 @@ protected $VALID_IMAGEGALLERYID; //"9fc67e8e30a311e9b210d663bd873d93";
 		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
 
 		// calculate the date (just use the time the unit test was setup)
+		$this->VALID_IMAGEDATE = new \DateTime();
 		$this->VALID_PROFILEDATE = new \DateTime();
+		$this->VALID_GALLERYDATE = new \DateTime();
 
 		//format the sunrise date to use for testing //FIXME Necessary?
 		$this->VALID_SUNRISEDATE = new \DateTime();
 		$this->VALID_SUNRISEDATE->sub(new \DateInterval("P10D"));
 
 		//format the sunset date to use for testing //FIXME Necessary?
-		$this->VALID_SUNSETDATE = new\DateTime();
+		$this->VALID_SUNSETDATE = new \DateTime();
 		$this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
 
 		//create and insert a Profile to own the test Image
-		$this->profile = new Profile(generateUuidV4(), $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE->getTimestamp(), "bt@handletest.com", "89.123445", "100.098109", "this title", $this->VALID_PROFILEPASSWORD, "www.msn.com"); //FIXME ProfilePassword?
+		$this->profile = new Profile(generateUuidV4(), $this->VALID_PROFILEACTIVATIONTOKEN, new \DateTime(), "bt@handletest.com", 89.123445, 35.098109, "this title", $this->VALID_PROFILEPASSWORD, "www.msn.com"); //FIXME ProfilePassword?
 		$this->profile->insert($this->getPDO());
 
 		//Fixme: Note this appears to break if not uncommented in the phpunit.xml
 	//	Fixme Maybe unnecessary. Not in our profileTest, but then again it doesn't have foreign keys.
 		//create and insert a Gallery to own the test Image
-		$this->gallery = new Gallery(generateUuidV4(), $this->profile->getProfileId(), $this->VALID_GALLERYDATE->getTimestamp(), "handle");
+		$this->gallery = new Gallery(generateUuidV4(), $this->profile->getProfileId(), new \DateTime(), "handle");
 		$this->gallery->insert($this->getPDO());
 	}
 	/****************************************************************************************************************
@@ -188,14 +163,14 @@ protected $VALID_IMAGEGALLERYID; //"9fc67e8e30a311e9b210d663bd873d93";
 		$image->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match expectations
-		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
+		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId(), $this->profile->getProfileId(), $this->gallery->getGalleryId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
 		$this->assertEquals($pdoImage->getImageId(), $imageId);
 		$this->assertEquals($pdoImage->getImageGalleryId(), $this->gallery->getGalleryId()); //fixme sb $this->gallery->getGalleryId());
 		$this->assertEquals($pdoImage->getImageProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoImage->getImageDate()->getTimestamp(), $this->VALID_IMAGEDATE->getTimestamp());
 		$this->assertEquals($pdoImage->getImageTitle(), $this->VALID_IMAGETITLE);
-		$this->assertEquals($pdoImage->getImageUrl(),$this->VALID_IMAGEURL);
+		$this->assertEquals($pdoImage->getImageUrl(), $this->VALID_IMAGEURL);
 		}
 
 	/****************************************************************************************************************

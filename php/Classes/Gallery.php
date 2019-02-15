@@ -170,13 +170,13 @@ class Gallery {
 	public function setGalleryDate($newGalleryDate = null) : void {
 		// base case: if the date is null, use the current date and time
 		if($newGalleryDate === null) {
-			$this->galleryDate = new \DateTime();
+			$this->galleryDate = new \DateTime;
 			return;
 		}
 
 		// store the like date using the ValidateDate trait
 		try {
-			$newGalleryDate = self::validateDate($newGalleryDate);
+			$newGalleryDate = self::validateDateTime($newGalleryDate);
 		} catch(\InvalidArgumentException | \RangeException $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
