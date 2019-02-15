@@ -74,7 +74,7 @@ class Gallery {
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct($newGalleryId, $newGalleryProfileId, $newGalleryDate, $newGalleryName) {
+	public function __construct($newGalleryId, $newGalleryProfileId, $newGalleryDate = null, string $newGalleryName) {
 		try {
 			$this->setGalleryId($newGalleryId);
 			$this->setGalleryProfileId($newGalleryProfileId);
