@@ -18,12 +18,6 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  * @see Gallery
  * @author Jaeren William Tredway <jwilliamtredway@gmail.com>
  **/
-
-//	galleryId BINARY(16) NOT NULL,
-//	galleryProfileId BINARY(16) NOT NULL,
-//	galleryDate DATETIME(6) NOT NULL,
-//	galleryName VARCHAR(32) NOT NULL
-
 class TestGallery extends ArtHausTest {
 	/**
 	 * valid Art Haus gallery
@@ -87,17 +81,20 @@ class TestGallery extends ArtHausTest {
 	 */
 	public final function setUp(): void {
 		parent::setUp();
+		/*************************************************
+		 * build dummy object for Profile:
+		 *************************************************/
 		$password = "test123";
 		$this->VALID_HASH = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
 		$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
 		$this->profile = new Profile(generateUuidV4(), $this->VALID_ACTIVATION, null, "testUser@gmail.com", 85.12345, 75.12345, "Jack Johnson", $this->VALID_HASH, "www.myWebsite.com");
 
-		$this->profile->insert($this->getPDO());
-	}
+		$this->gallery->insert($this->getPDO());
+	}//	end setUp() method
 
-	/**
-	 * test creating a valid gallery
-	 **/
+	/*************************************************
+	 * build dummy object for Gallery:
+	 *************************************************/
 	public function testCreateGallery(): void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("gallery");
