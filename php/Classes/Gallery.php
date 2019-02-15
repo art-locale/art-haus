@@ -42,7 +42,7 @@ class Gallery {
 
 	/**
 	 * the associated profile's ID; this is a foreign key
-	 * @var string $galleryProfileId
+	 * @var Uuid $galleryProfileId
 	 **/
 	private $galleryProfileId;
 
@@ -123,7 +123,7 @@ class Gallery {
 	/**
 	 * GETTER accessor method for gallery profile id
 	 *
-	 * @return string value of gallery profile id
+	 * @return Uuid value of gallery profile id
 	 **/
 	public function getGalleryProfileId(): uuid  {
 		return ($this->galleryProfileId);
@@ -280,7 +280,7 @@ class Gallery {
 		$query = "UPDATE gallery SET galleryId = :galleryId, galleryProfileId = :galleryProfileId, galleryDate = :galleryDate, galleryName = :galleryName";
 		$statement = $pdo->prepare($query);
 
-		$parameters = ["galleryId" => $this->galleryId->getBytes(), "galleryProfileId" => $this->galleryProfileId, "galleryDate" => $this->galleryDate, "galleryName" => $this->galleryName];
+		$parameters = ["galleryId" => $this->galleryId->getBytes(), "galleryProfileId" => $this->galleryProfileId->getBytes(), "galleryDate" => $this->galleryDate, "galleryName" => $this->galleryName];
 		$statement->execute($parameters);
 	}
 	/* END UPDATE METHOD */
@@ -289,7 +289,7 @@ class Gallery {
 	/* START SEARCH STATIC METHODS: RETURN OBJECT */
 
 	/**
-	 * gets the gallery name by galleryProfileId
+	 * gets the gallery name by galleryId
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param Uuid $galleryProfileId gallery profile id to search for
@@ -310,7 +310,7 @@ class Gallery {
 		$statement = $pdo->prepare($query);
 
 		// bind the gallery id to the place holder in the template
-		$parameters = ["galleryId" => galleryId];
+		$parameters = ["galleryId" => $galleryId];
 		$statement->execute($parameters);
 
 		// get the gallery from mySQL
@@ -341,7 +341,7 @@ class Gallery {
 	public static function getGalleryByGalleryProfileId(\PDO $pdo, $GalleryProfileId) : ?gallery {
 		// sanitize the galleryProfileId before searching
 		try {
-			$galleryId = self::validateUuid($GalleryProfileId);
+			$galleryProfileId = self::validateUuid($GalleryProfileId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
@@ -351,7 +351,7 @@ class Gallery {
 		$statement = $pdo->prepare($query);
 
 		// bind the gallery id to the place holder in the template
-		$parameters = ["galleryProfileId" => galleryProfileId];
+		$parameters = ["galleryProfileId" => $galleryProfileId];
 		$statement->execute($parameters);
 
 		// get the gallery from mySQL
