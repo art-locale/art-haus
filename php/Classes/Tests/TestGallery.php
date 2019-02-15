@@ -15,7 +15,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  * This is a complete PHPUnit test of the Gallery class. It is complete because *ALL* mySQL/PDO enabled methods
  * are tested for both invalid and valid inputs.
  *
- * @see Profile
+ * @see Gallery
  * @author Jaeren William Tredway <jwilliamtredway@gmail.com>
  **/
 
@@ -74,7 +74,7 @@ class TestGallery extends ArtHausTest {
 	/*
 	 * test for valid hash
 	 */
-	protected $VALID_PASSWORD;
+	protected $VALID_HASH;
 
 	/*
 	 * test for valid activation token
@@ -88,9 +88,9 @@ class TestGallery extends ArtHausTest {
 	public final function setUp(): void {
 		parent::setUp();
 		$password = "test123";
-		$this->VALID_PASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
+		$this->VALID_HASH = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
 		$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
-		$this->profile = new Profile(generateUuidV4(), $this->VALID_ACTIVATION, null, "testUser@gmail.com", 85.12345, 75.12345, "Jack Johnson", $this->VALID_PASSWORD, "www.myWebsite.com");
+		$this->profile = new Profile(generateUuidV4(), $this->VALID_ACTIVATION, null, "testUser@gmail.com", 85.12345, 75.12345, "Jack Johnson", $this->VALID_HASH, "www.myWebsite.com");
 
 		$this->profile->insert($this->getPDO());
 	}
