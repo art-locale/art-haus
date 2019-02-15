@@ -105,7 +105,7 @@ class TestImage extends ArtHausTest {
 	/***********************************************************************************************************************
 	 * START OF OPERATIONS
 	 *****************************************************************************************************************/
-var_dump($gallery);
+
 	/**
 	 * setup operation to create hash and salt.
 	 */
@@ -139,7 +139,6 @@ var_dump($gallery);
 		$this->gallery = new Gallery(generateUuidV4(), $this->profile->getProfileId(), new \DateTime, "handle");
 		$this->gallery->insert($this->getPDO());
 	}
-	var_dump($gallery);
 	/****************************************************************************************************************
 	 * TEST CREATING A VALID IMAGE
 	 **************************************************************************************************************/
