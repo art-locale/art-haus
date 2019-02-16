@@ -1,7 +1,7 @@
 <?php
 namespace ArtLocale\ArtHaus\Tests;
 
-use ArtLocale\ArtHaus\{Image, Profile};
+use ArtLocale\ArtHaus\{Applaud, Image, Profile, Gallery};
 
 // access the class under scrutiny
 require_once(dirname(__DIR__) . "/autoload.php");
@@ -25,13 +25,13 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 
 class TestApplaud extends ArtHausTest {
 	/**
-	 * valid Art Haus image
+	 * valid Art Haus image; for foreign key relations
 	 * @var Image image
 	 **/
 	protected $image = null;
 
 	/**
-	 * valid Art Haus profile
+	 * valid Art Haus profile; for foreign key relations
 	 * @var Profile profile
 	 **/
 	protected $profile = null;
@@ -39,32 +39,33 @@ class TestApplaud extends ArtHausTest {
 //**************************************************
 // Applaud class state variables:
 //**************************************************
-	/**
-	 * associated image id for this applaud
-	 * @var Uuid $VALID_APPLAUDIMAGEID
-	 */
-	protected $VALID_APPLAUDIMAGEID;
-
-	/**
-	 * associated profile id for this applaud
-	 * @var Uuid $VALID_APPLAUDPROFILEID
-	 */
-	protected $VALID_APPLAUDPROFILEID;
+	// /**
+	//  * associated image id for this applaud
+	//  * @var Uuid $VALID_APPLAUDIMAGEID
+	//  */
+	// protected $VALID_APPLAUDIMAGEID;
+	//
+	// /**
+	//  * associated profile id for this applaud
+	//  * @var Uuid $VALID_APPLAUDPROFILEID
+	//  */
+	// protected $VALID_APPLAUDPROFILEID;
 
 	/*
 	 * a valid applaud count
-	 * @var int $VALID_APPLUADCOUNT;
+	 * @var INT $VALID_APPLUADCOUNT
 	 */
-	protected $VALID_APPLAUDCOUNT;
+	protected $VALID_APPLAUDCOUNT = "100";
+
 
 //**************************************************
 // Image class state variables:
 //**************************************************
-	/**
-	 * id for the image
-	 * @var Uuid $VALID_IMAGEID
-	 */
-	protected $VALID_IMAGEID;
+	// /**
+	//  * id for the image
+	//  * @var Uuid $VALID_IMAGEID
+	//  */
+	// protected $VALID_IMAGEID;
 
 //**************************************************
 // Profile class state variables:
@@ -78,11 +79,17 @@ class TestApplaud extends ArtHausTest {
 	public final function setUp(): void {
 		parent::setUp();
 		$password = "test123";
-		$this->VALID_PASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
-		$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
-		$this->profile = new Profile(generateUuidV4(), $this->VALID_ACTIVATION, null, "testUser@gmail.com", 85.12345, 75.12345, "Jack Johnson", $this->VALID_PASSWORD, "www.myWebsite.com");
+		$this->VALID_PROFILEPASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
+		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
 
+		$this->profile = new Profile(generateUuidV4(), $this->VALID_PROFILEACTIVATIONTOKEN, new \DateTime, "picard4@starfleetacademy.edu", 87.123445, 33.098109, "this new title", $this->VALID_PROFILEPASSWORD, "www.cartoonnetwork.com");
 		$this->profile->insert($this->getPDO());
+
+		$this->gallery = new Gallery(generateUuidV4(), $this->profile->getProfileId(), new \DateTime, "Engage");
+		$this->gallery->insert($this->getPDO());
+
+		$this->image = new Image(generateUuidV4(), $this->gallery->getGalleryId(), $this->profile->getProfileId(), new \DateTime, "Purple", "www.happypuppy.com");
+		$this->image->insert($this->getPDO());
 	}
 
 
@@ -93,13 +100,17 @@ class TestApplaud extends ArtHausTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("applaud");
 		// create a new applaud record and insert into database
-		$applaudImageId = generateUuidV4();
-		$applaudProfileId = generateUuidV4();
-		$applaud = new Applaud($this->VALID_APPLAUDIMAGEID, $this->VALID_APPLAUDPROFILEID,$this->VALID_APPLAUDCOUNT);
+		// $applaudImageId = generateUuidV4();
+		// $applaudProfileId = generateUuidV4();
+		$applaud = new Applaud($this->profile->getProfileId(), $this->image->getImageId(), $this->VALID_APPLAUDCOUNT);
 		$applaud->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match expectations
-		$pdoApplaud = Applaud::getApplaudByImageId($this->getPDO(), $applaud->getApplaudByProfileId());
+		$pdoApplaud = Applaud::getApplaudByApplaudProfileId($this->getPDO(), $this->profile->getProfileId());
+		$pdoApplaud = $pdoApplaud[0];
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("applaud"));
-		$this->assertEquals($pdoApplaud->getApplaudCount(), $applaudCount);
+		$this->assertEquals($pdoApplaud->getApplaudProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoApplaud->getApplaudImageId(), $this->image->getImageId());
+		$this->assertEquals($pdoApplaud->getApplaudCount(), $this->VALID_APPLAUDCOUNT);
 	}
+
 }

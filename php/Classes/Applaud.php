@@ -17,7 +17,7 @@ use Ramsey\Uuid\Uuid;
  * @author Will Tredway <jtredway@cnm.edu>
  * @version 1.0.0
  **/
-class Applaud {
+class Applaud implements \JsonSerializable {
 	use ValidateDate;
 	use ValidateUuid;
 
@@ -34,19 +34,19 @@ class Applaud {
 
 	/**
 	 * the profile ID of the user that applauded; this is a foreign key
-	 * @var uuid | string $applaudProfileId
+	 * @var Uuid $applaudProfileId
 	 **/
 	private $applaudProfileId;
 
 	/**
 	 * the associated images's ID; this is a foreign key
-	 * @var uuid | string $applaudImageId
+	 * @var Uuid $applaudImageId
 	 **/
 	private $applaudImageId;
 
 	/**
 	 * number of applauds given by one user
-	 * @var int $applaudCount
+	 * @var INT $applaudCount
 	 **/
 	private $applaudCount;
 
@@ -55,9 +55,9 @@ class Applaud {
 	/**
 	 * constructor for each new applaud object/ instance
 	 *
-	 * @param Uuid|string $applaudProfileId ID of the user that applauded
-	 * @param Uuid|string $applaudImageId id of the associated image
-	 * @param int $applaudCount number of claps for one image from one user
+	 * @param Uuid|string $newApplaudProfileId ID of the user that applauded
+	 * @param Uuid|string $newApplaudImageId id of the associated image
+	 * @param INT $newApplaudCount number of claps for one image from one user
 	 *
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
@@ -65,7 +65,7 @@ class Applaud {
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct($newApplaudProfileId, $newApplaudImageId, $newApplaudCount) {
+	public function __construct($newApplaudProfileId, $newApplaudImageId, INT $newApplaudCount) {
 		try {
 			$this->setApplaudProfileId($newApplaudProfileId);
 			$this->setApplaudImageId($newApplaudImageId);
@@ -83,9 +83,9 @@ class Applaud {
 	/**
 	 * GETTER accessor method for applaud profile id
 	 *
-	 * @return string value of applaud profile id
+	 * @return Uuid value of applaud profile id
 	 **/
-	public function getApplaudProfileId(): string {
+	public function getApplaudProfileId(): Uuid {
 		return ($this->applaudProfileId);
 	}
 
@@ -96,7 +96,7 @@ class Applaud {
 	 * @throws \RangeException if $newApplaudProfileId is not positive
 	 * @throws \TypeError if $newApplaudProfileId is not a uuid or string
 	 **/
-	public function setApplaudProfileId($newApplaudProfileId): void {
+	public function setApplaudProfileId($newApplaudProfileId) : void {
 		try {
 			$uuid = self::validateUuid($newApplaudProfileId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -114,10 +114,10 @@ class Applaud {
 	/**
 	 * GETTER accessor method for image id that received applause
 	 *
-	 * @return string value of applaud image id
+	 * @return Uuid value of applaud image id
 	 **/
-	public function getApplaudImageId(): string {
-		return ($this->imageId);
+	public function getApplaudImageId(): Uuid {
+		return ($this->applaudImageId);
 	}
 
 	/**
@@ -143,20 +143,25 @@ class Applaud {
 
 	/* START APPLAUD-COUNT METHODS*/
 	/**
-	 * SETTER mutator method for number of applauds
+	 * Accessor method for applaud
 	 *
-	 * @param string $newApplaudCount new value of applaud count
-	 * @throws \InvalidArgumentException if $newApplaudCount is not a string or insecure
-	 * @throws \RangeException if $newApplaudCount is > 140 characters
-	 * @throws \TypeError if $newApplaudCount is not a string
+	 * @return INT number of applauds
 	 **/
-	//TODO treat applaudCount like an int
-	public function setApplaudCount(string $newApplaudCount): void {
-		// verify the applaud count is secure
-		$newApplaudCount = trim($newApplaudCount);
-		$newApplaudCount = filter_var($newApplaudCount, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newApplaudCount) === true) {
-			throw(new \InvalidArgumentException("applaud count is empty or insecure"));
+	public function getApplaudCount(): INT {
+		return($this->applaudCount);
+ }
+ /**
+ 	* mutator method for applaud
+	* @param INT $newApplaudCount new value of applaud count
+	* @throws \InvalidArgumentException if $newApplaudCount is not a string or insecure
+	* @throws \RangeException if $newApplaudCount is > 140 characters
+	* @throws \TypeError if $newApplaudCount is not a string
+	**/
+
+	public function setApplaudCount(INT $newApplaudCount) : void {
+
+	if(empty($newApplaudCount) === true) {
+			throw(new \InvalidArgumentException("applaud count is empty"));
 		}
 
 		// verify the author's username will fit in the database
@@ -191,11 +196,11 @@ class Applaud {
 	public function insert(\PDO $pdo): void {
 
 		// create query template with associative array indexes:
-		$query = "INSERT INTO applaud(applaudeProfileId, applaudImageId, applaudCount) VALUES(:applaudeProfileId, :applaudImageId, :applaudCount)";
+		$query = "INSERT INTO applaud(applaudProfileId, applaudImageId, applaudCount) VALUES(:applaudProfileId, :applaudImageId, :applaudCount)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["applaudeProfileId" => $this->applaudeProfileId->getBytes(), "applaudImageId" => $this->applaudImageId, "applaudCount" => $this->applaudCount];
+		$parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes(), "applaudImageId" => $this->applaudImageId->getBytes(), "applaudCount" => $this->applaudCount];
 		$statement->execute($parameters);
 	}
 	/* END INSERT METHOD */
@@ -212,11 +217,11 @@ class Applaud {
 	public function delete(\PDO $pdo): void {
 
 		// create query template
-		$query = "DELETE FROM applaud WHERE applaudeProfileId = :applaudeProfileId";
+		$query = "DELETE FROM applaud WHERE applaudProfileId = :applaudProfileId";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holder in the template
-		$parameters = ["applaudeProfileId" => $this->applaudeProfileId->getBytes()];
+		$parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes()];
 		$statement->execute($parameters);
 	}
 	/* END DELETE METHOD */
@@ -250,43 +255,48 @@ class Applaud {
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param Uuid $applaudProfileId applaud profile id to search for
-	 * @return applaud|null applaud found or null if not found
+	 * @return \SplFixedArray SplFixedArray of applauds found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getApplaudByApplaudProfileId(\PDO $pdo, $applaudProfileId) : ?applaud {
-		// sanitize the applaudProfileId before searching
-		try {
-			$applaudProfileId = self::validateUuid($applaudProfileId);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
+	public static function getApplaudByApplaudProfileId(\PDO $pdo) : \SPLFixedArray {
+		// // sanitize the applaudProfileId before searching
+		// try {
+		// 	$applaudProfileId = self::validateUuid($applaudProfileId);
+		// } catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+		// 	throw(new \PDOException($exception->getMessage(), 0, $exception));
+		// }
 
 		// create query template
 
-		"SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile WHERE profileName = :profileName";
+		// "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile WHERE profileName = :profileName";
 
-		$query = "SELECT applaudProfileId,applaudImageId, applaudCount FROM applaud WHERE applaudProfileId = :applaudProfileId";
+		$query = "SELECT applaudProfileId, applaudImageId, applaudCount FROM applaud WHERE applaudProfileId = :applaudProfileId";
 		$statement = $pdo->prepare($query);
 
 		// bind the applaudProfileId to the place holder in the template
-		$parameters = ["applaudProfileId" => applaudProfileId];
+		// $parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes()];
+		$parameters = ["applaudProfileId" => $applaudProfileId->getBytes()];
 		$statement->execute($parameters);
 
-		// get the gallery from mySQL
-		try {
-			$applaud = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$applaud = new Applaud($row["applaudProfileId"]);
-			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		// get the profile applauds from mySQL
+
+
+	$applauds = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+				try {
+						$applaud = new Applaud($row["applaudProfileId"], $row["applaudImageId"], $row["applaudCount"]);
+						$applaud[$applauds->key()] = $applaud;
+						$applaus->next();
+				} catch(\Exception $exception) {
+					// if the row couldn't be converted, rethrow it
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+				}
 		}
-		return($applaud);
-	} // end getApplaudByApplaudProfileId
+		return($applauds);
+	}
+		// end getApplaudByApplaudProfileId
 
 //****************************************************************************************
 
@@ -302,7 +312,7 @@ class Applaud {
 	public static function getApplaudByApplaudImageId(\PDO $pdo, $applaudImageId) : ?applaud {
 		// sanitize the applaudImageId before searching
 		try {
-			applaudImageId = self::validateUuid($applaudImageId);
+			$applaudImageId = self::validateUuid($applaudImageId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
@@ -312,7 +322,7 @@ class Applaud {
 		$statement = $pdo->prepare($query);
 
 		// bind the applaudImageId to the place holder in the template
-		$parameters = ["applaudImageId" => applaudImageId];
+		$parameters = ["applaudImageId" => $this->applaudImageId->getBytes()];
 		$statement->execute($parameters);
 
 		// get the applaud from mySQL
@@ -345,18 +355,17 @@ class Applaud {
 	public static function getApplaudByApplaudImageIdandApplaudProfileId(\PDO $pdo, $applaudImageId) : ?applaud {
 		// sanitize the applaudImageId before searching
 		try {
-			applaudImageId = self::validateUuid($applaudImageId);
+			$applaudImageId = self::validateUuid($applaudImageId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 
 		// create query template
-		$query = "SELECT applaudProfileId,applaudImageId, applaudCount FROM applaud WHERE applaudImageId = :applaudImageId && applaudProfileId = :applaudProfileId" ;
+		$query = "SELECT applaudProfileId, applaudImageId, applaudCount FROM applaud WHERE applaudImageId = :applaudImageId && applaudProfileId = :applaudProfileId";
 		$statement = $pdo->prepare($query);
 
 		// bind the applaudImageId and applaudProfileId to the place holder in the template
-		$parameters = ["applaudImageId" => applaudImageId];
-		$parameters = ["applaudProfileId" => applaudProfileId];
+		$parameters = ["applaudImageId" => $this->applaudImageId->getBytes(), "applaudProfileId" => $this->applaudProfileId->getBytes()];
 		$statement->execute($parameters);
 
 		// get the applaud from mySQL
@@ -375,11 +384,18 @@ class Applaud {
 		return($applaud);
 	} // end getApplaudByApplaudImageIdandApplaudProfileId
 
-
-
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+	//foreign keys
+		$fields["applaudImageId"] = $this->applaudImageId->toString();
+		$fields["applaudProfileId"] = $this->applaudProfileId->toString();
+		return ($fields);
+	}
 
 }
-
-
-
-
+?>
