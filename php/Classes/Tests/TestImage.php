@@ -213,22 +213,27 @@ class TestImage extends ArtHausTest {
 	/****************************************************************************************************************
 	 * TEST INSERTING AN IMAGE AND DELETING IT
 	 **************************************************************************************************************/
-//	 /**
-//	  * test to create a image and delete it
-//	  **/
-//	 public function testDeleteImage() : void {
-//	   // count the number of rows and save it for later
-//	   $numRows = $this->getConnection()->getRowCount("image");
-//	   // create a new image and insert into database
-//		 $imageId = generateUuidV4();
-//		 $image = new Image($imageId, $this->VALID_IMAGEGALLERYID, $this->VALID_IMAGEPROFILEID, $this->VALID_IMAGEDATE,$this->VALID_IMAGETITLE, $this->VALID_IMAGEURL);
-//		 $image->insert($this->getPDO());
-//	   // delete the image from database
-//	   $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
-//	   $image->delete($this->getPDO());
-//	   // access database and confirm image deleted
-//	   $pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
-//	   $this->assertNull($pdoImage);
-//	   $this->assertEquals($numRows, $this->getConnection()->getRowCount("profile"));
-//	 }
+	 public function testDeleteImage() : void {
+	   // count the number of rows and save it for later
+	   $numRows = $this->getConnection()->getRowCount("image");
+	   // create a new image and insert into database
+		 $imageId = generateUuidV4();
+
+		 $image = new Image ($imageId,
+			 $this->gallery->getGalleryId(),
+			 $this->profile->getProfileId(),
+			 $this->VALID_IMAGEDATE,
+			 $this->VALID_IMAGETITLE,
+			 $this->VALID_IMAGEURL
+		 );
+		 $image->insert($this->getPDO());
+	   // delete the image from database
+	   $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+	   $image->delete($this->getPDO());
+	   // access database and confirm image deleted
+	   $pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
+	   $this->assertNull($pdoImage);
+	   $this->assertEquals($numRows, $this->getConnection()->getRowCount("image"));
+	 }
+
 }
