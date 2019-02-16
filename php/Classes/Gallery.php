@@ -105,7 +105,7 @@ class Gallery {
 	 * @throws \RangeException if $newGalleryId is not positive
 	 * @throws \TypeError if $newGalleryId is not a uuid or string
 	 **/
-	public function setGalleryId($newGalleryId): void {
+	public function setGalleryId($newGalleryId) : void {
 		try {
 			$uuid = self::validateUuid($newGalleryId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -136,7 +136,7 @@ class Gallery {
 	 * @throws \RangeException if $newGalleryProfileId is not positive
 	 * @throws \TypeError if $newGalleryProfileId is not a uuid or string
 	 **/
-	public function setGalleryProfileId($newGalleryProfileId): void {
+	public function setGalleryProfileId($newGalleryProfileId) : void {
 		try {
 			$uuid = self::validateUuid($newGalleryProfileId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -144,7 +144,7 @@ class Gallery {
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
-		// convert and store the author id
+		// convert and store the galleryProfileId
 		$this->galleryProfileId = $uuid;
 	}
 	/* END GALLERY-PROFILE-ID METHODS*/
@@ -207,14 +207,14 @@ class Gallery {
 	public function setGalleryName(string $newGalleryName): void {
 		// verify the gallery's name is secure
 		$newGalleryName = trim($newGalleryName);
-		$newAuthorUsername = filter_var($newGalleryName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		$newGalleryName = filter_var($newGalleryName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newGalleryName) === true) {
-			throw(new \InvalidArgumentException("author's username is empty or insecure"));
+			throw(new \InvalidArgumentException("gallery name is empty or insecure"));
 		}
 
-		// verify the author's username will fit in the database
+		// verify the gallery name will fit in the database
 		if(strlen($newGalleryName) > 255) {
-			throw(new \RangeException("author's username too large"));
+			throw(new \RangeException("gallery name too large"));
 		}
 
 		// store the gallery's name
@@ -292,8 +292,8 @@ class Gallery {
 	 * gets the gallery name by galleryId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param Uuid $galleryProfileId gallery profile id to search for
-	 * @return string|null gallery author found or null if not found
+	 * @param Uuid|string $galleryProfileId gallery profile id to search for
+	 * @return gallery|null gallery found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
@@ -310,7 +310,7 @@ class Gallery {
 		$statement = $pdo->prepare($query);
 
 		// bind the gallery id to the place holder in the template
-		$parameters = ["galleryId" => $galleryId];
+		$parameters = ["galleryId" => $galleryId->getBytes()];
 		$statement->execute($parameters);
 
 		// get the gallery from mySQL
@@ -319,7 +319,7 @@ class Gallery {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$author = new Gallery($row["galleryId"], $row["galleryName"]);
+				$gallery = new Gallery($row["galleryId"], $row["galleryProfileId"], $row["galleryDate"], $row["galleryName"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
@@ -334,7 +334,7 @@ class Gallery {
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param Uuid $GalleryProfileId profile id to search for
-	 * @return string|null author found or null if not found
+	 * @return string|null gallery found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
@@ -371,4 +371,4 @@ class Gallery {
 	/* END SEARCH STATIC METHODS: RETURN OBJECT */
 
 
-} /* END OF CLASS AUTHOR */
+} /* END OF CLASS GALLERY */

@@ -26,7 +26,7 @@ class TestGallery extends ArtHausTest {
 	protected $gallery = null;
 
 	/**
-	 * valid Art Haus profile
+	 * valid Art Haus profile; for foreign key relations
 	 * @var Profile profile
 	 **/
 	protected $profile = null;
@@ -37,11 +37,6 @@ class TestGallery extends ArtHausTest {
 	 */
 	protected $VALID_GALLERYID;
 
-	/**
-	 * associated profile id for this gallery
-	 * @var Uuid $VALID_GALLERYPROFILEID
-	 */
-	protected $VALID_GALLERYPROFILEID;
 
 	/**
 	 * Date and time gallery was created- this starts as null and is assigned later
@@ -65,15 +60,17 @@ class TestGallery extends ArtHausTest {
 	 **/
 	protected $VALID_GALLERYNAME = "My Gallery";
 
-	/*
-	 * test for valid hash
-	 */
-	protected $VALID_HASH;
+	/**
+	 * placeholder activation token for initial profile creation
+	 * @var string $VALID_PROFILEACTIVATIONTOKEN
+	 **/
+	protected $VALID_PROFILEACTIVATIONTOKEN;
 
-	/*
-	 * test for valid activation token
-	 */
-	protected $VALID_ACTIVATION;
+	/**
+	 * hash of profile owner account password
+	 * @var string $VALID_PROFILEPASSWORD
+	 **/
+	protected $VALID_PROFILEPASSWORD;
 
 
 	/*
@@ -85,12 +82,26 @@ class TestGallery extends ArtHausTest {
 		 * build dummy object for Profile:
 		 *************************************************/
 		$password = "test123";
-		$this->VALID_HASH = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
-		$this->VALID_ACTIVATION = bin2hex(random_bytes(16));
-		$this->profile = new Profile(generateUuidV4(), $this->VALID_ACTIVATION, null, "testUser@gmail.com", 85.12345, 75.12345, "Jack Johnson", $this->VALID_HASH, "www.myWebsite.com");
+		$this->VALID_PROFILEPASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
+		$this->VALID_PROFILEACTIVATION = bin2hex(random_bytes(16));
 
-		$this->gallery->insert($this->getPDO());
-	}//	end setUp() method
+		// calculate the date (just use the time the unit test was setup)
+		$this->VALID_GALLERYDATE = new \DateTime();
+
+		//format the sunrise date to use for testing //FIXME Necessary?
+		$this->VALID_SUNRISEDATE = new \DateTime();
+		$this->VALID_SUNRISEDATE->sub(new \DateInterval("P10D"));
+
+		//format the sunset date to use for testing //FIXME Necessary?
+		$this->VALID_SUNSETDATE = new \DateTime();
+		$this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
+
+		//create and insert a Profile to own the test Image
+		$this->profile = new Profile(generateUuidV4(), $this->VALID_PROFILEACTIVATIONTOKEN, new \DateTime, "bt@handletest.com", 89.123445, 35.098109, "this title", $this->VALID_PROFILEPASSWORD, "www.msn.com");
+		$this->profile->insert($this->getPDO());
+
+	}
+	//	end setUp() method
 
 	/*************************************************
 	 * build dummy object for Gallery:
@@ -100,13 +111,13 @@ class TestGallery extends ArtHausTest {
 		$numRows = $this->getConnection()->getRowCount("gallery");
 		// create a new gallery and insert into database
 		$galleryId = generateUuidV4();
-		$gallery = new Gallery($galleryId, $this->VALID_GALLERYPROFILEID, $this->VALID_GALLERYDATE, $this->VALID_GALLERYNAME);
+		$gallery = new Gallery($galleryId, $this->profile->getProfileId(), $this->VALID_GALLERYDATE, $this->VALID_GALLERYNAME);
 		$gallery->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match expectations
-		$pdoGallery = Gallery::getGalleryByProfileId($this->getPDO(), $gallery->getGalleryId());
+		$pdoGallery = Gallery::getGalleryByGalleryId($this->getPDO(), $gallery->getGalleryId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("gallery"));
 		$this->assertEquals($pdoGallery->getGalleryId(), $galleryId);
-		$this->assertEquals($pdoGallery->getGalleryProfileId(), $this->VALID_GALLERYPROFILEID);
+		$this->assertEquals($pdoGallery->getGalleryProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoGallery->getGalleryDate()->getTimestamp(), $this->VALID_GALLERYDATE->getTimeStamp());
 		$this->assertEquals($pdoGallery->getGalleryName(), $this->VALID_GALLERYNAME);
 	}
