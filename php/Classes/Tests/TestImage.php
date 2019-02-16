@@ -162,7 +162,7 @@ class TestImage extends ArtHausTest {
 		$image->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match expectations
-		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId(), $this->profile->getProfileId(), $this->gallery->getGalleryId());
+		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
 		$this->assertEquals($pdoImage->getImageId(), $imageId);
 		$this->assertEquals($pdoImage->getImageGalleryId(), $this->gallery->getGalleryId()); //fixme sb $this->gallery->getGalleryId());

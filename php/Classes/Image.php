@@ -360,7 +360,7 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		$row = $statement->fetch();
 		if($row !== false) {
-			$image = new Image($row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
+			$image = new Image($row["imageId"], $row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
 		}
 	} catch(\Exception $exception) {
 		// if the row couldn't be converted, rethrow it

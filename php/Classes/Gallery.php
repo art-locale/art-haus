@@ -65,7 +65,7 @@ class Gallery {
 	 *
 	 * @param Uuid|string $newGalleryId ID of this gallery
 	 * @param Uuid|string $newGalleryProfileId id of this gallery's associated profile ID
-	 * @param \DateTime|string|null $newGalleryDate date and time gallery was created or null
+	 * @param \DateTime $newGalleryDate date and time gallery was created or null
 	 * @param string $newGalleryName gallery's name
 	 *
 	 * @throws \InvalidArgumentException if data types are not valid
@@ -94,7 +94,7 @@ class Gallery {
 	 *
 	 * @return uuid value of gallery id
 	 **/
-	public function getGalleryId(): uuid  {
+	public function getGalleryId(): uuid {
 		return ($this->galleryId);
 	}
 
@@ -125,7 +125,7 @@ class Gallery {
 	 *
 	 * @return Uuid value of gallery profile id
 	 **/
-	public function getGalleryProfileId(): uuid  {
+	public function getGalleryProfileId(): Uuid {
 		return ($this->galleryProfileId);
 	}
 
@@ -145,7 +145,7 @@ class Gallery {
 		}
 
 		// convert and store the author id
-		$this->galleryId = $uuid;
+		$this->galleryProfileId = $uuid;
 	}
 	/* END GALLERY-PROFILE-ID METHODS*/
 
