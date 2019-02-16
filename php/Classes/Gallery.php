@@ -92,7 +92,7 @@ class Gallery {
 	/**
 	 * GETTER accessor method for gallery id
 	 *
-	 * @return uuid value of gallery id
+	 * @return Uuid value of gallery id
 	 **/
 	public function getGalleryId(): uuid {
 		return ($this->galleryId);
