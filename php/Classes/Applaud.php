@@ -217,11 +217,11 @@ class Applaud implements \JsonSerializable {
 	public function delete(\PDO $pdo): void {
 
 		// create query template
-		$query = "DELETE FROM applaud WHERE applaudProfileId = :applaudProfileId";
+		$query = "DELETE FROM applaud WHERE applaudProfileId = :applaudProfileId AND applaudImageId = :applaudImageId";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holder in the template
-		$parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes()];
+		$parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes(), "applaudImageId" => $this->applaudImageId];
 		$statement->execute($parameters);
 	}
 	/* END DELETE METHOD */
