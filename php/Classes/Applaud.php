@@ -221,7 +221,9 @@ class Applaud implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holder in the template
-		$parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes(), "applaudImageId" => $this->applaudImageId->getBytes(), "applaudCount" => $this->applaudCount];
+		$parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes(),
+			"applaudImageId" => $this->applaudImageId->getBytes(),
+			"applaudCount" => $this->applaudCount];
 		$statement->execute($parameters);
 	}
 	/* END DELETE METHOD */

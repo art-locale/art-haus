@@ -137,6 +137,7 @@ class TestApplaud extends ArtHausTest {
 	/*********************************************************************************************************
 	 * TEST UPDATING APPLAUD COUNT
 	 ********************************************************************************************************/
+
 	/*********************************************************************************************************
 	 * TEST UPDATING AN INVALID APPLAUD COUNT
 	 ********************************************************************************************************/
@@ -144,7 +145,7 @@ class TestApplaud extends ArtHausTest {
 	/*********************************************************************************************************
 	 * TEST DELETING A VALID APPLAUD RECORD
 	 ********************************************************************************************************/
-	public function testUpdateApplaud(): void {
+	public function testDeleteApplaud(): void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("applaud");
 		// create a new applaud record and insert into database
@@ -159,19 +160,20 @@ class TestApplaud extends ArtHausTest {
 		$applaud->delete($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match expectations
-		$results = Applaud::getApplaudByApplaudProfileId($this->getPDO(), $this->profile->getProfileId());
-		$this->assertNull($results);
+		$pdoApplaud = Applaud::getApplaudByApplaudProfileId($this->getPDO(), $this->profile->getProfileId());
+		$this->assertNull($pdoApplaud);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("applaud"));
 	}
-}
+
 /*********************************************************************************************************
  * TEST  GRABBING AN APPLAUD RECORD BY IMAGE ID
  ********************************************************************************************************/
-public function testUpdateApplaud(): void {
+//public function testUpdateApplaud(): void {
 	/*********************************************************************************************************
 	 * TEST GRABBING AN INVALID APPLAUD BY A NON-EXISTENT PROFILE ID
 	 ********************************************************************************************************/
-	public function testUpdateApplaud(): void {
+	//public function testUpdateApplaud(): void {
 	/*********************************************************************************************************
 	 * TEST GRABBING AN INVALID APPLAUD BY A NON-EXISTENT IMAGE ID
 	 ********************************************************************************************************/
+}
