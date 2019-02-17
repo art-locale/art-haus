@@ -96,7 +96,7 @@ class Applaud implements \JsonSerializable {
 	 * @throws \RangeException if $newApplaudProfileId is not positive
 	 * @throws \TypeError if $newApplaudProfileId is not a uuid or string
 	 **/
-	public function setApplaudProfileId($newApplaudProfileId) : void {
+	public function setApplaudProfileId($newApplaudProfileId) {
 		try {
 			$uuid = self::validateUuid($newApplaudProfileId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -127,7 +127,7 @@ class Applaud implements \JsonSerializable {
 	 * @throws \RangeException if $newApplaudImageId is not positive
 	 * @throws \TypeError if $newApplaudImageId is not a uuid or string
 	 **/
-	public function setApplaudImageId($newApplaudImageId): void {
+	public function setApplaudImageId($newApplaudImageId) {
 		try {
 			$uuid = self::validateUuid($newApplaudImageId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -158,7 +158,7 @@ class Applaud implements \JsonSerializable {
 	* @throws \TypeError if $newApplaudCount is not a string
 	**/
 
-	public function setApplaudCount(INT $newApplaudCount) : void {
+	public function setApplaudCount(INT $newApplaudCount) {
 
 	if(empty($newApplaudCount) === true) {
 			throw(new \InvalidArgumentException("applaud count is empty"));
@@ -221,7 +221,7 @@ class Applaud implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holder in the template
-		$parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes()];
+		$parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes(), "applaudImageId" => $this->applaudImageId->getBytes(), "applaudCount" => $this->applaudCount];
 		$statement->execute($parameters);
 	}
 	/* END DELETE METHOD */
@@ -259,7 +259,7 @@ class Applaud implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getApplaudByApplaudProfileId(\PDO $pdo) : \SPLFixedArray {
+	public static function getApplaudByApplaudProfileId (\PDO $pdo, Uuid $applaudProfileId) : \SPLFixedArray {
 		// // sanitize the applaudProfileId before searching
 		// try {
 		// 	$applaudProfileId = self::validateUuid($applaudProfileId);
@@ -270,6 +270,11 @@ class Applaud implements \JsonSerializable {
 		// create query template
 
 		// "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM Profile WHERE profileName = :profileName";
+		try {
+			$applaudProfileId = self::validateUuid($applaudProfileId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
 
 		$query = "SELECT applaudProfileId, applaudImageId, applaudCount FROM applaud WHERE applaudProfileId = :applaudProfileId";
 		$statement = $pdo->prepare($query);
@@ -287,8 +292,8 @@ class Applaud implements \JsonSerializable {
 		while(($row = $statement->fetch()) !== false) {
 				try {
 						$applaud = new Applaud($row["applaudProfileId"], $row["applaudImageId"], $row["applaudCount"]);
-						$applaud[$applauds->key()] = $applaud;
-						$applaud->next();
+						$applauds[$applauds->key()] = $applaud;
+						$applauds->next();
 				} catch(\Exception $exception) {
 					// if the row couldn't be converted, rethrow it
 					throw(new \PDOException($exception->getMessage(), 0, $exception));
@@ -309,7 +314,7 @@ class Applaud implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getApplaudByApplaudImageId(\PDO $pdo, $applaudImageId) : ?applaud {
+	public static function getApplaudByApplaudImageId(\PDO $pdo, Uuid $applaudImageId) : \SPLFixedArray {
 		// sanitize the applaudImageId before searching
 		try {
 			$applaudImageId = self::validateUuid($applaudImageId);
@@ -318,27 +323,28 @@ class Applaud implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "SELECT applaudProfileId,applaudImageId, applaudCount FROM applaud WHERE applaudImageId = :applaudImageId";
+		$query = "SELECT applaudProfileId, applaudImageId, applaudCount FROM applaud WHERE applaudImageId = :applaudImageId";
 		$statement = $pdo->prepare($query);
 
 		// bind the applaudImageId to the place holder in the template
 		$parameters = ["applaudImageId" => $this->applaudImageId->getBytes()];
 		$statement->execute($parameters);
 
-		// get the applaud from mySQL
-		try {
-			$applaud = null;
+	// get the image applauds from mySQL
+		$applauds = new \SplFixedArray($statement->rowCount());
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$applaud = new Applaud($row["applaudImageId"]);
+			while(($row = $statement->fetch()) !== false) {
+					try {
+							$applaud = new Applaud($row["applaudProfileId"], $row["applaudImageId"], $row["applaudCount"]);
+							$applauds[$applauds->key()] = $applaud;
+							$applauds->next();
+					} catch(\Exception $exception) {
+						// if the row couldn't be converted, rethrow it
+						throw(new \PDOException($exception->getMessage(), 0, $exception));
+					}
 			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
+			return($applauds);
 		}
-		return($applaud);
-	} // end getApplaudByApplaudImageId
 
 	//****************************************************************************************
 				//FIXME: this function is mangled
@@ -389,7 +395,7 @@ class Applaud implements \JsonSerializable {
 	 *
 	 * @return array resulting state variables to serialize
 	 **/
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		$fields = get_object_vars($this);
 	//foreign keys
 		$fields["applaudImageId"] = $this->applaudImageId->toString();
@@ -398,4 +404,3 @@ class Applaud implements \JsonSerializable {
 	}
 
 }
-
