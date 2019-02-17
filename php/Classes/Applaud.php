@@ -288,7 +288,7 @@ class Applaud implements \JsonSerializable {
 				try {
 						$applaud = new Applaud($row["applaudProfileId"], $row["applaudImageId"], $row["applaudCount"]);
 						$applaud[$applauds->key()] = $applaud;
-						$applaus->next();
+						$applaud->next();
 				} catch(\Exception $exception) {
 					// if the row couldn't be converted, rethrow it
 					throw(new \PDOException($exception->getMessage(), 0, $exception));
@@ -398,4 +398,4 @@ class Applaud implements \JsonSerializable {
 	}
 
 }
-?>
+
