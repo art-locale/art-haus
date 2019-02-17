@@ -381,7 +381,7 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getImageByGalleryId(\PDO $pdo, $galleryId) : ?Image {
+	public static function getImageByGalleryId(\PDO $pdo, Uuid $imageGalleryId) : ?Image {
 		// sanitize the imageGalleryId before searching
 		try {
 			$imageGalleryId = self::validateUuid($imageGalleryId);
@@ -436,7 +436,7 @@ public static function getAllImages(\PDO $pdo) : \SplFixedArray {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$image = new Image($row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
+				$image = new Image($row ["imageId"], $row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
 				$images[$images->key()] = $image;
 				$images->next();
 			} catch(\Exception $exception) {
