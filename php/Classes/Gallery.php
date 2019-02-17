@@ -280,7 +280,9 @@ class Gallery {
 		$query = "UPDATE gallery SET galleryId = :galleryId, galleryProfileId = :galleryProfileId, galleryDate = :galleryDate, galleryName = :galleryName";
 		$statement = $pdo->prepare($query);
 
-		$parameters = ["galleryId" => $this->galleryId->getBytes(), "galleryProfileId" => $this->galleryProfileId->getBytes(), "galleryDate" => $this->galleryDate, "galleryName" => $this->galleryName];
+		$formattedDate = $this->galleryDate->format("Y-m-d H:i:s.u");
+
+		$parameters = ["galleryId" => $this->galleryId->getBytes(), "galleryProfileId" => $this->galleryProfileId->getBytes(), "galleryDate" => $formattedDate, "galleryName" => $this->galleryName];
 		$statement->execute($parameters);
 	}
 	/* END UPDATE METHOD */
