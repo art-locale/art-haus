@@ -111,6 +111,7 @@ class TestGallery extends ArtHausTest {
 		$numRows = $this->getConnection()->getRowCount("gallery");
 		// create a new gallery and insert into database
 		$galleryId = generateUuidV4();
+
 		$gallery = new Gallery($galleryId, $this->profile->getProfileId(), $this->VALID_GALLERYDATE, $this->VALID_GALLERYNAME);
 		$gallery->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match expectations
