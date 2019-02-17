@@ -381,7 +381,7 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getImageByGalleryId(\PDO $pdo, $galleryId) : ?Image {
+	public static function getImageByGalleryId(\PDO $pdo, Uuid $imageGalleryId) : ?Image {
 		// sanitize the imageGalleryId before searching
 		try {
 			$imageGalleryId = self::validateUuid($imageGalleryId);
