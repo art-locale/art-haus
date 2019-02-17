@@ -392,7 +392,7 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$image = new Image($row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
+				$image = new Image($row ["imageId"], $row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
 				$images[$images->key()] = $image;
 				$images->next();
 			} catch(\Exception $exception) {
