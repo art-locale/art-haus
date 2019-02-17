@@ -347,7 +347,6 @@ class Applaud implements \JsonSerializable {
 		}
 
 	//****************************************************************************************
-				//FIXME: this function is mangled
 	/**
 	 * gets the applaud object by applaudImageId AND applaudProfileId
 	 *
