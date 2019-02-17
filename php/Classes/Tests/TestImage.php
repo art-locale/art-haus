@@ -131,9 +131,6 @@ class TestImage extends ArtHausTest {
 		$this->profile = new Profile(generateUuidV4(), $this->VALID_PROFILEACTIVATIONTOKEN, new \DateTime, "bt@handletest.com", 89.123445, 35.098109, "this title", $this->VALID_PROFILEPASSWORD, "www.msn.com");
 		$this->profile->insert($this->getPDO());
 
-
-		//Fixme: Note this appears to break if not uncommented in the phpunit.xml
-	//	Fixme Maybe unnecessary. Not in our profileTest, but then again it doesn't have foreign keys.
 		//create and insert a Gallery to own the test Image
 		$this->gallery = new Gallery(generateUuidV4(), $this->profile->getProfileId(), new \DateTime, "handle");
 		$this->gallery->insert($this->getPDO());
@@ -150,8 +147,6 @@ class TestImage extends ArtHausTest {
 		// create a new Image and insert into database
 		$imageId = generateUuidV4();
 
-
-		//fixme sb 			$this->gallery->getGalleryId(),			$this->profile->getProfileId(),					$this->VALID_IMAGEPROFILEID,
 		$image = new Image($imageId,
 			$this->gallery->getGalleryId(),
 			$this->profile->getProfileId(),
@@ -165,7 +160,7 @@ class TestImage extends ArtHausTest {
 		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
 		$this->assertEquals($pdoImage->getImageId(), $imageId);
-		$this->assertEquals($pdoImage->getImageGalleryId(), $this->gallery->getGalleryId()); //fixme sb $this->gallery->getGalleryId());
+		$this->assertEquals($pdoImage->getImageGalleryId(), $this->gallery->getGalleryId());
 		$this->assertEquals($pdoImage->getImageProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoImage->getImageDate()->getTimestamp(), $this->VALID_IMAGEDATE->getTimestamp());
 		$this->assertEquals($pdoImage->getImageTitle(), $this->VALID_IMAGETITLE);
@@ -202,8 +197,8 @@ class TestImage extends ArtHausTest {
 		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
 		$this->assertEquals($pdoImage->getImageId(), $imageId);
-		$this->assertEquals($pdoImage->getImageGalleryId(), $this->gallery->getGalleryId()); //FIXME?
-		$this->assertEquals($pdoImage->getImageProfileId(), $this->profile->getProfileId()); //FIXME
+		$this->assertEquals($pdoImage->getImageGalleryId(), $this->gallery->getGalleryId());
+		$this->assertEquals($pdoImage->getImageProfileId(), $this->profile->getProfileId());
 		 $this->assertEquals($pdoImage->getImageDate()->getTimestamp(), $this->VALID_IMAGEDATE->getTimestamp());
 		$this->assertEquals($pdoImage->getImageTitle(), $this->VALID_IMAGETITLE2);
 		$this->assertEquals($pdoImage->getImageUrl(), $this->VALID_IMAGEURL2);
@@ -235,5 +230,55 @@ class TestImage extends ArtHausTest {
 	   $this->assertNull($pdoImage);
 	   $this->assertEquals($numRows, $this->getConnection()->getRowCount("image"));
 	 }
-
 }
+/****************************************************************************************************************
+ * TEST SELECTING A NON-EXISTANT IMAGE BY IMAGE ID
+ **************************************************************************************************************/
+public function testGetInvalidImageByImageId() : void {
+
+	// access a profileId that does not exist
+	$unknownImageId = generateUuidV4();
+	$image = Image::getImageByImageId($this->getPDO(), $unknownImageId );
+	$this->assertNull($image);
+}
+/****************************************************************************************************************
+ * TEST SELECTING AN IMAGE BY GALLERY ID
+ **************************************************************************************************************/
+/**
+ * test accessing a profile by activation token
+ **/
+
+public function testSelectImageByGalleryId() : void {
+
+	// count the number of rows and save it for later
+	$numRows = $this->getConnection()->getRowCount("image");
+
+	// create a new Image and insert into database
+	$imageId = generateUuidV4();
+
+	$image = new Image ($imageId,
+		$this->gallery->getGalleryId(),
+		$this->profile->getProfileId(),
+		$this->VALID_IMAGEDATE,
+		$this->VALID_IMAGETITLE,
+		$this->VALID_IMAGEURL
+	);
+	$image->insert($this->getPDO());
+
+	// grab the data from mySQL and enforce the fields match expectations
+	$pdoImage = Image::getImageByGalleryId($this->getPDO(), $image->getImageGalleryId());
+	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+	$this->assertEquals($pdoImage->getImageId(), $imageId);
+	$this->assertEquals($pdoImage->getImageGalleryId(), $this->gallery->getGalleryId());
+	$this->assertEquals($pdoImage->getImageProfileId(), $this->profile->getProfileId());
+	$this->assertEquals($pdoImage->getImageDate()->getTimestamp(), $this->VALID_IMAGEDATE->getTimestamp());
+	$this->assertEquals($pdoImage->getImageTitle(), $this->VALID_IMAGETITLE);
+	$this->assertEquals($pdoImage->getImageUrl(), $this->VALID_IMAGEURL);
+}
+
+/****************************************************************************************************************
+ * TEST SELECTING ALL IMAGES
+ **************************************************************************************************************/
+/****************************************************************************************************************
+ * TEST SELECTING IMAGES BY PROFILE DISTANCE TODO get unit testing done before this -George
+ **************************************************************************************************************/

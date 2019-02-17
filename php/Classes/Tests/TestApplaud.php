@@ -36,6 +36,24 @@ class TestApplaud extends ArtHausTest {
 	 **/
 	protected $profile = null;
 
+	/**
+	 * valid Art Haus gallery; for foreign key relations
+	 * @var Gallery gallery
+	 **/
+	protected $gallery = null;
+
+	/**
+	 * placeholder activation token for initial profile creation
+	 * @var string $VALID_PROFILEACTIVATIONTOKEN
+	 **/
+	protected $VALID_PROFILEACTIVATIONTOKEN;
+
+	/**
+	 * hash of profile owner account password
+	 * @var string $VALID_PROFILEPASSWORD
+	 **/
+	protected $VALID_PROFILEPASSWORD;
+
 //**************************************************
 // Applaud class state variables:
 //**************************************************
@@ -53,7 +71,7 @@ class TestApplaud extends ArtHausTest {
 
 	/*
 	 * a valid applaud count
-	 * @var INT $VALID_APPLUADCOUNT
+	 * @var INT $VALID_APPLAUDCOUNT
 	 */
 	protected $VALID_APPLAUDCOUNT = "100";
 
@@ -105,8 +123,8 @@ class TestApplaud extends ArtHausTest {
 		$applaud = new Applaud($this->profile->getProfileId(), $this->image->getImageId(), $this->VALID_APPLAUDCOUNT);
 		$applaud->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match expectations
-		$pdoApplaud = Applaud::getApplaudByApplaudProfileId($this->getPDO(), $this->profile->getProfileId());
-		$pdoApplaud = $pdoApplaud[0];
+		$results = Applaud::getApplaudByApplaudProfileId($this->getPDO(), $this->profile->getProfileId());
+		$pdoApplaud = $results[0];
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("applaud"));
 		$this->assertEquals($pdoApplaud->getApplaudProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoApplaud->getApplaudImageId(), $this->image->getImageId());
