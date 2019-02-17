@@ -111,18 +111,20 @@ class TestGallery extends ArtHausTest {
 	}
 	//	end setUp() method
 
-	/*************************************************
-	 * build dummy object for Gallery:
-	 *************************************************/
+/*************************************************
+ * build dummy object for Gallery and compare to
+ * the PDO Gallery:
+ *************************************************/
 	public function testCreateGallery(): void {
-		// this function's local variables:
+		// count the number of rows and save it for later:
 		$numRows = $this->getConnection()->getRowCount("gallery");
-		$galleryId = generateUuidV4();
 
-		// create a new gallery and insert into database
+		// create a new gallery and insert into database:
+		$galleryId = generateUuidV4();
 		$gallery = new Gallery($galleryId, $this->profile->getProfileId(), $this->VALID_GALLERYDATE, $this->VALID_GALLERYNAME);
 		$gallery->insert($this->getPDO());
-		// grab the data from mySQL and enforce the fields match expectations
+
+		// grab the data from mySQL and enforce the fields match expectations:
 		$pdoGallery = Gallery::getGalleryByGalleryId($this->getPDO(), $gallery->getGalleryId());
 
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("gallery"));
@@ -130,6 +132,36 @@ class TestGallery extends ArtHausTest {
 		$this->assertEquals($pdoGallery->getGalleryProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoGallery->getGalleryDate()->getTimestamp(), $this->VALID_GALLERYDATE->getTimeStamp());
 		$this->assertEquals($pdoGallery->getGalleryName(), $this->VALID_GALLERYNAME);
-
 	} // END OF testCreateGallery() function
+
+/*************************************************
+ * test inserting a gallery and updating it
+ *************************************************/
+	public function testUpdateGallery() {
+
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("gallery");
+
+		// create a new gallery and insert into database
+		$galleryId = generateUuidV4();
+		$gallery = new Gallery($galleryId, $this->profile->getProfileId(), $this->VALID_GALLERYDATE, $this->VALID_GALLERYNAME);
+		$gallery->insert($this->getPDO());
+
+		// edit the gallery and update it in database
+		$gallery->setGalleryName($this->VALID_GALLERYNAME);
+
+		$gallery->update($this->getPDO());
+
+		// access the data from database and confirm the data matches expectations
+		//FIXME: not sure if this is worded correctly:
+		$pdoGallery = Gallery::getGalleryByProfileId($this->getPDO(), $profile->getProfileId());
+
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("gallery"));
+
+		//FIXME: not sure if this is worded correctly:
+		$this->assertEquals($pdoGalleryName->getGalleryName(), $galleryName);
+	} // END OF testUpdateGallery() function
+
+
+
 } // END OF TestGallery Class
