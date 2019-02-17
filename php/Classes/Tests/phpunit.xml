@@ -3,9 +3,9 @@
 <phpunit>
 	<testsuites>
 		<testsuite name="ArtHaus-Test">
-      <file>TestApplaud.php</file>
+      <!--<file>TestApplaud.php</file>-->
 			<!--<file>TestGallery.php</file>-->
-       <!--<file>TestImage.php</file>-->
+       <file>TestImage.php</file>
       <!--<file>TestProfile.php</file>-->
 		</testsuite>
 	</testsuites>
