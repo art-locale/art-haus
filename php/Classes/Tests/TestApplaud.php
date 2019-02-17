@@ -160,8 +160,8 @@ class TestApplaud extends ArtHausTest {
 		$applaud->delete($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match expectations
-		$pdoApplaud = Applaud::getApplaudByApplaudProfileId($this->getPDO(), $this->profile->getProfileId());
-		$this->assertNull($pdoApplaud);
+		$pdoApplaud = Applaud::getApplaudByApplaudProfileId($this->getPDO(), $applaud->getApplaudProfileId());
+		$this->assertNull(0, $pdoApplaud);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("applaud"));
 	}
 
