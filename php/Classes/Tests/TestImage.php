@@ -107,11 +107,12 @@ class TestImage extends ArtHausTest {
 	 *****************************************************************************************************************/
 
 	/**
-	 * setup operation to create hash and salt.
+	 * setup defualt setUp method (operation to create hash and salt) and create dependent objects before running each test
 	 */
 	public final function setUp(): void {
+
+		//run the default setUp() method
 		parent::setUp();
-		//
 		$password = "password1234";
 		$this->VALID_PROFILEPASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
 		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
@@ -147,7 +148,6 @@ class TestImage extends ArtHausTest {
 
 		// create a new Image and insert into database
 		$imageId = generateUuidV4();
-
 		$image = new Image($imageId,
 			$this->gallery->getGalleryId(),
 			$this->profile->getProfileId(),
@@ -179,7 +179,6 @@ class TestImage extends ArtHausTest {
 
 		// create a new Image and insert into database
 		$imageId = generateUuidV4();
-
 		$image = new Image ($imageId,
 			$this->gallery->getGalleryId(),
 			$this->profile->getProfileId(),
@@ -210,11 +209,12 @@ class TestImage extends ArtHausTest {
 	 * TEST INSERTING AN IMAGE AND DELETING IT
 	 **************************************************************************************************************/
 	public function testDeleteImage(): void {
+
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("image");
+
 		// create a new image and insert into database
 		$imageId = generateUuidV4();
-
 		$image = new Image ($imageId,
 			$this->gallery->getGalleryId(),
 			$this->profile->getProfileId(),
@@ -223,9 +223,11 @@ class TestImage extends ArtHausTest {
 			$this->VALID_IMAGEURL
 		);
 		$image->insert($this->getPDO());
+
 		// delete the image from database
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
 		$image->delete($this->getPDO());
+
 		// access database and confirm image deleted
 		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
 		$this->assertNull($pdoImage);
@@ -252,7 +254,6 @@ class TestImage extends ArtHausTest {
 
 		// create a new Image and insert into database
 		$imageId = generateUuidV4();
-
 		$image = new Image ($imageId,
 			$this->gallery->getGalleryId(),
 			$this->profile->getProfileId(),
@@ -283,7 +284,6 @@ class TestImage extends ArtHausTest {
 
 		// create a new Image and insert into database
 		$imageId = generateUuidV4();
-
 		$image = new Image ($imageId,
 			$this->gallery->getGalleryId(),
 			$this->profile->getProfileId(),
@@ -311,5 +311,5 @@ class TestImage extends ArtHausTest {
 	/****************************************************************************************************************
 	 * TEST GETTING IMAGES BY PROFILE DISTANCE TODO get unit testing done before this -George
 	 **************************************************************************************************************/
-	//TODO Test for insuring cannot update the image, gallery or profile id/dates since they should be immutable
+	//TODO Test for insuring cannot update the image, gallery or profile id/dates since they should be immutable. May have to ask George about.
 }
