@@ -59,7 +59,7 @@ class TestGallery extends ArtHausTest {
 	 * hash of profile owner account password
 	 * @var string $VALID_PROFILEPASSWORD
 	 **/
-	protected $VALID_PASSWORD;
+	protected $VALID_PROFILEPASSWORD;
 
 	/**
 	 * placeholder activation token for initial profile creation
@@ -79,7 +79,7 @@ class TestGallery extends ArtHausTest {
 		 * build dummy object for Profile:
 		 *************************************************/
 		$password = "test123";
-		$this->VALID_PASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
+		$this->VALID_PROFILEPASSWORD = password_hash($password, PASSWORD_ARGON2I, ["time_cost" => 384]);
 		$this->VALID_PROFILEACTIVATIONTOKEN = bin2hex(random_bytes(16));
 
 		// calculate the date (just use the time the unit test was setup)
@@ -104,8 +104,9 @@ class TestGallery extends ArtHausTest {
 					89.123445,
 					35.098109,
 					"Bob Doe",
-					$this->VALID_PASSWORD,
-					"www.msn.com");
+					$this->VALID_PROFILEPASSWORD,
+					"someEmail@gmail.com");
+
 			$this->profile->insert($this->getPDO());
 	}
 	//	end setUp() method
@@ -114,19 +115,21 @@ class TestGallery extends ArtHausTest {
 	 * build dummy object for Gallery:
 	 *************************************************/
 	public function testCreateGallery(): void {
-		// count the number of rows and save it for later
+		// this function's local variables:
 		$numRows = $this->getConnection()->getRowCount("gallery");
-		// create a new gallery and insert into database
 		$galleryId = generateUuidV4();
 
+		// create a new gallery and insert into database
 		$gallery = new Gallery($galleryId, $this->profile->getProfileId(), $this->VALID_GALLERYDATE, $this->VALID_GALLERYNAME);
 		$gallery->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match expectations
 		$pdoGallery = Gallery::getGalleryByGalleryId($this->getPDO(), $gallery->getGalleryId());
+
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("gallery"));
 		$this->assertEquals($pdoGallery->getGalleryId(), $galleryId);
 		$this->assertEquals($pdoGallery->getGalleryProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoGallery->getGalleryDate()->getTimestamp(), $this->VALID_GALLERYDATE->getTimeStamp());
 		$this->assertEquals($pdoGallery->getGalleryName(), $this->VALID_GALLERYNAME);
-	}
-}
+
+	} // END OF testCreateGallery() function
+} // END OF TestGallery Class
