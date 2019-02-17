@@ -16,7 +16,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  * are tested for both invalid and valid inputs.
  *
  * @see Image
- * @author William Isengard <william.isengard@gmail.com>
+ * @author Brandon Huffman <bt_huffman@msn.com>
  **/
 
 class TestImage extends ArtHausTest {
