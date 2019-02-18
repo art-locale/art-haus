@@ -189,6 +189,7 @@ class Applaud implements \JsonSerializable {
 		$parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes(), "applaudImageId" => $this->applaudImageId->getBytes()];
 		$statement->execute($parameters);
 	}
+
 	/* END DELETE METHOD */
 	/* START UPDATE METHOD */
 	/**
@@ -251,7 +252,7 @@ class Applaud implements \JsonSerializable {
 	 * gets the applaud object by applaudImageId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param Uuid applaudImageId applaud image id to search for
+	 * @param Uuid $applaudImageId applaud image id to search for
 	 * @return \SplFixedArray applaud found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
@@ -285,47 +286,52 @@ class Applaud implements \JsonSerializable {
 			return($applauds);
 		}
 	//****************************************************************************************
-				//FIXME: this function is mangled
+
 	/**
-	 * gets the applaud object by applaudImageId AND applaudProfileId
+	 * gets the applaud by profile id and image id
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param Uuid applaudImageId applaud image id to search for
-	 * @param Uuid applaudProfileId applaud profile id to search for
-	 * @return \SplFixedArray SplFixedArray of applauds found or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when a variable are not the correct data type
-	 **/
-	public static function getApplaudByApplaudImageIdandApplaudProfileId(\PDO $pdo, Uuid $applaudProfileId, Uuid $applaudImageId) : \SPLFixedArray {
-		// sanitize the applaudImageId before searching
+	 * @param Uuid $applaudProfileId profile id to search for
+	 * @param Uuid $applaudImageId image id to search for
+	 * @return applaud|null Applaud found or null if not found
+	 */
+	public static function getApplaudByApplaudImageIdandApplaudProfileId(\PDO $pdo, $applaudProfileId, $applaudImageId) : ?Applaud {
+		//
 		try {
 			$applaudProfileId = self::validateUuid($applaudProfileId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		try {
 			$applaudImageId = self::validateUuid($applaudImageId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		// create query template
-		$query = "SELECT applaudProfileId, applaudImageId, applaudCount FROM applaud WHERE applaudProfileId = :applaudProfileId && applaudImageId = :applaudImageId";
-		$statement = $pdo->prepare($query);
-		// bind the applaudImageId and applaudProfileId to the place holder in the template
-		$parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes(), "applaudImageId" => $this->applaudImageId->getBytes()];
-		$statement->execute($parameters);
-		// get the applaud from mySQL
 
-		//////////////////////////////
+		// create query template
+		$query = "SELECT applaudProfileId, applaudImageId, applaudCount FROM applaud WHERE applaudProfileId = :applaudProfileId AND applaudImageId = :applaudImageId";
+		$statement = $pdo->prepare($query);
+
+		// bind the profile id and image id to the place holder in the template
+		$parameters = ["applaudProfileId" => $applaudProfileId->getBytes(), "applaudImageId" => $applaudImageId->getBytes()];
+		$statement->execute($parameters);
+
+		// grab the applaud from mySQL
 		try {
 			$applaud = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$applaud = new Applaud($row["applaudProfileId"], $row["applaudImageId"], $row["applaudCount"]);
+				$like = new Like($row["applaudProfileId"], $row["applaudImageId"], $row["applaudCount"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($applaud);
-	} // end getApplaudByApplaudImageIdandApplaudProfileId
+		return ($applaud);
+	}
+
+	// end getApplaudByApplaudImageIdandApplaudProfileId
 	/**
 	 * formats the state variables for JSON serialization
 	 *

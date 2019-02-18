@@ -180,9 +180,7 @@ class TestApplaud extends ArtHausTest {
 		// create a new applaud record and insert into database
 		// $applaudImageId = generateUuidV4();
 		// $applaudProfileId = generateUuidV4();
-		$applaud = new Applaud ($this->profile->getProfileId(),
-			$this->image->getImageId(),
-			$this->VALID_APPLAUDCOUNT);
+		$applaud = new Applaud ($this->profile->getProfileId(), $this->image->getImageId(), $this->VALID_APPLAUDCOUNT);
 		$applaud->insert($this->getPDO());
 		// delete the applaud from mySQL
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("applaud"));
@@ -190,7 +188,7 @@ class TestApplaud extends ArtHausTest {
 
 		// grab the data from mySQL and enforce the fields match expectations
 
-		$pdoApplaud = Applaud::getApplaudByApplaudProfileId($this->getPDO(), $this->profile->getProfileId()) AND $this->image->getImageId();
+		$pdoApplaud = Applaud::getApplaudByApplaudImageIdandApplaudProfileId($this->getPDO(), $this->profile->getProfileId(), $this->image->getImageId());
 		$this->assertNull($pdoApplaud);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("applaud"));
 	}
