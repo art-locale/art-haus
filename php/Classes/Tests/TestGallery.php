@@ -77,8 +77,11 @@ class TestGallery extends ArtHausTest {
 
 
 	/*****************************************************************************************************************
-	 * @throws \Exception
+	 * START OF OPERATIONS (SETUP FUNCTION)
 	 *****************************************************************************************************************/
+	/*
+	 *  @throws \Exception
+	 * */
 	public final function setUp(): void {
 		parent::setUp();
 		/*************************************************
@@ -117,10 +120,10 @@ class TestGallery extends ArtHausTest {
 	}
 	//	END OF setUp() method
 
-/****************************************************************************************************************
+/***********************************************
  * build dummy object for Gallery and compare to
  * the PDO Gallery:
- *****************************************************************************************************************/
+ **********************************************/
 	public function testCreateGallery(): void {
 		// count the number of rows and save it for later:
 		$numRows = $this->getConnection()->getRowCount("gallery");
@@ -142,7 +145,7 @@ class TestGallery extends ArtHausTest {
 	// END OF testCreateGallery() function
 
 /*****************************************************************************************************************
- * test inserting a gallery and updating it
+ * TEST INSERTING A GALLERY AND UPDATING IT
  *****************************************************************************************************************/
 	public function testUpdateGallery(): void {
 		//local function variables:
@@ -177,7 +180,7 @@ class TestGallery extends ArtHausTest {
 	// END OF testUpdateGallery() function
 
 /*****************************************************************************************************************
- * test inserting a gallery and then deleting it
+ * TEST INSERTING A GALLERY AND THEN DELETING IT
  *****************************************************************************************************************/
 	public function testDeleteGallery(): void {
 
@@ -201,7 +204,7 @@ class TestGallery extends ArtHausTest {
 	// END OF testDeleteGallery() function
 
 	/*****************************************************************************************************************
-	 * test selecting a gallery by galleryId
+	 * TEST SELECTING A GALLERY BY GALLERYID
 	 *****************************************************************************************************************/
 	public function testGetGalleryByGalleryId(): void {
 
@@ -225,7 +228,7 @@ class TestGallery extends ArtHausTest {
 // END OF testGetGalleryByGalleryId() function
 
 /*****************************************************************************************************************
- * test selecting a non-existent gallery by galleryId
+ * TEST SELECTING A NON-EXISTENT GALLERY BY GALLERYID
  *****************************************************************************************************************/
 	public function testGetInvalidGalleryByGalleryId(): void {
 
@@ -237,7 +240,7 @@ class TestGallery extends ArtHausTest {
 	// END OF testGetInvalidGalleryByGalleryId()
 
 /*****************************************************************************************************************
- * test selecting a gallery by profileId
+ * TEST SELECTING A GALLERY BY PROFILEID
  *****************************************************************************************************************/
 	public function testGetGalleryByProfileId(): void {
 
@@ -260,7 +263,7 @@ class TestGallery extends ArtHausTest {
 	}
 
 /*****************************************************************************************************************
- * test selecting a non-existent gallery by profileId
+ * TEST SELECTING A NON-EXISTENT GALLERY BY PROFILEID
  *****************************************************************************************************************/
 	public function testGetInvalidGalleryByProfileId(): void {
 
@@ -271,7 +274,7 @@ class TestGallery extends ArtHausTest {
 	}
 
 /*****************************************************************************************************************
- * test getting gallery by profile distance TODO get unit testing done before this -George
+ * TEST GETTING GALLERY BY PROFILE DISTANCE TODO get unit testing done before this -George
  *****************************************************************************************************************/
 	//TODO Test for insuring cannot update the image, gallery or profile id/dates since they should be immutable. May have to ask George about.
 
