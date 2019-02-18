@@ -130,7 +130,7 @@ class TestGallery extends ArtHausTest {
 		$gallery = new Gallery($galleryId, $this->profile->getProfileId(), $this->VALID_GALLERYDATE, $this->VALID_GALLERYNAME);
 		$gallery->insert($this->getPDO());
 
-		// grab the data from mySQL and enforce the fields match expectations:
+		// get the data from SQL table and check that the fields match expectations:
 		$pdoGallery = Gallery::getGalleryByGalleryId($this->getPDO(), $gallery->getGalleryId());
 
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("gallery"));
@@ -213,13 +213,14 @@ class TestGallery extends ArtHausTest {
 		$gallery = new Gallery($galleryId, $this->profile->getProfileId(), $this->VALID_GALLERYDATE, $this->VALID_GALLERYNAME);
 		$gallery->insert($this->getPDO());
 
-		// get the data from mySQL table and check that the fields match expectations
-		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
-		$this->assertEquals($pdoImage->getGalleryId(), $galleryId);
-		$this->assertEquals($pdoImage->getGalleryProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoImage->getGalleryDate()->getTimestamp(), $this->VALID_GALLERYDATE->getTimestamp());
-		$this->assertEquals($pdoImage->getGalleryName(), $this->VALID_GALLERYNAME);
+		// get the data from SQL table and check that the fields match expectations:
+		$pdoGallery = Gallery::getGalleryByGalleryId($this->getPDO(), $gallery->getGalleryId());
+
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("gallery"));
+		$this->assertEquals($pdoGallery->getGalleryId(), $galleryId);
+		$this->assertEquals($pdoGallery->getGalleryProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoGallery->getGalleryDate()->getTimestamp(), $this->VALID_GALLERYDATE->getTimeStamp());
+		$this->assertEquals($pdoGallery->getGalleryName(), $this->VALID_GALLERYNAME);
 	}
 // END OF testGetGalleryByGalleryId() function
 
@@ -236,9 +237,38 @@ class TestGallery extends ArtHausTest {
 	// END OF testGetInvalidGalleryByGalleryId()
 
 /*************************************************
- * test
+ * test selecting a gallery by profileId
  *************************************************/
+	public function testGetGalleryByProfileId(): void {
 
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("gallery");
+
+		// create a new gallery and insert into database:
+		$galleryId = generateUuidV4();
+		$gallery = new Gallery($galleryId, $this->profile->getProfileId(), $this->VALID_GALLERYDATE, $this->VALID_GALLERYNAME);
+		$gallery->insert($this->getPDO());
+
+		// get the data from SQL table and check that the fields match expectations:
+		$pdoGallery = Gallery::getGalleryByGalleryId($this->getPDO(), $gallery->getGalleryId());
+
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("gallery"));
+		$this->assertEquals($pdoGallery->getGalleryId(), $galleryId);
+		$this->assertEquals($pdoGallery->getGalleryProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoGallery->getGalleryDate()->getTimestamp(), $this->VALID_GALLERYDATE->getTimeStamp());
+		$this->assertEquals($pdoGallery->getGalleryName(), $this->VALID_GALLERYNAME);
+	}
+
+/*************************************************
+ * test selecting a non-existent gallery by profileId
+ *************************************************/
+	public function testGetInvalidGalleryByProfileId(): void {
+
+		// access a profileId that does not exist
+		$unknownProfileId = generateUuidV4();
+		$image = Image::getImageByProfileId($this->getPDO(), $unknownProfileId);
+		$this->assertNull($image);
+	}
 
 
 
