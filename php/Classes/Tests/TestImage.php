@@ -230,7 +230,7 @@ class TestImage extends ArtHausTest {
 	   $this->assertNull($pdoImage);
 	   $this->assertEquals($numRows, $this->getConnection()->getRowCount("image"));
 	 }
-}
+
 /****************************************************************************************************************
  * TEST SELECTING A NON-EXISTANT IMAGE BY IMAGE ID
  **************************************************************************************************************/
@@ -282,3 +282,4 @@ public function testSelectImageByGalleryId() : void {
 /****************************************************************************************************************
  * TEST SELECTING IMAGES BY PROFILE DISTANCE TODO get unit testing done before this -George
  **************************************************************************************************************/
+}
