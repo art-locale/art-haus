@@ -264,12 +264,16 @@ class TestGallery extends ArtHausTest {
  *************************************************/
 	public function testGetInvalidGalleryByProfileId(): void {
 
-		// access a profileId that does not exist
-		$unknownProfileId = generateUuidV4();
-		$image = Image::getImageByProfileId($this->getPDO(), $unknownProfileId);
-		$this->assertNull($image);
+		// access a galleryId that does not exist
+		$unknownGalleryId = generateUuidV4();
+		$gallery = Gallery::getGalleryByProfileId($this->getPDO(), $unknownGalleryId);
+		$this->assertNull($gallery);
 	}
 
+/*****************************************************************************************
+ * test getting gallery by profile distance TODO get unit testing done before this -George
+ *****************************************************************************************/
+	//TODO Test for insuring cannot update the image, gallery or profile id/dates since they should be immutable. May have to ask George about.
 
 
 } // END OF TestGallery Class
