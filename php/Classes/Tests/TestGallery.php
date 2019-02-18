@@ -266,7 +266,7 @@ class TestGallery extends ArtHausTest {
 
 		// access a galleryId that does not exist
 		$unknownGalleryId = generateUuidV4();
-		$gallery = Gallery::getGalleryByProfileId($this->getPDO(), $unknownGalleryId);
+		$gallery = Gallery::getGalleryByGalleryProfileId($this->getPDO(), $unknownGalleryId);
 		$this->assertNull($gallery);
 	}
 
