@@ -191,7 +191,6 @@ class TestApplaud extends ArtHausTest {
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("applaud"));
 	}
 
-
 	/*********************************************************************************************************
 	 * TEST  GRABBING AN APPLAUD RECORD BY PROFILE ID
 	 ********************************************************************************************************/
@@ -213,6 +212,23 @@ class TestApplaud extends ArtHausTest {
 		$this->assertEquals($pdoApplaud->getApplaudCount(), $this->VALID_APPLAUDCOUNT);
 		}
 
+		/*********************************************************************************************************
+		 * TEST GRABBING AN INVALID APPLAUD BY A NON-EXISTENT PROFILE ID
+	// 	 ********************************************************************************************************/
+
+public function testGetInvalidApplaudByApplaudProfileId(): void {
+
+	// count the number of rows and save it for later
+	$numRows = $this->getConnection()->getRowCount("applaud");
+
+	// create a new applaud record and insert into database
+	$applaud = new Applaud ($this->profile->getProfileId(), $this->image->getImageId(), $this->VALID_APPLAUDCOUNT);
+	$applaud->insert($this->getPDO());
+
+	//grab the data from mySQL and enforce the fields match expectations
+	$pdoApplaud = Applaud::getApplaudByApplaudProfileId($this->getPDO(), generateUuidV4());
+	$this->assertNull($pdoApplaud);
+	}
 /*********************************************************************************************************
  * TEST  GRABBING AN APPLAUD RECORD BY IMAGE ID
  ********************************************************************************************************/
@@ -234,16 +250,22 @@ public function testGetApplaudByApplaudImageId(): void {
 	$this->assertEquals($pdoApplaud->getApplaudCount(), $this->VALID_APPLAUDCOUNT);
 	}
 	/*********************************************************************************************************
-	 * TEST GRABBING AN INVALID APPLAUD BY A NON-EXISTENT PROFILE ID
+	 * TEST GRABBING AN INVALID APPLAUD BY A NON-EXISTENT IMAGE ID
 	 ********************************************************************************************************/
 
-	// public function testGetApplaudByApplaudImageIdandApplaudProfileId(): void {
-	//
-	// 	// access a profileId that does not exist
-	// 	$unknownProfileId = generateUuidV4();
-	// 		$applaud = Applaud::getApplaudByApplaudImageId($this->getPDO(), generateUuidV4());
-	// 		$this->assertNull($applaud);
-	// }
+public function testGetInvalidApplaudByApplaudImageId(): void {
+
+	// count the number of rows and save it for later
+	$numRows = $this->getConnection()->getRowCount("applaud");
+
+	// create a new applaud record and insert into database
+	$applaud = new Applaud ($this->profile->getProfileId(), $this->image->getImageId(), $this->VALID_APPLAUDCOUNT);
+	$applaud->insert($this->getPDO());
+
+	//grab the data from mySQL and enforce the fields match expectations
+	$pdoApplaud = Applaud::getApplaudByApplaudImageId($this->getPDO(), generateUuidV4());
+	$this->assertNull($pdoApplaud);
+	}
 
 	/*********************************************************************************************************
 	 * TEST  GRABBING AN APPLAUD RECORD BY IMAGE ID AND PROFILE ID
@@ -275,12 +297,4 @@ public function testGetApplaudByApplaudImageId(): void {
 		$this->assertNull($applaud);
 	}
 
-	/*********************************************************************************************************
-	 * TEST GRABBING AN INVALID APPLAUD BY A NON-EXISTENT IMAGE ID
-// 	 ********************************************************************************************************/
-// 	 testGetApplaudByApplaudProfileId
-// testGetInvalidApplaudByApplaudProfileId
-// TestGetInvalidApplaudByApplaudImageId
-// testGetApplaudByApplaudImageIdandApplaudProfileId
-// testGetApplaudByInvalidApplaudImageIdandApplaudProfileId
 }
