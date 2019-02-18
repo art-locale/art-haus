@@ -1,13 +1,10 @@
 <?php
 namespace ArtLocale\ArtHaus;
-
 // use my local autoload I made:
 require_once("autoload.php");
 // use autoload via composer (PHP's package manager):
 require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
-
 use Ramsey\Uuid\Uuid;
-
 /**
  * Capstone project for Art-Locale team, Deepdive cohort 23, Spring 2019
  *
@@ -20,37 +17,30 @@ use Ramsey\Uuid\Uuid;
 class Applaud implements \JsonSerializable {
 	use ValidateDate;
 	use ValidateUuid;
-
 	/*  The database attributes:
 				applaudProfileId BINARY(16) NOT NULL,
 				applaudImageId BINARY(16) NOT NULL,
 				applaudCount INT(1) NULL,
-
         simplified attribute names:
             applaudProfileId,
             applaudImageId,
             applaudCount
 	*/
-
 	/**
 	 * the profile ID of the user that applauded; this is a foreign key
 	 * @var Uuid $applaudProfileId
 	 **/
 	private $applaudProfileId;
-
 	/**
 	 * the associated images's ID; this is a foreign key
 	 * @var Uuid $applaudImageId
 	 **/
 	private $applaudImageId;
-
 	/**
 	 * number of applauds given by one user
 	 * @var INT $applaudCount
 	 **/
 	private $applaudCount;
-
-
 	/* START CONSTRUCTOR METHOD*/
 	/**
 	 * constructor for each new applaud object/ instance
@@ -70,15 +60,12 @@ class Applaud implements \JsonSerializable {
 			$this->setApplaudProfileId($newApplaudProfileId);
 			$this->setApplaudImageId($newApplaudImageId);
 			$this->setApplaudCount($newApplaudCount);
-
 		} //determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \TypeError | \Exception $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 	} /* END CONSTRUCTOR METHOD*/
-
-
 	/* START APPLAUD-PROFILE-ID METHODS*/
 	/**
 	 * GETTER accessor method for applaud profile id
@@ -88,7 +75,6 @@ class Applaud implements \JsonSerializable {
 	public function getApplaudProfileId(): Uuid {
 		return ($this->applaudProfileId);
 	}
-
 	/**
 	 * SETTER mutator method for applaud profile id
 	 *
@@ -103,13 +89,10 @@ class Applaud implements \JsonSerializable {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
-
 		// convert and store the author id
 		$this->applaudProfileId = $uuid;
 	}
 	/* END APPLAUD-PROFILE-ID METHODS*/
-
-
 	/* START APPLAUD-IMAGE-ID METHODS*/
 	/**
 	 * GETTER accessor method for image id that received applause
@@ -119,7 +102,6 @@ class Applaud implements \JsonSerializable {
 	public function getApplaudImageId(): Uuid {
 		return ($this->applaudImageId);
 	}
-
 	/**
 	 * SETTER mutator method for applaud image id
 	 *
@@ -134,13 +116,10 @@ class Applaud implements \JsonSerializable {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
-
 		// convert and store the author id
 		$this->applaudImageId = $uuid;
 	}
 	/* END APPLAUD-IMAGE-ID METHODS*/
-
-
 	/* START APPLAUD-COUNT METHODS*/
 	/**
 	 * Accessor method for applaud
@@ -157,34 +136,26 @@ class Applaud implements \JsonSerializable {
 	* @throws \RangeException if $newApplaudCount is > 140 characters
 	* @throws \TypeError if $newApplaudCount is not a string
 	**/
-
 	public function setApplaudCount(INT $newApplaudCount) {
-
 	if(empty($newApplaudCount) === true) {
 			throw(new \InvalidArgumentException("applaud count is empty"));
 		}
-
 		// verify the author's username will fit in the database
 		if(strlen($newApplaudCount) > 255) {
 			throw(new \RangeException("applaud count is too large"));
 		}
-
 		// store the author's username
 		$this->applaudCount = $newApplaudCount;
 	}
 	/* END APPLAUD-COUNT METHODS*/
-
-
 	//Applaud class methods:
 	//insert method
 	//update method
 	//delete method
-
 	// Applaud attributes:
 	//	applaudProfileId
 	//	applaudImageId
 	//	applaudCount
-
 	/* START INSERT METHOD */
 	/**
 	 * inserts an already-made applaud object (instance of Applaud class) into the mySQL database (into the applaud table)
@@ -194,18 +165,14 @@ class Applaud implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function insert(\PDO $pdo): void {
-
 		// create query template with associative array indexes:
 		$query = "INSERT INTO applaud(applaudProfileId, applaudImageId, applaudCount) VALUES(:applaudProfileId, :applaudImageId, :applaudCount)";
 		$statement = $pdo->prepare($query);
-
 		// bind the member variables to the place holders in the template
 		$parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes(), "applaudImageId" => $this->applaudImageId->getBytes(), "applaudCount" => $this->applaudCount];
 		$statement->execute($parameters);
 	}
 	/* END INSERT METHOD */
-
-
 	/* START DELETE METHOD */
 	/**
 	 * deletes an applaud field from the mySQL database
@@ -215,18 +182,14 @@ class Applaud implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function delete(\PDO $pdo): void {
-
 		// create query template
 		$query = "DELETE FROM applaud WHERE applaudProfileId = :applaudProfileId AND applaudImageId = :applaudImageId";
 		$statement = $pdo->prepare($query);
-
 		// bind the member variables to the place holder in the template
-		$parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes(), "applaudImageId" => $this->applaudImageId];
+		$parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes(), "applaudImageId" => $this->applaudImageId->getBytes()];
 		$statement->execute($parameters);
 	}
 	/* END DELETE METHOD */
-
-
 	/* START UPDATE METHOD */
 	/**
 	 * updates this applaud's info in mySQL database
@@ -236,18 +199,13 @@ class Applaud implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function update(\PDO $pdo): void {
-
 		// create query template
 		$query = "UPDATE applaud SET applaudProfileId = :applaudProfileId, applaudImageId = :applaudImageId, applaudCount = :applaudCount";
 		$statement = $pdo->prepare($query);
-
 		$parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes(), "applaudImageId" => $this->applaudImageId->getBytes(), "applaudCount" => $this->applaudCount];
 		$statement->execute($parameters);
 	}
 	//END UPDATE METHOD
-
-
-
 	/* START SEARCH STATIC METHODS: RETURN OBJECT */
 //********************************************************************************************
 	/**
@@ -266,18 +224,13 @@ class Applaud implements \JsonSerializable {
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 					throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-
 		$query = "SELECT applaudProfileId, applaudImageId, applaudCount FROM applaud WHERE applaudProfileId = :applaudProfileId";
 		$statement = $pdo->prepare($query);
-
 		// bind the applaudProfileId to the place holder in the template
 		// $parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes()];
 		$parameters = ["applaudProfileId" => $applaudProfileId->getBytes()];
 		$statement->execute($parameters);
-
 		// get the profile applauds from mySQL
-
-
 	$applauds = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
@@ -293,15 +246,13 @@ class Applaud implements \JsonSerializable {
 		return($applauds);
 	}
 		// end getApplaudByApplaudProfileId
-
 //****************************************************************************************
-
 	/**
 	 * gets the applaud object by applaudImageId
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param Uuid applaudImageId applaud image id to search for
-	 * @return \SplFixedArray SplFixedArray of applauds found or null if not found
+	 * @return \SplFixedArray applaud found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
@@ -312,15 +263,12 @@ class Applaud implements \JsonSerializable {
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-
 		// create query template
 		$query = "SELECT applaudProfileId, applaudImageId, applaudCount FROM applaud WHERE applaudImageId = :applaudImageId";
 		$statement = $pdo->prepare($query);
-
 		// bind the applaudImageId to the place holder in the template
 		$parameters = ["applaudImageId" => $this->applaudImageId->getBytes()];
 		$statement->execute($parameters);
-
 	// get the image applauds from mySQL
 		$applauds = new \SplFixedArray($statement->rowCount());
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -336,8 +284,8 @@ class Applaud implements \JsonSerializable {
 			}
 			return($applauds);
 		}
-
 	//****************************************************************************************
+				//FIXME: this function is mangled
 	/**
 	 * gets the applaud object by applaudImageId AND applaudProfileId
 	 *
@@ -356,32 +304,28 @@ class Applaud implements \JsonSerializable {
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-
 		// create query template
 		$query = "SELECT applaudProfileId, applaudImageId, applaudCount FROM applaud WHERE applaudProfileId = :applaudProfileId && applaudImageId = :applaudImageId";
 		$statement = $pdo->prepare($query);
-
 		// bind the applaudImageId and applaudProfileId to the place holder in the template
 		$parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes(), "applaudImageId" => $this->applaudImageId->getBytes()];
 		$statement->execute($parameters);
-
 		// get the applaud from mySQL
-		try {
-			$applauds = new \SplFixedArray($statement->rowCount());
-				$statement->setFetchMode(\PDO::FETCH_ASSOC);
-				while(($row = $statement->fetch()) !== false) {
-						try {
-								$applaud = new Applaud($row["applaudProfileId"], $row["applaudImageId"], $row["applaudCount"]);
-								$applauds[$applauds->key()] = $applaud;
-								$applauds->next();
-						} catch(\Exception $exception) {
-							// if the row couldn't be converted, rethrow it
-							throw(new \PDOException($exception->getMessage(), 0, $exception));
-						}
-				}
-				return($applauds);
-			} // end getApplaudByApplaudImageIdandApplaudProfileId
 
+		//////////////////////////////
+		try {
+			$applaud = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$applaud = new Applaud($row["applaudProfileId"], $row["applaudImageId"], $row["applaudCount"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($applaud);
+	} // end getApplaudByApplaudImageIdandApplaudProfileId
 	/**
 	 * formats the state variables for JSON serialization
 	 *
@@ -390,9 +334,8 @@ class Applaud implements \JsonSerializable {
 	public function jsonSerialize(): array {
 		$fields = get_object_vars($this);
 	//foreign keys
-		$fields["applaudProfileId"] = $this->applaudProfileId->toString();
 		$fields["applaudImageId"] = $this->applaudImageId->toString();
+		$fields["applaudProfileId"] = $this->applaudProfileId->toString();
 		return ($fields);
 	}
-
 }
