@@ -100,7 +100,7 @@ class TestGallery extends ArtHausTest {
 		$this->VALID_SUNSETDATE = new \DateTime();
 		$this->VALID_SUNSETDATE->add(new \DateInterval("P10D"));
 
-		//create and insert a Profile to own the test Image
+		//create and insert a Profile to own the test Gallery
 		$this->profile =
 			new Profile(
 					generateUuidV4(),
@@ -194,8 +194,8 @@ class TestGallery extends ArtHausTest {
 		$gallery->delete($this->getPDO());
 
 		// access database and confirm gallery is deleted
-		$pdoImage = Gallery::getGalleryByGalleryId($this->getPDO(), $gallery->getGalleryId());
-		$this->assertNull($pdoImage);
+		$pdoGallery = Gallery::getGalleryByGalleryId($this->getPDO(), $gallery->getGalleryId());
+		$this->assertNull($pdoGallery);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("gallery"));
 	}
 	// END OF testDeleteGallery() function
