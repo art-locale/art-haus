@@ -234,8 +234,18 @@ class Gallery {
 	public function insert(\PDO $pdo) : void {
 
 		// create query template with associative array indexes:
-		$query = "INSERT INTO gallery (galleryId, galleryProfileId, galleryDate, galleryName) VALUES(:galleryId, :galleryProfileId, :galleryDate, :galleryName)";
-		$statement = $pdo->prepare($query);
+		$query =
+			"INSERT INTO gallery(
+            galleryId, 
+            galleryProfileId, 
+            galleryDate, 
+            galleryName) 
+         VALUES(
+            :galleryId, 
+            :galleryProfileId, 
+            :galleryDate, 
+            :galleryName)";
+			$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
 		$formattedDate = $this->galleryDate->format("Y-m-d H:i:s.u");
@@ -308,8 +318,15 @@ class Gallery {
 		}
 
 		// create query template
-		$query = "SELECT galleryId, galleryProfileId, galleryDate, galleryName FROM gallery WHERE galleryId = :galleryId";
-		$statement = $pdo->prepare($query);
+		$query =
+			"SELECT 
+       		galleryId, 
+       		galleryProfileId, 
+       		galleryDate, 
+       		galleryName 
+			FROM gallery 
+			WHERE galleryId = :galleryId";
+			$statement = $pdo->prepare($query);
 
 		// bind the gallery id to the place holder in the template
 		$parameters = ["galleryId" => $galleryId->getBytes()];
@@ -349,8 +366,15 @@ class Gallery {
 		}
 
 		// create query template
-		$query = "SELECT galleryId, galleryProfileId, galleryDate, galleryName FROM gallery WHERE galleryProfileId = :galleryProfileId";
-		$statement = $pdo->prepare($query);
+		$query =
+			"SELECT 
+       		galleryId, 
+       		galleryProfileId, 
+       		galleryDate, 
+       		galleryName 
+			FROM gallery 
+			WHERE galleryProfileId = :galleryProfileId";
+			$statement = $pdo->prepare($query);
 
 		// bind the gallery id to the place holder in the template
 		$parameters = ["galleryProfileId" => $galleryProfileId];
