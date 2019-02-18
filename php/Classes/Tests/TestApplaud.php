@@ -142,29 +142,29 @@ class TestApplaud extends ArtHausTest {
 	/*********************************************************************************************************
 	 * TEST UPDATING APPLAUD COUNT
 	 ********************************************************************************************************/
-	//  public function testUpdateApplaud(): void {
-	//
- 	// 	// count the number of rows and save it for later
- 	// 	$numRows = $this->getConnection()->getRowCount("applaud");
-	//
- 	// 	// create a new Image and insert into database
- 	// 	$applaud = new Applaud ($this->profile->getProfileId(),
- 	// 		$this->image->getImageId(),
- 	// 		$this->VALID_APPLAUDCOUNT
- 	// 	);
- 	// 	$applaud->insert($this->getPDO());
-	//
- 	// 	// edit the Image and update it in mySQL
- 	// 	$applaud->setApplaudCount($this->VALID_APPLAUDCOUNT2);
- 	// 	$applaud->update($this->getPDO());
-	//
- 	// 	//grab the data from mySQL and enforce the fields match expectations
- 	// 	$pdoApplaud = Applaud::getApplaudByApplaudImageId($this->getPDO(), $this->image->getImageId());
-	// 	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("applaud"));
-	// 	$this->assertEquals($pdoApplaud->getApplaudProfileId(), $this->profile->getProfileId());
-	// 	$this->assertEquals($pdoApplaud->getApplaudImageId(), $this->image->getImageId());
-	// 	$this->assertEquals($pdoApplaud->getApplaudCount(), $this->VALID_APPLAUDCOUNT2);
- 	// }
+	 public function testUpdateApplaud(): void {
+
+ 		// count the number of rows and save it for later
+ 		$numRows = $this->getConnection()->getRowCount("applaud");
+
+ 		// create a new Image and insert into database
+ 		$applaud = new Applaud ($this->profile->getProfileId(),
+ 			$this->image->getImageId(),
+ 			$this->VALID_APPLAUDCOUNT
+ 		);
+ 		$applaud->insert($this->getPDO());
+
+ 		// edit the Image and update it in mySQL
+ 		$applaud->setApplaudCount($this->VALID_APPLAUDCOUNT2);
+ 		$applaud->update($this->getPDO());
+
+ 		//grab the data from mySQL and enforce the fields match expectations
+		$pdoApplaud = Applaud::getApplaudByApplaudImageIdandApplaudProfileId($this->getPDO(), $this->profile->getProfileId(), $this->image->getImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("applaud"));
+		$this->assertEquals($pdoApplaud->getApplaudProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoApplaud->getApplaudImageId(), $this->image->getImageId());
+		$this->assertEquals($pdoApplaud->getApplaudCount(), $this->VALID_APPLAUDCOUNT2);
+	}
 
 
 	/*********************************************************************************************************
@@ -177,9 +177,8 @@ class TestApplaud extends ArtHausTest {
 	public function testDeleteApplaud(): void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("applaud");
+
 		// create a new applaud record and insert into database
-		// $applaudImageId = generateUuidV4();
-		// $applaudProfileId = generateUuidV4();
 		$applaud = new Applaud ($this->profile->getProfileId(), $this->image->getImageId(), $this->VALID_APPLAUDCOUNT);
 		$applaud->insert($this->getPDO());
 		// delete the applaud from mySQL
@@ -193,16 +192,6 @@ class TestApplaud extends ArtHausTest {
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("applaud"));
 	}
 
-	// 	$results = Applaud::getApplaudByApplaudProfileId($this->getPDO(), $this->profile->getProfileId()) AND $this->image->getImageId();
-	// 	$pdoApplaud = $results[0];
-	// 	$this->assertNull($pdoApplaud);
-	// 	$this->assertEquals($numRows, $this->getConnection()->getRowCount("applaud"));
-	// }
-	// 	//
-	// 	// $pdoApplaud = Applaud::getApplaudByApplaudProfileId($this->getPDO(), $this->profile->getProfileId());
-	// 	// $this->assertNull($pdoApplaud);
-	// 	// $this->assertEquals($numRows, $this->getConnection()->getRowCount("applaud"));
-	// }
 
 /*********************************************************************************************************
  * TEST  GRABBING AN APPLAUD RECORD BY IMAGE ID

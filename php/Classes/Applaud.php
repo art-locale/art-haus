@@ -322,7 +322,7 @@ class Applaud implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$like = new Like($row["applaudProfileId"], $row["applaudImageId"], $row["applaudCount"]);
+				$applaud = new Applaud($row["applaudProfileId"], $row["applaudImageId"], $row["applaudCount"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
