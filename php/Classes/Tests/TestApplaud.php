@@ -237,18 +237,43 @@ public function testGetApplaudByApplaudImageId(): void {
 	 * TEST GRABBING AN INVALID APPLAUD BY A NON-EXISTENT PROFILE ID
 	 ********************************************************************************************************/
 
-	// public function testGetInvalidApplaudByApplaudImageId(): void {
+	// public function testGetApplaudByApplaudImageIdandApplaudProfileId(): void {
 	//
 	// 	// access a profileId that does not exist
 	// 	$unknownProfileId = generateUuidV4();
 	// 		$applaud = Applaud::getApplaudByApplaudImageId($this->getPDO(), generateUuidV4());
-	// 		$this->assertNull(0, $applaud);
+	// 		$this->assertNull($applaud);
 	// }
 
+	/*********************************************************************************************************
+	 * TEST  GRABBING AN APPLAUD RECORD BY IMAGE ID AND PROFILE ID
+	 ********************************************************************************************************/
 
-	// $like = Like::getLikeByLikeTweetIdAndLikeProfileId($this->getPDO(), generateUuidV4(), generateUuidV4());
-	// 	$this->assertNull($like);
-	// }
+	public function testGetApplaudByApplaudImageIdandApplaudProfileId(): void {
+
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("applaud");
+
+		// create a new applaud record and insert into database
+		$applaud = new Applaud ($this->profile->getProfileId(), $this->image->getImageId(), $this->VALID_APPLAUDCOUNT);
+		$applaud->insert($this->getPDO());
+
+		//grab the data from mySQL and enforce the fields match expectations
+		$pdoApplaud = Applaud::getApplaudByApplaudImageIdandApplaudProfileId($this->getPDO(), $this->profile->getProfileId(), $this->image->getImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("applaud"));
+		$this->assertEquals($pdoApplaud->getApplaudProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoApplaud->getApplaudImageId(), $this->image->getImageId());
+		$this->assertEquals($pdoApplaud->getApplaudCount(), $this->VALID_APPLAUDCOUNT);
+		}
+
+		/*********************************************************************************************************
+		 * TEST GRABBING AN APPLAUD RECORD THAT DOES NOT EXISTANT BY IMAGE ID AND PROFILE ID
+		 ********************************************************************************************************/
+
+	public function testGetInvalidApplaudByApplaudImageIdandApplaudProfileId(): void {
+	$applaud = Applaud::getApplaudByApplaudImageIdandApplaudProfileId($this->getPDO(), generateUuidV4(), generateUuidV4());
+		$this->assertNull($applaud);
+	}
 
 	/*********************************************************************************************************
 	 * TEST GRABBING AN INVALID APPLAUD BY A NON-EXISTENT IMAGE ID
