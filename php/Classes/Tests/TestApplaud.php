@@ -192,6 +192,27 @@ class TestApplaud extends ArtHausTest {
 	}
 
 
+	/*********************************************************************************************************
+	 * TEST  GRABBING AN APPLAUD RECORD BY PROFILE ID
+	 ********************************************************************************************************/
+
+	public function testGetApplaudByApplaudProfileId(): void {
+
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("applaud");
+
+		// create a new applaud record and insert into database
+		$applaud = new Applaud ($this->profile->getProfileId(), $this->image->getImageId(), $this->VALID_APPLAUDCOUNT);
+		$applaud->insert($this->getPDO());
+
+		//grab the data from mySQL and enforce the fields match expectations
+		$pdoApplaud = Applaud::getApplaudByApplaudProfileId($this->getPDO(), $this->profile->getProfileId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("applaud"));
+		$this->assertEquals($pdoApplaud->getApplaudProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoApplaud->getApplaudImageId(), $this->image->getImageId());
+		$this->assertEquals($pdoApplaud->getApplaudCount(), $this->VALID_APPLAUDCOUNT);
+		}
+
 /*********************************************************************************************************
  * TEST  GRABBING AN APPLAUD RECORD BY IMAGE ID
  ********************************************************************************************************/
