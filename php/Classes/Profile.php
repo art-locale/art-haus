@@ -57,7 +57,7 @@ class Profile implements \JsonSerializable {
 	 * @var string $profileWebsite ;
 	 **/
 	private $profileWebsite;
-	/**
+	/*******************************************************************************************************************
 	 * constructor for this
 	 * @param Uuid|string $newProfileId new id of this profile or null if a new profile
 	 * @param string $newProfileActivationToken activation token for a new profile
@@ -73,7 +73,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
-	 **/
+	 *******************************************************************************************************************/
 	public function __construct($newProfileId, ?string $newProfileActivationToken, $newProfileDate = null, string $newProfileEmail, float $newProfileLatitude, float $newProfileLongitude, string $newProfileName, string $newProfilePassword, string $newProfileWebsite) {
 		try {
 			$this->setProfileId($newProfileId);
@@ -91,7 +91,9 @@ class Profile implements \JsonSerializable {
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 	}
-	/** profileId **/
+	/*******************************************************************************************************************
+	 * profileId *
+	 ******************************************************************************************************************/
 	/**
 	 * accessor method for profile id
 	 *
@@ -117,7 +119,9 @@ class Profile implements \JsonSerializable {
 		// convert and store the profile id
 		$this->profileId = $uuid;
 	}
-	/** profileActivationToken **/
+	/*******************************************************************************************************************
+	 * profileActivationToken *
+	 *******************************************************************************************************************/
 	/**
 	 * accessor method for activation token
 	 *
@@ -150,7 +154,9 @@ class Profile implements \JsonSerializable {
 		// store the activation token
 		$this->profileActivationToken = $newProfileActivationToken;
 	}
-	/** profileDate **/
+	/*******************************************************************************************************************
+	 * profileDate *
+	 ******************************************************************************************************************/
 	/**
 	 * accessor method for profile date
 	 *
@@ -183,7 +189,9 @@ class Profile implements \JsonSerializable {
 		}
 		$this->profileDate = $newProfileDate;
 	}
-	/** profileEmail **/
+	/*******************************************************************************************************************
+	 * profileEmail *
+	 ******************************************************************************************************************/
 	/**
 	 * accessor method for profile email
 	 *
@@ -214,7 +222,9 @@ class Profile implements \JsonSerializable {
 		// store the activation token
 		$this->profileEmail = $newProfileEmail;
 	}
-	/** profileLatitude**/
+	/*******************************************************************************************************************
+	 * profileLatitude*
+	 ******************************************************************************************************************/
 	/** accessor method for profile latitude
 	 *
 	 * @return float value of profile latitude
@@ -240,7 +250,9 @@ class Profile implements \JsonSerializable {
 		// store the latitude
 		$this->profileLatitude = $newProfileLatitude;
 	}
-	/** profileLongitude**/
+	/*******************************************************************************************************************
+	 * profileLongitude*
+	 ******************************************************************************************************************/
 	/** accessor method for profile longitude
 	 *
 	 *
@@ -267,7 +279,9 @@ class Profile implements \JsonSerializable {
 		// store the longitude
 		$this->profileLongitude = $newProfileLongitude;
 	}
-	/** profileName**/
+	/*******************************************************************************************************************
+	 * profileName*
+	 ******************************************************************************************************************/
 	/**
 	 * accessor method for profile name
 	 *
@@ -298,7 +312,9 @@ class Profile implements \JsonSerializable {
 		// store the profile name
 		$this->profileName = $newProfileName;
 	}
-	/** profilePassword**/
+	/*******************************************************************************************************************
+	 * profilePassword*
+	 ******************************************************************************************************************/
 	/**
 	 * accessor method for profile password
 	 *
@@ -333,7 +349,9 @@ class Profile implements \JsonSerializable {
 		// store the profile password
 		$this->profilePassword = $newProfilePassword;
 	}
-	/** profileWebsite*/
+	/*******************************************************************************************************************
+	 * profileWebsite
+	 ******************************************************************************************************************/
 	/**
 	 * accessor method for profile website url
 	 *
@@ -364,9 +382,10 @@ class Profile implements \JsonSerializable {
 		// store the profile website url
 		$this->profileWebsite = $newProfileWebsite;
 	}
-	/**
+	/*******************************************************************************************************************
 	 * inserts this profile into mySQL
-	 *
+	 ******************************************************************************************************************/
+	/*
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
@@ -380,9 +399,10 @@ class Profile implements \JsonSerializable {
 		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileDate" => $formattedDate, "profileEmail" => $this->profileEmail, "profileLatitude" => $this->profileLatitude, "profileLongitude" => $this->profileLongitude, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
 		$statement->execute($parameters);
 	}
-	/**
+	/*******************************************************************************************************************
 	 * deletes this profile from mySQL
-	 *
+	 ******************************************************************************************************************/
+	/*
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
@@ -395,9 +415,10 @@ class Profile implements \JsonSerializable {
 		$parameters = ["profileId" => $this->profileId->getBytes()];
 		$statement->execute($parameters);
 	}
-	/**
+	/*******************************************************************************************************************
 	 * updates this profile in mySQL
-	 *
+	 ******************************************************************************************************************/
+	/*
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
@@ -411,9 +432,10 @@ class Profile implements \JsonSerializable {
 		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileDate" => $formattedDate, "profileEmail" => $this->profileEmail, "profileLatitude" => $this->profileLatitude, "profileLongitude" => $this->profileLongitude, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
 		$statement->execute($parameters);
 	}
-	/**
+	/*******************************************************************************************************************
 	 * gets the profile by profileId
-	 *
+	 ******************************************************************************************************************/
+	/*
 	 * @param \PDO $pdo PDO connection object
 	 * @param Uuid|string $profileId profile id to search for
 	 * @return profile|null profile found or null if not found
@@ -447,9 +469,10 @@ class Profile implements \JsonSerializable {
 		}
 		return ($profile);
 	}
-	/**
+	/*******************************************************************************************************************
 	 * gets the profile by email
-	 *
+	 ******************************************************************************************************************/
+	/*
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $profileEmail profile email to search for
 	 * @return Profile|null profile found or null if not found
@@ -483,9 +506,10 @@ class Profile implements \JsonSerializable {
 		}
 		return ($profile);
 	}
-	/**
+	/*******************************************************************************************************************
 	 * gets the profile by activation token
-	 *
+	 ******************************************************************************************************************/
+	/*
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $profileActivationToken profile activation token to search for
 	 * @return Profile|null profile found or null if not found
@@ -518,9 +542,10 @@ class Profile implements \JsonSerializable {
 		}
 		return ($profile);
 	}
-	/**
+	/*******************************************************************************************************************
 	 * gets the profile by profile name
-	 *
+	 ******************************************************************************************************************/
+	/*
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $profileName profile name to search for
 	 * @return Profile|null profile found or null if not found
@@ -554,9 +579,10 @@ class Profile implements \JsonSerializable {
 		}
 		return ($profile);
 	}
-	/**
+	/*******************************************************************************************************************
 	 * gets the profile by latitude
-	 *
+	 ******************************************************************************************************************/
+	/*
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $profileName profile name to search for
 	 * @return Profile|null profile found or null if not found
@@ -590,9 +616,10 @@ class Profile implements \JsonSerializable {
 		}
 		return ($profile);
 	}
-	/**
+	/*******************************************************************************************************************
 	 * gets the profile by profile longitude
-	 *
+	 ******************************************************************************************************************/
+	/*
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $profileName profile name to search for
 	 * @return Profile|null profile found or null if not found
@@ -626,12 +653,13 @@ class Profile implements \JsonSerializable {
 		}
 		return ($profile);
 	}
-	/**
+	/*******************************************************************************************************************
 	 * TODO- Add get profile by Profile Distance getProfileByProfileDistance
-	 **/
-	/**
+	 *******************************************************************************************************************/
+	/*******************************************************************************************************************
 	 * gets all profiles
-	 *
+	 ******************************************************************************************************************/
+	/*
 	 * @param \PDO $pdo PDO connection object
 	 * @return \SplFixedArray SplFixedArray of profiles found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
@@ -657,9 +685,10 @@ class Profile implements \JsonSerializable {
 		}
 		return ($profiles);
 	}
-	/**
+	/*******************************************************************************************************************
 	 * gets all profiles that have not been activated yet
-	 *
+	 ******************************************************************************************************************/
+	/*
 	 * @param \PDO $pdo PDO connection object
 	 * @return \SplFixedArray SplFixedArray of profiles found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
@@ -685,9 +714,10 @@ class Profile implements \JsonSerializable {
 		}
 		return ($profiles);
 	}
-	/**
+	/*******************************************************************************************************************
 	 * formats the state variables for JSON serialization
-	 *
+	 ******************************************************************************************************************/
+	/*
 	 * @return array resulting state variables to serialize
 	 **/
 	public function jsonSerialize() {
