@@ -74,7 +74,15 @@ class Profile implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct($newProfileId, ?string $newProfileActivationToken, $newProfileDate = null, string $newProfileEmail, float $newProfileLatitude, float $newProfileLongitude, string $newProfileName, string $newProfilePassword, string $newProfileWebsite) {
+	public function __construct($newProfileId,
+										 ?string $newProfileActivationToken,
+										 $newProfileDate = null,
+										 string $newProfileEmail,
+										 float $newProfileLatitude,
+										 float $newProfileLongitude,
+										 string $newProfileName,
+										 string $newProfilePassword,
+										 string $newProfileWebsite) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileActivationToken($newProfileActivationToken);
@@ -88,7 +96,9 @@ class Profile implements \JsonSerializable {
 		} //determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+			throw(new $exceptionType($exception->getMessage(),
+				0,
+				$exception));
 		}
 	}
 	/** profileId **/
@@ -112,7 +122,9 @@ class Profile implements \JsonSerializable {
 			$uuid = self::validateUuid($newProfileId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+			throw(new $exceptionType($exception->getMessage(),
+				0,
+				$exception));
 		}
 		// convert and store the profile id
 		$this->profileId = $uuid;
@@ -179,7 +191,9 @@ class Profile implements \JsonSerializable {
 			$newProfileDate = self::validateDateTime($newProfileDate);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+			throw(new $exceptionType($exception->getMessage(),
+				0,
+				$exception));
 		}
 		$this->profileDate = $newProfileDate;
 	}
@@ -203,7 +217,9 @@ class Profile implements \JsonSerializable {
 	public function setProfileEmail(string $newProfileEmail): void {
 		// verify the profile email content is secure
 		$newProfileEmail = trim($newProfileEmail);
-		$newProfileEmail = filter_var($newProfileEmail, FILTER_SANITIZE_EMAIL, FILTER_VALIDATE_EMAIL);
+		$newProfileEmail = filter_var($newProfileEmail,
+			FILTER_SANITIZE_EMAIL,
+			FILTER_VALIDATE_EMAIL);
 		if(empty($newProfileEmail) === true) {
 			throw(new \InvalidArgumentException("profile email is empty or insecure"));
 		}
@@ -287,7 +303,9 @@ class Profile implements \JsonSerializable {
 	public function setProfileName(string $newProfileName): void {
 		// verify the profile name content is secure
 		$newProfileName = trim($newProfileName);
-		$newProfileName = filter_var($newProfileName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		$newProfileName = filter_var($newProfileName,
+			FILTER_SANITIZE_STRING,
+			FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newProfileName) === true) {
 			throw(new \InvalidArgumentException("profile name is empty or insecure"));
 		}
@@ -353,7 +371,8 @@ class Profile implements \JsonSerializable {
 	public function setProfileWebsite(string $newProfileWebsite): void {
 		// verify the profile website url content is secure
 		$newProfileWebsite = trim($newProfileWebsite);
-		$newProfileWebsite = filter_var($newProfileWebsite, FILTER_SANITIZE_URL);
+		$newProfileWebsite = filter_var($newProfileWebsite,
+			FILTER_SANITIZE_URL);
 		if(empty($newProfileWebsite) === true) {
 			throw(new \InvalidArgumentException("profile website url is empty or insecure"));
 		}
@@ -373,11 +392,33 @@ class Profile implements \JsonSerializable {
 	 **/
 	public function insert(\PDO $pdo): void {
 		// create query template
-		$query = "INSERT INTO profile (profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite) VALUES(:profileId, :profileActivationToken, :profileDate, :profileEmail, :profileLatitude, :profileLongitude, :profileName, :profilePassword, :profileWebsite)";
+		$query = "INSERT INTO profile (profileId,
+                     profileActivationToken, profileDate, profileEmail,
+                     profileLatitude,
+                     profileLongitude,
+                     profileName,
+                     profilePassword,
+                     profileWebsite) VALUES(:profileId,
+                                            :profileActivationToken,
+                                            :profileDate,
+                                            :profileEmail,
+                                            :profileLatitude
+                                               :profileLongitude,
+                                            :profileName, 
+                                            :profilePassword,
+                                            :profileWebsite)";
 		$statement = $pdo->prepare($query);
 		// bind the member variables to the place holder in the template
 		$formattedDate = $this->profileDate->format("Y-m-d H:i:s.u");
-		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileDate" => $formattedDate, "profileEmail" => $this->profileEmail, "profileLatitude" => $this->profileLatitude, "profileLongitude" => $this->profileLongitude, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
+		$parameters = ["profileId" => $this->profileId->getBytes(),
+			"profileActivationToken" => $this->profileActivationToken,
+			"profileDate" => $formattedDate,
+			"profileEmail" => $this->profileEmail,
+			"profileLatitude" => $this->profileLatitude,
+			"profileLongitude" => $this->profileLongitude,
+			"profileName" => $this->profileName,
+			"profilePassword" => $this->profilePassword,
+			"profileWebsite" => $this->profileWebsite];
 		$statement->execute($parameters);
 	}
 	/**
@@ -404,11 +445,27 @@ class Profile implements \JsonSerializable {
 	 **/
 	public function update(\PDO $pdo): void {
 		// create query template
-		$query = "UPDATE profile SET profileId = :profileId, profileActivationToken = :profileActivationToken, profileDate = :profileDate, profileEmail = :profileEmail, profileLatitude = :profileLatitude, profileLongitude = :profileLongitude, profileName = :profileName, profilePassword = :profilePassword, profileWebsite = :profileWebsite WHERE profileId = :profileId";
+		$query = "UPDATE profile SET profileId = :profileId,
+    profileActivationToken = :profileActivationToken,
+    profileDate = :profileDate,
+    profileEmail = :profileEmail,
+    profileLatitude = :profileLatitude,
+    profileLongitude = :profileLongitude,
+    profileName = :profileName,
+    profilePassword = :profilePassword,
+    profileWebsite = :profileWebsite WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 		// bind the member variables to the place holder in the template
 		$formattedDate = $this->profileDate->format("Y-m-d H:i:s.u");
-		$parameters = ["profileId" => $this->profileId->getBytes(), "profileActivationToken" => $this->profileActivationToken, "profileDate" => $formattedDate, "profileEmail" => $this->profileEmail, "profileLatitude" => $this->profileLatitude, "profileLongitude" => $this->profileLongitude, "profileName" => $this->profileName, "profilePassword" => $this->profilePassword, "profileWebsite" => $this->profileWebsite];
+		$parameters = ["profileId" => $this->profileId->getBytes(),
+			"profileActivationToken" => $this->profileActivationToken,
+			"profileDate" => $formattedDate,
+			"profileEmail" => $this->profileEmail,
+			"profileLatitude" => $this->profileLatitude,
+			"profileLongitude" => $this->profileLongitude,
+			"profileName" => $this->profileName,
+			"profilePassword" => $this->profilePassword,
+			"profileWebsite" => $this->profileWebsite];
 		$statement->execute($parameters);
 	}
 	/**
@@ -420,15 +477,26 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getProfileByProfileId(\PDO $pdo, $profileId): ?Profile {
+	public static function getProfileByProfileId(\PDO $pdo,
+																$profileId): ?Profile {
 		// sanitize the profileId before searching
 		try {
 			$profileId = self::validateUuid($profileId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
+			throw(new \PDOException($exception->getMessage(),
+				0,
+				$exception));
 		}
 		// create query template
-		$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM profile WHERE profileId = :profileId";
+		$query = "SELECT profileId,
+       profileActivationToken,
+       profileDate,
+       profileEmail,
+       profileLatitude,
+       profileLongitude,
+       profileName,
+       profilePassword,
+       profileWebsite FROM profile WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 		// bind the profile id to the place holder in the template
 		$parameters = ["profileId" => $profileId->getBytes()];
@@ -439,11 +507,21 @@ class Profile implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+				$profile = new Profile($row["profileId"],
+					$row["profileActivationToken"],
+					$row["profileDate"],
+					$row["profileEmail"],
+					$row["profileLatitude"],
+					$row["profileLongitude"],
+					$row["profileName"],
+					$row["profilePassword"],
+					$row["profileWebsite"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
+			throw(new \PDOException($exception->getMessage(),
+				0,
+				$exception));
 		}
 		return ($profile);
 	}
@@ -456,15 +534,25 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getProfileByEmail(\PDO $pdo, string $profileEmail): ?Profile {
+	public static function getProfileByEmail(\PDO $pdo,
+														  string $profileEmail): ?Profile {
 		// sanitize the profileEmail before searching
 		$profileEmail = trim($profileEmail);
-		$profileEmail = filter_var($profileEmail, FILTER_VALIDATE_EMAIL);
+		$profileEmail = filter_var($profileEmail,
+			FILTER_VALIDATE_EMAIL);
 		if(empty($profileEmail) === true) {
 			throw(new \PDOException("not a valid email"));
 		}
 		// create query template
-		$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM profile WHERE profileEmail = :profileEmail";
+		$query = "SELECT profileId,
+       profileActivationToken,
+       profileDate,
+       profileEmail,
+       profileLatitude,
+       profileLongitude,
+       profileName,
+       profilePassword,
+       profileWebsite FROM profile WHERE profileEmail = :profileEmail";
 		$statement = $pdo->prepare($query);
 		// bind the profile email to the placeholder in template
 		$parameters = ["profileEmail" => $profileEmail];
@@ -475,11 +563,21 @@ class Profile implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+				$profile = new Profile($row["profileId"],
+					$row["profileActivationToken"],
+					$row["profileDate"],
+					$row["profileEmail"],
+					$row["profileLatitude"],
+					$row["profileLongitude"],
+					$row["profileName"],
+					$row["profilePassword"],
+					$row["profileWebsite"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
+			throw(new \PDOException($exception->getMessage(),
+				0,
+				$exception));
 		}
 		return ($profile);
 	}
@@ -492,14 +590,23 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken): ?Profile {
+	public static function getProfileByProfileActivationToken(\PDO $pdo,
+																				 string $profileActivationToken): ?Profile {
 		//verify activation token is in correct format and a string representation of hexidecimal
 		$profileActivationToken = trim($profileActivationToken);
 		if(ctype_xdigit($profileActivationToken) === false) {
 			throw(new \InvalidArgumentException("activation token is empty or incorrect format"));
 		}
 		// create query template
-		$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM profile WHERE profileActivationToken = :profileActivationToken";
+		$query = "SELECT profileId,
+       profileActivationToken,
+       profileDate,
+       profileEmail,
+       profileLatitude,
+       profileLongitude,
+       profileName,
+       profilePassword,
+       profileWebsite FROM profile WHERE profileActivationToken = :profileActivationToken";
 		$statement = $pdo->prepare($query);
 		// bind activation token to placeholder in template
 		$parameters = ["profileActivationToken" => $profileActivationToken];
@@ -510,11 +617,21 @@ class Profile implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+				$profile = new Profile($row["profileId"],
+					$row["profileActivationToken"],
+					$row["profileDate"],
+					$row["profileEmail"],
+					$row["profileLatitude"],
+					$row["profileLongitude"],
+					$row["profileName"],
+					$row["profilePassword"],
+					$row["profileWebsite"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
+			throw(new \PDOException($exception->getMessage(),
+				0,
+				$exception));
 		}
 		return ($profile);
 	}
@@ -527,15 +644,25 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getProfileByName(\PDO $pdo, string $profileName): ?Profile {
+	public static function getProfileByName(\PDO $pdo,
+														 string $profileName): ?Profile {
 		// sanitize the profileName before searching
 		$profileName = trim($profileName);
-		$profileName = filter_var($profileName, FILTER_SANITIZE_STRING);
+		$profileName = filter_var($profileName,
+			FILTER_SANITIZE_STRING);
 		if(empty($profileName) === true) {
 			throw(new \PDOException("not a valid name"));
 		}
 		// create query template
-		$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM profile WHERE profileName = :profileName";
+		$query = "SELECT profileId,
+       profileActivationToken,
+       profileDate,
+       profileEmail,
+       profileLatitude,
+       profileLongitude,
+       profileName,
+       profilePassword,
+       profileWebsite FROM profile WHERE profileName = :profileName";
 		$statement = $pdo->prepare($query);
 		// bind the profile name to the placeholder in template
 		$parameters = ["profileName" => $profileName];
@@ -546,11 +673,21 @@ class Profile implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+				$profile = new Profile($row["profileId"],
+					$row["profileActivationToken"],
+					$row["profileDate"],
+					$row["profileEmail"],
+					$row["profileLatitude"],
+					$row["profileLongitude"],
+					$row["profileName"],
+					$row["profilePassword"],
+					$row["profileWebsite"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
+			throw(new \PDOException($exception->getMessage(),
+				0,
+				$exception));
 		}
 		return ($profile);
 	}
@@ -564,15 +701,25 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getProfileByLatitude(\PDO $pdo, string $profileLatitude): ?Profile {
+	public static function getProfileByLatitude(\PDO $pdo,
+															  string $profileLatitude): ?Profile {
 		// sanitize the profileLatitude before searching
 		$profileLatitude = trim($profileLatitude);
-		$profileLatitude = filter_var($profileLatitude, FILTER_SANITIZE_STRING);
+		$profileLatitude = filter_var($profileLatitude,
+			FILTER_SANITIZE_STRING);
 		if(empty($profileLatitude) === true) {
 			throw(new \PDOException("not a valid latitude"));
 		}
 		// create query template
-		$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM profile WHERE profileLatitude = :profileLatitude";
+		$query = "SELECT profileId,
+       profileActivationToken,
+       profileDate,
+       profileEmail,
+       profileLatitude,
+       profileLongitude,
+       profileName,
+       profilePassword,
+       profileWebsite FROM profile WHERE profileLatitude = :profileLatitude";
 		$statement = $pdo->prepare($query);
 		// bind the profile name to the placeholder in template
 		$parameters = ["profileLatitude" => $profileLatitude];
@@ -583,11 +730,21 @@ class Profile implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+				$profile = new Profile($row["profileId"],
+					$row["profileActivationToken"],
+					$row["profileDate"],
+					$row["profileEmail"],
+					$row["profileLatitude"],
+					$row["profileLongitude"],
+					$row["profileName"],
+					$row["profilePassword"],
+					$row["profileWebsite"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
+			throw(new \PDOException($exception->getMessage(),
+				0,
+				$exception));
 		}
 		return ($profile);
 	}
@@ -601,15 +758,25 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getProfileByLongitude(\PDO $pdo, string $profileLongitude): ?Profile {
+	public static function getProfileByLongitude(\PDO $pdo,
+																string $profileLongitude): ?Profile {
 		// sanitize the profileName before searching
 		$profileLongitude = trim($profileLongitude);
-		$profileLongitude = filter_var($profileLongitude, FILTER_SANITIZE_STRING);
+		$profileLongitude = filter_var($profileLongitude,
+			FILTER_SANITIZE_STRING);
 		if(empty($profileLongitude) === true) {
 			throw(new \PDOException("not a valid name"));
 		}
 		// create query template
-		$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM profile WHERE profileLongitude = :profileLongitude";
+		$query = "SELECT profileId,
+       profileActivationToken,
+       profileDate,
+       profileEmail,
+       profileLatitude,
+       profileLongitude,
+       profileName,
+       profilePassword,
+       profileWebsite FROM profile WHERE profileLongitude = :profileLongitude";
 		$statement = $pdo->prepare($query);
 		// bind the profile name to the placeholder in template
 		$parameters = ["profileLongitude" => $profileLongitude];
@@ -620,11 +787,21 @@ class Profile implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+				$profile = new Profile($row["profileId"],
+					$row["profileActivationToken"],
+					$row["profileDate"],
+					$row["profileEmail"],
+					$row["profileLatitude"],
+					$row["profileLongitude"],
+					$row["profileName"],
+					$row["profilePassword"],
+					$row["profileWebsite"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
+			throw(new \PDOException($exception->getMessage(),
+				0,
+				$exception));
 		}
 		return ($profile);
 	}
@@ -642,7 +819,15 @@ class Profile implements \JsonSerializable {
 	 **/
 	public static function getAllProfiles(\PDO $pdo): \SPLFixedArray {
 		// create query template
-		$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM profile";
+		$query = "SELECT profileId,
+       profileActivationToken,
+       profileDate,
+       profileEmail,
+       profileLatitude,
+       profileLongitude,
+       profileName,
+       profilePassword,
+       profileWebsite FROM profile";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 		// build an array of profiles
@@ -650,12 +835,22 @@ class Profile implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+				$profile = new Profile($row["profileId"],
+					$row["profileActivationToken"],
+					$row["profileDate"],
+					$row["profileEmail"],
+					$row["profileLatitude"],
+					$row["profileLongitude"],
+					$row["profileName"],
+					$row["profilePassword"],
+					$row["profileWebsite"]);
 				$profiles[$profiles->key()] = $profile;
 				$profiles->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
+				throw(new \PDOException($exception->getMessage(),
+					0,
+					$exception));
 			}
 		}
 		return ($profiles);
@@ -671,7 +866,15 @@ class Profile implements \JsonSerializable {
 	 **/
 	public static function getAllNonActivatedProfiles(\PDO $pdo): \SPLFixedArray {
 		// create query template
-		$query = "SELECT profileId, profileActivationToken, profileDate, profileEmail, profileLatitude, profileLongitude, profileName, profilePassword, profileWebsite FROM profile WHERE profileActivationToken IS NOT NULL";
+		$query = "SELECT profileId,
+       profileActivationToken,
+       profileDate,
+       profileEmail,
+       profileLatitude,
+       profileLongitude,
+       profileName,
+       profilePassword,
+       profileWebsite FROM profile WHERE profileActivationToken IS NOT NULL";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 		// build an array of profiles
@@ -679,12 +882,22 @@ class Profile implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileDate"], $row["profileEmail"], $row["profileLatitude"], $row["profileLongitude"], $row["profileName"], $row["profilePassword"], $row["profileWebsite"]);
+				$profile = new Profile($row["profileId"],
+					$row["profileActivationToken"],
+					$row["profileDate"],
+					$row["profileEmail"],
+					$row["profileLatitude"],
+					$row["profileLongitude"],
+					$row["profileName"],
+					$row["profilePassword"],
+					$row["profileWebsite"]);
 				$profiles[$profiles->key()] = $profile;
 				$profiles->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
+				throw(new \PDOException($exception->getMessage(),
+					0,
+					$exception));
 			}
 		}
 		return ($profiles);
