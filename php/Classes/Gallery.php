@@ -47,7 +47,7 @@ class Gallery {
 	private $galleryProfileId;
 
 	/**
-	 * date and time this Tweet was created, in a PHP DateTime object
+	 * date and time this gallery was created, in a PHP DateTime object
 	 * @var \DateTime $galleryDate
 	 **/
 	private $galleryDate;
@@ -174,7 +174,7 @@ class Gallery {
 			return;
 		}
 
-		// store the like date using the ValidateDate trait
+		// store the gallery date using the ValidateDate trait
 		try {
 			$newGalleryDate = self::validateDateTime($newGalleryDate);
 		} catch(\InvalidArgumentException | \RangeException $exception) {
@@ -236,14 +236,14 @@ class Gallery {
 		// create query template with associative array indexes:
 		$query =
 			"INSERT INTO gallery(
-            galleryId, 
-            galleryProfileId, 
-            galleryDate, 
-            galleryName) 
+            galleryId,
+            galleryProfileId,
+            galleryDate,
+            galleryName)
          VALUES(
-            :galleryId, 
-            :galleryProfileId, 
-            :galleryDate, 
+            :galleryId,
+            :galleryProfileId,
+            :galleryDate,
             :galleryName)";
 			$statement = $pdo->prepare($query);
 
@@ -319,12 +319,12 @@ class Gallery {
 
 		// create query template
 		$query =
-			"SELECT 
-       		galleryId, 
-       		galleryProfileId, 
-       		galleryDate, 
-       		galleryName 
-			FROM gallery 
+			"SELECT
+       		galleryId,
+       		galleryProfileId,
+       		galleryDate,
+       		galleryName
+			FROM gallery
 			WHERE galleryId = :galleryId";
 			$statement = $pdo->prepare($query);
 
@@ -367,12 +367,12 @@ class Gallery {
 
 		// create query template
 		$query =
-			"SELECT 
-       		galleryId, 
-       		galleryProfileId, 
-       		galleryDate, 
-       		galleryName 
-			FROM gallery 
+			"SELECT
+       		galleryId,
+       		galleryProfileId,
+       		galleryDate,
+       		galleryName
+			FROM gallery
 			WHERE galleryProfileId = :galleryProfileId";
 			$statement = $pdo->prepare($query);
 
