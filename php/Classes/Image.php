@@ -411,6 +411,47 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 		return($image);
 	}
 
+	/***********************************************************************************************************************
+	 * START OF GET IMAGE BY PROFILE ID
+	 *****************************************************************************************************************/
+	/**
+	 * gets image by profile id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of images found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getImageByProfileId(\PDO $pdo, Uuid $imageProfileId) : ?Image {
+		// sanitize the imageProfileId before searching
+		try {
+			$imageProfileId = self::validateUuid($imageProfileId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		// create query template
+		$query = "SELECT imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl FROM image WHERE imageProfileId = :imageProfileId";
+		$statement = $pdo->prepare($query);
+
+		//bind the profileId to the place holder in the template
+		$parameters = ["imageProfileId" => $imageProfileId->getBytes()];
+		$statement->execute($parameters);
+
+		// grab the image from mySQL
+		try {
+			$image = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$image = new Image($row["imageId"], $row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($image);
+	}
+
 
 //TODO getImageByProfileDistance get unit testing done before this last
 
