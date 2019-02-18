@@ -200,6 +200,29 @@ class TestGallery extends ArtHausTest {
 	}
 	// END OF testDeleteGallery() function
 
+	/**********************************************
+	 * test selecting a gallery by galleryId
+	 *********************************************/
+	public function testGetGalleryByGalleryId(): void {
+
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("gallery");
+
+		// create a new gallery and insert into database:
+		$galleryId = generateUuidV4();
+		$gallery = new Gallery($galleryId, $this->profile->getProfileId(), $this->VALID_GALLERYDATE, $this->VALID_GALLERYNAME);
+		$gallery->insert($this->getPDO());
+
+		// get the data from mySQL table and check that the fields match expectations
+		$pdoImage = Image::getImageByImageId($this->getPDO(), $image->getImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+		$this->assertEquals($pdoImage->getGalleryId(), $galleryId);
+		$this->assertEquals($pdoImage->getGalleryProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoImage->getGalleryDate()->getTimestamp(), $this->VALID_GALLERYDATE->getTimestamp());
+		$this->assertEquals($pdoImage->getGalleryName(), $this->VALID_GALLERYNAME);
+	}
+// END OF testGetGalleryByGalleryId() function
+
 /*************************************************
  * test selecting a non-existent gallery by galleryId
  *************************************************/
@@ -210,6 +233,13 @@ class TestGallery extends ArtHausTest {
 		$gallery = Gallery::getGalleryByGalleryId($this->getPDO(), $unknownGalleryId);
 		$this->assertNull($gallery);
 	}
+	// END OF testGetInvalidGalleryByGalleryId()
+
+/*************************************************
+ * test
+ *************************************************/
+
+
 
 
 } // END OF TestGallery Class
