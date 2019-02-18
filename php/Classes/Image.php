@@ -381,27 +381,36 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getImageByGalleryId(\PDO $pdo) : \SplFixedArray {
-		// create query template
-		$query = "SELECT imageGalleryId, imageTitle, FROM image WHERE imageGalleryId = :imageGalleryId";
-		$statement = $pdo->prepare($query);
-		$statement->execute();
-
-		// build an array of images
-		$images = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$image = new Image($row ["imageId"], $row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
-				$images[$images->key()] = $image;
-				$images->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
+	public static function getImageByGalleryId(\PDO $pdo, Uuid $imageGalleryId) : ?Image {
+		// sanitize the imageGalleryId before searching
+		try {
+			$imageGalleryId = self::validateUuid($imageGalleryId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return ($images);
+		// create query template
+		$query = "SELECT imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl FROM image WHERE imageGalleryId = :imageGalleryId";
+		$statement = $pdo->prepare($query);
+
+		//bind the galleryId to the place holder in the template
+		$parameters = ["imageGalleryId" => $imageGalleryId->getBytes()];
+		$statement->execute($parameters);
+
+		// grab the image from mySQL
+		try {
+			$image = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$image = new Image($row["imageId"], $row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($image);
 	}
+
 
 //TODO getImageByProfileDistance get unit testing done before this last
 
@@ -427,7 +436,7 @@ public static function getAllImages(\PDO $pdo) : \SplFixedArray {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$image = new Image($row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
+				$image = new Image($row ["imageId"], $row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
 				$images[$images->key()] = $image;
 				$images->next();
 			} catch(\Exception $exception) {
