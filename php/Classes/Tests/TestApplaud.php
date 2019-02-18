@@ -75,6 +75,12 @@ class TestApplaud extends ArtHausTest {
 	 */
 	protected $VALID_APPLAUDCOUNT = "100";
 
+	/*
+	 * a valid applaud count
+	 * @var INT $VALID_APPLAUDCOUNT
+	 */
+	protected $VALID_APPLAUDCOUNT2 = "200";
+
 
 //**************************************************
 // Image class state variables:
@@ -137,6 +143,30 @@ class TestApplaud extends ArtHausTest {
 	/*********************************************************************************************************
 	 * TEST UPDATING APPLAUD COUNT
 	 ********************************************************************************************************/
+	 public function testUpdateApplaud(): void {
+
+ 		// count the number of rows and save it for later
+ 		$numRows = $this->getConnection()->getRowCount("applaud");
+
+ 		// create a new Image and insert into database
+ 		$applaud = new Applaud ($this->profile->getProfileId(),
+ 			$this->image->getImageId(),
+ 			$this->VALID_APPLAUDCOUNT
+ 		);
+ 		$applaud->insert($this->getPDO());
+
+ 		// edit the Image and update it in mySQL
+ 		$applaud->setApplaudCount($this->VALID_APPLAUDCOUNT2);
+ 		$applaud->update($this->getPDO());
+
+ 		//grab the data from mySQL and enforce the fields match expectations
+ 		$pdoApplaud = Applaud::getApplaudByApplaudImageId($this->getPDO(), $this->image->getImageId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("applaud"));
+		$this->assertEquals($pdoApplaud->getApplaudProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoApplaud->getApplaudImageId(), $this->image->getImageId());
+		$this->assertEquals($pdoApplaud->getApplaudCount(), $this->VALID_APPLAUDCOUNT2);
+ 	}
+
 
 	/*********************************************************************************************************
 	 * TEST UPDATING AN INVALID APPLAUD COUNT
