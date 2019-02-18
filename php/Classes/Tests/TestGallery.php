@@ -76,9 +76,9 @@ class TestGallery extends ArtHausTest {
 	//the other profile attributes are defined in the setUp() instantiation arguments below
 
 
-	/*
+	/*****************************************************************************************************************
 	 * @throws \Exception
-	 */
+	 *****************************************************************************************************************/
 	public final function setUp(): void {
 		parent::setUp();
 		/*************************************************
@@ -117,10 +117,10 @@ class TestGallery extends ArtHausTest {
 	}
 	//	END OF setUp() method
 
-/*************************************************
+/****************************************************************************************************************
  * build dummy object for Gallery and compare to
  * the PDO Gallery:
- *************************************************/
+ *****************************************************************************************************************/
 	public function testCreateGallery(): void {
 		// count the number of rows and save it for later:
 		$numRows = $this->getConnection()->getRowCount("gallery");
@@ -141,9 +141,9 @@ class TestGallery extends ArtHausTest {
 	}
 	// END OF testCreateGallery() function
 
-/*************************************************
+/*****************************************************************************************************************
  * test inserting a gallery and updating it
- *************************************************/
+ *****************************************************************************************************************/
 	public function testUpdateGallery(): void {
 		//local function variables:
 		$galleryId = generateUuidV4();
@@ -176,9 +176,9 @@ class TestGallery extends ArtHausTest {
 	}
 	// END OF testUpdateGallery() function
 
-/*************************************************
+/*****************************************************************************************************************
  * test inserting a gallery and then deleting it
- *************************************************/
+ *****************************************************************************************************************/
 	public function testDeleteGallery(): void {
 
 		// count the number of rows and save it for later
@@ -200,9 +200,9 @@ class TestGallery extends ArtHausTest {
 	}
 	// END OF testDeleteGallery() function
 
-	/**********************************************
+	/*****************************************************************************************************************
 	 * test selecting a gallery by galleryId
-	 *********************************************/
+	 *****************************************************************************************************************/
 	public function testGetGalleryByGalleryId(): void {
 
 		// count the number of rows and save it for later
@@ -224,9 +224,9 @@ class TestGallery extends ArtHausTest {
 	}
 // END OF testGetGalleryByGalleryId() function
 
-/*************************************************
+/*****************************************************************************************************************
  * test selecting a non-existent gallery by galleryId
- *************************************************/
+ *****************************************************************************************************************/
 	public function testGetInvalidGalleryByGalleryId(): void {
 
 		// access a galleryId that does not exist
@@ -236,9 +236,9 @@ class TestGallery extends ArtHausTest {
 	}
 	// END OF testGetInvalidGalleryByGalleryId()
 
-/*************************************************
+/*****************************************************************************************************************
  * test selecting a gallery by profileId
- *************************************************/
+ *****************************************************************************************************************/
 	public function testGetGalleryByProfileId(): void {
 
 		// count the number of rows and save it for later
@@ -259,9 +259,9 @@ class TestGallery extends ArtHausTest {
 		$this->assertEquals($pdoGallery->getGalleryName(), $this->VALID_GALLERYNAME);
 	}
 
-/*************************************************
+/*****************************************************************************************************************
  * test selecting a non-existent gallery by profileId
- *************************************************/
+ *****************************************************************************************************************/
 	public function testGetInvalidGalleryByProfileId(): void {
 
 		// access a galleryId that does not exist
@@ -270,9 +270,9 @@ class TestGallery extends ArtHausTest {
 		$this->assertNull($gallery);
 	}
 
-/*****************************************************************************************
+/*****************************************************************************************************************
  * test getting gallery by profile distance TODO get unit testing done before this -George
- *****************************************************************************************/
+ *****************************************************************************************************************/
 	//TODO Test for insuring cannot update the image, gallery or profile id/dates since they should be immutable. May have to ask George about.
 
 
