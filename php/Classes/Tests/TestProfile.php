@@ -256,7 +256,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 	 * test accessing a profile by profile name
 	 **/
 
-   public function testAccessProfileByName() : void {
+   public function testGetProfileByName() : void {
 
      // count the number of rows and save it for later
      $numRows = $this->getConnection()->getRowCount("profile");
@@ -295,7 +295,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 	 * test accessing a profile by profile email
 	 **/
 
-   public function testAccessProfileByEmail() : void {
+   public function testGetProfileByEmail() : void {
 
      // count the number of rows and save it for later
      $numRows = $this->getConnection()->getRowCount("profile");
