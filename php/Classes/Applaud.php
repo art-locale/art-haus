@@ -214,11 +214,11 @@ class Applaud implements \JsonSerializable {
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param Uuid $applaudProfileId applaud profile id to search for
-	 * @return \SplFixedArray SplFixedArray of applauds found or null if not found
+	 * @return applaud|null Applaud found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getApplaudByApplaudProfileId (\PDO $pdo, Uuid $applaudProfileId) : \SPLFixedArray {
+	public static function getApplaudByApplaudProfileId (\PDO $pdo, Uuid $applaudProfileId) : ?Applaud {
 
 		try {
 			$applaudProfileId = self::validateUuid($applaudProfileId);
@@ -227,25 +227,26 @@ class Applaud implements \JsonSerializable {
 		}
 		$query = "SELECT applaudProfileId, applaudImageId, applaudCount FROM applaud WHERE applaudProfileId = :applaudProfileId";
 		$statement = $pdo->prepare($query);
+
 		// bind the applaudProfileId to the place holder in the template
 		// $parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes()];
 		$parameters = ["applaudProfileId" => $applaudProfileId->getBytes()];
 		$statement->execute($parameters);
+
 		// get the profile applauds from mySQL
-	$applauds = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-				try {
-						$applaud = new Applaud($row["applaudProfileId"], $row["applaudImageId"], $row["applaudCount"]);
-						$applauds[$applauds->key()] = $applaud;
-						$applauds->next();
-				} catch(\Exception $exception) {
-					// if the row couldn't be converted, rethrow it
-					throw(new \PDOException($exception->getMessage(), 0, $exception));
-				}
+		try {
+			$applaud = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$applaud = new Applaud($row["applaudProfileId"], $row["applaudImageId"], $row["applaudCount"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($applauds);
-	}
+		return ($applaud);
+		}
 		// end getApplaudByApplaudProfileId
 //****************************************************************************************
 	/**
@@ -253,38 +254,37 @@ class Applaud implements \JsonSerializable {
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param Uuid $applaudImageId applaud image id to search for
-	 * @return \SplFixedArray applaud found or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when a variable are not the correct data type
+	 * @return applaud|null Applaud found or null if not found
 	 **/
-	public static function getApplaudByApplaudImageId(\PDO $pdo, Uuid $applaudImageId) : \SPLFixedArray {
-		// sanitize the applaudImageId before searching
-		try {
-			$applaudImageId = self::validateUuid($applaudImageId);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-		// create query template
-		$query = "SELECT applaudProfileId, applaudImageId, applaudCount FROM applaud WHERE applaudImageId = :applaudImageId";
-		$statement = $pdo->prepare($query);
-		// bind the applaudImageId to the place holder in the template
-		$parameters = ["applaudImageId" => $this->applaudImageId->getBytes()];
-		$statement->execute($parameters);
-	// get the image applauds from mySQL
-		$applauds = new \SplFixedArray($statement->rowCount());
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			while(($row = $statement->fetch()) !== false) {
-					try {
-							$applaud = new Applaud($row["applaudProfileId"], $row["applaudImageId"], $row["applaudCount"]);
-							$applauds[$applauds->key()] = $applaud;
-							$applauds->next();
-					} catch(\Exception $exception) {
-						// if the row couldn't be converted, rethrow it
-						throw(new \PDOException($exception->getMessage(), 0, $exception));
-					}
-			}
-			return($applauds);
-		}
+	 public static function getApplaudByApplaudImageId (\PDO $pdo, Uuid $applaudImageId) : ?Applaud {
+
+ 		try {
+ 			$applaudImageId = self::validateUuid($applaudImageId);
+ 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+ 					throw(new \PDOException($exception->getMessage(), 0, $exception));
+ 		}
+ 		$query = "SELECT applaudProfileId, applaudImageId, applaudCount FROM applaud WHERE applaudImageId = :applaudImageId";
+ 		$statement = $pdo->prepare($query);
+
+ 		// bind the applaudProfileId to the place holder in the template
+ 		// $parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes()];
+ 		$parameters = ["applaudImageId" => $applaudImageId->getBytes()];
+ 		$statement->execute($parameters);
+
+ 		// get the profile applauds from mySQL
+ 		try {
+ 			$applaud = null;
+ 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+ 			$row = $statement->fetch();
+ 			if($row !== false) {
+ 				$applaud = new Applaud($row["applaudProfileId"], $row["applaudImageId"], $row["applaudCount"]);
+ 			}
+ 		} catch(\Exception $exception) {
+ 			// if the row couldn't be converted, rethrow it
+ 			throw(new \PDOException($exception->getMessage(), 0, $exception));
+ 		}
+ 		return ($applaud);
+ 		}
 	//****************************************************************************************
 
 	/**

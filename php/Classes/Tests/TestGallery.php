@@ -130,7 +130,7 @@ class TestGallery extends ArtHausTest {
 		$gallery = new Gallery($galleryId, $this->profile->getProfileId(), $this->VALID_GALLERYDATE, $this->VALID_GALLERYNAME);
 		$gallery->insert($this->getPDO());
 
-		// grab the data from mySQL and enforce the fields match expectations:
+		// get the data from SQL table and check that the fields match expectations:
 		$pdoGallery = Gallery::getGalleryByGalleryId($this->getPDO(), $gallery->getGalleryId());
 
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("gallery"));
@@ -200,6 +200,30 @@ class TestGallery extends ArtHausTest {
 	}
 	// END OF testDeleteGallery() function
 
+	/**********************************************
+	 * test selecting a gallery by galleryId
+	 *********************************************/
+	public function testGetGalleryByGalleryId(): void {
+
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("gallery");
+
+		// create a new gallery and insert into database:
+		$galleryId = generateUuidV4();
+		$gallery = new Gallery($galleryId, $this->profile->getProfileId(), $this->VALID_GALLERYDATE, $this->VALID_GALLERYNAME);
+		$gallery->insert($this->getPDO());
+
+		// get the data from SQL table and check that the fields match expectations:
+		$pdoGallery = Gallery::getGalleryByGalleryId($this->getPDO(), $gallery->getGalleryId());
+
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("gallery"));
+		$this->assertEquals($pdoGallery->getGalleryId(), $galleryId);
+		$this->assertEquals($pdoGallery->getGalleryProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoGallery->getGalleryDate()->getTimestamp(), $this->VALID_GALLERYDATE->getTimeStamp());
+		$this->assertEquals($pdoGallery->getGalleryName(), $this->VALID_GALLERYNAME);
+	}
+// END OF testGetGalleryByGalleryId() function
+
 /*************************************************
  * test selecting a non-existent gallery by galleryId
  *************************************************/
@@ -210,6 +234,46 @@ class TestGallery extends ArtHausTest {
 		$gallery = Gallery::getGalleryByGalleryId($this->getPDO(), $unknownGalleryId);
 		$this->assertNull($gallery);
 	}
+	// END OF testGetInvalidGalleryByGalleryId()
+
+/*************************************************
+ * test selecting a gallery by profileId
+ *************************************************/
+	public function testGetGalleryByProfileId(): void {
+
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("gallery");
+
+		// create a new gallery and insert into database:
+		$galleryId = generateUuidV4();
+		$gallery = new Gallery($galleryId, $this->profile->getProfileId(), $this->VALID_GALLERYDATE, $this->VALID_GALLERYNAME);
+		$gallery->insert($this->getPDO());
+
+		// get the data from SQL table and check that the fields match expectations:
+		$pdoGallery = Gallery::getGalleryByGalleryId($this->getPDO(), $gallery->getGalleryId());
+
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("gallery"));
+		$this->assertEquals($pdoGallery->getGalleryId(), $galleryId);
+		$this->assertEquals($pdoGallery->getGalleryProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoGallery->getGalleryDate()->getTimestamp(), $this->VALID_GALLERYDATE->getTimeStamp());
+		$this->assertEquals($pdoGallery->getGalleryName(), $this->VALID_GALLERYNAME);
+	}
+
+/*************************************************
+ * test selecting a non-existent gallery by profileId
+ *************************************************/
+	public function testGetInvalidGalleryByProfileId(): void {
+
+		// access a galleryId that does not exist
+		$unknownGalleryId = generateUuidV4();
+		$gallery = Gallery::getGalleryByGalleryProfileId($this->getPDO(), $unknownGalleryId);
+		$this->assertNull($gallery);
+	}
+
+/*****************************************************************************************
+ * test getting gallery by profile distance TODO get unit testing done before this -George
+ *****************************************************************************************/
+	//TODO Test for insuring cannot update the image, gallery or profile id/dates since they should be immutable. May have to ask George about.
 
 
 } // END OF TestGallery Class
