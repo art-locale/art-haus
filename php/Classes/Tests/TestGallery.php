@@ -115,7 +115,7 @@ class TestGallery extends ArtHausTest {
 
 			$this->profile->insert($this->getPDO());
 	}
-	//	end setUp() method
+	//	END OF setUp() method
 
 /*************************************************
  * build dummy object for Gallery and compare to
@@ -138,7 +138,8 @@ class TestGallery extends ArtHausTest {
 		$this->assertEquals($pdoGallery->getGalleryProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoGallery->getGalleryDate()->getTimestamp(), $this->VALID_GALLERYDATE->getTimeStamp());
 		$this->assertEquals($pdoGallery->getGalleryName(), $this->VALID_GALLERYNAME);
-	} // END OF testCreateGallery() function
+	}
+	// END OF testCreateGallery() function
 
 /*************************************************
  * test inserting a gallery and updating it
@@ -172,8 +173,43 @@ class TestGallery extends ArtHausTest {
 		$this->assertEquals($pdoGallery->getGalleryProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoGallery->getGalleryDate()->getTimestamp(), $this->VALID_GALLERYDATE->getTimestamp());
 		$this->assertEquals($pdoGallery->getGalleryName(), $this->VALID_GALLERYNAME2);
-	} // END OF testUpdateGallery() function
+	}
+	// END OF testUpdateGallery() function
 
+/*************************************************
+ * test inserting a gallery and then deleting it
+ *************************************************/
+	public function testDeleteGallery(): void {
+
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("gallery");
+
+		// create a new gallery and insert into database:
+		$galleryId = generateUuidV4();
+		$gallery = new Gallery($galleryId, $this->profile->getProfileId(), $this->VALID_GALLERYDATE, $this->VALID_GALLERYNAME);
+		$gallery->insert($this->getPDO());
+
+		// delete the gallery from database
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("gallery"));
+		$gallery->delete($this->getPDO());
+
+		// access database and confirm gallery is deleted
+		$pdoImage = Gallery::getGalleryByGalleryId($this->getPDO(), $gallery->getGalleryId());
+		$this->assertNull($pdoImage);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("gallery"));
+	}
+	// END OF testDeleteGallery() function
+
+/*************************************************
+ * test selecting a non-existent gallery by galleryId
+ *************************************************/
+	public function testGetInvalidGalleryByGalleryId(): void {
+
+		// access a galleryId that does not exist
+		$unknownGalleryId = generateUuidV4();
+		$gallery = Gallery::getGalleryByGalleryId($this->getPDO(), $unknownGalleryId);
+		$this->assertNull($gallery);
+	}
 
 
 } // END OF TestGallery Class
