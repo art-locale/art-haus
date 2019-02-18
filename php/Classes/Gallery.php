@@ -136,7 +136,7 @@ class Gallery {
 	}
 
 	/****************************************************************************************************************
-	 * SETTER mutator method for gallery profile id
+	 * SETTER MUTATOR METHOD FOR GALLERY PROFILE ID
 	 ***************************************************************************************************************/
 	/*
 	 * @param Uuid|string $newGalleryProfileId new value of gallery profile id
@@ -368,7 +368,7 @@ class Gallery {
 
 
 	/****************************************************************************************************************
-	 * gets the gallery name by GalleryProfileId
+	 * GETS THE GALLERY NAME BY GALLERYPROFILEID
 	 ***************************************************************************************************************/
 	/*
 	 * @param \PDO $pdo PDO connection object
