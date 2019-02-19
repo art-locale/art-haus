@@ -346,7 +346,7 @@ class TestImage extends ArtHausTest {
 	}
 
 	/****************************************************************************************************************
-	 * TEST SELECTING A NON-EXISTANT IMAGE BY PROFILE ID
+	 * TEST SELECTING A NON-EXISTENT IMAGE BY PROFILE ID
 	 **************************************************************************************************************/
 	public function testGetInvalidImageByProfileId(): void {
 

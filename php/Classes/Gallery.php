@@ -59,7 +59,9 @@ class Gallery {
 	private $galleryName;
 
 
-	/* START CONSTRUCTOR METHOD*/
+	/****************************************************************************************************************
+	 * START CONSTRUCTOR METHOD
+	 ***************************************************************************************************************/
 	/**
 	 * constructor for each new gallery object/ instance
 	 *
@@ -88,7 +90,9 @@ class Gallery {
 	} /* END CONSTRUCTOR METHOD*/
 
 
-	/* START GALLERY-ID METHODS*/
+	/***************************************************************************************************************
+	 * START GALLERY-ID METHODS
+	 ***************************************************************************************************************/
 	/**
 	 * GETTER accessor method for gallery id
 	 *
@@ -119,7 +123,9 @@ class Gallery {
 	/* END GALLERY-ID METHODS*/
 
 
-	/* START GALLERY-PROFILE-ID METHODS*/
+	/***************************************************************************************************************
+	 * START GALLERY-PROFILE-ID METHODS
+	 ***************************************************************************************************************/
 	/**
 	 * GETTER accessor method for gallery profile id
 	 *
@@ -129,9 +135,10 @@ class Gallery {
 		return ($this->galleryProfileId);
 	}
 
-	/**
-	 * SETTER mutator method for gallery profile id
-	 *
+	/****************************************************************************************************************
+	 * SETTER MUTATOR METHOD FOR GALLERY PROFILE ID
+	 ***************************************************************************************************************/
+	/*
 	 * @param Uuid|string $newGalleryProfileId new value of gallery profile id
 	 * @throws \RangeException if $newGalleryProfileId is not positive
 	 * @throws \TypeError if $newGalleryProfileId is not a uuid or string
@@ -150,7 +157,9 @@ class Gallery {
 	/* END GALLERY-PROFILE-ID METHODS*/
 
 
-	/* START GALLERY-DATE METHODS*/
+	/***************************************************************************************************************
+	 * START GALLERY-DATE METHODS
+	 ***************************************************************************************************************/
 	/**
 	 * accessor method for gallery date
 	 *
@@ -186,7 +195,9 @@ class Gallery {
 	/* END GALLERY-DATE METHODS*/
 
 
-	/* START GALLERY-NAME METHODS*/
+	/***************************************************************************************************************
+	 * START GALLERY-NAME METHODS
+	 ***************************************************************************************************************/
 	/**
 	 * GETTER accessor method for gallery's name
 	 *
@@ -223,7 +234,9 @@ class Gallery {
 	/* END GALLERY-NAME METHODS*/
 
 
-	/* START INSERT METHOD */
+	/***************************************************************************************************************
+	 * START INSERT METHOD
+	 ***************************************************************************************************************/
 	/**
 	 * inserts an already-made gallery object (instance of Gallery class) into the mySQL database (into the gallery table)
 	 *
@@ -255,7 +268,9 @@ class Gallery {
 	/* END INSERT METHOD */
 
 
-	/* START DELETE METHOD */
+	/***************************************************************************************************************
+	 * START DELETE METHOD
+	 ***************************************************************************************************************/
 	/**
 	 * deletes a gallery from the mySQL database
 	 *
@@ -276,7 +291,9 @@ class Gallery {
 	/* END DELETE METHOD */
 
 
-	/* START UPDATE METHOD */
+	/***************************************************************************************************************
+	 * START UPDATE METHOD
+	 ***************************************************************************************************************/
 	/**
 	 * updates this gallery's info in mySQL database
 	 *
@@ -298,7 +315,9 @@ class Gallery {
 	/* END UPDATE METHOD */
 
 
-	/* START SEARCH STATIC METHODS: RETURN OBJECT */
+	/***************************************************************************************************************
+	 * START SEARCH STATIC METHODS: RETURN OBJECT
+	 ***************************************************************************************************************/
 
 	/**
 	 * gets the gallery name by galleryId
@@ -348,9 +367,10 @@ class Gallery {
 	}
 
 
-	/**
-	 * gets the gallery name by GalleryProfileId
-	 *
+	/****************************************************************************************************************
+	 * GETS THE GALLERY NAME BY GALLERYPROFILEID
+	 ***************************************************************************************************************/
+	/*
 	 * @param \PDO $pdo PDO connection object
 	 * @param Uuid $GalleryProfileId profile id to search for
 	 * @return string|null gallery found or null if not found

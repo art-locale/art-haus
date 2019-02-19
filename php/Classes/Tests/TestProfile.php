@@ -127,7 +127,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
   protected $VALID_PROFILEWEBSITE2 = "www.linkedin.com";
 
   /*******************************************************************************************************************
-	 * setup operation to create hash and salt.
+	 * SETUP OPERATION TO CREATE HASH AND SALT.
 	 ******************************************************************************************************************/
 	public final function setUp() : void {
 		parent::setUp();
@@ -152,7 +152,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 
 
   /*******************************************************************************************************************
-	 * test creating a valid profile
+	 * TEST CREATING A VALID PROFILE
 	 ******************************************************************************************************************/
 	public function testCreateProfile() : void {
 
@@ -180,7 +180,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 	}
 
   /*******************************************************************************************************************
-	 * test inserting a profile and updating it
+	 * TEST INSERTING A PROFILE AND UPDATING IT
 	 ******************************************************************************************************************/
 	public function testUpdateProfile() {
 
@@ -218,7 +218,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 	}
 
   /*******************************************************************************************************************
-   * test to create a profile and delete it
+   * TEST TO CREATE A PROFILE AND DELETE IT
    *******************************************************************************************************************/
   public function testDeleteProfile() : void {
 
@@ -232,7 +232,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
     $profile->insert($this->getPDO());
 
     /*****************************************************************************************************************
- * delete the profile from database
+ * DELETE THE PROFILE FROM DATABASE
  * *******************************************************************************************************************/
     $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
     $profile->delete($this->getPDO());
@@ -244,7 +244,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
   }
 
    /*******************************************************************************************************************
-	 * test accessing a profile that does not exist
+	 * TEST ACCESSING A PROFILE THAT DOES NOT EXIST
 	 *******************************************************************************************************************/
    public function testGetInvalidProfileByProfileId() : void {
 
@@ -255,7 +255,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  	}
 
    /*******************************************************************************************************************
-	 * test accessing a profile by profile name
+	 * TEST ACCESSING A PROFILE BY PROFILE NAME
 	 *******************************************************************************************************************/
 
    public function testGetProfileByName() : void {
@@ -284,7 +284,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
    }
 
    /*****************************************************************************************************************
-  * test accessing a profile by profile name that does not exist
+  * TEST ACCESSING A PROFILE BY PROFILE NAME THAT DOES NOT EXIST
   *******************************************************************************************************************/
   public function testGetProfileByInvalidName() : void {
 
@@ -294,7 +294,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
   }
 
    /*******************************************************************************************************************
-	 * test accessing a profile by profile email
+	 * TEST ACCESSING A PROFILE BY PROFILE EMAIL
 	 *******************************************************************************************************************/
 
    public function testGetProfileByEmail() : void {
@@ -322,20 +322,16 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
      $this->assertEquals($pdoProfile->getProfileWebsite(), $this->VALID_PROFILEWEBSITE);
    }
    /*****************************************************************************************************************
-  * test accessing a profile by profile email that does not exist
+  * TEST ACCESSING A PROFILE BY PROFILE EMAIL THAT DOES NOT EXIST
   *******************************************************************************************************************/
 
   public function testGetProfileByInvalidEmail() : void {
-
-    /*****************************************************************************************************************
- * Test that accesses profile name that does not exists
- * *******************************************************************************************************************/
     $profile = Profile::getProfileByEmail($this->getPDO(), "doesnotexist@gmail.com");
     $this->assertNull($profile);
   }
 
    /*******************************************************************************************************************
-	 * test accessing a profile by latitude
+	 * TEST ACCESSING A PROFILE BY LATITUDE
 	 *******************************************************************************************************************/
 
    public function testAccessProfileByLatitude() : void {
@@ -364,7 +360,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
    }
 
    /*******************************************************************************************************************
-  * test accessing a profile by profile latitude that does not exist
+  * TEST ACCESSING A PROFILE BY PROFILE LATITUDE THAT DOES NOT EXIST
   *********************************************************************************************************************/
 
   public function testGetProfileByInvalidLatitude() : void {
@@ -375,7 +371,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
   }
 
   /********************************************************************************************************************
-  * test accessing a profile by longitude
+  * TEST ACCESSING A PROFILE BY LONGITUDE
   *********************************************************************************************************************/
 
   public function testAccessProfileByLongitude() : void {
@@ -404,7 +400,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
   }
 
   /*******************************************************************************************************************
- * test accessing a profile by profile longitude that does not exist
+ * TEST ACCESSING A PROFILE BY PROFILE LONGITUDE THAT DOES NOT EXIST
  ********************************************************************************************************************/
 
  public function testGetProfileByInvalidLongitude() : void {
@@ -415,7 +411,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  }
 
    /*******************************************************************************************************************
-	 * test accessing a profile by activation token
+	 * TEST ACCESSING A PROFILE BY ACTIVATION TOKEN
 	 *******************************************************************************************************************/
 
    public function testAccessProfileByActivationToken() : void {
@@ -444,20 +440,16 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
    }
 
    /*******************************************************************************************************************
-  * test accessing a profile by activation token that does not exist
+  * TEST ACCESSING A PROFILE BY ACTIVATION TOKEN THAT DOES NOT EXIST
   *********************************************************************************************************************/
 
   public function testGetProfileByInvaliActivationToken() : void {
-
-    /*****************************************************************************************************************
- * Access profile name that does not exists
- * *******************************************************************************************************************/
     $profile = Profile::getProfileByProfileActivationToken($this->getPDO(), "9dc8ec939f2191519ebfc91434c2590f");
     $this->assertNull($profile);
   }
 
    /*******************************************************************************************************************
-	 * test accessing all profiles
+	 * TEST ACCESSING ALL PROFILES
 	 *******************************************************************************************************************/
 
    public function testAccessAllProfiles() : void {
@@ -477,9 +469,8 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
      $this->assertCount(1, $results);
      // $this->assertContainsOnlyInstancesOf("ArtLocale\\ArtHaus\\Profile", $results);
 
-     /*****************************************************************************************************************
- * Access the results and validate
- * ********************************************************************************************************************/
+
+ //access the results and validate
      $pdoProfile = $results[0];
      $this->assertEquals($pdoProfile->getProfileId(), $profileId);
      $this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
@@ -493,7 +484,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
    }
 
    /*******************************************************************************************************************
-	 * test accessing all profiles that have not been activated yet
+	 * TEST ACCESSING ALL PROFILES THAT HAVE NOT BEEN ACTIVATED YET
 	 *******************************************************************************************************************/
 
    public function testAccessAllNotActivatedProfiles() : void {
@@ -513,9 +504,8 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
      $this->assertCount(1, $results);
      $this->assertContainsOnlyInstancesOf("ArtLocale\\ArtHaus\\Profile", $results);
 
-     /*****************************************************************************************************************
-		* Access the results and validate
-		* ***************************************************************************************************************/
+
+		// Access the results and validate
      $pdoProfile = $results[0];
      $this->assertEquals($pdoProfile->getProfileId(), $profileId);
      $this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);

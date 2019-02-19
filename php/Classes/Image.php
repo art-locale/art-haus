@@ -45,7 +45,9 @@ class Image implements \JsonSerializable {
 	 * @var string $imageUrl;
 	 **/
 	private $imageUrl;
-//**************************************************************************************************START OF CONSTRUCTOR
+/*****************************************************************************************************************
+*START OF CONSTRUCTOR
+ *****************************************************************************************************************/
 	/**
 	 * constructor for each new image object/ instance/ record
 	 *
@@ -77,7 +79,10 @@ class Image implements \JsonSerializable {
 		}
 	}
 	//	END OF CONSTRUCTOR
-//***********************************************************************************START OF ACCESSOR & MUTATOR imageId
+
+/*****************************************************************************************************************
+*START OF ACCESSOR & MUTATOR imageId
+ *****************************************************************************************************************/
 	/**
 	 * accessor method for image id
 	 *
@@ -105,7 +110,10 @@ class Image implements \JsonSerializable {
 		$this->imageId = $uuid;
 	}
 //	END OF ACCESSOR & MUTATOR imageId
-//****************************************************************************START OF ACCESSOR & MUTATOR imageGalleryId
+
+/*****************************************************************************************************************
+*START OF ACCESSOR & MUTATOR imageGalleryId
+ *****************************************************************************************************************/
 	/**
 	 * @return Uuid value of the gallery Id
 	 **/
@@ -131,7 +139,10 @@ class Image implements \JsonSerializable {
 		$this->imageGalleryId = $uuid;
 	}
 //	//	END OF ACCESSOR & MUTATOR imageGalleryId
-//	**************************************************************************START OF ACCESSOR & MUTATOR imageProfileId
+
+	/*****************************************************************************************************************
+*START OF ACCESSOR & MUTATOR imageProfileId
+	 *****************************************************************************************************************/
 	/**
 	 * @return Uuid value of the image profile Id
 	 **/
@@ -156,7 +167,10 @@ class Image implements \JsonSerializable {
 		$this->imageProfileId = $uuid;
 	}
 //	//	END OF ACCESSOR & MUTATOR imageProfileId
-//*********************************************************************************START OF ACCESSOR & MUTATOR imageDate
+
+/****************************************************************************************************************
+ * START OF ACCESSOR & MUTATOR imageDate
+ *****************************************************************************************************************/
 	/**
 	 * accessor method for image date
 	 *
@@ -188,7 +202,10 @@ class Image implements \JsonSerializable {
 		$this->imageDate = $newImageDate;
 	}
 //	//	END OF ACCESSOR & MUTATOR imageDate
-//********************************************************************************START OF ACCESSOR & MUTATOR imageTitle
+
+/****************************************************************************************************************
+*START OF ACCESSOR & MUTATOR imageTitle
+ *****************************************************************************************************************/
 	/**
 	 * accessor method for image title
 	 *
@@ -222,7 +239,9 @@ class Image implements \JsonSerializable {
 	}
 	//	//	END OF ACCESSOR & MUTATOR imageTitle
 
-//**********************************************************************************START OF ACCESSOR & MUTATOR imageUrl
+/*****************************************************************************************************************
+*START OF ACCESSOR & MUTATOR imageUrl
+*****************************************************************************************************************/
 /**
  * accessor method for image Url
  *
