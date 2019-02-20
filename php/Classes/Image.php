@@ -261,7 +261,7 @@ public function getImageUrl() : string {
 public function setImageUrl(string $newImageUrl) : void {
 	// verify the image Url is secure
 	$newImageUrl = trim($newImageUrl);
-	$newImageUrl = filter_var($newImageUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$newImageUrl = filter_var($newImageUrl, FILTER_SANITIZE_URL);
 	if(empty($newImageUrl) === true) {
 		throw(new \InvalidArgumentException("image Url is empty or insecure"));
 	}
@@ -387,6 +387,42 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 	}
 	return($image);
 }
+
+/*
+ * @param \PDO $pdo PDO connection object
+ * @param Uuid|string $imageId image id to search for
+ * @return \SplFixedArray SplFixedArray of images found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when a variable are not the correct data type
+ **/
+public static function getImageByImageId(\PDO $pdo, $imageId): SplFixedArray {
+	// sanitize the imageId before searching
+	try {
+		$imageId = self::validateUuid($imageId);
+	} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+	// create query template
+	$query = "SELECT imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl FROM image WHERE imageId = :imageId";
+	$statement = $pdo->prepare($query);
+	// bind the profile id to the place holder in the template
+	$parameters = ["imageId" => $imageId->getBytes()];
+	$statement->execute($parameters);
+	// build an array of images
+	$images = new \SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	while(($row = $statement->fetch()) !== false) {
+		try {
+			$image = new Image($row ["imageId"], $row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
+			$images[$images->key()] = $image;
+			$images->next();
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+	}
+	return ($images);
+	}
 
 
 	/***********************************************************************************************************************
