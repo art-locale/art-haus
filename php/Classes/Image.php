@@ -348,46 +348,6 @@ public function delete(\PDO $pdo) : void {
 /***********************************************************************************************************************
  * START OF GET IMAGE BY IMAGEID METHOD
  *****************************************************************************************************************/
-/**
- * gets the image by imageId
- *
- * @param \PDO $pdo PDO connection object
- * @param Uuid|string $imageId image id to search for
- * @return image|null image found or null if not found
- * @throws \PDOException when mySQL related errors occur
- * @throws \TypeError when a variable are not the correct data type
- **/
-public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
-	// sanitize the imageId before searching
-	try {
-		$imageId = self::validateUuid($imageId);
-	} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-		throw(new \PDOException($exception->getMessage(), 0, $exception));
-	}
-
-	// create query template
-	$query = "SELECT imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl FROM image WHERE imageId = :imageId";
-	$statement = $pdo->prepare($query);
-
-	// bind the image id to the place holder in the template
-	$parameters = ["imageId" => $imageId->getBytes()];
-	$statement->execute($parameters);
-
-	// grab the image from mySQL
-	try {
-		$image = null;
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		$row = $statement->fetch();
-		if($row !== false) {
-			$image = new Image($row["imageId"], $row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
-		}
-	} catch(\Exception $exception) {
-		// if the row couldn't be converted, rethrow it
-		throw(new \PDOException($exception->getMessage(), 0, $exception));
-	}
-	return($image);
-}
-
 /*
  * @param \PDO $pdo PDO connection object
  * @param Uuid|string $imageId image id to search for
@@ -395,7 +355,7 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
  * @throws \PDOException when mySQL related errors occur
  * @throws \TypeError when a variable are not the correct data type
  **/
-public static function getImageByImageId(\PDO $pdo, $imageId): SplFixedArray {
+public static function getImageByImageId(\PDO $pdo, $imageId): \SPLFixedArray {
 	// sanitize the imageId before searching
 	try {
 		$imageId = self::validateUuid($imageId);
@@ -423,6 +383,7 @@ public static function getImageByImageId(\PDO $pdo, $imageId): SplFixedArray {
 	}
 	return ($images);
 	}
+	
 
 
 	/***********************************************************************************************************************

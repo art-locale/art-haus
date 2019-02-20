@@ -251,14 +251,14 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
  		// access a profileId that does not exist
  		$unknownProfileId = generateUuidV4();
  		$profile = Profile::getProfileByProfileId($this->getPDO(), $unknownProfileId );
- 		$this->assertNull($profile);
+ 		$this->assertCount(0, $profile);
  	}
 
    /*******************************************************************************************************************
 	 * TEST ACCESSING A PROFILE BY PROFILE NAME
 	 *******************************************************************************************************************/
 
-   public function testGetProfileByName() : void {
+   public function testGetProfileByName() {
 
      // count the number of rows and save it for later
      $numRows = $this->getConnection()->getRowCount("profile");
@@ -270,12 +270,15 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
      $profile->insert($this->getPDO());
 
      // access the data from database and confirm the data matches expectations
-     $results = Profile::getProfileByName($this->getPDO(), $profile->getProfileName());
+     $results = Profile::getProfileByName($this->getPDO(), $this->VALID_PROFILENAME);
      $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-     $this->assertCount(1, $results);
+
+     //enforce no other objects are bleeding into database
+     $this->assertContainsOnlyInstancesOf("ArtLocale\\ArtHaus\\Profile", $results);
 
      //access the results and validate
       $pdoProfile = $results[0];
+      $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
       $this->assertEquals($pdoProfile->getProfileId(), $profileId);
       $this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
       $this->assertEquals($pdoProfile->getProfileDate()->getTimestamp(), $this->VALID_PROFILEDATE->getTimestamp());
@@ -294,7 +297,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 
     // Access profile name that does not exists
     $profile = Profile::getProfileByName($this->getPDO(), "Fake Name");
-    $this->assertNull($profile);
+    $this->assertCount(0, $profile);
   }
 
    /*******************************************************************************************************************
