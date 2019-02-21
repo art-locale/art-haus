@@ -442,7 +442,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getProfileByProfileId(\PDO $pdo, $profileId): \SPLFixedArray {
+	public static function getProfileByProfileId(\PDO $pdo, Uuid $profileId): \SPLFixedArray {
 		// sanitize the profileId before searching
 		try {
 			$profileId = self::validateUuid($profileId);

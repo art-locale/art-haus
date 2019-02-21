@@ -355,7 +355,7 @@ public function delete(\PDO $pdo) : void {
  * @throws \PDOException when mySQL related errors occur
  * @throws \TypeError when a variable are not the correct data type
  **/
-public static function getImageByImageId(\PDO $pdo, $imageId): \SPLFixedArray {
+public static function getImageByImageId(\PDO $pdo, Uuid $imageId): \SPLFixedArray {
 	// sanitize the imageId before searching
 	try {
 		$imageId = self::validateUuid($imageId);
@@ -369,7 +369,7 @@ public static function getImageByImageId(\PDO $pdo, $imageId): \SPLFixedArray {
 	$parameters = ["imageId" => $imageId->getBytes()];
 	$statement->execute($parameters);
 	// build an array of images
-	$images = new \SplFixedArray($statement->rowCount());
+	$images = new \SPLFixedArray($statement->rowCount());
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
 	while(($row = $statement->fetch()) !== false) {
 		try {
@@ -383,7 +383,7 @@ public static function getImageByImageId(\PDO $pdo, $imageId): \SPLFixedArray {
 	}
 	return ($images);
 	}
-	
+
 
 
 	/***********************************************************************************************************************

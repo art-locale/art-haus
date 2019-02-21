@@ -165,8 +165,14 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 		$profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELATITUDE, $this->VALID_PROFILELONGITUDE, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
 		$profile->insert($this->getPDO());
 
+    //grab the data from MySQL
+		$results = Profile::getProfileByProfileId($this->getPDO(), $profileId);
+		$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("profile"));
+		//enforce no other objects are bleeding into profile
+		$this->assertContainsOnlyInstancesOf("ArtLocale\\ArtHaus\\Profile", $results);
+
 		// grab the data from database and enforce the fields match expectations
-		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+    $pdoProfile = $results[0];
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileId(), $profileId);
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
@@ -201,11 +207,16 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 		$profile->setProfileWebsite($this->VALID_PROFILEWEBSITE2);
     $profile->update($this->getPDO());
 
-		// access the data from database and confirm the data matches expectations
-		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
-
+    // access the data from database and confirm the data matches expectations
+    $results = Profile::getProfileByProfileId($this->getPDO(), $this->VALID_PROFILEID);
     $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 
+    //enforce no other objects are bleeding into database
+    $this->assertContainsOnlyInstancesOf("ArtLocale\\ArtHaus\\Profile", $results);
+
+		// access the data from database and confirm the data matches expectations
+    $pdoProfile = $results[0];
+    $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileId(), $profileId);
 		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
 		$this->assertEquals($pdoProfile->getProfileDate()->getTimestamp(), $this->VALID_PROFILEDATE->getTimestamp());
@@ -216,6 +227,7 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
 		$this->assertEquals($pdoProfile->getProfilePassword(), $this->VALID_PROFILEPASSWORD2);
 		$this->assertEquals($pdoProfile->getProfileWebsite(), $this->VALID_PROFILEWEBSITE2);
 	}
+
 
   /*******************************************************************************************************************
    * TEST TO CREATE A PROFILE AND DELETE IT
@@ -231,16 +243,15 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
     $profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELATITUDE, $this->VALID_PROFILELONGITUDE, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
     $profile->insert($this->getPDO());
 
-    /*****************************************************************************************************************
- * DELETE THE PROFILE FROM DATABASE
- * *******************************************************************************************************************/
     $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
     $profile->delete($this->getPDO());
 
     // access database and confirm profile deleted
     $pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+    // $this->assertCount(0, $profile);
     $this->assertNull($pdoProfile);
-    $this->assertEquals($numRows, $this->getConnection()->getRowCount("profile"));
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("profile"));
+
   }
 
    /*******************************************************************************************************************
