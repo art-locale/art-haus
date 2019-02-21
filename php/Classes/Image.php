@@ -249,7 +249,7 @@ public function getImageUrl() : string {
 public function setImageUrl(string $newImageUrl) : void {
 	// verify the image Url is secure
 	$newImageUrl = trim($newImageUrl);
-	$newImageUrl = filter_var($newImageUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$newImageUrl = filter_var($newImageUrl, FILTER_SANITIZE_URL);
 	if(empty($newImageUrl) === true) {
 		throw(new \InvalidArgumentException("image Url is empty or insecure"));
 	}
@@ -483,3 +483,5 @@ public function jsonSerialize() {
 }
 }
 ?>
+
+//

@@ -293,7 +293,7 @@ class TestImage extends ArtHausTest {
 		// access a profileId that does not exist
 		$unknownProfileId = generateUuidV4();
 		$image = Image::getImageByProfileId($this->getPDO(), $unknownProfileId);
-		$this->assertCount(0, $image);
+		$this->assertNull($image);
 	}
 	/****************************************************************************************************************
 	 * TEST GETTING ALL IMAGES
