@@ -363,11 +363,12 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 	 * gets image by gallery id
 	 *
 	 * @param \PDO $pdo PDO connection object
+	 * @param string|Uuid $imageGalleryId galleryId to search for
 	 * @return \SplFixedArray SplFixedArray of images found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getImageByGalleryId(\PDO $pdo, Uuid $imageGalleryId) : ?Image {
+	public static function getImageByGalleryId(\PDO $pdo, string $imageGalleryId) : \SplFixedArray {
 		// sanitize the imageGalleryId before searching
 		try {
 			$imageGalleryId = self::validateUuid($imageGalleryId);
@@ -380,20 +381,22 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 		//bind the galleryId to the place holder in the template
 		$parameters = ["imageGalleryId" => $imageGalleryId->getBytes()];
 		$statement->execute($parameters);
-		// grab the image from mySQL
-		try {
-			$image = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
+
+		// build an array of profiles
+		$images = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
 				$image = new Image($row["imageId"], $row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
+				$images[$images->key()] = $image;
+				$images->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($image);
-	}
+		return ($images);
+}
 	/***********************************************************************************************************************
 	 * START OF GET IMAGE BY PROFILE ID
 	 *****************************************************************************************************************/

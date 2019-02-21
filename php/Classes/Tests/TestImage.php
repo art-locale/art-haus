@@ -241,9 +241,13 @@ class TestImage extends ArtHausTest {
 			$this->VALID_IMAGEURL
 		);
 		$image->insert($this->getPDO());
-		// grab the data from mySQL and enforce the fields match expectations
-		$pdoImage = Image::getImageByGalleryId($this->getPDO(), $image->getImageGalleryId());
+
+		// access the data from database and confirm the data matches expectations
+		$results = Image::getImageByGalleryId($this->getPDO(), $this->gallery->getGalleryId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+		$this->assertCount(1,$results);
+		// Access the results and validate
+		$pdoImage = $results[0];
 		$this->assertEquals($pdoImage->getImageId(), $imageId);
 		$this->assertEquals($pdoImage->getImageGalleryId(), $this->gallery->getGalleryId());
 		$this->assertEquals($pdoImage->getImageProfileId(), $this->profile->getProfileId());
@@ -258,7 +262,7 @@ class TestImage extends ArtHausTest {
 		// access a galleryId that does not exist
 		$unknownGalleryId = generateUuidV4();
 		$image = Image::getImageByGalleryId($this->getPDO(), $unknownGalleryId);
-		$this->assertNull($image);
+		$this->assertCount(0, $image);
 	}
 	/****************************************************************************************************************
 	 * TEST SELECTING AN IMAGE BY PROFILE ID

@@ -473,7 +473,7 @@ class Profile implements \JsonSerializable {
 	/*******************************************************************************************************************
 	 * gets the profile by email
 	 ******************************************************************************************************************/
-	/*
+	/**
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $profileEmail profile email to search for
 	 * @return Profile|null profile found or null if not found
@@ -510,7 +510,7 @@ class Profile implements \JsonSerializable {
 	/*******************************************************************************************************************
 	 * gets the profile by activation token
 	 ******************************************************************************************************************/
-	/*
+	/**
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $profileActivationToken profile activation token to search for
 	 * @return Profile|null profile found or null if not found
