@@ -459,8 +459,9 @@ class Gallery {
 			}
 		}
 		return ($galleries);
-	}
+	} /* END getGalleryByGalleryName() */
 
+// getGalleryByProfileLocation() might be added later or modified to use area code instead of latitude and longitude, this is now a "back-burner" feature, time permitting
 
 	/* END SEARCH STATIC METHODS: RETURN OBJECT */
 } /* END OF CLASS GALLERY */
