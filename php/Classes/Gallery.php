@@ -419,14 +419,14 @@ class Gallery {
 	/*******************************************************************************************************************
 	 * gets the gallery by gallery name
 	 ******************************************************************************************************************/
-	/*
+	/**
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $galleryName gallery name to search for
 	 * @return SplFixedArray SplFixedArray of galleries found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getGalleryByGalleryName(\PDO $pdo, string $galleryName): SplFixedArray {
+	public static function getGalleryByGalleryName(\PDO $pdo, string $galleryName): \SplFixedArray {
 		// sanitize the profileName before searching
 		$galleryName = trim($galleryName);
 		$galleryName = filter_var($galleryName, FILTER_SANITIZE_STRING);
