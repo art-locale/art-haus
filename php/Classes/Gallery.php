@@ -422,7 +422,7 @@ class Gallery {
 	/**
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $galleryName gallery name to search for
-	 * @return SplFixedArray SplFixedArray of galleries found or null if not found
+	 * @return \SplFixedArray SplFixedArray of galleries found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
