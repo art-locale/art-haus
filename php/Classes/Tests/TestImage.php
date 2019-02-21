@@ -267,38 +267,42 @@ class TestImage extends ArtHausTest {
 	/****************************************************************************************************************
 	 * TEST SELECTING AN IMAGE BY PROFILE ID
 	 *************************************************************************************************************/
-	public function testGetImageByProfileId(): void {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("image");
-		// create a new Image and insert into database
-		$imageId = generateUuidV4();
-		$image = new Image ($imageId,
-			$this->gallery->getGalleryId(),
-			$this->profile->getProfileId(),
-			$this->VALID_IMAGEDATE,
-			$this->VALID_IMAGETITLE,
-			$this->VALID_IMAGEURL
-		);
-		$image->insert($this->getPDO());
-		// grab the data from mySQL and enforce the fields match expectations
-		$pdoImage = Image::getImageByProfileId($this->getPDO(), $image->getImageProfileId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
-		$this->assertEquals($pdoImage->getImageId(), $imageId);
-		$this->assertEquals($pdoImage->getImageGalleryId(), $this->gallery->getGalleryId());
-		$this->assertEquals($pdoImage->getImageProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoImage->getImageDate()->getTimestamp(), $this->VALID_IMAGEDATE->getTimestamp());
-		$this->assertEquals($pdoImage->getImageTitle(), $this->VALID_IMAGETITLE);
-		$this->assertEquals($pdoImage->getImageUrl(), $this->VALID_IMAGEURL);
-	}
+	 public function testGetImageByProfileId(): void {
+ 		// count the number of rows and save it for later
+ 		$numRows = $this->getConnection()->getRowCount("image");
+ 		// create a new Image and insert into database
+ 		$imageId = generateUuidV4();
+ 		$image = new Image ($imageId,
+ 			$this->gallery->getGalleryId(),
+ 			$this->profile->getProfileId(),
+ 			$this->VALID_IMAGEDATE,
+ 			$this->VALID_IMAGETITLE,
+ 			$this->VALID_IMAGEURL
+ 		);
+ 		$image->insert($this->getPDO());
+
+ 		// access the data from database and confirm the data matches expectations
+ 		$results = Image::getImageByProfileId($this->getPDO(), $this->profile->getProfileId());
+ 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+ 		$this->assertCount(1,$results);
+ 		// Access the results and validate
+ 		$pdoImage = $results[0];
+ 		$this->assertEquals($pdoImage->getImageId(), $imageId);
+ 		$this->assertEquals($pdoImage->getImageGalleryId(), $this->gallery->getGalleryId());
+ 		$this->assertEquals($pdoImage->getImageProfileId(), $this->profile->getProfileId());
+ 		$this->assertEquals($pdoImage->getImageDate()->getTimestamp(), $this->VALID_IMAGEDATE->getTimestamp());
+ 		$this->assertEquals($pdoImage->getImageTitle(), $this->VALID_IMAGETITLE);
+ 		$this->assertEquals($pdoImage->getImageUrl(), $this->VALID_IMAGEURL);
+ 	}
 	/****************************************************************************************************************
 	 * TEST SELECTING A NON-EXISTENT IMAGE BY PROFILE ID
 	 **************************************************************************************************************/
-	public function testGetInvalidImageByProfileId(): void {
-		// access a profileId that does not exist
-		$unknownProfileId = generateUuidV4();
-		$image = Image::getImageByProfileId($this->getPDO(), $unknownProfileId);
-		$this->assertNull($image);
-	}
+	 public function testGetInvalidImageByProfileId(): void {
+		 // access a galleryId that does not exist
+		 $unknownProfileId = generateUuidV4();
+		 $image = Image::getImageByProfileId($this->getPDO(), $unknownProfileId);
+		 $this->assertCount(0, $image);
+	 }
 	/****************************************************************************************************************
 	 * TEST GETTING ALL IMAGES
 	 **************************************************************************************************************/

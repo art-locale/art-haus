@@ -3,16 +3,16 @@
 <phpunit>
 	<testsuites>
 		<testsuite name="ArtHaus-Test">
-      <!-- <file>TestApplaud.php</file>
-			<file>TestGallery.php</file> -->
+      <file>TestApplaud.php</file>
+			<file>TestGallery.php</file>
        <file>TestImage.php</file>
       <file>TestProfile.php</file>
 		</testsuite>
 	</testsuites>
 	<filter>
-		<!--Whitelist applies tests to all files with suffix specified-->
-		<!-- <whitelist processUncoveredFilesFromWhitelist="true">
+		<!-- Whitelist applies tests to all files with suffix specified-->
+		<whitelist processUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">..</directory>
-		</whitelist> -->
+		</whitelist>
 	</filter>
 </phpunit>
