@@ -216,12 +216,9 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
      $profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELATITUDE, $this->VALID_PROFILELONGITUDE, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
      $profile->insert($this->getPDO());
 
-     // // access the data from database and confirm the data matches expectations
-     // $pdoProfile = Profile::getProfileByName($this->getPDO(), $profile->getProfileName());
-     // $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-     // grab the data from mySQL and enforce the fields match expectations
-     $results = Profile::getProfileByName($this->getPDO());
-     $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
+     // access the data from database and confirm the data matches expectations
+     $results = Profile::getProfileByName($this->getPDO(), $profile->getProfileName());
+     $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
      $this->assertCount(1,$results);
      // Access the results and validate
      $pdoProfile = $results[0];
@@ -240,8 +237,8 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
   *******************************************************************************************************************/
   public function testGetProfileByInvalidName() : void {
     // Access profile name that does not exists
-    $profile = Profile::getProfileByName($this->getPDO(), "Fake Name");
-    $this->assertNull($profile);
+    $pdoProfile = Profile::getProfileByName($this->getPDO(), "Fake Name");
+    $this->assertCount(0, $pdoProfile);
   }
    /*******************************************************************************************************************
 	 * TEST ACCESSING A PROFILE BY PROFILE EMAIL
