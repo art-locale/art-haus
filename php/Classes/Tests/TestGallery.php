@@ -286,10 +286,12 @@ class TestGallery extends ArtHausTest {
 		$gallery = new Gallery($galleryId, $this->profile->getProfileId(), $this->VALID_GALLERYDATE, $this->VALID_GALLERYNAME);
 		$gallery->insert($this->getPDO());
 
-		// get the data from SQL table and check that the fields match expectations:
-		$pdoGallery = Gallery::getGalleryByGalleryName($this->getPDO(), $gallery->getGalleryName());
-
+		// access the data from database and confirm the data matches expectations
+		$results = Gallery::getGalleryByGalleryName($this->getPDO(), $gallery->getGalleryName());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("gallery"));
+		$this->assertCount(1,$results);
+		// Access the results and validate
+		$pdoGallery = $results[0];
 		$this->assertEquals($pdoGallery->getGalleryId(), $galleryId);
 		$this->assertEquals($pdoGallery->getGalleryProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoGallery->getGalleryDate()->getTimestamp(), $this->VALID_GALLERYDATE->getTimeStamp());
@@ -302,10 +304,9 @@ class TestGallery extends ArtHausTest {
 	public function testGetInvalidGalleryByGalleryName(): void {
 
 		// access a galleryName that does not exist
-		$unknownGalleryName = "Some Name";
-		$gallery = Gallery::getGalleryByGalleryName($this->getPDO(), $unknownGalleryName);
-		$this->assertNull($gallery);
-	}
+		$pdoGallery = Gallery::getGalleryByGalleryName($this->getPDO(), "Fake Gallery Name");
+		$this->assertCount(0, $pdoGallery);
+}
 
 /*****************************************************************************************************************
  * TEST GETTING GALLERY BY PROFILE DISTANCE TODO get unit testing done before this -George

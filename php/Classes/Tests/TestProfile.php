@@ -271,6 +271,40 @@ require_once(dirname(__DIR__, 2) . "/lib/uuid.php");
     $this->assertNull($profile);
   }
 
+  /*******************************************************************************************************************
+	 * gets the profile by location
+	 ******************************************************************************************************************/
+   public function testGetProfileByLocation() : void {
+        // count the number of rows and save it for later
+        $numRows = $this->getConnection()->getRowCount("profile");
+         // create a new profile and insert into database
+        $profileId = generateUuidV4();
+        $profile = new Profile($profileId, $this->VALID_PROFILEACTIVATIONTOKEN, $this->VALID_PROFILEDATE, $this->VALID_PROFILEEMAIL, $this->VALID_PROFILELATITUDE, $this->VALID_PROFILELONGITUDE, $this->VALID_PROFILENAME, $this->VALID_PROFILEPASSWORD, $this->VALID_PROFILEWEBSITE);
+        $profile->insert($this->getPDO());
+        // access the data from database and confirm the data matches expectations
+        $results = Profile::getProfileByLocation($this->getPDO(), $profile->getProfileLatitude(), $profile->getProfileLongitude());
+        $this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+        $pdoProfile = $results[0];
+        $this->assertEquals($pdoProfile->getProfileId(), $profileId);
+        $this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_PROFILEACTIVATIONTOKEN);
+        $this->assertEquals($pdoProfile->getProfileDate()->getTimestamp(), $this->VALID_PROFILEDATE->getTimestamp());
+        $this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_PROFILEEMAIL);
+        $this->assertEquals($pdoProfile->getProfileLatitude(), $this->VALID_PROFILELATITUDE);
+        $this->assertEquals($pdoProfile->getProfileLongitude(), $this->VALID_PROFILELONGITUDE);
+        $this->assertEquals($pdoProfile->getProfileName(), $this->VALID_PROFILENAME);
+        $this->assertEquals($pdoProfile->getProfilePassword(), $this->VALID_PROFILEPASSWORD);
+        $this->assertEquals($pdoProfile->getProfileWebsite(), $this->VALID_PROFILEWEBSITE);
+      }
+
+      /*****************************************************************************************************************
+     * TEST ACCESSING A PROFILE BY PROFILE LOCATION THAT DOES NOT EXIST
+     *******************************************************************************************************************/
+     public function testGetInvalidProfileByLocation() : void {
+       // Access profile by location that does not exists
+       $pdoProfile = Profile::getProfileByLocation($this->getPDO(), "76.222222", "36.444444");
+       $this->assertCount(0, $pdoProfile);
+     }
+
    /*******************************************************************************************************************
 	 * TEST ACCESSING A PROFILE BY ACTIVATION TOKEN
 	 *******************************************************************************************************************/
