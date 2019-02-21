@@ -57,8 +57,8 @@ class Profile implements \JsonSerializable {
 	 * @var string $profileWebsite ;
 	 **/
 	private $profileWebsite;
-	/*******************************************************************************************************************
-	 **
+	/*******************************************************************************************************************/
+	 /**
 	 * constructor for this
 	 * @param Uuid|string $newProfileId new id of this profile or null if a new profile
 	 * @param string $newProfileActivationToken activation token for a new profile

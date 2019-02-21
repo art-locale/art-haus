@@ -21,19 +21,6 @@ class Gallery {
 	use ValidateDate;
 	use ValidateUuid;
 
-	/*  The database attributes:
-            galleryId BINARY(16) NOT NULL,
-            galleryProfileId BINARY(16) NOT NULL,
-            galleryDate DATETIME(6) NOT NULL,
-            galleryName VARCHAR(32) NOT NULL,
-
-        simplified attribute names:
-            galleryId,
-            galleryProfileId,
-            galleryDate,
-            galleryName
-	*/
-
 	/**
 	 * the gallery's ID; this is the primary key
 	 * @var Uuid $galleryId
