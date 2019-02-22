@@ -262,9 +262,9 @@ class TestGallery extends ArtHausTest {
 		$this->assertEquals($pdoGallery->getGalleryName(), $this->VALID_GALLERYNAME);
 	}
 
-/*****************************************************************************************************************
+/*******************************************************************
  * TEST SELECTING A NON-EXISTENT GALLERY BY PROFILEID
- *****************************************************************************************************************/
+ ******************************************************************/
 	public function testGetInvalidGalleryByProfileId(): void {
 
 		// access a galleryId that does not exist
@@ -272,6 +272,41 @@ class TestGallery extends ArtHausTest {
 		$gallery = Gallery::getGalleryByGalleryProfileId($this->getPDO(), $unknownGalleryId);
 		$this->assertNull($gallery);
 	}
+
+	/***************************************************************
+	 * TEST SELECTING A GALLERY BY GALLERYNAME
+	 **************************************************************/
+	public function testGetGalleryByGalleryName(): void {
+
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("gallery");
+
+		// create a new gallery and insert into database:
+		$galleryId = generateUuidV4();
+		$gallery = new Gallery($galleryId, $this->profile->getProfileId(), $this->VALID_GALLERYDATE, $this->VALID_GALLERYNAME);
+		$gallery->insert($this->getPDO());
+
+		// access the data from database and confirm the data matches expectations
+		$results = Gallery::getGalleryByGalleryName($this->getPDO(), $gallery->getGalleryName());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("gallery"));
+		$this->assertCount(1,$results);
+		// Access the results and validate
+		$pdoGallery = $results[0];
+		$this->assertEquals($pdoGallery->getGalleryId(), $galleryId);
+		$this->assertEquals($pdoGallery->getGalleryProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoGallery->getGalleryDate()->getTimestamp(), $this->VALID_GALLERYDATE->getTimeStamp());
+		$this->assertEquals($pdoGallery->getGalleryName(), $this->VALID_GALLERYNAME);
+	}
+
+	/*******************************************************************
+	 * TEST SELECTING A NON-EXISTENT GALLERY BY GALLERYNAME
+	 ******************************************************************/
+	public function testGetInvalidGalleryByGalleryName(): void {
+
+		// access a galleryName that does not exist
+		$pdoGallery = Gallery::getGalleryByGalleryName($this->getPDO(), "Fake Gallery Name");
+		$this->assertCount(0, $pdoGallery);
+}
 
 /*****************************************************************************************************************
  * TEST GETTING GALLERY BY PROFILE DISTANCE TODO get unit testing done before this -George

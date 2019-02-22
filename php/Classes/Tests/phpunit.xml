@@ -10,7 +10,7 @@
 		</testsuite>
 	</testsuites>
 	<filter>
-		<!--Whitelist applies tests to all files with suffix specified-->
+		<!-- Whitelist applies tests to all files with suffix specified-->
 		<whitelist processUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">..</directory>
 		</whitelist>

@@ -21,19 +21,6 @@ class Gallery {
 	use ValidateDate;
 	use ValidateUuid;
 
-	/*  The database attributes:
-            galleryId BINARY(16) NOT NULL,
-            galleryProfileId BINARY(16) NOT NULL,
-            galleryDate DATETIME(6) NOT NULL,
-            galleryName VARCHAR(32) NOT NULL,
-
-        simplified attribute names:
-            galleryId,
-            galleryProfileId,
-            galleryDate,
-            galleryName
-	*/
-
 	/**
 	 * the gallery's ID; this is the primary key
 	 * @var Uuid $galleryId
@@ -414,7 +401,54 @@ class Gallery {
 		}
 		return($gallery);
 	}
+
+
+	/*******************************************************************************************************************
+	 * gets the gallery by gallery name
+	 ******************************************************************************************************************/
+	/**
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $galleryName gallery name to search for
+	 * @return \SplFixedArray SplFixedArray of galleries found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when a variable are not the correct data type
+	 **/
+	public static function getGalleryByGalleryName(\PDO $pdo, string $galleryName): \SplFixedArray {
+		// sanitize the profileName before searching
+		$galleryName = trim($galleryName);
+		$galleryName = filter_var($galleryName, FILTER_SANITIZE_STRING);
+		if(empty($galleryName) === true) {
+			throw(new \PDOException("not a valid gallery name"));
+		}
+		// create query template
+		$query = "SELECT
+				galleryId,
+				galleryProfileId,
+				galleryDate,
+				galleryName
+		FROM gallery
+		WHERE galleryName = :galleryName";
+		$statement = $pdo->prepare($query);
+		// bind the profile id to the place holder in the template
+		$parameters = ["galleryName" => $galleryName];
+		$statement->execute($parameters);
+		// build an array of profiles
+		$galleries = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$gallery = new Gallery($row["galleryId"], $row["galleryProfileId"], $row["galleryDate"], $row["galleryName"]);
+				$galleries[$galleries->key()] = $gallery;
+				$galleries->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($galleries);
+	} /* END getGalleryByGalleryName() */
+
+// getGalleryByProfileLocation() might be added later or modified to use area code instead of latitude and longitude, this is now a "back-burner" feature, time permitting
+
 	/* END SEARCH STATIC METHODS: RETURN OBJECT */
-
-
 } /* END OF CLASS GALLERY */

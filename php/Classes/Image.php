@@ -1,11 +1,8 @@
 <?php
 namespace ArtLocale\ArtHaus;
-
 require_once("autoload.php");
 require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
-
 use Ramsey\Uuid\Uuid;
-
 /**
  * Framework for Image class
  *
@@ -79,7 +76,6 @@ class Image implements \JsonSerializable {
 		}
 	}
 	//	END OF CONSTRUCTOR
-
 /*****************************************************************************************************************
 *START OF ACCESSOR & MUTATOR imageId
  *****************************************************************************************************************/
@@ -88,7 +84,6 @@ class Image implements \JsonSerializable {
 	 *
 	 * @return Uuid value of image id
 	 **/
-
 	public function getImageId() : Uuid {
 		return($this->imageId);
 	}
@@ -110,7 +105,6 @@ class Image implements \JsonSerializable {
 		$this->imageId = $uuid;
 	}
 //	END OF ACCESSOR & MUTATOR imageId
-
 /*****************************************************************************************************************
 *START OF ACCESSOR & MUTATOR imageGalleryId
  *****************************************************************************************************************/
@@ -127,7 +121,6 @@ class Image implements \JsonSerializable {
 	 * @throws \RangeException if $newImageGalleryId is not positive
 	 * @throws \TypeError if $newImageGalleryId is not a uuid or string
 	 **/
-
 	public function setImageGalleryId($newImageGalleryId) : void {
 		try {
 			$uuid = self::validateUuid($newImageGalleryId);
@@ -139,7 +132,6 @@ class Image implements \JsonSerializable {
 		$this->imageGalleryId = $uuid;
 	}
 //	//	END OF ACCESSOR & MUTATOR imageGalleryId
-
 	/*****************************************************************************************************************
 *START OF ACCESSOR & MUTATOR imageProfileId
 	 *****************************************************************************************************************/
@@ -167,7 +159,6 @@ class Image implements \JsonSerializable {
 		$this->imageProfileId = $uuid;
 	}
 //	//	END OF ACCESSOR & MUTATOR imageProfileId
-
 /****************************************************************************************************************
  * START OF ACCESSOR & MUTATOR imageDate
  *****************************************************************************************************************/
@@ -202,7 +193,6 @@ class Image implements \JsonSerializable {
 		$this->imageDate = $newImageDate;
 	}
 //	//	END OF ACCESSOR & MUTATOR imageDate
-
 /****************************************************************************************************************
 *START OF ACCESSOR & MUTATOR imageTitle
  *****************************************************************************************************************/
@@ -233,12 +223,10 @@ class Image implements \JsonSerializable {
 		if(strlen($newImageTitle) > 32) {
 			throw(new \RangeException("image title too large"));
 		}
-
 		// store the image title
 		$this->imageTitle = $newImageTitle;
 	}
 	//	//	END OF ACCESSOR & MUTATOR imageTitle
-
 /*****************************************************************************************************************
 *START OF ACCESSOR & MUTATOR imageUrl
 *****************************************************************************************************************/
@@ -261,7 +249,7 @@ public function getImageUrl() : string {
 public function setImageUrl(string $newImageUrl) : void {
 	// verify the image Url is secure
 	$newImageUrl = trim($newImageUrl);
-	$newImageUrl = filter_var($newImageUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$newImageUrl = filter_var($newImageUrl, FILTER_SANITIZE_URL);
 	if(empty($newImageUrl) === true) {
 		throw(new \InvalidArgumentException("image Url is empty or insecure"));
 	}
@@ -273,7 +261,6 @@ public function setImageUrl(string $newImageUrl) : void {
 	$this->imageUrl = $newImageUrl;
 }
 //	END OF ACCESSOR & MUTATOR imageUrl
-
 /***********************************************************************************************************************
  * START OF INSERT METHOD
  *****************************************************************************************************************/
@@ -285,20 +272,14 @@ public function setImageUrl(string $newImageUrl) : void {
  * @throws \TypeError if $pdo is not a PDO connection object
  **/
 public function insert(\PDO $pdo) : void {
-
 	// create query template
-
 	$query = "INSERT INTO image (imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl) VALUES(:imageId, :imageGalleryId, :imageProfileId, :imageDate, :imageTitle, :imageUrl)";
 	$statement = $pdo->prepare($query);
-
 	// bind the member variables to the place holder in the template
-
 	$formattedDate = $this->imageDate->format("Y-m-d H:i:s.u");
-
 	$parameters = ["imageId" => $this->imageId->getBytes(), "imageGalleryId" => $this->imageGalleryId->getBytes(), "imageProfileId" => $this->imageProfileId->getBytes(),"imageDate" => $formattedDate, "imageTitle" => $this->imageTitle, "imageUrl" => $this->imageUrl];
 	$statement->execute($parameters);
 }
-
 /***********************************************************************************************************************
  * START OF DELETE METHOD
  *****************************************************************************************************************/
@@ -310,16 +291,13 @@ public function insert(\PDO $pdo) : void {
  * @throws \TypeError if $pdo is not a PDO connection object
  **/
 public function delete(\PDO $pdo) : void {
-
 	// create query template
 	$query = "DELETE FROM image WHERE imageId = :imageId";
 	$statement = $pdo->prepare($query);
-
 	// bind the member variables to the place holder in the template
 	$parameters = ["imageId" => $this->imageId->getBytes()];
 	$statement->execute($parameters);
 }
-
 /***********************************************************************************************************************
  * START OF UPDATE METHOD
  *****************************************************************************************************************/
@@ -331,20 +309,14 @@ public function delete(\PDO $pdo) : void {
  * @throws \TypeError if $pdo is not a PDO connection object
  **/
 	public function update(\PDO $pdo) : void {
-
 		// create query template
 		$query = "UPDATE image SET imageId = :imageId, imageGalleryId = :imageGalleryId, imageProfileId = :imageProfileId, imageDate = :imageDate, imageTitle = :imageTitle, imageUrl = :imageUrl";
 		$statement = $pdo->prepare($query);
-
 		// bind the member variables to the place holder in the template
-
 		$formattedDate = $this->imageDate->format("Y-m-d H:i:s.u");
-
 		$parameters = ["imageId" => $this->imageId->getBytes(), "imageGalleryId" => $this->imageGalleryId->getBytes(), "imageProfileId" => $this->imageProfileId->getBytes(),"imageDate" => $formattedDate, "imageTitle" => $this->imageTitle, "imageUrl" => $this->imageUrl];
 		$statement->execute($parameters);
 	}
-
-
 /***********************************************************************************************************************
  * START OF GET IMAGE BY IMAGEID METHOD
  *****************************************************************************************************************/
@@ -364,15 +336,12 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 	} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 		throw(new \PDOException($exception->getMessage(), 0, $exception));
 	}
-
 	// create query template
 	$query = "SELECT imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl FROM image WHERE imageId = :imageId";
 	$statement = $pdo->prepare($query);
-
 	// bind the image id to the place holder in the template
 	$parameters = ["imageId" => $imageId->getBytes()];
 	$statement->execute($parameters);
-
 	// grab the image from mySQL
 	try {
 		$image = null;
@@ -387,8 +356,6 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 	}
 	return($image);
 }
-
-
 	/***********************************************************************************************************************
 	 * START OF GET IMAGE BY GALLERY ID
 	 *****************************************************************************************************************/
@@ -396,11 +363,12 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 	 * gets image by gallery id
 	 *
 	 * @param \PDO $pdo PDO connection object
+	 * @param string|Uuid $imageGalleryId galleryId to search for
 	 * @return \SplFixedArray SplFixedArray of images found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getImageByGalleryId(\PDO $pdo, Uuid $imageGalleryId) : ?Image {
+	public static function getImageByGalleryId(\PDO $pdo, string $imageGalleryId) : \SplFixedArray {
 		// sanitize the imageGalleryId before searching
 		try {
 			$imageGalleryId = self::validateUuid($imageGalleryId);
@@ -410,70 +378,68 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 		// create query template
 		$query = "SELECT imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl FROM image WHERE imageGalleryId = :imageGalleryId";
 		$statement = $pdo->prepare($query);
-
 		//bind the galleryId to the place holder in the template
 		$parameters = ["imageGalleryId" => $imageGalleryId->getBytes()];
 		$statement->execute($parameters);
 
-		// grab the image from mySQL
-		try {
-			$image = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
+		// build an array of profiles
+		$images = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
 				$image = new Image($row["imageId"], $row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
+				$images[$images->key()] = $image;
+				$images->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($image);
-	}
-
+		return ($images);
+}
 	/***********************************************************************************************************************
 	 * START OF GET IMAGE BY PROFILE ID
 	 *****************************************************************************************************************/
-	/**
-	 * gets image by profile id
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @return \SplFixedArray SplFixedArray of images found or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
-	public static function getImageByProfileId(\PDO $pdo, Uuid $imageProfileId) : ?Image {
-		// sanitize the imageProfileId before searching
-		try {
-			$imageProfileId = self::validateUuid($imageProfileId);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-		// create query template
-		$query = "SELECT imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl FROM image WHERE imageProfileId = :imageProfileId";
-		$statement = $pdo->prepare($query);
-
-		//bind the profileId to the place holder in the template
-		$parameters = ["imageProfileId" => $imageProfileId->getBytes()];
-		$statement->execute($parameters);
-
-		// grab the image from mySQL
-		try {
-			$image = null;
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$image = new Image($row["imageId"], $row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
-			}
-		} catch(\Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(), 0, $exception));
-		}
-		return($image);
-	}
-
+	 /**
+ 	 * gets image by gallery id
+ 	 *
+ 	 * @param \PDO $pdo PDO connection object
+ 	 * @param string|Uuid $imageProfileId profileId to search for
+ 	 * @return \SplFixedArray SplFixedArray of images found or null if not found
+ 	 * @throws \PDOException when mySQL related errors occur
+ 	 * @throws \TypeError when variables are not the correct data type
+ 	 **/
+ 	public static function getImageByProfileId(\PDO $pdo, string $imageProfileId) : \SplFixedArray {
+ 		// sanitize the imageProfileId before searching
+ 		try {
+ 			$imageProfileId = self::validateUuid($imageProfileId);
+ 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+ 			throw(new \PDOException($exception->getMessage(), 0, $exception));
+ 		}
+ 		// create query template
+ 		$query = "SELECT imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl FROM image WHERE imageProfileId = :imageProfileId";
+ 		$statement = $pdo->prepare($query);
+ 		//bind the galleryId to the place holder in the template
+ 		$parameters = ["imageProfileId" => $imageProfileId->getBytes()];
+ 		$statement->execute($parameters);
+ 
+ 		// build an array of profiles
+ 		$images = new \SplFixedArray($statement->rowCount());
+ 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+ 		while(($row = $statement->fetch()) !== false) {
+ 			try {
+ 				$image = new Image($row["imageId"], $row["imageGalleryId"], $row["imageProfileId"], $row["imageDate"], $row["imageTitle"], $row["imageUrl"]);
+ 				$images[$images->key()] = $image;
+ 				$images->next();
+ 			} catch(\Exception $exception) {
+ 				// if the row couldn't be converted, rethrow it
+ 				throw(new \PDOException($exception->getMessage(), 0, $exception));
+ 			}
+ 		}
+ 		return ($images);
+ }
 
 //TODO getImageByProfileDistance get unit testing done before this last
-
 /***********************************************************************************************************************
  * START OF GET ALL IMAGES METHOD
  *****************************************************************************************************************/
@@ -490,7 +456,6 @@ public static function getAllImages(\PDO $pdo) : \SplFixedArray {
 		$query = "SELECT imageId, imageGalleryId, imageProfileId, imageDate, imageTitle, imageUrl FROM image";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
-
 		// build an array of images
 		$images = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -518,7 +483,6 @@ public function jsonSerialize() {
 //foreign keys
 	$fields["imageGalleryId"] = $this->imageGalleryId->toString();
 	$fields["imageProfileId"] = $this->imageProfileId->toString();
-
 //	Fixme I think george said not to use this date thing
 	//format the date so that the front end can consume it
 	$fields["imageDate"] = round(floatval($this->imageDate->format("U.u")) * 1000);
