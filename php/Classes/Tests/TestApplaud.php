@@ -73,9 +73,9 @@ class TestApplaud extends ArtHausTest {
 	protected $VALID_APPLAUDCOUNT3 = "599";
 
 
-//**************************************************
-// SET UP FUNCTION
-//**************************************************
+/***************************************************************************************************************
+* SET UP FUNCTION
+***************************************************************************************************************/
 
 	/*
 	 * set up a temporary test profile
@@ -267,7 +267,7 @@ class TestApplaud extends ArtHausTest {
 		}
 
 		/*********************************************************************************************************
-		 * TEST GRABBING AN APPLAUD RECORD THAT DOES NOT EXISTANT BY IMAGE ID AND PROFILE ID
+		 * TEST GRABBING AN APPLAUD RECORD THAT DOES NOT EXISTENT BY IMAGE ID AND PROFILE ID
 		 ********************************************************************************************************/
 
 	public function testGetInvalidApplaudByApplaudImageIdandApplaudProfileId(): void {
