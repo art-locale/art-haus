@@ -1,7 +1,7 @@
 <?php
 require_once(dirname(__DIR__, 3) . "/vendor/autoload.php");
 require_once(dirname(__DIR__, 3) . "/php/Classes/autoload.php");
-// require_once(dirname(__DIR__, 3) . "/php/lib/jwt.php"); //TODO What is this?//
+require_once(dirname(__DIR__, 3) . "/php/lib/jwt.php"); //TODO What is this?//
 require_once(dirname(__DIR__, 3) . "/php/lib/xsrf.php");
 require_once(dirname(__DIR__, 3) . "/php/lib/uuid.php");
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
@@ -111,6 +111,3 @@ if($reply->data === null) {
 }
 // encode and return reply to front end caller
 echo json_encode($reply);
-
-
-//TODO: Do we need to include latitude, longitude, and date?//
