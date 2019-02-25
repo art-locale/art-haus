@@ -75,7 +75,7 @@ CREATE TABLE applaud (
 	-- table's attributes list:
 	applaudProfileId BINARY(16) NOT NULL,
 	applaudImageId BINARY(16) NOT NULL,
-	applaudCount TINYINT(1) NULL, -- FIXME verify what would be optimal here.
+	applaudCount TINYINT(1) NOT NULL,
 	-- index the foreign keys
 	INDEX(applaudProfileId),
 	INDEX(applaudImageId),

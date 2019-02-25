@@ -41,7 +41,9 @@ class Applaud implements \JsonSerializable {
 	 * @var INT $applaudCount
 	 **/
 	private $applaudCount;
-	/* START CONSTRUCTOR METHOD*/
+	/***************************************************************************************************************
+	 * START CONSTRUCTOR METHOD
+	 ***************************************************************************************************************/
 	/**
 	 * constructor for each new applaud object/ instance
 	 *
@@ -66,7 +68,10 @@ class Applaud implements \JsonSerializable {
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 	} /* END CONSTRUCTOR METHOD*/
-	/* START APPLAUD-PROFILE-ID METHODS*/
+
+	/***************************************************************************************************************
+	 * START APPLAUD-PROFILE-ID METHODS
+	 ***************************************************************************************************************/
 	/**
 	 * GETTER accessor method for applaud profile id
 	 *
@@ -93,7 +98,10 @@ class Applaud implements \JsonSerializable {
 		$this->applaudProfileId = $uuid;
 	}
 	/* END APPLAUD-PROFILE-ID METHODS*/
-	/* START APPLAUD-IMAGE-ID METHODS*/
+
+	/***************************************************************************************************************
+	 * START APPLAUD-IMAGE-ID METHODS
+	 ***************************************************************************************************************/
 	/**
 	 * GETTER accessor method for image id that received applause
 	 *
@@ -120,7 +128,10 @@ class Applaud implements \JsonSerializable {
 		$this->applaudImageId = $uuid;
 	}
 	/* END APPLAUD-IMAGE-ID METHODS*/
-	/* START APPLAUD-COUNT METHODS*/
+
+	/***************************************************************************************************************
+	 * START APPLAUD-COUNT METHODS
+	 ***************************************************************************************************************/
 	/**
 	 * Accessor method for applaud
 	 *
@@ -148,15 +159,18 @@ class Applaud implements \JsonSerializable {
 		$this->applaudCount = $newApplaudCount;
 	}
 	/* END APPLAUD-COUNT METHODS*/
-	//Applaud class methods:
-	//insert method
-	//update method
-	//delete method
-	// Applaud attributes:
-	//	applaudProfileId
-	//	applaudImageId
-	//	applaudCount
-	/* START INSERT METHOD */
+/**************************************************************************************************************/
+	//APPLAUD CLASS METHODS:
+		//insert method
+		//update method
+		//delete method
+	//APPLAUD ATTRIBUTES:
+	//		applaudProfileId
+	//		applaudImageId
+	//		applaudCount
+	/***************************************************************************************************************
+	 * START INSERT METHOD
+	 **************************************************************************************************************/
 	/**
 	 * inserts an already-made applaud object (instance of Applaud class) into the mySQL database (into the applaud table)
 	 *
@@ -173,7 +187,10 @@ class Applaud implements \JsonSerializable {
 		$statement->execute($parameters);
 	}
 	/* END INSERT METHOD */
-	/* START DELETE METHOD */
+
+	/***************************************************************************************************************
+	 * START DELETE METHOD
+	 ***************************************************************************************************************/
 	/**
 	 * deletes an applaud field from the mySQL database
 	 *
@@ -189,9 +206,11 @@ class Applaud implements \JsonSerializable {
 		$parameters = ["applaudProfileId" => $this->applaudProfileId->getBytes(), "applaudImageId" => $this->applaudImageId->getBytes()];
 		$statement->execute($parameters);
 	}
-
 	/* END DELETE METHOD */
-	/* START UPDATE METHOD */
+
+	/***************************************************************************************************************
+	 * START UPDATE METHOD
+	 ***************************************************************************************************************/
 	/**
 	 * updates this applaud's info in mySQL database
 	 *
@@ -207,8 +226,10 @@ class Applaud implements \JsonSerializable {
 		$statement->execute($parameters);
 	}
 	//END UPDATE METHOD
-	/* START SEARCH STATIC METHODS: RETURN OBJECT */
-//********************************************************************************************
+
+	/***************************************************************************************************************
+	 * START SEARCH STATIC METHODS: RETURN OBJECT
+	 ***************************************************************************************************************/
 	/**
 	 * gets the applaud object by applaudProfileId
 	 *
@@ -248,10 +269,11 @@ class Applaud implements \JsonSerializable {
 		return ($applaud);
 		}
 		// end getApplaudByApplaudProfileId
-//****************************************************************************************
-	/**
-	 * gets the applaud object by applaudImageId
-	 *
+
+	/****************************************************************************************************************
+	 * GETS THE APPLAUD OBJECT BY APPLAUDIMAGEID
+	 ***************************************************************************************************************/
+	/*
 	 * @param \PDO $pdo PDO connection object
 	 * @param Uuid $applaudImageId applaud image id to search for
 	 * @return applaud|null Applaud found or null if not found
@@ -287,9 +309,10 @@ class Applaud implements \JsonSerializable {
  		}
 	//****************************************************************************************
 
-	/**
-	 * gets the applaud by profile id and image id
-	 *
+	/****************************************************************************************************************
+	 * GETS THE APPLAUD BY PROFILE ID AND IMAGE ID
+	 ***************************************************************************************************************/
+	 /*
 	 * @param \PDO $pdo PDO connection object
 	 * @param Uuid $applaudProfileId profile id to search for
 	 * @param Uuid $applaudImageId image id to search for
@@ -330,11 +353,12 @@ class Applaud implements \JsonSerializable {
 		}
 		return ($applaud);
 	}
-
 	// end getApplaudByApplaudImageIdandApplaudProfileId
-	/**
-	 * formats the state variables for JSON serialization
-	 *
+
+	/****************************************************************************************************************
+	 * FORMATS THE STATE VARIABLES FOR JSON SERIALIZATION
+	 ***************************************************************************************************************/
+	/*
 	 * @return array resulting state variables to serialize
 	 **/
 	public function jsonSerialize(): array {
