@@ -9,9 +9,6 @@ DROP TABLE applaud;
 -- Drop image table
 DROP TABLE image;
 
-
-
-
 -- this creates the profile entity
 CREATE TABLE profile (
 	-- table's attributes list:
