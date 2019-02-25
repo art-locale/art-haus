@@ -72,13 +72,10 @@ try {
 		if(empty($requestObject->profileEmail) === true) {
 			throw(new \InvalidArgumentException ("No profile email present", 405));
 		}
-		//profile website | if null use the profile website that is in the database
-		if(empty($requestObject->profileWebsite) === true) {
-			$requestObject->ProfileWebsite = $profile->getProfileWebsite();
-		}
-		$profile->setProfileName($requestObject->profileName);
 		$profile->setProfileEmail($requestObject->profileEmail);
-		$profile->setProfileWebsite($requestObject->profileWebsite);
+		$profile->setProfileLatitude($requestObject->profileLatitude);
+		$profile->setProfileLongitude($requestObject->profileLongitude);
+		$profile->setProfileName($requestObject->profileName);
 		$profile->update($pdo);
 		// update reply
 		$reply->message = "Profile information updated";
