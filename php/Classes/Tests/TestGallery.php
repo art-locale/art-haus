@@ -274,7 +274,7 @@ class TestGallery extends ArtHausTest {
 	}
 
 	/***************************************************************
-	 * TEST SELECTING A GALLERY BY GALLERYNAME
+	 * TEST SELECTING A GALLERY BY GALLERY NAME
 	 **************************************************************/
 	public function testGetGalleryByGalleryName(): void {
 
