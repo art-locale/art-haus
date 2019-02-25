@@ -368,7 +368,7 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getImageByGalleryId(\PDO $pdo, string $imageGalleryId) : \SplFixedArray {
+	public static function getImageByImageGalleryId(\PDO $pdo, string $imageGalleryId) : \SplFixedArray {
 		// sanitize the imageGalleryId before searching
 		try {
 			$imageGalleryId = self::validateUuid($imageGalleryId);
@@ -401,7 +401,7 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
 	 * START OF GET IMAGE BY PROFILE ID
 	 *****************************************************************************************************************/
 	 /**
- 	 * gets image by gallery id
+ 	 * gets image by profile id
  	 *
  	 * @param \PDO $pdo PDO connection object
  	 * @param string|Uuid $imageProfileId profileId to search for
@@ -409,7 +409,7 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
  	 * @throws \PDOException when mySQL related errors occur
  	 * @throws \TypeError when variables are not the correct data type
  	 **/
- 	public static function getImageByProfileId(\PDO $pdo, string $imageProfileId) : \SplFixedArray {
+ 	public static function getImageByImageProfileId(\PDO $pdo, string $imageProfileId) : \SplFixedArray {
  		// sanitize the imageProfileId before searching
  		try {
  			$imageProfileId = self::validateUuid($imageProfileId);
@@ -422,7 +422,7 @@ public static function getImageByImageId(\PDO $pdo, $imageId) : ?image {
  		//bind the galleryId to the place holder in the template
  		$parameters = ["imageProfileId" => $imageProfileId->getBytes()];
  		$statement->execute($parameters);
- 
+
  		// build an array of profiles
  		$images = new \SplFixedArray($statement->rowCount());
  		$statement->setFetchMode(\PDO::FETCH_ASSOC);

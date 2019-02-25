@@ -75,7 +75,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 *******************************************************************************************************************/
-	public function __construct($newProfileId, ?string $newProfileActivationToken, $newProfileDate = null, string $newProfileEmail, float $newProfileLatitude, float $newProfileLongitude, string $newProfileName, string $newProfilePassword, string $newProfileWebsite) {
+	public function __construct($newProfileId, ?string $newProfileActivationToken, $newProfileDate = null, string $newProfileEmail, float $newProfileLatitude, float $newProfileLongitude, string $newProfileName, string $newProfilePassword, ?string $newProfileWebsite) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileActivationToken($newProfileActivationToken);
@@ -369,8 +369,12 @@ class Profile implements \JsonSerializable {
 	 * @throws \RangeException if $newProfileWebsite is > 255 characters
 	 * @throws \TypeError if $newProfileWebsite is not a string
 	 **/
-	public function setProfileWebsite(string $newProfileWebsite): void {
+	public function setProfileWebsite(?string $newProfileWebsite): void {
 		// verify the profile website url content is secure
+		if($newProfileWebsite === null) {
+			$this->profileWebsite = null;
+			return;
+		}
 		$newProfileWebsite = trim($newProfileWebsite);
 		$newProfileWebsite = filter_var($newProfileWebsite, FILTER_SANITIZE_URL);
 		if(empty($newProfileWebsite) === true) {
@@ -662,22 +666,18 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $profileLatitude profile latitude to search for
-    *@param string $profileLongitude profile longitude to search for
+	 * @param int $profileLatitude profile latitude to search for
+    *@param int $profileLongitude profile longitude to search for
 	 * @return SplFixedArray SplFixedArray of profiles found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getProfileByLocation(\PDO $pdo, string $profileLatitude, string $profileLongitude): \SplFixedArray {
+	public static function getProfileByLocation(\PDO $pdo, float $profileLatitude, float $profileLongitude): \SplFixedArray {
 		// sanitize the profileLatitude and profileLongitude before searching
-		$profileLatitude = trim($profileLatitude);
-		$profileLatitude = filter_var($profileLatitude, FILTER_SANITIZE_STRING);
-		if(empty($profileLatitude) === true) {
+		if(($profileLatitude < -90) || ($profileLatitude > 90)){
 			throw(new \PDOException("not a valid latitude"));
 		}
-    $profileLongitude = trim($profileLongitude);
-    $profileLongitude = filter_var($profileLongitude, FILTER_SANITIZE_STRING);
-    if(empty($profileLongitude) === true) {
+    if(($profileLongitude < -180) || ($profileLongitude > 180)){
       throw(new \PDOException("not a valid longitude"));
     }
 		// create query template

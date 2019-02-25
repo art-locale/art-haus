@@ -219,7 +219,7 @@ class TestImage extends ArtHausTest {
 	/****************************************************************************************************************
 	 * TEST SELECTING A NON-EXISTANT IMAGE BY IMAGE ID
 	 **************************************************************************************************************/
-	public function testGetInvalidImageByImageId(): void {
+	public function testGetImageByInvalidImageId(): void {
 		// access a imageId that does not exist
 		$unknownImageId = generateUuidV4();
 		$image = Image::getImageByImageId($this->getPDO(), $unknownImageId);
@@ -228,7 +228,7 @@ class TestImage extends ArtHausTest {
 	/****************************************************************************************************************
 	 * TEST SELECTING AN IMAGE BY GALLERY ID
 	 *************************************************************************************************************/
-	public function testGetImageByGalleryId(): void {
+	public function testGetImageByImageGalleryId(): void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("image");
 		// create a new Image and insert into database
@@ -243,7 +243,7 @@ class TestImage extends ArtHausTest {
 		$image->insert($this->getPDO());
 
 		// access the data from database and confirm the data matches expectations
-		$results = Image::getImageByGalleryId($this->getPDO(), $this->gallery->getGalleryId());
+		$results = Image::getImageByImageGalleryId($this->getPDO(), $this->gallery->getGalleryId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
 		$this->assertCount(1,$results);
 		// Access the results and validate
@@ -258,16 +258,16 @@ class TestImage extends ArtHausTest {
 	/****************************************************************************************************************
 	 * TEST SELECTING A NON-EXISTANT IMAGE BY GALLERY ID
 	 **************************************************************************************************************/
-	public function testGetInvalidImageByGalleryId(): void {
+	public function testGetImageByInvalidImageGalleryId(): void {
 		// access a galleryId that does not exist
 		$unknownGalleryId = generateUuidV4();
-		$image = Image::getImageByGalleryId($this->getPDO(), $unknownGalleryId);
+		$image = Image::getImageByImageGalleryId($this->getPDO(), $unknownGalleryId);
 		$this->assertCount(0, $image);
 	}
 	/****************************************************************************************************************
 	 * TEST SELECTING AN IMAGE BY PROFILE ID
 	 *************************************************************************************************************/
-	 public function testGetImageByProfileId(): void {
+	 public function testGetImageByImageProfileId(): void {
  		// count the number of rows and save it for later
  		$numRows = $this->getConnection()->getRowCount("image");
  		// create a new Image and insert into database
@@ -282,7 +282,7 @@ class TestImage extends ArtHausTest {
  		$image->insert($this->getPDO());
 
  		// access the data from database and confirm the data matches expectations
- 		$results = Image::getImageByProfileId($this->getPDO(), $this->profile->getProfileId());
+ 		$results = Image::getImageByImageProfileId($this->getPDO(), $this->profile->getProfileId());
  		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("image"));
  		$this->assertCount(1,$results);
  		// Access the results and validate
@@ -297,10 +297,10 @@ class TestImage extends ArtHausTest {
 	/****************************************************************************************************************
 	 * TEST SELECTING A NON-EXISTENT IMAGE BY PROFILE ID
 	 **************************************************************************************************************/
-	 public function testGetInvalidImageByProfileId(): void {
+	 public function testGetImageByInvalidProfileId(): void {
 		 // access a galleryId that does not exist
 		 $unknownProfileId = generateUuidV4();
-		 $image = Image::getImageByProfileId($this->getPDO(), $unknownProfileId);
+		 $image = Image::getImageByImageProfileId($this->getPDO(), $unknownProfileId);
 		 $this->assertCount(0, $image);
 	 }
 	/****************************************************************************************************************
