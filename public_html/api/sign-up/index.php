@@ -59,6 +59,7 @@ try {
 		}
 		$hash = password_hash($requestObject->profilePassword, PASSWORD_ARGON2I, ["time_cost" => 384]);
 		$profileActivationToken = bin2hex(random_bytes(16));
+    // $profileDate = profileDate()->getTimestamp();
 		//create the profile object and prepare to insert into the database
 		$profile = new Profile(generateUuidV4(), $profileActivationToken, $requestObject->profileDate, $requestObject->profileEmail, $requestObject->profileLatitude, $requestObject->profileLongitude, $requestObject->profileName, $hash, "null");
 		//insert the profile into the database
