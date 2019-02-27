@@ -57,9 +57,19 @@ try {
 		if ($requestObject->profilePassword !== $requestObject->profilePasswordConfirm) {
 			throw(new \InvalidArgumentException("passwords do not match"));
 		}
+    //Generate profileDate
+    if(empty($requestObject->profileDate) === true) {
+			$requestObject->profileDate = null;
+		} else {
+			// if the date exists, Angular's milliseconds since the beginning of time MUST be converted
+			$profileDate = DateTime::createFromFormat("U.u", $requestObject->profileDate / 1000);
+			if($profileDate === false) {
+				throw(new RuntimeException("invalid profile date", 400));
+			}
+			$requestObject->profileDate = $profileDate;
+		}
 		$hash = password_hash($requestObject->profilePassword, PASSWORD_ARGON2I, ["time_cost" => 384]);
 		$profileActivationToken = bin2hex(random_bytes(16));
-    // $profileDate = profileDate()->getTimestamp();
 		//create the profile object and prepare to insert into the database
 		$profile = new Profile(generateUuidV4(), $profileActivationToken, $requestObject->profileDate, $requestObject->profileEmail, $requestObject->profileLatitude, $requestObject->profileLongitude, $requestObject->profileName, $hash, "null");
 		//insert the profile into the database
