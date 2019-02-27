@@ -37,6 +37,14 @@ try {
 		if(empty($requestObject->profileEmail) === true) {
 			throw(new \InvalidArgumentException ("No profile email present", 405));
 		}
+    //profile email is a required field
+    if(empty($requestObject->profileLatitude) === true) {
+      throw(new \InvalidArgumentException ("No latitude present", 405));
+    }
+    //profile email is a required field
+    if(empty($requestObject->profileLongitude) === true) {
+      throw(new \InvalidArgumentException ("No longitude present", 405));
+    }
 		//verify that profile password is present
 		if(empty($requestObject->profilePassword) === true) {
 			throw(new \InvalidArgumentException ("Must input valid password", 405));
@@ -52,7 +60,7 @@ try {
 		$hash = password_hash($requestObject->profilePassword, PASSWORD_ARGON2I, ["time_cost" => 384]);
 		$profileActivationToken = bin2hex(random_bytes(16));
 		//create the profile object and prepare to insert into the database
-		$profile = new Profile(generateUuidV4(), $profileActivationToken, "null", $requestObject->profileEmail, $requestObject->profileLatitude, $requestObject->profileLlongitude, $requestObject->profileName, $hash, "null");
+		$profile = new Profile(generateUuidV4(), $profileActivationToken, $requestObject->profileDate, $requestObject->profileEmail, $requestObject->profileLatitude, $requestObject->profileLongitude, $requestObject->profileName, $hash, "null");
 		//insert the profile into the database
 		$profile->insert($pdo);
 		//compose the email message to send with th activation token

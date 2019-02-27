@@ -73,6 +73,7 @@ try {
 		if(empty($requestObject->profileEmail) === true) {
 			throw(new \InvalidArgumentException ("No profile email present", 405));
 		}
+		$profile->setProfileDate($requestObject->profileDate);
 		$profile->setProfileEmail($requestObject->profileEmail);
 		$profile->setProfileLatitude($requestObject->profileLatitude);
 		$profile->setProfileLongitude($requestObject->profileLongitude);
