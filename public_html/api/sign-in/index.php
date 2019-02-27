@@ -19,7 +19,8 @@ try {
 		session_start();
 	}
 	//grab mySQL statement
-	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/cohort23/arthaus.ini");
+	$secrets = new \Secrets("/etc/apache2/capstone-mysql/cohort23/arthaus.ini");
+  $pdo = $secrets->getPdoObject();
 	//determine which HTTP method is being used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 	//If method is post handle the sign in logic

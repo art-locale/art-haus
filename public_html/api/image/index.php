@@ -5,6 +5,7 @@ require_once("/etc/apache2/capstone-mysql/Secrets.php");
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once dirname(__DIR__, 3) . "/php/lib/uuid.php";
 require_once dirname(__DIR__, 3) . "/php/lib/jwt.php";
+require_once("/etc/apache2/capstone-mysql/Secrets.php");
 use ArtLocale\ArtHaus\ {Image, Gallery, Profile};
 /**
  * Cloudinary API for Images
@@ -22,7 +23,8 @@ $reply->status = 200;
 $reply->data = null;
 try {
 	// Grab the MySQL connection
-	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/cohort23/arthaus.ini");
+	$secrets = new \Secrets("/etc/apache2/capstone-mysql/cohort23/arthaus.ini");
+  $pdo = $secrets->getPdoObject();
 	//determine which HTTP method is being used
 	$method = $_SERVER["HTTP_X_HTTP_METHOD"] ?? $_SERVER["REQUEST_METHOD"];
 	// sanitize input

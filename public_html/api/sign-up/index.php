@@ -75,7 +75,7 @@ try {
 		//insert the profile into the database
 		$profile->insert($pdo);
 		//compose the email message to send with th activation token
-		$messageSubject = "One step closer to Sticky Head -- Account Activation";
+		$messageSubject = "One step closer to Art Haus account activation!";
 		//building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
 		//make sure URL is /public_html/api/activation/$activation
 		$basePath = dirname($_SERVER["SCRIPT_NAME"], 3);
@@ -86,7 +86,7 @@ try {
 		//compose message to send with email
 		$message = <<< EOF
 <h2>Welcome to Art-Haus</h2>
-<p>In order to start sharing art you must confirm your account </p>
+<p>In order to start sharing art you must confirm your account.</p>
 <p><a href="$confirmLink">$confirmLink</a></p>
 EOF;
 		//create swift email
@@ -129,15 +129,15 @@ EOF;
 		//send the message
 		$numSent = $mailer->send($swiftMessage, $failedRecipients);
 		/**
-		 * the send method returns the number of recipients that accepted the Email
-		 * so, if the number attempted is not the number accepted, this is an Exception
+		 * the send method returns the number of recipients that accepted the email
+		 * if the number attempted is not the number accepted, this is an Exception
 		 **/
 		if($numSent !== count($recipients)) {
-			// the $failedRecipients parameter passed in the send() method now contains contains an array of the Emails that failed
+			// the $failedRecipients parameter passed in the send() method now contains an array of the emails that failed
 			throw(new RuntimeException("unable to send email", 400));
 		}
 		// update reply
-		$reply->message = "Thank you for creating a profile with DDC-Twitter";
+		$reply->message = "Thank you for creating an account with Art Haus!";
 	} else {
 		throw (new InvalidArgumentException("invalid http request"));
 	}
