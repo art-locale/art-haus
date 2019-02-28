@@ -41,8 +41,8 @@ try {
 		//get a specific image by id and update reply
 		if(empty($id) === false) {
 			$image = Image::getImageByImageId($pdo, $id);
-		} elseif(empty($tweetId) === false) {
-			$reply->data = Image::getImageByImageGalleryId($pdo, $tweetId)->toArray();
+		} elseif(empty($imageId) === false) {
+			$reply->data = Image::getImageByImageGalleryId($pdo, $imageId)->toArray();
 		} elseif(empty($profileId) === false) {
 			$reply->data = Image::getImageByImageProfileId($pdo, $profileId)->toArray();
 		}

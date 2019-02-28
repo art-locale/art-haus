@@ -5,7 +5,7 @@
 
 require_once(dirname(__DIR__, 3) . "/vendor/autoload.php");
 require_once(dirname(__DIR__, 3) . "/php/Classes/autoload.php");
-require_once(dirname(__DIR__, 3) . "/php/lib/jwt.php"); //TODO What is this?//
+require_once(dirname(__DIR__, 3) . "/php/lib/jwt.php");
 require_once(dirname(__DIR__, 3) . "/php/lib/xsrf.php");
 require_once(dirname(__DIR__, 3) . "/php/lib/uuid.php");
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
@@ -35,7 +35,6 @@ try {
 	$method = $_SERVER["HTTP_X_HTTP_METHOD"] ?? $_SERVER["REQUEST_METHOD"];
 	$id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$galleryProfileId = filter_input(INPUT_GET, "galleryProfileId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$config = readConfig("/etc/apache2/capstone-mysql/ddctwitter.ini");
 
 	// process GET requests
 	if($method === "GET") {
@@ -46,6 +45,56 @@ try {
 			$gallery = Gallery::getGalleryByGalleryId($pdo, $id);
 		} elseif(empty($galleryId) === false) {
 			$reply->data = Gallery::getGalleryByGalleryProfileId($pdo, $galleryProfileId)->toArray();
+		}
+
+		else if($method === "PUT" || $method === "POST") {
+		// enforce the user has a XSRF token
+		verifyXsrf();
+		//enforce the end user has a JWT token
+		validateJwtHeader();
+		// enforce the user is signed in
+		if(empty($_SESSION["profile"]) === true) {
+			throw(new \InvalidArgumentException("you must be logged in to add or update galleries", 401));
+		}
+		$requestContent = file_get_contents("php://input");
+		// Retrieves the JSON package that the front end sent, and stores it in $requestContent. Here we are using file_get_contents("php://input") to get the request from the front end. file_get_contents() is a PHP function that reads a file into a string. The argument for the function, here, is "php://input". This is a read only stream that allows raw data to be read from the front end request which is, in this case, a JSON package.
+		$requestObject = json_decode($requestContent);
+		// This Line Then decodes the JSON package and stores that result in $requestObject
+		//make sure gallery name is available (required field)
+		if(empty($requestObject->galleryName) === true) {
+			throw(new \InvalidArgumentException ("No gallery name.", 405));
+		}
+
+		//perform the actual put or post
+		if($method === "PUT") {
+			// retrieve the gallery to update
+			$gallery = Gallery::getGalleryByGalleryId($pdo, $id);
+			if($galleryId === null) {
+				throw(new RuntimeException("gallery does not exist", 404));
+			}
+			//enforce the end user has a JWT token
+			//enforce the user is signed in and only trying to edit their own gallery
+			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $gallery->getGalleryProfileId()->toString()) {
+				throw(new \InvalidArgumentException("You are not allowed to edit this gallery", 403));
+			}
+			validateJwtHeader();
+			// update all attributes
+			$gallery->setGalleryName($requestObject->galleryName);
+			$gallery->update($pdo);
+			// update reply
+			$reply->message = "gallery updated successfully";
+		} else if($method === "POST") {
+			// enforce the user is signed in
+			if(empty($_SESSION["profile"]) === true) {
+				throw(new \InvalidArgumentException("you must be logged in to edit galleries", 403));
+			}
+			//enforce the end user has a JWT token
+			validateJwtHeader();
+			// create new gallery and insert into the database
+			$gallery = new Gallery(generateUuidV4(), $_SESSION["profile"]->getProfileId(), null, $requestObject->galleryName);
+			$gallery->insert($pdo);
+			// update reply
+			$reply->message = "Gallery created OK";
 		}
 
 	} elseif($method === "DELETE") {
@@ -61,26 +110,14 @@ try {
 		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== Gallery::getGalleryByGalleryId($pdo, $gallery->getGalleryId())->getGalleryProfileId()) {
 			throw(new \InvalidArgumentException("You are not allowed to delete this gallery", 403));
 		}
-
-//enforce the end user has a JWT token
-		validateJwtHeader();
-
-	} elseif($method === "POST") {
-		//enforce that the end user has a XSRF token.
-		verifyXsrf();
-		// verify the user is logged in
-		if(empty($_SESSION["profile"]) === true) {
-			throw (new \InvalidArgumentException("you must be logged in to create a gallery", 401));
-			// verify user is logged into the profile creating the gallery before creating the gallery
-		} elseif($_SESSION["profile"]->getProfileId() !== Gallery::getGalleryByGalleryId($pdo, $galleryId)->getGalleryProfileId()) {
-			throw(new \InvalidArgumentException("You are not allowed to create a gallery on someone elses account", 403));
+		// }catch
+		// (\Exception | \TypeError $exception) {
+		// 	$reply->status = $exception->getCode();
+		// 	$reply->message = $exception->getMessage();
+		// }
+		header("Content-type: application/json");
+		if($reply->data === null) {
+			unset($reply->data);
 		}
-
-	}
-} catch(Exception $exception) {
-	$reply->status = $exception->getCode();
-	$reply->message = $exception->getMessage();
-}
-header("Content-Type: application/json");
-// encode and return reply to front end caller
-echo json_encode($reply);
+		// encode and return reply to front end caller
+		echo json_encode($reply);
