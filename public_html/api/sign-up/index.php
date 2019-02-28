@@ -20,6 +20,8 @@ $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
 try {
+	//XSRF verify
+	verifyXsrf(); 
 	//grab the mySQL connection
 	$secrets = new \Secrets("/etc/apache2/capstone-mysql/cohort23/arthaus.ini");
   $pdo = $secrets->getPdoObject();
