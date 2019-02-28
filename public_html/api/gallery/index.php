@@ -5,7 +5,7 @@
 
 require_once(dirname(__DIR__, 3) . "/vendor/autoload.php");
 require_once(dirname(__DIR__, 3) . "/php/Classes/autoload.php");
-// require_once(dirname(__DIR__, 3) . "/php/lib/jwt.php"); //TODO What is this?//
+require_once(dirname(__DIR__, 3) . "/php/lib/jwt.php"); //TODO What is this?//
 require_once(dirname(__DIR__, 3) . "/php/lib/xsrf.php");
 require_once(dirname(__DIR__, 3) . "/php/lib/uuid.php");
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
@@ -29,18 +29,13 @@ $reply->data = null;
 
 try {
 	// Grab the MySQL connection
-	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/ddctwitter.ini");
+	$secrets = new \Secrets("/etc/apache2/capstone-mysql/cohort23/arthaus.ini");
+	$pdo = $secrets->getPdoObject();
 	//determine which HTTP method is being used
 	$method = $_SERVER["HTTP_X_HTTP_METHOD"] ?? $_SERVER["REQUEST_METHOD"];
-	$galleryId = filter_input(INPUT_GET, "galleryId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$galleryProfileId = filter_input(INPUT_GET, "galleryProfileId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$galleryProfileId = filter_input(INPUT_GET, "galleryProfileId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$config = readConfig("/etc/apache2/capstone-mysql/ddctwitter.ini");
-
-
-//	$cloudinary = json_decode($config["cloudinary"]);
-//	\Cloudinary::config(["cloud_name" => $cloudinary->cloudName, "api_key" => 	$cloudinary->apiKey, "api_secret" => $cloudinary->apiSecret]);
-
 
 	// process GET requests
 	if($method === "GET") {
@@ -67,14 +62,8 @@ try {
 			throw(new \InvalidArgumentException("You are not allowed to delete this gallery", 403));
 		}
 
-//		//enforce the end user has a JWT token
-//		validateJwtHeader();
-//		// delete image from cloudinary
-//		$cloudinaryResult = \Cloudinary\Uploader::destroy($image->getImageCloudinaryToken());
-//		// delete image database
-//		$image->delete($pdo);
-//		// update reply
-//		$reply->message = "Image deleted OK";
+//enforce the end user has a JWT token
+		validateJwtHeader();
 
 	} elseif($method === "POST") {
 		//enforce that the end user has a XSRF token.
@@ -86,16 +75,6 @@ try {
 		} elseif($_SESSION["profile"]->getProfileId() !== Gallery::getGalleryByGalleryId($pdo, $galleryId)->getGalleryProfileId()) {
 			throw(new \InvalidArgumentException("You are not allowed to create a gallery on someone elses account", 403));
 		}
-
-//		// assigning variable to the user profile, add image extension
-//		$tempUserFileName = $_FILES["image"]["tmp_name"];
-//		// upload image to cloudinary and get public id
-//		$cloudinaryResult = \Cloudinary\Uploader::upload($tempUserFileName, array("width" => 500, "crop" => "scale"));
-//		// after sending the image to Cloudinary, create a new image
-//		$image = new Image(generateUuidV4(), $tweetId, $cloudinaryResult["signature"], $cloudinaryResult["secure_url"]);
-//		$image->update($pdo);
-//		// update reply
-//		$reply->message = "Image uploaded Ok";
 
 	}
 } catch(Exception $exception) {

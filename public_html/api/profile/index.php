@@ -42,7 +42,7 @@ try {
 		//gets a post by content
 		if(empty($id) === false) {
 			$reply->data = Profile::getProfileByProfileId($pdo, $id);
-		} else if(empty($profileAtHandle) === false) {
+		} else if(empty($profileName) === false) {
 			$reply->data = Profile::getProfileByName($pdo, $profileName);
 		} else if(empty($profileEmail) === false) {
 			$reply->data = Profile::getProfileByEmail($pdo, $profileEmail);
