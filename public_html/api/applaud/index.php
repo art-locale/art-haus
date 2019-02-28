@@ -49,7 +49,8 @@ try {
 			$reply->data = Applaud::getApplaudByApplaudImageId($pdo, $tweetId)->toArray();
 		} elseif(empty($applaudProfileId) === false) {
 			$reply->data = Applaud::getApplaudByApplaudImageIdandApplaudProfileId($pdo, $profileId)->toArray();
-		} //POST********************************************
+		}
+//POST********************************************
 		elseif($method === "POST") {
 			//enforce that the end user has a XSRF token.
 			verifyXsrf();
