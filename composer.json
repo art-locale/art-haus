@@ -6,6 +6,7 @@
     "ramsey/uuid": "@stable",
     "phpunit/dbunit": "@stable",
     "phpunit/phpunit": "@stable",
+    "swiftmailer/swiftmailer": "@stable",
     "lcobucci/jwt": "3.2"
   },
   "scripts": {
