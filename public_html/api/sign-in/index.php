@@ -46,8 +46,6 @@ try {
 		if(empty($profile) === true) {
 			throw(new \InvalidArgumentException("Email in incorrect", 401));
 		}
-		$profile->setProfileActivationToken(null);
-		$profile->update($pdo);
 		//if the profile activation is not null throw an error
 		if($profile->getProfileActivationToken() !== null){
 			throw (new \InvalidArgumentException ("You are not allowed to sign in unless you have activated your account", 403));
