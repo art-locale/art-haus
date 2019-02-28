@@ -21,7 +21,7 @@ $reply->status = 200;
 $reply->data = null;
 try {
 	//XSRF verify
-	verifyXsrf(); 
+	verifyXsrf();
 	//grab the mySQL connection
 	$secrets = new \Secrets("/etc/apache2/capstone-mysql/cohort23/arthaus.ini");
   $pdo = $secrets->getPdoObject();
@@ -39,11 +39,11 @@ try {
 		if(empty($requestObject->profileEmail) === true) {
 			throw(new \InvalidArgumentException ("No profile email present", 405));
 		}
-    // //profile email is a required field
+    // //profile latitude is a required field
     // if(empty($requestObject->profileLatitude) === true) {
     //   throw(new \InvalidArgumentException ("No latitude present", 405));
     // }
-    // //profile email is a required field
+    // //profile longitude is a required field
     // if(empty($requestObject->profileLongitude) === true) {
     //   throw(new \InvalidArgumentException ("No longitude present", 405));
     // }
