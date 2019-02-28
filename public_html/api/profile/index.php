@@ -51,7 +51,7 @@ try {
 		//enforce that the XSRF token is present in the header
 		verifyXsrf();
 		//enforce the end user has a JWT token
-		//validateJwtHeader();
+		validateJwtHeader();
 		//enforce the user is signed in and only trying to edit their own profile
 		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $id) {
 			throw(new \InvalidArgumentException("You are not allowed to access this profile", 403));
@@ -73,10 +73,15 @@ try {
 		if(empty($requestObject->profileEmail) === true) {
 			throw(new \InvalidArgumentException ("No profile email present", 405));
 		}
-		$profile->setProfileDate($requestObject->profileDate);
 		$profile->setProfileEmail($requestObject->profileEmail);
-		$profile->setProfileLatitude($requestObject->profileLatitude);
-		$profile->setProfileLongitude($requestObject->profileLongitude);
+		//profile latitude is a required field
+    if(empty($requestObject->profileLatitude) === true) {
+      throw(new \InvalidArgumentException ("No latitude present", 405));
+    }
+    //profile longitude is a required field
+    if(empty($requestObject->profileLongitude) === true) {
+      throw(new \InvalidArgumentException ("No longitude present", 405));
+    }
 		$profile->setProfileName($requestObject->profileName);
 		$profile->update($pdo);
 		// update reply
