@@ -490,5 +490,3 @@ public function jsonSerialize() {
 }
 }
 ?>
-
-//
