@@ -30,27 +30,27 @@ try {
 		//process the request content and decode the json object into a php object
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
-		//check to make sure the password and email field is not empty.s
+		//check to make sure the password and email field is not empty.
 		if(empty($requestObject->profileEmail) === true) {
-			throw(new \InvalidArgumentException("Wrong email address.", 401));
+			throw(new \InvalidArgumentException("Please enter your email address.", 401));
 		} else {
 			$profileEmail = filter_var($requestObject->profileEmail, FILTER_SANITIZE_EMAIL);
 		}
 		if(empty($requestObject->profilePassword) === true) {
-			throw(new \InvalidArgumentException("Must enter a password.", 401));
+			throw(new \InvalidArgumentException("Please enter your password.", 401));
 		} else {
 			$profilePassword = $requestObject->profilePassword;
 		}
 		//grab the profile from the database by the email provided
 		$profile = Profile::getProfileByEmail($pdo, $profileEmail);
 		if(empty($profile) === true) {
-			throw(new \InvalidArgumentException("Invalid Email", 401));
+			throw(new \InvalidArgumentException("Email in incorrect", 401));
 		}
 		$profile->setProfileActivationToken(null);
 		$profile->update($pdo);
 		//if the profile activation is not null throw an error
 		if($profile->getProfileActivationToken() !== null){
-			throw (new \InvalidArgumentException ("you are not allowed to sign in unless you have activated your account", 403));
+			throw (new \InvalidArgumentException ("You are not allowed to sign in unless you have activated your account", 403));
 		}
 		//verify hash is correct
 		if(password_verify($requestObject->profilePassword, $profile->getProfilePassword()) === false) {
@@ -66,7 +66,7 @@ try {
 		];
 		// create and set th JWT TOKEN
 		setJwtAndAuthHeader("auth",$authObject);
-		$reply->message = "Sign in was successful.";
+		$reply->message = "Sign in was successful!";
 	} else {
 		throw(new \InvalidArgumentException("Invalid HTTP method request", 418));
 	}
