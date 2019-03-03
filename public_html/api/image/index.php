@@ -66,15 +66,15 @@ try {
 		$image->delete($pdo);
 		// update reply
 		$reply->message = "Image successfully deleted";
-	} elseif($method === "POST") {
+	} elseif($method === "POST" || $method === "PUT") {
 		//enforce that the end user has a XSRF token.
 		verifyXsrf();
 		// verify the user is logged in
 		if(empty($_SESSION["profile"]) === true) {
-			throw (new \InvalidArgumentException("you must be logged in to post images", 401));
+			throw (new \InvalidArgumentException("you must be logged in to post or update images", 401));
 			// verify user is logged into the profile before uploading an image
 		} elseif($_SESSION["profile"]->getProfileId() !== Gallery::getGalleryByGalleryId($pdo, $galleryId)->getGalleryProfileId()) {
-			throw(new \InvalidArgumentException("You cannot post images to someone else's profile", 403));
+			throw(new \InvalidArgumentException("You cannot post or update images to someone else's profile", 403));
 		}
 		// assigning variable to the user profile, add image extension
 		$tempUserFileName = $_FILES["image"]["tmp_name"];
