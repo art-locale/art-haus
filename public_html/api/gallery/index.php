@@ -48,11 +48,11 @@ try {
 		setXsrfCookie();
 		//get a specific gallery by id and update reply
 		if(empty($id) === false) {
-			$gallery = Gallery::getGalleryByGalleryId($pdo, $id);
-		} elseif(empty($galleryId) === false) {
-			$reply->data = Gallery::getGalleryByGalleryProfileId($pdo, $galleryProfileId)->toArray();
-		}	else if(empty($galleryName) === false) {
-			$reply->data = Gallery::getGalleryByName($pdo, $galleryName);
+			$reply->data = Gallery::getGalleryByGalleryId($pdo, $id);
+		} else if(empty($galleryProfileId) === false) {
+			$reply->data = Gallery::getGalleryByGalleryProfileId($pdo, $galleryProfileId);
+		} else if(empty($galleryName) === false) {
+			$reply->data = Gallery::getGalleryByGalleryName($pdo, $galleryName);
 		}
 	} else if($method === "PUT" || $method === "POST") {
 		// enforce the user has a XSRF token
@@ -63,8 +63,8 @@ try {
 		if(empty($_SESSION["profile"]) === true) {
 			throw(new \InvalidArgumentException("you must be logged in to add or update galleries", 401));
 		}
+			//decode the response from the front end
 		$requestContent = file_get_contents("php://input");
-		// Retrieves the JSON package that the front end sent, and stores it in $requestContent. Here we are using file_get_contents("php://input") to get the request from the front end. file_get_contents() is a PHP function that reads a file into a string. The argument for the function, here, is "php://input". This is a read only stream that allows raw data to be read from the front end request which is, in this case, a JSON package.
 		$requestObject = json_decode($requestContent);
 		// This Line Then decodes the JSON package and stores that result in $requestObject
 		//make sure gallery name is available (required field)
@@ -123,13 +123,15 @@ try {
 			throw (new InvalidArgumentException("Invalid HTTP request", 400));
 		}
 		// catch any exceptions that were thrown and update the status and message state variable fields
-	} catch(Exception $exception) {
+	}
+}catch
+		(\Exception | \TypeError $exception) {
 		$reply->status = $exception->getCode();
 		$reply->message = $exception->getMessage();
-	}
-	header("Content-type: application/json");
-	if($reply->data === null) {
+		}
+		header("Content-type: application/json");
+		if($reply->data === null) {
 		unset($reply->data);
-	}
-	// encode and return reply to front end caller
-	echo json_encode($reply);
+		}
+		// encode and return reply to front end caller
+		echo json_encode($reply);
