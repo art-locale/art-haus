@@ -8,14 +8,14 @@ require_once(dirname(__DIR__, 3) . "/php/lib/uuid.php");
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
 
 use ArtLocale\ArtHaus\ {
-	Profile, Image
+	Profile, Image, Applaud
 };
 
-/*
+/**
  * API for Applaud class
  * @author Will Tredway <jwilliamtredway@gmail.com>
  * @version 1.0
- */
+ **/
 
 //SET UP*******************************************
 //verify the session, if it is not active start it
@@ -42,17 +42,25 @@ try {
 	}
 
 //GET*********************************************
-	if($method === "GET") {
-		// set XSRF token
-		setXsrfCookie();
-		//get a specific applaud by id and update reply
-		if(empty($id) === false) {
-			$applaud = Applaud::getApplaudByApplaudImageId($pdo, $id);
-		} elseif(empty($applaudImageId) === false) {
-			$reply->data = Applaud::getApplaudByApplaudImageId($pdo, $imageId)->toArray();
-		} elseif(empty($applaudProfileId) === false) {
-			$reply->data = Applaud::getApplaudByApplaudImageIdandApplaudProfileId($pdo, $profileId)->toArray();
+if($method === "GET") {
+	//set XSRF cookie
+	setXsrfCookie();
+	//gets  a specific like associated based on its composite key
+	if ($applaudProfileId !== null && $applaudImageId !== null) {
+		$applaud = Applaud::getApplaudByApplaudImageIdandApplaudProfileId($pdo, $applaudProfileId, $applaudImageId);
+		if($applaud!== null) {
+			$reply->data = $applaud;
 		}
+		//if none of the search parameters are met throw an exception
+	} else if(empty($applaudProfileId) === false) {
+		$reply->data = Applaud::getApplaudByApplaudProfileId($pdo, $applaudProfileId)->toArray();
+	//get all the likes associated with the tweetId
+	} else if(empty($applaudImageId) === false) {
+		$reply->data = Applaud::getApplaudByApplaudImageId($pdo, $applaudImageId)->toArray();
+	} else {
+		throw new InvalidArgumentException("incorrect search parameters ", 404);
+	}
+}
 //POST********************************************
 elseif($method === "POST" || $method === "PUT") {
 	//decode the response from the front end
@@ -77,7 +85,7 @@ elseif($method === "POST" || $method === "PUT") {
 			throw(new \InvalidArgumentException("you must be logged in to applaud images", 403));
 		}
 		validateJwtHeader();
-		$applaud = new Applaud($_SESSION["profile"]->getProfileId(), $requestObject->applaudProfileId);
+		$applaud = new Applaud($_SESSION["profile"]->getProfileId(), $requestObject->applaudImageId);
 		$applaud->insert($pdo);
 		$reply->message = "applauded image successfully";
 	} else if($method === "PUT") {
@@ -86,8 +94,8 @@ elseif($method === "POST" || $method === "PUT") {
 		//enforce the end user has a JWT token
 		validateJwtHeader();
 		//grab the like by its composite key
-		$applaud = Applaud::getApplaudByApplaudProfileId($pdo, $requestObject->applaudProfileId, $requestObject->applaudImageId);
-		if($like === null) {
+		$applaud = Applaud::getApplaudByApplaudImageIdandApplaudProfileId($pdo, $requestObject->applaudProfileId, $requestObject->applaudImageId);
+		if($applaud === null) {
 			throw (new RuntimeException("applaud does not exist"));
 		}
 		//enforce the user is signed in and only trying to edit their own applaud
@@ -115,6 +123,3 @@ unset($reply->data);
 }
 // encode and return reply to front end caller
 echo json_encode($reply);
-
-//DELETE**************NO***DON'T******************
-//Delete function not needed?
