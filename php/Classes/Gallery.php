@@ -449,6 +449,20 @@ class Gallery {
 	} /* END getGalleryByGalleryName() */
 
 // getGalleryByProfileLocation() might be added later or modified to use area code instead of latitude and longitude, this is now a "back-burner" feature, time permitting
-
+/*******************************************************************************************************************
+ * formats the state variables for JSON serialization
+ ******************************************************************************************************************/
+/*
+ * @return array resulting state variables to serialize
+ **/
+public function jsonSerialize() {
+	$fields = get_object_vars($this);
+	$fields["profileId"] = $this->profileId->toString();
+	//format the date so that the front end can consume it
+	unset($fields["profilePassword"]);
+	$fields["profileDate"] = round(floatval($this->profileDate->format("U.u")) * 1000);
+	return ($fields);
+}
 	/* END SEARCH STATIC METHODS: RETURN OBJECT */
 } /* END OF CLASS GALLERY */
+?>
