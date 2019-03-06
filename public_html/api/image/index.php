@@ -36,7 +36,10 @@ try {
 	// process GET requests
 	if($method === "GET") {
 		// set XSRF token
+
 		setXsrfCookie();
+		$tempImage = new Image(generateUuidV4, "eab43086-dbb2-4160-91e0-c53ed7064b3", "2f91f8fd-9a01-4a78-b40b-fc1b69fedfb6", new \DateTime(), "hello world");
+		$tempImage->insert($pdo);
 		//get a specific image by id and update reply
 		if(empty($id) === false) {
 			$image = Image::getImageByImageId($pdo, $id);
