@@ -17,7 +17,7 @@ use Ramsey\Uuid\Uuid;
  * @author Will Tredway <jtredway@cnm.edu>
  * @version 1.0.0
  **/
-class Gallery {
+class Gallery implements \JsonSerializable {
 	use ValidateDate;
 	use ValidateUuid;
 
