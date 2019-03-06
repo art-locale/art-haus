@@ -6,6 +6,8 @@ require_once dirname(__DIR__, 3) . "/php/lib/uuid.php";
 require_once dirname(__DIR__, 3) . "/php/lib/jwt.php";
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
 use ArtLocale\ArtHaus\ {Image, Gallery, Profile};
+
+
 /**
  * Cloudinary API for Images
  *
@@ -31,7 +33,7 @@ try {
 	$galleryId = filter_input(INPUT_GET, "galleryId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$profileId = filter_input(INPUT_GET, "ProfileId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$config = $secrets->getSecret("cloudinary");
-	$cloudinary = json_decode($config["cloudinary"]);
+	$cloudinary = json_decode($config);
 	\Cloudinary::config(["cloud_name" => $cloudinary->cloudName, "api_key" => $cloudinary->apiKey, "api_secret" => $cloudinary->apiSecret]);
 	// process GET requests
 	if($method === "GET") {
