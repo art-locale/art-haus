@@ -315,7 +315,7 @@ class Gallery implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getGalleryByGalleryId(\PDO $pdo, $galleryId) : ?gallery {
+	public static function getGalleryByGalleryId(\PDO $pdo, $galleryId) : ?Gallery {
 		// sanitize the galleryId before searching
 		try {
 			$galleryId = self::validateUuid($galleryId);
