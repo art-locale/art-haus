@@ -32,21 +32,21 @@ try {
 	$id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$galleryId = filter_input(INPUT_GET, "galleryId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$profileId = filter_input(INPUT_GET, "ProfileId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$config = $secrets->getSecret("cloudinary");
-	$cloudinary = json_decode($config);
+	$config = readConfig("/etc/apache2/capstone-mysql/cohort23/arthaus.ini");
+	$cloudinary = json_decode($config["cloudinary"]);
 	\Cloudinary::config(["cloud_name" => $cloudinary->cloudName, "api_key" => $cloudinary->apiKey, "api_secret" => $cloudinary->apiSecret]);
 	// process GET requests
 	if($method === "GET") {
 		// set XSRF token
 
 		setXsrfCookie();
-		$tempImage = new Image(generateUuidV4, "eab43086-dbb2-4160-91e0-c53ed7064b3", "2f91f8fd-9a01-4a78-b40b-fc1b69fedfb6", new \DateTime(), "hello world");
-		$tempImage->insert($pdo);
+		// $tempImage = new Image(generateUuidV4, "eab43086-dbb2-4160-91e0-c53ed7064b3", "2f91f8fd-9a01-4a78-b40b-fc1b69fedfb6", new \DateTime(), "hello world");
+		// $tempImage->insert($pdo);
 		//get a specific image by id and update reply
 		if(empty($id) === false) {
 			$image = Image::getImageByImageId($pdo, $id);
-		} elseif(empty($imageId) === false) {
-			$reply->data = Image::getImageByImageGalleryId($pdo, $imageId)->toArray();
+		} elseif(empty($galleryId) === false) {
+			$reply->data = Image::getImageByImageGalleryId($pdo, $galleryId)->toArray();
 		} elseif(empty($profileId) === false) {
 			$reply->data = Image::getImageByImageProfileId($pdo, $profileId)->toArray();
 		}

@@ -50,7 +50,7 @@ try {
 		// else {
 		// 	$reply->data = Tweet::getAllTweets($pdo)->toArray();
 		// } TODO: Do we need this?
-	} elseif($method === "PUT" || $method === "POST") {
+	} else if($method === "PUT" || $method === "POST") {
 		// enforce the user has a XSRF token
 		verifyXsrf();
 		// enforce the user is signed in
@@ -79,7 +79,7 @@ try {
 			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $gallery->getGalleryProfileId()->toString()) {
 				throw(new \InvalidArgumentException("You are not allowed to edit this gallery", 403));
 			}
-			validateJwtHeader();
+			// validateJwtHeader();
 			// update all attributes
 			//$gallery->setGalleryDate($requestObject->galleryDate);
 			$gallery->setGalleryName($requestObject->galleryName);
