@@ -1,5 +1,3 @@
-
-
 <main>
 
   <div class="container-fluid">
