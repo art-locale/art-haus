@@ -1,10 +1,4 @@
 /*PROFILE VIEW:*/
-.carousel-caption {
-  opacity: .75;
-  height: 4rem;
-	width: 15rem;
-	margin: auto;
-}
 
 .carousel-inner {
 	max-width: 60%;
@@ -13,6 +7,12 @@
 
 .carousel-item {
 
+}
+
+.carousel-caption {
+	opacity: .75;
+	height: 4rem;
+	width: 15rem;
 }
 
 img {
