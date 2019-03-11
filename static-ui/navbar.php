@@ -21,7 +21,7 @@
             <a class="nav-link" href="sign-in-modal.php">Sign In</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="update-profile.php">Profile</a>
+            <a class="nav-link" href="profile-view.php">Profile</a>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
