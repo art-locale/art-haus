@@ -22,7 +22,7 @@
          <!--GALLERY 1:-->
 			<div class="carousel-item active">
 				<img class="d-block w-100" src="../sample-images/sample-image-1.jpg" alt="First slide">
-				  	<div class="carousel-caption d-md-block bg-dark mb-0 align-items-end">
+				  	<div class="carousel-caption d-md-block bg-dark">
 						<h5>Gallery Name</h5>
 					</div>
 			</div>
