@@ -8,7 +8,9 @@
 
   <div class="container-fluid">
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-      <img src="../src/img/logo.svg" alt="logo" class="logo" /> <!-- TODO: Add Logo-->
+
+      <a class="fab fa-artstation justify-content-left" href="./signed-in-homeview.php" id="logo"></a><!--TODO: fix logo anchor to assess whether or not user is logged in-->
+
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -21,7 +23,7 @@
             <a class="nav-link" href="sign-in-modal.php">Sign In</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="profile-view.php">Profile</a>
+            <a class="nav-link" href="profile-view.php">My Profile</a>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
