@@ -16,7 +16,7 @@
 <div class="carousel-bar containter-fluid">
 
    <!--CAROUSEL:-->
-	<div id="carousel" class="carousel slide" data-ride="carousel">
+	<div id="carousel" class="carousel slide bg-secondary" data-ride="carousel">
 		<div class="carousel-inner">
          <!--GALLERY 1:-->
 			<div class="carousel-item active">
