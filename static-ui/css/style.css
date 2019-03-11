@@ -3,9 +3,10 @@
   opacity: .75;
   height: 4rem;
 }
-.carousel-bar {
-  height: 10rem !important;
-}
+
+/*.carousel-bar {*/
+  /*height: 10rem !important;*/
+/*}*/
 
 img {
   height: 31rem;
