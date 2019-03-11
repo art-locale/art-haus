@@ -1,11 +1,32 @@
 /*PROFILE VIEW:*/
-#carouselCaption {
+.carousel-caption {
   opacity: .75;
+  height: 4rem;
+}
+.carousel-bar {
+  height: 10rem !important;
 }
 
-carousel-bar {
-  height: 10rem;
+img {
+  height: 31rem;
+  object-fit: cover;
 }
+
+.jumbotron,
+.jumbotron-fluid {
+  margin-top: 5.5rem;
+}
+
+.row {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+/*@media only screen and (max-width: 600px) {*/
+  /*.carousel-bar {*/
+    /*height: 10rem;*/
+  /*}*/
+/*}*/
 
 /*NAVBAR:*/
 

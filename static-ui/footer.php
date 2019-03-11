@@ -5,7 +5,7 @@
 
 <main>
   <div class="container-fluid">
-   <div class="fixed-bottom d-flex justify-content-around row py-5 py-md-3 py-sm-1 text-white text-center bg-dark" id="footerRow">
+   <div class="fixed-bottom d-flex justify-content-around row py-2 py-md-3 text-white text-center bg-dark" id="footerRow">
 
           <a href="https://www.facebook.com/The-Arts-Haus-379835622596932/?modal=admin_todo_tour" target=”_blank” class="fab fa-2x fa-facebook-square" alt="Facebook (Image courtesy of facebook.com)" title="Facebook (Image courtesy of facebook.com)">
           </a>

@@ -13,30 +13,30 @@
 		</div>
 	</div>
 <!--CAROUSEL BAR:-->
-<div class="carousel-bar">
+<div class="carousel-bar containter-fluid">
 <div class="row bg-dark">
-<div class="col-md-2 col-sm-2 mx-auto py-3">
+<div class="mx-auto py-3">
    <!--CAROUSEL:-->
 	<div id="carousel" class="carousel slide" data-ride="carousel">
 		<div class="carousel-inner">
          <!--GALLERY 1:-->
-			<div class="carousel-item active">
+			<div class="carousel-item active mb-2 mt-0">
 				<img class="d-block w-100" src="../sample-images/sample-image-1.jpg" alt="First slide">
-				  	<div id="carouselCaption" class="carousel-caption d-md-block bg-dark">
+				  	<div class="carousel-caption d-md-block bg-dark">
 						<h5>Gallery Name</h5>
 					</div>
 			</div>
          <!--GALLERY 2:-->
-			<div class="carousel-item">
+			<div class="carousel-item mb-2 mt-0">
 				<img class="d-block w-100" src="../sample-images/sample-image-2.jpg" alt="Second slide">
-					<div id="carouselCaption" class="carousel-caption d-md-block bg-dark">
+					<div class="carousel-caption d-md-block bg-dark">
 						<h5>Gallery Name</h5>
 					</div>
 			</div>
          <!--GALLERY 3:-->
-			<div class="carousel-item">
+			<div class="carousel-item mb-2 mt-0">
 				<img class="d-block w-100" src="../sample-images/sample-image-3.jpg" alt="Third slide">
-					<div id="carouselCaption" class="carousel-caption d-md-block bg-dark ">
+					<div class="carousel-caption d-md-block bg-dark ">
 						<h5>Gallery Name</h5>
 					</div>
 			</div>
@@ -50,7 +50,7 @@
 			<span class="carousel-control-next-icon" aria-hidden="true"></span>
 			<span class="sr-only">Next</span>
 		</a>
-
+		
 		</div>
 	</div>
 </div>
