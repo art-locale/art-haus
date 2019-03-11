@@ -89,6 +89,5 @@
 			<span class="glyphicon glyphicon-chevron-right">Next</span>
 		</a>
 	</div>
-	<div id="Contact-Me" class="empty col-12 mt-5 mb-4">invisible</div>
 
 </main>
