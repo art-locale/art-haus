@@ -5,17 +5,17 @@
 
 <main>
 
-  <div class="row py-5 py-md-3 py-sm-1 text-white text-center" id="footerRow">
+  <div class="fixed-bottom row py-5 py-md-3 py-sm-1 text-white text-center" id="footerRow">
     <div class="col">
       <div class="row">
         <div class="col-md-3 col-sm-4 col-3 mx-auto py-md-2 py-sm-3">
           <a href="" target=”_blank”>
-            <img class="img-fluid d-block" src="" alt="Facebook (Image courtesy of facebook.com)" title="Facebook (Image courtesy of facebook.com)" />
+            <img class="fab fa-2x fa-facebook-square" src="" alt="Facebook (Image courtesy of facebook.com)" title="Facebook (Image courtesy of facebook.com)" />
           </a>
         </div>
         <div class="col-md-3 col-sm-4 col-3 mx-auto py-md-2 py-sm-3">
           <a href="" target=”_blank”>
-            <img class="img-fluid d-block" src="" alt="Twitter (Image courtesy of twitter.com)" title="Twitter (Image courtesy of twitter.com)" />
+            <img class="fab fa-2x fa-twitter" src="" alt="Twitter (Image courtesy of twitter.com)" title="Twitter (Image courtesy of twitter.com)" />
           </a>
         </div>
       </div>
