@@ -20,7 +20,7 @@
             <a class="nav-link" href="sign-up.php">Sign Up</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="sign-in-modal.php">Sign In</a>
+            <a class="nav-link" href="sign-in-modal.php" data-toggle="modal" data-target="#signInModal">Sign In</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="profile-view.php">My Profile</a>
