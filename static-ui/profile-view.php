@@ -12,11 +12,11 @@
 			<p class="lead">Profile Email<br/>Profile Website</p>
 		</div>
 	</div>
-<!--CAROUSEL:-->
+<!--CAROUSEL BAR:-->
 <div class="containter-fluid">
 <div class="row bg-dark">
 <div class="col-md-2 col-sm-2 col-1 mx-auto pb-3">
-
+   <!--CAROUSEL:-->
 	<div id="carousel" class="carousel slide" data-ride="carousel">
 		<div class="carousel-inner">
          <!--GALLERY 1:-->
