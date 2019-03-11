@@ -15,7 +15,7 @@
 <!--CAROUSEL BAR:-->
 <div class="carousel-bar containter-fluid">
 <div class="row bg-dark">
-<div class="col-md-2 col-sm-2 col-1 mx-auto pb-3">
+<div class="col-md-2 col-sm-2 mx-auto py-3">
    <!--CAROUSEL:-->
 	<div id="carousel" class="carousel slide" data-ride="carousel">
 		<div class="carousel-inner">
@@ -50,7 +50,7 @@
 			<span class="carousel-control-next-icon" aria-hidden="true"></span>
 			<span class="sr-only">Next</span>
 		</a>
-		
+
 		</div>
 	</div>
 </div>
