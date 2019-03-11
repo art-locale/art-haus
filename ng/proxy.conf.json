@@ -1,0 +1,6 @@
+{
+	"/api": {
+		"target": "https://bootcamp-coders.cnm.edu/~wisengard/capstone/art-haus/public_html/",
+		"secure": "false",
+	}
+}
