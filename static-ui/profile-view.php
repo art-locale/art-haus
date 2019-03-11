@@ -13,7 +13,7 @@
 		</div>
 	</div>
 <!--CAROUSEL BAR:-->
-<div class="containter-fluid">
+<div class="carousel-bar containter-fluid">
 <div class="row bg-dark">
 <div class="col-md-2 col-sm-2 col-1 mx-auto pb-3">
    <!--CAROUSEL:-->
