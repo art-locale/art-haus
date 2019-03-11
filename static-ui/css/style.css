@@ -11,14 +11,15 @@
 }
 
 .carousel-item {
-
+	position: relative;
+	overflow-x:auto;
 }
 
 img {
   height: 27rem;
-	width: 27rem;
-  object-fit: cover;
-	/*padding: 0rem;*/
+	width: auto;
+  object-fit: contain;
+	/*position: relative;*/
 }
 
 .jumbotron,
