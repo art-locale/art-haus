@@ -13,40 +13,42 @@
 		</div>
 	</div>
 
-	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-		<ol class="carousel-indicators">
-			<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-			<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-		</ol>
+<div class="containter-fluid">
+	<div class="row bg-dark">
+  <div class="col-md-2 col-sm-2 col-1 mx-auto pb-3">
+
+	<div id="carousel" class="carousel slide" data-ride="carousel">
 		<div class="carousel-inner">
 			<div class="carousel-item active">
 				<img class="d-block w-100" src="../sample-images/sample-image-1.jpg" alt="First slide">
-				\  <div id="carouselCaption" class="carousel-caption d-none d-md-block bg-dark">
+				  <div id="carouselCaption" class="carousel-caption d-md-block bg-dark">
 					<h5>Gallery Name</h5>
-					<p>Some description of image</p>
+			</div>
 			</div>
 			<div class="carousel-item">
 				<img class="d-block w-100" src="../sample-images/sample-image-2.jpg" alt="Second slide">
-				<div id="carouselCaption" class="carousel-caption d-none d-md-block bg-dark">
+				<div id="carouselCaption" class="carousel-caption d-md-block bg-dark">
 					<h5>Gallery Name</h5>
-					<p>Some description of image</p>
+			</div>
 			</div>
 			<div class="carousel-item">
 				<img class="d-block w-100" src="../sample-images/sample-image-3.jpg" alt="Third slide">
-				<div id="carouselCaption" class="carousel-caption d-none d-md-block bg-dark ">
+				<div id="carouselCaption" class="carousel-caption d-md-block bg-dark ">
 					<h5>Gallery Name</h5>
-					<p>Some description of image</p>
 			</div>
 		</div>
-		<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+		<a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
 			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 			<span class="sr-only">Previous</span>
 		</a>
-		<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+		<a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
 			<span class="carousel-control-next-icon" aria-hidden="true"></span>
 			<span class="sr-only">Next</span>
 		</a>
 	</div>
+</div>
+</div>
+</div>
+</div>
 
 </main>
