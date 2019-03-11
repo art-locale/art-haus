@@ -291,12 +291,12 @@ class Gallery implements \JsonSerializable {
 	public function update(\PDO $pdo) : void {
 
 		// create query template
-		$query = "UPDATE gallery SET galleryId = :galleryId, galleryProfileId = :galleryProfileId, galleryDate = :galleryDate, galleryName = :galleryName";
+		$query = "UPDATE gallery SET galleryDate = :galleryDate, galleryName = :galleryName WHERE galleryId = :galleryId";
 		$statement = $pdo->prepare($query);
 
 		$formattedDate = $this->galleryDate->format("Y-m-d H:i:s.u");
 
-		$parameters = ["galleryId" => $this->galleryId->getBytes(), "galleryProfileId" => $this->galleryProfileId->getBytes(), "galleryDate" => $formattedDate, "galleryName" => $this->galleryName];
+		$parameters = ["galleryId" => $this->galleryId->getBytes(),"galleryDate" => $formattedDate, "galleryName" => $this->galleryName];
 		$statement->execute($parameters);
 	}
 	/* END UPDATE METHOD */
