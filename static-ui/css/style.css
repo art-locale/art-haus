@@ -6,7 +6,8 @@
 }
 
 .carousel-inner {
-	/*margin-bottom: 0rem;*/
+	max-width: 60%;
+	margin: auto;
 }
 
 .carousel-item {
@@ -29,12 +30,6 @@ img {
   margin-right: 0;
   margin-left: 0;
 }
-
-/*@media only screen and (max-width: 600px) {*/
-  /*.carousel-bar {*/
-    /*height: 10rem;*/
-  /*}*/
-/*}*/
 
 /*NAVBAR:*/
 

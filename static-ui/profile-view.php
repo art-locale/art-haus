@@ -14,29 +14,28 @@
 	</div>
 <!--CAROUSEL BAR:-->
 <div class="carousel-bar containter-fluid">
-<div class="row bg-dark pt-3">
-<div class="mx-auto mb-1">
+
    <!--CAROUSEL:-->
 	<div id="carousel" class="carousel slide" data-ride="carousel">
 		<div class="carousel-inner">
          <!--GALLERY 1:-->
 			<div class="carousel-item active">
 				<img class="d-block w-100" src="../sample-images/sample-image-1.jpg" alt="First slide">
-				  	<div class="carousel-caption d-md-block bg-dark">
+				  	<div class="carousel-caption bg-dark">
 						<h5>Gallery Name</h5>
 					</div>
 			</div>
          <!--GALLERY 2:-->
 			<div class="carousel-item">
 				<img class="d-block w-100" src="../sample-images/sample-image-2.jpg" alt="Second slide">
-					<div class="carousel-caption d-md-block bg-dark">
+					<div class="carousel-caption bg-dark">
 						<h5>Gallery Name</h5>
 					</div>
 			</div>
          <!--GALLERY 3:-->
 			<div class="carousel-item">
 				<img class="d-block w-100" src="../sample-images/sample-image-3.jpg" alt="Third slide">
-					<div class="carousel-caption d-md-block bg-dark ">
+					<div class="carousel-caption bg-dark ">
 						<h5>Gallery Name</h5>
 					</div>
 			</div>
@@ -53,8 +52,6 @@
 		
 		</div>
 	</div>
-</div>
-</div>
 </div>
 
 </main>
