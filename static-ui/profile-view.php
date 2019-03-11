@@ -15,7 +15,7 @@
 <!--CAROUSEL BAR:-->
 <div class="carousel-bar containter-fluid">
 <div class="row bg-dark pt-3">
-<div class="mx-auto mb-2 mb-md-5">
+<div class="mx-auto mb-1">
    <!--CAROUSEL:-->
 	<div id="carousel" class="carousel slide" data-ride="carousel">
 		<div class="carousel-inner">

@@ -2,21 +2,22 @@
 .carousel-caption {
   opacity: .75;
   height: 4rem;
-	margin-bottom: 0px !important;
+	/*margin-bottom: 0px !important;*/
 }
 
 .carousel-inner {
-	margin-bottom: 0rem;
+	/*margin-bottom: 0rem;*/
 }
 
-.carousel-bar {
-  height: 15rem !important;
+.carousel-item {
+
 }
 
 img {
-  height: 31rem;
+  height: 27rem;
+	width: 27rem;
   object-fit: cover;
-	padding: 0rem;
+	/*padding: 0rem;*/
 }
 
 .jumbotron,
