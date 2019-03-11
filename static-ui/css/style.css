@@ -1,9 +1,15 @@
 /*PROFILE VIEW:*/
 
 .carousel-inner {
-	max-width: 60%;
+	/*max-width: 60%;*/
 	margin: auto;
 }
+
+/*@media only screen and (max-width: 550px){*/
+	/*.carousel-inner {*/
+		/**/
+	/*}*/
+/*}*/
 
 .carousel-item {
 
@@ -16,10 +22,10 @@
 }
 
 img {
-  height: 27rem;
+  height: 29rem;
 	width: auto;
   object-fit: contain;
-
+	margin-top: 1rem;
 }
 
 .jumbotron,
