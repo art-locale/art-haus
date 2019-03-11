@@ -41,13 +41,13 @@
 			</div>
       <!--CONTROLS, PREVIOUS:-->
 		<a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
-			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-			<span class="sr-only">Previous</span>
+			<span class="carousel-control-prev-icon text-muted" aria-hidden="true"></span>
+			<span class="sr-only text-muted">Previous</span>
 		</a>
       <!--CONTROLS, NEXT:-->
 		<a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
-			<span class="carousel-control-next-icon" aria-hidden="true"></span>
-			<span class="sr-only">Next</span>
+			<span class="carousel-control-next-icon text-muted" aria-hidden="true"></span>
+			<span class="sr-only text-muted">Next</span>
 		</a>
 		
 		</div>

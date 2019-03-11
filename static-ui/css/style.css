@@ -2,7 +2,8 @@
 .carousel-caption {
   opacity: .75;
   height: 4rem;
-	/*margin-bottom: 0px !important;*/
+	width: 15rem;
+	margin: auto;
 }
 
 .carousel-inner {
@@ -11,15 +12,15 @@
 }
 
 .carousel-item {
-	position: relative;
-	overflow-x:auto;
+	/*position: relative;*/
+	/*overflow-x:auto;*/
 }
 
 img {
   height: 27rem;
 	width: auto;
   object-fit: contain;
-	/*position: relative;*/
+	/*background-repeat: no-repeat;*/
 }
 
 .jumbotron,
