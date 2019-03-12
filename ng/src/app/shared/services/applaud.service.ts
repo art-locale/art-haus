@@ -1,33 +1,26 @@
-export class ApplaudService  {
+// export class ApplaudService {
+//
+// 	constructor(protected http: HttpClient) {
+// 	}
+//
+// 	//define the API endpoint
+// 	private applaudUrl = "api/applaud/";
 
-	constructor(protected http : HttpClient) {
-	}
+	//call the Applaud API and create a new applaud
+	// import {Applaud} from "../interfaces/applaud";
 
-	//define the API endpoint
-	// private applaudUrl = "api/profile/"; //TODO ?
-
-//reach out to the applaud API and delete the applaud in question
-	deleteApplaud(id : number) : Observable<Status> {
-		return(this.http.delete<Status>(this.apiUrl + id));
-	}
-
-// call to the Profile API and edit the profile in question
-	editProfile(profile: Profile) : Observable<Status> {
-		return(this.http.put<Status>(this.profileUrl, profile));
-	}
-
-// call to the Profile API and get a Profile object by its id
-	getProfileByProfileId(id: number) : Observable<Profile> {
-		return(this.http.get<Profile>(this.profileUrl + id));
-	}
-
-// call to the API to grab an array of profiles based on the user input
-	getProfileByName(profileUserName: string) :Observable<Profile[]> {
-		return(this.http.get<Profile[]>(this.profileUrl, {params: new HttpParams().set("profileUserName", profileUserName)}));
-	}
-
-//call to the profile API and grab the corresponding profile by its email
-	getProfileByProfileEmail(profileEmail: string) :Observable<Profile[]> {
-		return(this.http.get<Profile[]>(this.profileUrl, {params: new HttpParams().set("profileEmail", profileEmail)}));
-	}
+// call to the Applaud API and get a Applaud object by its foreign key, profile id
+getApplaudByApplaudProfileId(applaudProfileId: string) : Observable<Applaud[]> {
+	return(this.http.get<Applaud[]>(this.apiUrl + applaudProfileId));
 }
+
+// call to the Applaud API and get an Applaud object by its foreign key, image id
+getApplaudByApplaudImageId(applaudImageId: string) : Observable<Applaud[]> {
+	return(this.http.get<Applaud[]>(this.apiUrl + applaudImageId));
+}
+
+// call to the Applaud API and get an Applaud object by its foreign key, image id
+getApplaudByApplaudImageIdandApplaudProfileId(applaudProfileId: string, applaudImageId: string) : Observable<Applaud[]> {
+	return(this.http.get<Applaud[]>(this.apiUrl + applaudProfileId + applaudImageId));
+}
+// }
