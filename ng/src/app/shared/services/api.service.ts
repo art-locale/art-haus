@@ -63,28 +63,37 @@ export class ApiService {
 
 
 	//***************API CALLS -- GET METHODS*********************************
-	// call to the tweet API and get a tweet object based on its Id
+	// call to the ________ API and get a tweet object based on its Id
 	getUser(userId : string) : Observable<User> {
 		return(this.http.get<User>(this.apiUrl + userId));
 	}
 
-	// call to the API and get an array of tweets based off the profileId
+	// call to the API and get an array of ________ based off the profileId
 	getDetailedUser(userId : string) : Observable<UserPosts[]> {
 		return(this.http.get<UserPosts[]>(this.apiUrl + "?postUserId=" + userId ));
 	}
 
-	//call to the API and get an array of all the tweets in the database
+	//call to the API and get an array of all the ________ in the database
 	getAllUsers() : Observable<User> {
 		return(this.http.get<User>(this.apiUrl));
 	}
 
 
 	//*********************API CALLS -- DELETE METHODS:**************************
-
+	//call to API and delete a gallery
+	deleteGallery(gallery : Gallery) : Observable<Status> {
+		return(this.http.delete<Status>(this.galleryUrl + galleryId));
+	}
 
 
 	//*********************API CALLS -- PUT METHODS:**************************
+	editGallery(gallery : Gallery) : Observable<Status> {
+		return(this.http.put<Status>(this.galleryUrl + galleryId));
 }
+
+
+
+}//END OF api.services.ts
 
 
 
