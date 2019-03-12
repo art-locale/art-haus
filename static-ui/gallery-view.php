@@ -13,7 +13,7 @@
 		</div>
 	</div>
 	<!--CAROUSEL BAR:-->
-	<div class="carousel-bar containter-fluid">
+	<div class="carousel-bar ">
 		<div class="row bg-dark">
 			<div class="mx-auto py-3">
 				<!--CAROUSEL:-->
