@@ -54,7 +54,7 @@ if($method === "GET") {
 		//if none of the search parameters are met throw an exception
 	} else if(empty($applaudProfileId) === false) {
 		$reply->data = Applaud::getApplaudByApplaudProfileId($pdo, $applaudProfileId)->toArray();
-	//get all the likes associated with the tweetId
+	//get all the likes associated with the applaudId
 	} else if(empty($applaudImageId) === false) {
 		$reply->data = Applaud::getApplaudByApplaudImageId($pdo, $applaudImageId)->toArray();
 	} else {
