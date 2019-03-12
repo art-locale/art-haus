@@ -78,19 +78,67 @@ export class ApiService {
 		return(this.http.get<User>(this.apiUrl));
 	}
 
+	// call to the Profile API and get a Profile object by its id
+	getProfileByProfileId(id: number) : Observable<Profile> {
+		return(this.http.get<Profile>(this.apiUrl + id));
+	}
+
+	// call to the API to grab an array of profiles based on the user input
+	getProfileByName(profileUserName: string) :Observable<Profile[]> {
+		return(this.http.get<Profile[]>(this.apiUrl, {params: new HttpParams().set("profileUserName", profileUserName)}));
+	}
+
+	//call to the profile API and grab the corresponding profile by its email
+	getProfileByProfileEmail(profileEmail: string) :Observable<Profile[]> {
+		return(this.http.get<Profile[]>(this.apiUrl, {params: new HttpParams().set("profileEmail", profileEmail)}));
+	}
+
+	//call the image API and get by image id
+	getImageByImageId(imageId : string) : Observable <Image[]> {
+		return (this.http.get<Image[]>(this.apiUrl, {params: new HttpParams().set("imageId", imageId)}));
+	}
+	//call the image API and get by image gallery id
+	getImageByImageGalleryId(imageId : string, imageGalleryId : string) : Observable <Image[]> {
+		return (this.http.get<Image[]>(this.apiUrl, {params: new HttpParams().set("imageId", imageId).set("imageGalleryId", imageGalleryId)}));
+	}
+	//call the image API and get by image profile id
+	getImageByImageProfileId(imageId : string, imageProfileId : string) : Observable <Image[]> {
+		return (this.http.get<Image[]>(this.apiUrl, {params: new HttpParams().set("imageId", imageId).set("imageProfileId", imageProfileId)}));
+	}
+
+
 
 	//*********************API CALLS -- DELETE METHODS:**************************
 	//call to API and delete a gallery
 	deleteGallery(gallery : Gallery) : Observable<Status> {
-		return(this.http.delete<Status>(this.galleryUrl + galleryId));
+		return(this.http.delete<Status>(this.apiUrl + galleryId));
+	}
+
+	//reach out to the profile API and delete the profile in question
+	deleteProfile(id : number) : Observable<Status> {
+		return(this.http.delete<Status>(this.apiUrl + id));
+	}
+
+	//reach out to the image API and delete the image in question
+	deleteImage(id : number) : Observable<Status> {
+		return(this.http.delete<Status>(this.apiUrl + id));
 	}
 
 
 	//*********************API CALLS -- PUT METHODS:**************************
 	editGallery(gallery : Gallery) : Observable<Status> {
-		return(this.http.put<Status>(this.galleryUrl + galleryId));
+		return(this.http.put<Status>(this.apiUrl + galleryId));
 }
 
+// call to the Profile API and edit the profile in question
+	editProfile(profile: Profile) : Observable<Status> {
+		return(this.http.put<Status>(this.apiUrl, profile));
+	}
+
+// call to the image API and edit the image in question
+	editImage(image: Image) : Observable<Status> {
+		return(this.http.put<Status>(this.apiUrl, image));
+	}
 
 
 }//END OF api.services.ts
