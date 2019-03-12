@@ -1,9 +1,14 @@
 import {Injectable} from "@angular/core";
 
-import {Profile} from "../interfaces/profile";
-import {Image} from "../interfaces/iamge";
+//import {Profile} from "../interfaces/profile";
+import {Image} from "../interfaces/image";
 import {Gallery} from "../interfaces/gallery";
 import {Applaud} from "../interfaces/applaud";
+import {SignUp} from "../interfaces/sign.up";
+import {SignIn} from "../interfaces/sign.in";
+import {SignOut} from "../interfaces/sign.out";
+import {Status} from "../interfaces/status";
+import {EarlGrey} from "../interfaces/earlGrey";
 
 import {Observable} from "rxjs/internal/Observable";
 import {HttpClient} from "@angular/common/http";
@@ -14,14 +19,15 @@ export class ApiService {
 	constructor(protected http : HttpClient ) {}
 
 	//define the API endpoint
-	//TODO: what url do we use?
+	//TODO: what url do we use? Maybe Brandon's since he has XXAMP
 	private apiUrl = "https://bootcamp-coders.cnm.edu/~gkephart/ng-demo7-backend/public_html/api/";
 
 //*********************API CALLS -- POST METHODS:**************************
 	// call to the Profile API and create the profile in question
-	createProfile(profile : Profile) : Observable<Status> {
-		return(this.http.post<Status>(this.apiUrl, profile));
-	}
+	// TODO: is this the same as sign-up? Possibly delete this method.
+	// createProfile(profile : Profile) : Observable<Status> {
+	// 	return(this.http.post<Status>(this.apiUrl, profile));
+	// }
 
 	// call to the Image API and create the image in question
 	createImage(image : Image) : Observable<Status> {
@@ -44,7 +50,8 @@ export class ApiService {
 	}
 
 	// call to the Sign-up API and create the sign-up in question
-	postSignUp(signUp : SignUp) : Observable<Status> {
+	//TODO: is this correct for create profile/ sign up?
+	createProfile(signUp : SignUp) : Observable<Status> {
 		return(this.http.post<Status>(this.apiUrl, signUp));
 	}
 
