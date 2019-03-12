@@ -8,7 +8,7 @@ import {SignUp} from "../interfaces/sign.up";
 import {SignIn} from "../interfaces/sign.in";
 import {SignOut} from "../interfaces/sign.out";
 import {Status} from "../interfaces/status";
-import {EarlGrey} from "../interfaces/earlGrey";
+//import {EarlGrey} from "../interfaces/earlGrey";
 
 import {Observable} from "rxjs/internal/Observable";
 import {HttpClient} from "@angular/common/http";
@@ -65,21 +65,6 @@ export class ApiService {
 
 
 	//***************API CALLS -- GET METHODS*********************************
-	// call to the ________ API and get a tweet object based on its Id
-	getUser(userId : string) : Observable<User> {
-		return(this.http.get<User>(this.apiUrl + userId));
-	}
-
-	// call to the API and get an array of ________ based off the profileId
-	getDetailedUser(userId : string) : Observable<UserPosts[]> {
-		return(this.http.get<UserPosts[]>(this.apiUrl + "?postUserId=" + userId ));
-	}
-
-	//call to the API and get an array of all the ________ in the database
-	getAllUsers() : Observable<User> {
-		return(this.http.get<User>(this.apiUrl));
-	}
-
 	// call to the Profile API and get a Profile object by its id
 	getProfileByProfileId(id: number) : Observable<Profile> {
 		return(this.http.get<Profile>(this.apiUrl + id));
@@ -123,6 +108,22 @@ export class ApiService {
 		return(this.http.get<Profile[]>(this.profileUrl, {params: new HttpParams().set("profileEmail", profileEmail)}));
 	}
 }
+
+// call to the Applaud API and get a Applaud object by its foreign key, profile id
+getApplaudByApplaudProfileId(applaudProfileId: string) : Observable<Applaud[]> {
+	return(this.http.get<Applaud[]>(this.apiUrl + applaudProfileId));
+}
+
+// call to the Applaud API and get an Applaud object by its foreign key, image id
+getApplaudByApplaudImageId(applaudImageId: string) : Observable<Applaud[]> {
+	return(this.http.get<Applaud[]>(this.apiUrl + applaudImageId));
+}
+
+// call to the Applaud API and get an Applaud object by its foreign key, image id
+getApplaudByApplaudImageIdandApplaudProfileId(applaudProfileId: string, applaudImageId: string) : Observable<Applaud[]> {
+	return(this.http.get<Applaud[]>(this.apiUrl + applaudProfileId + applaudImageId));
+}
+// }
 
 
 
