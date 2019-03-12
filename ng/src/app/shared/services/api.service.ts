@@ -78,21 +78,14 @@ export class ApiService {
 		return(this.http.get<User>(this.apiUrl));
 	}
 
+
+	//*********************API CALLS -- DELETE METHODS:**************************
+
+
+
+	//*********************API CALLS -- PUT METHODS:**************************
 }
 
 
-sign-in service
-—
-sign-up service
-—
-sign-out service
-—
-earl-grey service
-—
-applaud serivce
-—
-image service
-—
-profile service
-—
-gallery service
+
+
