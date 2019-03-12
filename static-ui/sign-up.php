@@ -6,7 +6,7 @@
 
 <main>
 
-  <div class="container text-center">
+  <div class="container text-center bg-secondary h-100">
 
     <h1>Sign Up For Art Haus!</h1>
 

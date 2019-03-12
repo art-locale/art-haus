@@ -5,6 +5,9 @@
 <?php require_once("footer.php");?>
 
 <main>
+
+<div class="container-fluid bg-secondary h-100">
+
 <!--JUMBOTRON:-->
 	<div class="jumbotron jumbotron-fluid">
 		<div class="container">
@@ -49,9 +52,12 @@
 			<span class="carousel-control-next-icon text-muted" aria-hidden="true"></span>
 			<span class="sr-only text-muted">Next</span>
 		</a>
-		
+
 		</div>
 	</div>
+</div>
+
+<!--Closes main container-->
 </div>
 
 </main>

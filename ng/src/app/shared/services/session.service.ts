@@ -8,7 +8,7 @@ export class SessionService {
 constructor(protected http:HttpClient) {}
 
 //define the API endpoint
-private sessionUrl = "https://bootcamp-coders.cnm.edu/~gkephart/ng-demo7-backend/public_html/api/";
+private sessionUrl = "https://bootcamp-coders.cnm.edu/~bhuffman1/art-haus/public_html/api/earl-grey/";
 
 setSession() {
 return (this.http.get<Status>(this.sessionUrl, {}));

@@ -12,7 +12,7 @@ export class imageService {
 constructor(protected http : HttpClient ) {}
 
 //define the API endpoint
-private imageUrl = "https://bootcamp-coders.cnm.edu/~gkephart/ng-demo7-backend/public_html/api/";
+private imageUrl = "https://bootcamp-coders.cnm.edu/~bhuffman1/art-haus/public_html/api/image/";
 
 // call to the Image API and create the image in question
 createImage(image : Image) : Observable<Status> {

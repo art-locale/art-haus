@@ -22,7 +22,7 @@ export class ApiService {
 
 	//define the API endpoint
 	//TODO: what url do we use? Maybe Brandon's since he has XXAMP
-	private apiUrl = "https://bootcamp-coders.cnm.edu/~gkephart/ng-demo7-backend/public_html/api/";
+	private apiUrl = "https://bootcamp-coders.cnm.edu/~bhuffman1/art-haus/public_html/api/";
 
 //*********************API CALLS -- POST METHODS:**************************
 	// call to the Profile API and create the profile in question
@@ -173,7 +173,3 @@ getApplaudByApplaudImageIdandApplaudProfileId(applaudProfileId: string, applaudI
 
 
 }//END OF api.services.ts
-
-
-
-
