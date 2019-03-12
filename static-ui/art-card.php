@@ -8,7 +8,7 @@
         <li class="list-group-item">Artist: </li>
       </ul>
        <a class="btn btn-lg" id="applaud" href="" role="button">Applaud</a>
-       <a class="btn btn-lg" id="visitArtist" href="" role="button">Visit Artist Page</a>
+       <a class="btn btn-lg" id="visitArtist" href="./profile-view.php" role="button">Visit Artist Page</a>
     </div>
   </div>
 
