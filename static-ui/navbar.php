@@ -25,6 +25,9 @@
           <li class="nav-item">
             <a class="nav-link" href="profile-view.php">My Profile</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="" data-toggle="modal" data-target="#addImageModal">Add Image</a>
+          </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
