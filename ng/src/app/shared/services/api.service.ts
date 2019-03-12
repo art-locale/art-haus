@@ -107,7 +107,7 @@ export class ApiService {
 	getProfileByProfileEmail(profileEmail: string) :Observable<Profile[]> {
 		return(this.http.get<Profile[]>(this.profileUrl, {params: new HttpParams().set("profileEmail", profileEmail)}));
 	}
-}
+
 
 // call to the Applaud API and get a Applaud object by its foreign key, profile id
 getApplaudByApplaudProfileId(applaudProfileId: string) : Observable<Applaud[]> {
