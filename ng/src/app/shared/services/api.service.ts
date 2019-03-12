@@ -18,6 +18,8 @@ export class ApiService {
 
 	constructor(protected http : HttpClient ) {}
 
+	//TODO: what is required for EarlGrey service?
+
 	//define the API endpoint
 	//TODO: what url do we use? Maybe Brandon's since he has XXAMP
 	private apiUrl = "https://bootcamp-coders.cnm.edu/~gkephart/ng-demo7-backend/public_html/api/";
