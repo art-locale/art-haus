@@ -93,7 +93,7 @@ try {
 			}
 			//enforce the end user has a JWT token
 			validateJwtHeader();
-			// create new tweet and insert into the database
+			// create new gallery and insert into the database
 			$gallery = new Gallery(generateUuidV4(), $_SESSION["profile"]->getProfileId(), null, $requestObject->galleryName);
 			$gallery->insert($pdo);
 			// update reply
