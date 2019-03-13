@@ -1,12 +1,12 @@
 import {Injectable} from "@angular/core";
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from "@angular/common/http";
-import {Observable} from "rxjs";
 import {map} from 'rxjs/operators';
+import {Observable} from "rxjs";
 
 /**
  * class that intercepts data for Deep Dive's API standard
  *
- * All APIs in Art Haus return an object with three state variables:
+ * All APIs in Deep Dive return an object with three state variables:
  *
  * 1. status (int, required): 200 if successful, any other integer if not
  * 2. data (any, optional): result of a GET request
