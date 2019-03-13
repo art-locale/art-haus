@@ -47,6 +47,7 @@ export class SignUpComponent implements OnInit{
 
 		let signUp : SignUp = {
 			profileId: this.signUpForm.value.null,
+			profileDate: this.signUpForm.value.date,
 			profileName: this.signUpForm.value.name,
 			profileEmail: this.signUpForm.value.email,
 			profileAddressLine1: this.signUpForm.value.addressLine1,
