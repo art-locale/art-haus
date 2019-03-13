@@ -18,4 +18,4 @@ testem.log
 /e2e/*.js
 /e2e/*.map
 Thumbs.db
-*/proxy.conf.json
+*proxy.conf.json
