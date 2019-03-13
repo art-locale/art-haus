@@ -24,12 +24,16 @@
         <small id="websiteHelp" class="form-text text-muted">Add your website to share with others.</small>
       </div>
       <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" placeholder="Password">
+        <label for="currentPassword">Current Password</label>
+        <input type="password" class="form-control" id="currentPassword" placeholder="Current Password">
       </div>
       <div class="form-group">
-        <label for="passwordConfirm">Confirm Password</label>
-        <input type="password" class="form-control" id="passwordConfirm" placeholder="Confirm Password">
+        <label for="newPassword">New Password</label>
+        <input type="password" class="form-control" id="newPassword" placeholder="New Password">
+      </div>
+      <div class="form-group">
+        <label for="newPasswordConfirm">Confirm New Password</label>
+        <input type="password" class="form-control" id="newPasswordConfirm" placeholder="Confirm New Password">
       </div>
       <button type="submit" class="btn btn-info">Submit Changes</button>
     </form>

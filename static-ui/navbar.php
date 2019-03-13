@@ -2,6 +2,8 @@
 
 <?php require_once("sign-in-modal.php");?>
 
+<?php require_once("image-upload-modal.php");?>
+
 <?php require_once("footer.php");?>
 
 <header>
@@ -23,10 +25,10 @@
             <a class="nav-link" href="sign-in-modal.php" data-toggle="modal" data-target="#signInModal">Sign In</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="profile-view.php">My Profile</a>
+            <a class="nav-link" href="signed-in-profile-view.php">My Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="" data-toggle="modal" data-target="#addImageModal">Add Image</a>
+            <a class="nav-link" href="image-upload-modal.php" data-toggle="modal" data-target="#imageUploadModal">Add Image</a>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">

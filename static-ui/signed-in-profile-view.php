@@ -4,6 +4,12 @@
 
 <?php require_once("footer.php");?>
 
+<?php require_once("image-upload-modal.php");?>
+
+<?php require_once("gallery-creation-modal.php");?>
+
+<?php require_once("update-gallery-modal.php");?>
+
 <main>
 
 <div class="container-fluid bg-secondary h-100">
@@ -13,13 +19,13 @@
 		<div class="container">
 			<h1 class="display-4">PROFILE NAME</h1>
 			<p class="lead">Profile Email<br/>Profile Website</p>
-      <a class="btn btn-lg" id="addImages" href="./image-upload-modal.php" role="button">Add Images</a>
-      <a class="btn btn-lg" id="addGallery" href="./add-gallery.php" role="button">Add Gallery</a>
-      <a class="btn btn-lg" id="updateGallery" href="./update-gallery.php" role="button">Edit Gallery</a>
+      <a class="btn btn-lg" id="addImages" href="image-upload-modal.php" data-target="#imageUploadModal" data-toggle="modal" role="button">Add Images</a>
+      <a class="btn btn-lg" id="addGallery" href="gallery-creation-modal.php" data-target="#galleryCreationModal" data-toggle="modal" role="button">Add Gallery</a>
+      <a class="btn btn-lg" id="updateGallery" href="update-gallery-modal.php" data-target="#galleryRenameModal" data-toggle="modal" role="button">Update Gallery</a>
       <a class="btn btn-lg" id="updateProfile" href="./update-profile.php" role="button">Update Profile</a>
 		</div>
 	</div>
-  
+
 <!--CAROUSEL BAR:-->
 <div class="carousel-bar containter-fluid">
 
