@@ -9,6 +9,7 @@ import {SignUpComponent} from "./sign-up/sign-up.component";
 export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent];
 
 export const routes: Routes = [
+	{path: "sign-up", component: SignUpComponent},
 	{path: "", component: SplashComponent}
 ];
 
