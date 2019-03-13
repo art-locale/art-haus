@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
-import {Status} from "../insterfaces/status";
+import {Status} from "../interfaces/status";
 import {SignIn} from "../interfaces/sign.in";
 
 @Injectable()

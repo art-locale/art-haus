@@ -1,4 +1,4 @@
-import {Profile} "./profile.ts"
+import {Profile} from "./profile.ts"
 //does above need ;
 
 export interface Gallery {
