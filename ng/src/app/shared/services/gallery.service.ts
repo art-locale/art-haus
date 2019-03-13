@@ -5,6 +5,7 @@ import {Status} from "../interfaces/status";
 
 import {Observable} from "rxjs/internal/Observable";
 import {HttpClient, HttpParams} from "@angular/common/http";
+import {Profile} from "../interfaces/profile";
 
 @Injectable ()
 export class GalleryService {
@@ -26,7 +27,7 @@ return (this.http.delete<Status>(this.galleryUrl + gallery));
 }
 
 editGallery(gallery: Gallery): Observable<Status> {
-return (this.http.put<Status>(this.galleryUrl + gallery));
+return(this.http.put<Status>(this.galleryUrl, gallery));
 }
 
 //call the gallery API and get by gallery id
