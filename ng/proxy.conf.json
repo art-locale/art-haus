@@ -1,6 +1,6 @@
 {
 	"/api": {
-		"target": "https://bootcamp-coders.cnm.edu/~bhuffman1/art-haus/damnAndBlast/",
+		"target": "https://bootcamp-coders.cnm.edu/~jtredway/public_html/art-haus/ng/src/app/app.component.html",
 		"secure": "true",
 		"changeOrigin":"true"
 	}
