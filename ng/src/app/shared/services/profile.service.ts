@@ -3,7 +3,7 @@ import {Injectable} from "@angular/core";
 import {Profile} from "../interfaces/profile";
 import {Status} from "../interfaces/status";
 
-import {Observable} from "rxjs/internal/Observable";
+import {Observable} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
 
 @Injectable ()
