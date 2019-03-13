@@ -1,9 +1,7 @@
 import {Injectable} from "@angular/core";
-
 import {Gallery} from "../interfaces/gallery";
 import {Status} from "../interfaces/status";
-
-import {Observable} from "rxjs/internal/Observable";
+import {Observable} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Profile} from "../interfaces/profile";
 
