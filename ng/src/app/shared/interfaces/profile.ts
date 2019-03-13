@@ -1,15 +1,12 @@
 export interface Profile {
 	profileId: number,
+	profileActivationToken: number,
+	profileAddress: string,
 	profileDate: string,
 	profileEmail: string,
-	profileAddressLine1: string,
-	profileAddressLine2: string,
-	profileCity: string,
-	profileState: string,
-	profileZip: string,
-	profileCountry: string,
+	profileLatitude: number,
+	profileLongitude: number,
 	profileName: string,
 	profilePassword: string,
-	profilePasswordConfirm: string,
 	profileWebsite: string
 }
