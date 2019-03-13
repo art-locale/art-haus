@@ -56,6 +56,7 @@ export class SignUpComponent implements OnInit{
         profileCountry: this.signUpForm.value.country,
         profilePassword: this.signUpForm.value.password,
         profilePasswordConfirm: this.signUpForm.value.passwordConfirm,
+
       };
 
 		this.signUpService.createProfile(signUp)

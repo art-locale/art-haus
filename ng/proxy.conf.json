@@ -1,6 +1,6 @@
 {
 	"/api": {
-		"target": "https://bootcamp-coders.cnm.edu/~bhuffman1/public_html/art-haus/public_html/",
+		"target": "https://bootcamp-coders.cnm.edu/~bhuffman1/public_html/art-haus/",
 		"secure": "true",
 		"changeOrigin":"true"
 	}
