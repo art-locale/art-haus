@@ -3,7 +3,7 @@ import {Status} from "./shared/interfaces/status";
 import {SessionService} from "./shared/services/session.service";
 
 @Component({
-  selector: "data-design-app",
+  selector: "app-root",
   templateUrl: ("./app.component.html")
 })
 export class AppComponent{

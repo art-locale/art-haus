@@ -5,7 +5,7 @@ import {Observable} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
 
 @Injectable ()
-export class imageService {
+export class ImageService {
 
 constructor(protected http : HttpClient ) {}
 
