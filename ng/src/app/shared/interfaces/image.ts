@@ -1,5 +1,5 @@
-import {Gallery} from "./gallery.ts";
-import {Proile} from "./profile.ts"
+import {Gallery} from "./gallery";
+import {Profile} from "./profile"
 
 export interface Image {
 	imageid: number,

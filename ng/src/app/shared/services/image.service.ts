@@ -16,32 +16,32 @@ private imageUrl = "https://bootcamp-coders.cnm.edu/~bhuffman1/art-haus/public_h
 
 // call to the Image API and create the image in question
 createImage(image : Image) : Observable<Status> {
-return(this.http.post<Status>(this.apiUrl, image));
+return(this.http.post<Status>(this.imageUrl, image));
 }
 
 //call the image API and get by image id
 getImageByImageId(imageId : string) : Observable <Image[]> {
-return (this.http.get<Image[]>(this.apiUrl, {params: new HttpParams().set("imageId", imageId)}));
+return (this.http.get<Image[]>(this.imageUrl, {params: new HttpParams().set("imageId", imageId)}));
 }
 
 //call the image API and get by image gallery id
 getImageByImageGalleryId(imageId : string, imageGalleryId : string) : Observable <Image[]> {
-return (this.http.get<Image[]>(this.apiUrl, {params: new HttpParams().set("imageId", imageId).set("imageGalleryId", imageGalleryId)}));
+return (this.http.get<Image[]>(this.imageUrl, {params: new HttpParams().set("imageId", imageId).set("imageGalleryId", imageGalleryId)}));
 }
 
 //call the image API and get by image profile id
 getImageByImageProfileId(imageId : string, imageProfileId : string) : Observable <Image[]> {
-return (this.http.get<Image[]>(this.apiUrl, {params: new HttpParams().set("imageId", imageId).set("imageProfileId", imageProfileId)}));
+return (this.http.get<Image[]>(this.imageUrl, {params: new HttpParams().set("imageId", imageId).set("imageProfileId", imageProfileId)}));
 }
 
 //reach out to the image API and delete the image in question
 deleteImage(id : number) : Observable<Status> {
-return(this.http.delete<Status>(this.apiUrl + id));
+return(this.http.delete<Status>(this.imageUrl + id));
 }
 
 // call to the image API and edit the image in question
 editImage(image: Image) : Observable<Status> {
-return(this.http.put<Status>(this.apiUrl, image));
+return(this.http.put<Status>(this.imageUrl, image));
 }
 
 }

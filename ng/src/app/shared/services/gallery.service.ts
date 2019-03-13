@@ -39,7 +39,7 @@ return (this.http.get<Gallery[]>(this.galleryUrl, {params: new HttpParams().set(
 }
 //call the gallery API and get by gallery name
 getGalleryByGalleryName(galleryName : string) : Observable <Gallery[]> {
-return (this.http.get<Gallery[]>(this.galleryUrl, {params: new HttpParams().set("galleryName", GalleryName)}));
+return (this.http.get<Gallery[]>(this.galleryUrl, {params: new HttpParams().set("galleryName", galleryName)}));
 }
 
 }
