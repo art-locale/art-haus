@@ -3,9 +3,10 @@ import {SplashComponent} from "./splash/splash.component";
 import{AppComponent} from "./app.component"
 
 import {APP_BASE_HREF} from "@angular/common";
+import {SignUpComponent} from "./sign-up/sign-up.component";
 
 
-export const allAppComponents = [AppComponent, SplashComponent];
+export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent];
 
 export const routes: Routes = [
 	{path: "", component: SplashComponent}
