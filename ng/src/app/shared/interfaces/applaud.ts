@@ -1,5 +1,5 @@
-import {Profile} from "./profile.ts";
-import {Image} from "./image.ts"
+import {Profile} from "./profile";
+import {Image} from "./image"
 
 export interface Applaud {
 	applaudProfileId: number,

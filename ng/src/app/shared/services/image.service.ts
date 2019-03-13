@@ -21,7 +21,7 @@ return(this.http.post<Status>(this.imageUrl, image));
 
 //call the image API and get by image id
 getImageByImageId(imageId : string) : Observable <Image[]> {
-return (this.http.get<Image[]>(this.apiUrl, {params: new HttpParams().set("imageId", imageId)}));
+return (this.http.get<Image[]>(this.imageUrl, {params: new HttpParams().set("imageId", imageId)}));
 }
 
 //call the image API and get by image gallery id
