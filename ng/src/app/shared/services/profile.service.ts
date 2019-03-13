@@ -29,15 +29,6 @@ getProfileByProfileEmail(profileEmail: string) :Observable<Profile[]> {
 return(this.http.get<Profile[]>(this.profileUrl, {params: new HttpParams().set("profileEmail", profileEmail)}));
 }
 
-// call to the Profile API and get a Profile object by its id
-getProfileByProfileId(id: number) : Observable<Profile> {
-return(this.http.get<Profile>(this.profileUrl + id));
-}
-
-// call to the API to grab an array of profiles based on the user input
-getProfileByName(profileUserName: string) :Observable<Profile[]> {
-return(this.http.get<Profile[]>(this.profileUrl, {params: new HttpParams().set("profileUserName", profileUserName)}));
-}
 //reach out to the profile API and delete the profile in question
 deleteProfile(id : number) : Observable<Status> {
 return(this.http.delete<Status>(this.profileUrl + id));
@@ -49,7 +40,7 @@ return(this.http.put<Status>(this.profileUrl, profile));
 }
 
 //call to the profile API and get all profiles
-	getAllProfiles() : Observable<Profiles[]> {
-		return(this.http.get<Profiles[]>(this.profileUrl));
+	getAllProfiles() : Observable<Profile[]> {
+		return(this.http.get<Profile[]>(this.profileUrl));
 	}
 }

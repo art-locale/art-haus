@@ -4,7 +4,7 @@ import {SessionService} from "./shared/services/session.service";
 
 @Component({
   selector: "data-design-app",
-  template: require("./app.component.html")
+  templateUrl: ("./app.component.html")
 })
 export class AppComponent{
 

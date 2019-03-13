@@ -4,7 +4,7 @@ import {Gallery} from "../interfaces/gallery";
 import {Status} from "../interfaces/status";
 
 import {Observable} from "rxjs/internal/Observable";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 
 @Injectable ()
 export class GalleryService {
@@ -22,11 +22,11 @@ return (this.http.post<Status>(this.galleryUrl, gallery));
 
 //call to API and delete a gallery
 deleteGallery(gallery: Gallery): Observable<Status> {
-return (this.http.delete<Status>(this.galleryUrl + galleryId));
+return (this.http.delete<Status>(this.galleryUrl + gallery));
 }
 
 editGallery(gallery: Gallery): Observable<Status> {
-return (this.http.put<Status>(this.galleryUrl + galleryId));
+return (this.http.put<Status>(this.galleryUrl + gallery));
 }
 
 //call the gallery API and get by gallery id

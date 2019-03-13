@@ -4,7 +4,7 @@ import {Image} from "../interfaces/image";
 import {Status} from "../interfaces/status";
 
 import {Observable} from "rxjs/internal/Observable";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 
 @Injectable ()
 export class imageService {
@@ -45,7 +45,7 @@ return(this.http.put<Status>(this.imageUrl, image));
 }
 
 //call to the image API and get all images
-	getAllImages() : Observable<Images[]> {
-		return(this.http.get<Images[]>(this.imageUrl));
+	getAllImages() : Observable<Image[]> {
+		return(this.http.get<Image[]>(this.imageUrl));
 	}
 }
