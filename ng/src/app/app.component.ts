@@ -1,9 +1,21 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from "@angular/core";
+import {Status} from "./shared/interfaces/status";
+import {SessionService} from "./shared/services/session.service";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html'
+  selector: "data-design-app",
+  template: require("./app.component.html")
 })
-export class AppComponent {
+export class AppComponent{
 
+
+
+  status : Status = null;
+
+  constructor(protected sessionService : SessionService) {
+    this.sessionService.setSession()
+       .subscribe(status => this.status = status);
+  }
 }
+
+
