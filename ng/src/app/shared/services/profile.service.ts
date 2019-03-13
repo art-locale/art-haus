@@ -54,4 +54,8 @@ editProfile(profile: Profile) : Observable<Status> {
 return(this.http.put<Status>(this.profileUrl, profile));
 }
 
+//call to the profile API and get all profiles
+	getAllProfiles() : Observable<Profiles[]> {
+		return(this.http.get<Profiles[]>(this.profileUrl));
+	}
 }
