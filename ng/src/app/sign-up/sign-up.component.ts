@@ -46,17 +46,18 @@ export class SignUpComponent implements OnInit{
 	createSignUp(): void {
 
 		let signUp : SignUp = {
-        profileName: this.signUpForm.value.name,
-        profileEmail: this.signUpForm.value.email,
-        profileAddressLine1: this.signUpForm.value.addressLine1,
-        profileAddressLine2: this.signUpForm.value.addressLine2,
-        profileCity: this.signUpForm.value.city,
-        profileState: this.signUpForm.value.state,
-        profileZip: this.signUpForm.value.zip,
-        profileCountry: this.signUpForm.value.country,
-        profilePassword: this.signUpForm.value.password,
-        profilePasswordConfirm: this.signUpForm.value.passwordConfirm,
-
+			profileId: this.signUpForm.value.null,
+			profileName: this.signUpForm.value.name,
+			profileEmail: this.signUpForm.value.email,
+			profileAddressLine1: this.signUpForm.value.addressLine1,
+			profileAddressLine2: this.signUpForm.value.addressLine2,
+			profileCity: this.signUpForm.value.city,
+			profileState: this.signUpForm.value.state,
+			profileZip: this.signUpForm.value.zip,
+			profileCountry: this.signUpForm.value.country,
+			profileWebsite: this.signUpForm.value.website,
+			profilePassword: this.signUpForm.value.password,
+			profilePasswordConfirm: this.signUpForm.value.passwordConfirm
       };
 
 		this.signUpService.createProfile(signUp)

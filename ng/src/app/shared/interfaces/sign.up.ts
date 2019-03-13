@@ -1,6 +1,5 @@
 export interface SignUp {
 	profileId: number,
-	profileActivationToken: number,
 	profileDate: string,
 	profileEmail: string,
 	profileAddressLine1: string,

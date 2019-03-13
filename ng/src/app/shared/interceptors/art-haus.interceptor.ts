@@ -15,7 +15,7 @@ import {map} from 'rxjs/operators';
  * this interceptor will use the HttpResponse to return either the data or the status message
  **/
 @Injectable()
-export class ArtHausIntercepter implements HttpInterceptor {
+export class ArtHausInterceptor implements HttpInterceptor {
 
 	/**
 	 * intercept method that extracts the data or status message based on standards outlined above
