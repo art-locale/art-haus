@@ -1,8 +1,8 @@
 import {Injectable} from "@angular/core";
 import {Status} from "../interfaces/status";
-import {Observable} from "rxjs/Observable";
 import {SignUp} from "../interfaces/sign.up";
 import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class SignUpService {
