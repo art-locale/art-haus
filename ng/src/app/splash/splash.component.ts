@@ -12,7 +12,7 @@ import {Router} from "@angular/router";
 export class SplashComponent implements OnInit{
 	images: Image[] = [];
 
-	constructor(protected userService: ApiService, private router: Router) {}
+	constructor(protected imageService: ImageService, private router: Router) {}
 
 
 	ngOnInit():void {
