@@ -11,7 +11,7 @@ constructor(protected http : HttpClient) {
 }
 
 //define the API endpoint for sign in
-private signInUrl =  "/api/signIn/";
+private signInUrl =  "/api/sign-in/";
 
 //define the API endpoint for sign out
 private signOutUrl =  "/api/signIn/";
