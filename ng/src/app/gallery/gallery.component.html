@@ -1,4 +1,11 @@
 <main>
+	<!--JUMBOTRON:-->
+	<div class="jumbotron jumbotron-fluid">
+		<div class="container">
+			<h1 class="display-4">{{ gallery.galleryName }}</h1>
+			<p class="lead">{{ profile.profileName }}</p>
+		</div>
+	</div>
 
 	<!-- Gallery Upload Modal -->
 	<div class="modal fade" id="galleryCreationModal" tabindex="-1" role="dialog" aria-labelledby="galleryCreationModal" aria-hidden="true" *ngIf = "deleted === false">
