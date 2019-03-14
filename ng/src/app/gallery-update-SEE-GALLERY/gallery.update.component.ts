@@ -2,17 +2,18 @@ import {Component, OnInit} from "@angular/core";
 import {GalleryService} from "../shared/services/gallery.service";
 import {Gallery} from "../shared/interfaces/gallery";
 //TODO may or may not want profile here
-import {Profile} from "../shared/interfaces/gallery"
+import {Profile} from "../shared/interfaces/profile"
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 // import {repeat} from "rxjs/operators";
 import {Status} from "../shared/interfaces/status";
 // import {el} from "@angular/platform-browser/testing/src/browser_util";
 
 @Component({
-	templateUrl: "gallery.creation.component.html"
+	templateUrl: "gallery.update.component.html"
 })
 
-export class GalleryCreationComponent implements OnInit{
+//TODO profile not needed in the html, but maybe it should be
+export class GalleryUpdateComponent implements OnInit{
 	//create state variable to house all data
 	gallery : Gallery[] = [];
 	creatGalleryForm : FormGroup;

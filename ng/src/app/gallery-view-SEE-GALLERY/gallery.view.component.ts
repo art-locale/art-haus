@@ -1,7 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {GalleryService} from "../shared/services/gallery.service";
 import {Gallery} from "../shared/interfaces/gallery";
-import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 // import {repeat} from "rxjs/operators";
 import {Status} from "../shared/interfaces/status";
 // import {el} from "@angular/platform-browser/testing/src/browser_util";
@@ -10,6 +9,7 @@ import {Status} from "../shared/interfaces/status";
 	templateUrl: "gallery.view.component.html"
 })
 
+//TODO include profile in this somehow
 export class GalleryViewComponent implements OnInit{
 	//create state variable to house all data
 	gallery : Gallery[] = [];
