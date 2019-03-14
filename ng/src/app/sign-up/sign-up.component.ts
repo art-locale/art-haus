@@ -66,10 +66,10 @@ export class SignUpComponent implements OnInit{
 			.subscribe(status => {
 				this.status = status;
 
-				if(this.status.status === 200) {
-					alert(status.message);
+				// if(this.status.status === 200) {
+					// alert(status.message);
 					//this.router.navigate([""]);
-				}
+				// }
 			});
 	}
 }
