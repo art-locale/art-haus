@@ -34,6 +34,7 @@ export class SignUpComponent implements OnInit{
 			state: ["", [Validators.maxLength(32), Validators.required]],
 			zipCode: ["", [Validators.maxLength(32), Validators.required]],
 			country: ["", [Validators.maxLength(32), Validators.required]],
+			website: ["", [Validators.maxLength(128), Validators.required]],
 			password:["", [Validators.maxLength(97), Validators.required]],
 			passwordConfirm:["", [Validators.maxLength(97), Validators.required]]
 
