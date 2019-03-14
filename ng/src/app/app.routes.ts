@@ -12,6 +12,12 @@ import {ProfileService} from "./shared/services/profile.service";
 import {ImageService} from "./shared/services/image.service";
 import {GalleryService} from "./shared/services/gallery.service";
 import {ApplaudService} from "./shared/services/applaud.service";
+import {GalleryService} from "./shared/services/gallery.service";
+import {ImageService} from "./shared/services/image.service";
+import {ProfileService} from "./shared/services/profile.service";
+import {SessionService} from "./shared/services/session.service";
+import {SignInService} from "./shared/services/signIn.service";
+import {SignUpService} from "./shared/services/signUp.service";
 
 export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent, SignedInProfileViewComponent];
 
