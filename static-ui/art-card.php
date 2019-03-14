@@ -2,7 +2,7 @@
 
   <div class="container-fluid">
     <div class="card">
-      <img class="card-img-top" src="../sample-images/sample-image-4.jpg" alt="Card image cap" />
+      <img class="card-img-top" src="../ng/src/assets/img/sample-image-4.jpg" alt="Card image cap" />
       <ul class="list-group list-group-flush">
         <li class="list-group-item">Title: </li>
         <li class="list-group-item">Artist: </li>
