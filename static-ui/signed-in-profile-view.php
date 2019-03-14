@@ -22,7 +22,7 @@
       <a class="btn btn-lg" id="addImages" href="image-upload-modal.php" data-target="#imageUploadModal" data-toggle="modal" role="button">Add Images</a>
       <a class="btn btn-lg" id="addGallery" href="gallery-creation-modal.php" data-target="#galleryCreationModal" data-toggle="modal" role="button">Add Gallery</a>
       <a class="btn btn-lg" id="updateGallery" href="update-gallery-modal.php" data-target="#galleryRenameModal" data-toggle="modal" role="button">Update Gallery</a>
-      <a class="btn btn-lg" id="updateProfile" href="./update-profile.php" role="button">Update Profile</a>
+      <a class="btn btn-lg" id="updateProfile" href="./update-profile-modal.php" role="button">Update Profile</a>
 		</div>
 	</div>
 
