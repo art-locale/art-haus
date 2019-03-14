@@ -1,3 +1,47 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import url('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css');
+
+/*PROFILE VIEW:*/
+
+.carousel-inner {
+	margin: auto;
+}
+
+/*@media only screen and (max-width: 550px){*/
+/*.carousel-inner {*/
+/**/
+/*}*/
+/*}*/
+
+.carousel-item {
+
+}
+
+.carousel-caption {
+	opacity: .75;
+	height: 4rem;
+	width: 15rem;
+}
+
+img {
+	height: 29rem;
+	width: auto;
+	object-fit: contain;
+	margin-top: 1rem;
+}
+
+/* .jumbotron,
+.jumbotron-fluid {
+  margin-top: 5.5rem;
+} */
+
+.row {
+	margin-right: 0;
+	margin-left: 0;
+}
+
+/*NAVBAR:*/
+
+
+/*FOOTER*/
