@@ -1,0 +1,32 @@
+<main>
+
+	<!-- Gallery Upload Modal -->
+	<div class="modal fade" id="galleryCreationModal" tabindex="-1" role="dialog" aria-labelledby="galleryCreationModal" aria-hidden="true" *ngIf = "deleted === false">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="imageUploadModal">Create A Gallery {{ gallery.galleryId }}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<!--TODO we don't have an editGallery()-->
+					<form class="form-control-lg" id="form" action="" method="post" [formGroup]="creatGalleryForm" (submit)="editGallery();" novalidate>
+						<div class="info">
+							<input class="form-control" id="galleryName" type="text" name="galleryName" placeholder="Gallery Name" />
+							<div *ngIf="galleryForm.controls.gallery?.invalid && galleryForm.controls.gallery?.touched" class="alert alert-danger" role="alert">
+								<p *ngIf="galleryForm.controls.gallery?.errors.required">Gallery name is required.</p>
+								<p *ngIf="galleryForm.controls.gallery?.errors.maxlength">Gallery name is too long. You typed {{ galleryForm.controls.gallery?.errors.maxlength.actualLength - galleryForm.controls.gallery?.errors.maxlength.requiredLength }} too many characters.</p>
+							</div>
+						</div>
+					</form>
+					<div class="modal-footer">
+						<input class="btn btn-info" type="submit" value="Submit" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</main>
