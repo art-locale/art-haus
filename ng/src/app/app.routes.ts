@@ -13,11 +13,10 @@ import {ApplaudService} from "./shared/services/applaud.service";
 import {SignInService} from "./shared/services/signIn.service";
 import {SignUpService} from "./shared/services/signUp.service";
 
-export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent, SignedInProfileViewComponent];
+export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent];
 
 export const routes: Routes = [
 	{path: "sign-up", component: SignUpComponent},
-	{path: "signed-in-profile-view", component: SignedInProfileViewComponent},
 	{path: "splash", component: SplashComponent}
 ];
 
