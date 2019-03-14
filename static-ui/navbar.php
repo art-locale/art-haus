@@ -4,6 +4,12 @@
 
 <?php require_once("image-upload-modal.php");?>
 
+<?php require_once("update-gallery-modal.php");?>
+
+<?php require_once("update-profile-modal.php");?>
+
+<?php require_once("gallery-creation-modal.php");?>
+
 <?php require_once("footer.php");?>
 
 <header>
@@ -24,12 +30,24 @@
           <li class="nav-item">
             <a class="nav-link" href="sign-in-modal.php" data-toggle="modal" data-target="#signInModal">Sign In</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="signed-in-profile-view.php">My Profile</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="image-upload-modal.php" data-toggle="modal" data-target="#imageUploadModal">Add Image</a>
-          </li>
+			  <li class="nav-item dropdown">
+				  <a class="nav-link dropdown-toggle" id="navbarGalleryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gallery</a>
+				  <div class="dropdown-menu" aria-labelledby="navbarProfileDropdown">
+					  <a class="dropdown-item" href="gallery-creation-modal.php" data-toggle="modal" data-target="#galleryCreationModal">Add Gallery</a>
+					  <a class="dropdown-item" href="update-gallery-modal.php" data-toggle="modal" data-target="#galleryRenameModal">Update Gallery</a>
+				  </div>
+			  </li>
+          <li class="nav-item dropdown">
+				  <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profile</a>
+				  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					  <a class="dropdown-item" href="profile-view.php">Profile Page</a>
+					  <a class="dropdown-item" href="update-profile-modal.php" data-toggle="modal" data-target="#profileUpdateModal">Update Profile</a>
+				  </div>
+				  </li>
+			  <li class="nav-item">
+				  <a class="nav-link" href="image-upload-modal.php" data-toggle="modal" data-target="#imageUploadModal">Add Image</a>
+			  </li>
+
         </ul>
         <form class="form-inline my-2 my-lg-0">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
