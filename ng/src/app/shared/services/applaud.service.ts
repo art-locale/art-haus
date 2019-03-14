@@ -10,7 +10,7 @@ export class ApplaudService {
 constructor(protected http : HttpClient ) {}
 
 //define the API endpoint
-private applaudUrl = "https://bootcamp-coders.cnm.edu/~bhuffman1/art-haus/public_html/api/applaud/";
+private applaudUrl =  "/api/earl-grey/";
 
 // call to the Applaud API and create the applaud in question
 createApplaud(applaud : Applaud) : Observable<Status> {

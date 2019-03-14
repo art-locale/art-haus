@@ -5,14 +5,15 @@ import {Status} from "../interfaces/status";
 @Injectable()
 export class SessionService {
 
-constructor(protected http:HttpClient) {}
+	constructor(protected http: HttpClient) {
+	}
 
 //define the API endpoint
-private sessionUrl = "https://bootcamp-coders.cnm.edu/~bhuffman1/art-haus/public_html/api/earl-grey/";
+	private sessionUrl = "/api/earl-grey/";
 
-setSession() {
-return (this.http.get<Status>(this.sessionUrl, {}));
-}
+	setSession() {
+		return (this.http.get<Status>(this.sessionUrl, {}));
+	}
 
 }
 

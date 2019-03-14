@@ -12,7 +12,7 @@ export class ProfileService {
 constructor(protected http : HttpClient ) {}
 
 //define the API endpoint
-private profileUrl = "https://bootcamp-coders.cnm.edu/~bhuffman1/art-haus/public_html/api/profile/";
+private profileUrl =  "/api/earl-grey/";
 
 // call to the Profile API and get a Profile object by its id
 getProfileByProfileId(id: number) : Observable<Profile> {

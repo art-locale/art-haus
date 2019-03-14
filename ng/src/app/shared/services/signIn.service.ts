@@ -11,10 +11,10 @@ constructor(protected http : HttpClient) {
 }
 
 //define the API endpoint for sign in
-private signInUrl = "https://bootcamp-coders.cnm.edu/~bhuffman1/art-haus/public_html/api/sign-in/";
+private signInUrl =  "/api/earl-grey/";
 
 //define the API endpoint for sign out
-private signOutUrl = "https://bootcamp-coders.cnm.edu/~bhuffman1/art-haus/public_html/api/sign-out/";
+private signOutUrl =  "/api/earl-grey/";
 
 //perform the post to initiate sign in
 postSignIn(signIn:SignIn) : Observable<Status> {

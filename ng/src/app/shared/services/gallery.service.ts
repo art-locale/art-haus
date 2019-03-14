@@ -14,7 +14,7 @@ constructor(protected http: HttpClient) {
 }
 
 //define the API endpoint
-private galleryUrl = "https://bootcamp-coders.cnm.edu/~bhuffman1/art-haus/public_html/api/gallery/";
+private galleryUrl =  "/api/earl-grey/";
 
 // call to the Gallery API and create the gallery in question
 createGallery(gallery: Gallery): Observable<Status> {
