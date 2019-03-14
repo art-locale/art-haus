@@ -2,7 +2,7 @@ import {Gallery} from "./gallery";
 import {Profile} from "./profile"
 
 export interface Image {
-	imageid: number,
+	imageId: number,
 	imageGalleryId: number,
 	imageProfileId: number,
 	imageDate: string,

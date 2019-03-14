@@ -1,4 +1,4 @@
-import {Profile} from "../profile"
+import {Profile} from "./profile"
 //does above need ;
 
 export interface Gallery {
