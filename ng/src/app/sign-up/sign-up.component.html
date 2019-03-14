@@ -7,57 +7,57 @@
 		<form [formGroup]="signUpForm" class="form-control-lg" id="form" action="" method="post" (submit)="createSignUp();" novalidate>
 			<div class="form-group">
 				<label class="d-flex justify-content-start" for="name">Name</label>
-				<input type="text" class="d-flex justify-content-start form-control " id="name" placeholder="Name">
+				<input type="text" class="d-flex justify-content-start form-control" formControlName="name" id="name" placeholder="Name">
 			</div>
 
 			<div class="form-group">
 				<label class="d-flex justify-content-start" for="email">Email Address</label>
-				<input type="email" class="d-flex justify-content-start form-control" id="email" placeholder="Email">
+				<input type="email" class="d-flex justify-content-start form-control" formControlName="email" id="email" placeholder="Email">
 			</div>
 
 			<div class="form-group">
 				<label class="d-flex justify-content-start" for="addressLine1">Address Line 1</label>
-				<input type="text" class="d-flex justify-content-start form-control" id="addressLine1" placeholder="Street address, PO box, company name, c/o">
+				<input type="text" class="d-flex justify-content-start form-control" formControlName="addressLine1" id="addressLine1" placeholder="Street address, PO box, company name, c/o">
 			</div>
 
 			<div class="form-group">
 				<label class="d-flex justify-content-start" for="addressLine2">Address Line 2</label>
-				<input type="text" class="d-flex justify-content-start form-control" id="addressLine2" placeholder="Apartment, suite, unit, building, floor, etc.">
+				<input type="text" class="d-flex justify-content-start form-control" formControlName="addressLine2"id="addressLine2" placeholder="Apartment, suite, unit, building, floor, etc.">
 			</div>
 
 			<div class="form-group">
 				<label class="d-flex justify-content-start" for="city">City</label>
-				<input type="text" class="d-flex justify-content-start form-control" id="city" placeholder="City">
+				<input type="text" class="d-flex justify-content-start form-control" formControlName="city" id="city" placeholder="City">
 			</div>
 
 			<div class="form-group">
 				<label class="d-flex justify-content-start" for="state">State/Province/Region</label>
-				<input type="text" class="d-flex justify-content-start form-control" id="state" placeholder="State, province, region">
+				<input type="text" class="d-flex justify-content-start form-control" formControlName="state" id="state" placeholder="State, province, region">
 			</div>
 
 			<div class="form-group">
 				<label class="d-flex justify-content-start" for="zip">ZIP/Postal Code</label>
-				<input type="text" class="d-flex justify-content-start form-control" id="zip" placeholder="Zip/Postal Code">
+				<input type="text" class="d-flex justify-content-start form-control" formControlName="zipCode" id="zip" placeholder="Zip/Postal Code">
 			</div>
 
 			<div class="form-group">
 				<label class="d-flex justify-content-start" for="country">Country</label>
-				<input type="text" class="d-flex justify-content-start form-control" id="country" placeholder="Country">
+				<input type="text" class="d-flex justify-content-start form-control" formControlName="country" id="country" placeholder="Country">
 			</div>
 
 			<div class="form-group">
 				<label class="d-flex justify-content-start" for="website">Your Website</label>
-				<input type="text" class="d-flex justify-content-start form-control" id="website" placeholder="Your Website">
+				<input type="text" class="d-flex justify-content-start form-control" formControlName="website" id="website" placeholder="Your Website">
 			</div>
 
 			<div class="form-group">
 				<label for="password">Password</label>
-				<input type="password" class="form-control" id="password" placeholder="Password">
+				<input type="password" class="form-control" formControlName="password" id="password" placeholder="Password">
 			</div>
 
 			<div class="form-group">
 				<label class="d-flex justify-content-start" for="passwordConfirm">Confirm Password</label>
-				<input type="password" class="d-flex justify-content-start form-control" formControlName="name" id="passwordConfirm" placeholder="Confirm Password">
+				<input type="password" class="d-flex justify-content-start form-control" formControlName="passwordConfirm" id="passwordConfirm" placeholder="Confirm Password">
 			</div>
 
 			<button type="submit" class="btn btn-info">Submit</button>
