@@ -2,7 +2,7 @@
 import {Component, OnInit} from "@angular/core";
 import {ImageService} from "../shared/services/image.service";
 import {Router} from "@angular/router";
-import {Image} from "/shared/interfaces/image";
+import {Image} from "../shared/interfaces/image";
 
 @Component({
 	templateUrl: "./splash.component.html"
