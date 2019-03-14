@@ -14,7 +14,7 @@ constructor(protected http: HttpClient) {
 }
 
 //define the API endpoint
-private galleryUrl =  "/api/earl-grey/";
+private galleryUrl =  "/api/gallery/";
 
 // call to the Gallery API and create the gallery in question
 createGallery(gallery: Gallery): Observable<Status> {

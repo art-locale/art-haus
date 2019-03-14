@@ -10,7 +10,7 @@ export class ImageService {
 constructor(protected http : HttpClient ) {}
 
 //define the API endpoint
-private imageUrl =  "/api/earl-grey/";
+private imageUrl =  "/api/image/";
 
 // call to the Image API and create the image in question
 createImage(image : Image) : Observable<Status> {
