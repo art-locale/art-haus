@@ -1,7 +1,7 @@
 
 import {Component, OnInit} from "@angular/core";
 //import {User} from "../shared/interfaces/profile";
-import {ApiService} from "../shared/services/api.service";
+import {ImageService} from "../shared/services/image.service";
 import {Router} from "@angular/router";
 
 @Component({
