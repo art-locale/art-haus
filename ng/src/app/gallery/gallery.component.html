@@ -1,0 +1,12 @@
+<div class="card-columns">
+	<!--JUMBOTRON (FROM GALLERY-VIEW PHP STATIC UI)-->
+	<!--json pipe from Angular API site, useful for debugging. -->
+	<!--TODO again don't have getAllGalleries method thus the *ngFor trying to pull from an array of Galleryies maybe problomatic-->
+	<div class="jumbotron jumbotron-fluid" *ngFor="let gallery of galleries">
+		<div class="container">
+			<h1 class="display-4">{{post.galleryName}}</h1>
+			<p class="lead">{{post.profileName}}</p>
+		</div>
+	</div>
+	<!--END JUMBOTRON (FROM GALLERY-VIEW PHP STATIC UI)-->
+</div>

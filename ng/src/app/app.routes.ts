@@ -12,10 +12,11 @@ import {ImageService} from "./shared/services/image.service";
 import {GalleryService} from "./shared/services/gallery.service";
 import {ApplaudService} from "./shared/services/applaud.service";
 
-export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent];
+export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent, GalleryComponent];
 
 export const routes: Routes = [
 	{path: "sign-up", component: SignUpComponent},
+	{path: "gallery", component: GalleryComponent},
 	{path: "", component: SplashComponent}
 ];
 
