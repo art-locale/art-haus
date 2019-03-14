@@ -14,7 +14,7 @@ constructor(protected http : HttpClient) {
 private signInUrl =  "/api/sign-in/";
 
 //define the API endpoint for sign out
-private signOutUrl =  "/api/signIn/";
+private signOutUrl =  "/api/sign-out/";
 
 //perform the post to initiate sign in
 postSignIn(signIn:SignIn) : Observable<Status> {
