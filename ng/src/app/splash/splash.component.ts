@@ -1,8 +1,8 @@
 
 import {Component, OnInit} from "@angular/core";
-//import {User} from "../shared/interfaces/profile";
 import {ImageService} from "../shared/services/image.service";
 import {Router} from "@angular/router";
+import {Image} from "/shared/interfaces/image";
 
 @Component({
 	templateUrl: "./splash.component.html"
@@ -16,7 +16,7 @@ export class SplashComponent implements OnInit{
 
 
 	ngOnInit():void {
-		this.userService.getAllImages()
+		this.imageService.getAllImages()
 			.subscribe(images => this.images = images);
 	}
 
