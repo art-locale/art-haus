@@ -10,18 +10,18 @@ import {Router} from "@angular/router";
 
 
 export class SplashComponent implements OnInit{
-	users: User[] = [];
+	images: Image[] = [];
 
 	constructor(protected userService: ApiService, private router: Router) {}
 
 
 	ngOnInit():void {
-		this.userService.getAllUsers()
-			.subscribe(users => this.users = users);
+		this.userService.getAllImages()
+			.subscribe(images => this.images = images);
 	}
 
-	getDetailedView(user : User) : void {
-		this.router.navigate(["/detailed-user/", user.userId]);
+	getDetailedView(image : Image) : void {
+		this.router.navigate(["/detailed-user/", image.imageId]);
 	}
 
 }
