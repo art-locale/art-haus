@@ -3,14 +3,14 @@
  */
 
 //import needed modules for the sign-in component
-import {Component, OnInit, ViewChild,} from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {Router} from "@angular/router";
 
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {SignIn} from "./shared/interfaces/sign.in";
 import {Status} from "./shared/interfaces/status";
 import {SignInService} from "./shared/services/signIn.service";
-
+import {SessionService} from "./shared/services/session.service";
 
 // set the template url and the selector for the ng powered html tag
 @Component({
@@ -18,20 +18,23 @@ import {SignInService} from "./shared/services/signIn.service";
 	selector: "sign-in-form"
 })
 
-export class SignInComponent implements OnInit{
+export class SignInComponent implements OnInit {
 
-	signInForm : FormGroup;
-	status : Status = {status : null, message: null, type: null};
+	signInForm: FormGroup;
 
-	constructor(private formBuilder : FormBuilder, private router: Router, private signInService: SignInService) {}
+	signIn: SignIn = {profileEmail:null, profilePassword:null};
+	status: Status = null;
 
-	ngOnInit()  : void {
+	constructor(private formBuilder: FormBuilder, private router: Router, private signInService: SignInService, private sessionService: SessionService) {
+	}
+
+	ngOnInit(): void {
 		this.signInForm = this.formBuilder.group({
 			email: ["", [Validators.maxLength(128), Validators.required]],
-			password:["", [Validators.maxLength(97), Validators.required]]
+			password: ["", [Validators.maxLength(97), Validators.required]]
 		});
 
-		this.status = {status : null, message: null, type: null}
+		this.status = {status: null, message: null, type: null}
 
 	}
 
@@ -41,13 +44,13 @@ export class SignInComponent implements OnInit{
 			.subscribe(status => {
 				this.status = status;
 
-		if (this.status.status === 200) {
-			this.sessionService.setSession();
-			this.signInForm.reset();
-			location.reload();
+				if(this.status.status === 200) {
+					this.sessionService.setSession();
+					this.signInForm.reset();
+					location.reload();
 
-			this.router.navigate(["signed-in-homeview.php"])
-		}
+					this.router.navigate(["signed-in-homeview.php"])
+				}
+			})
 	}
-
-	}
+}
