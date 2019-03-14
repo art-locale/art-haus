@@ -1,7 +1,6 @@
 import {RouterModule, Routes} from "@angular/router";
 import {SplashComponent} from "./splash/splash.component";
 import{AppComponent} from "./app.component";
-import {SignedInProfileViewComponent} from "./signed-in-profile-view/signed-in-profile-view.component";
 import {SignUpComponent} from "./sign-up/sign-up.component";
 
 import {APP_BASE_HREF} from "@angular/common";
