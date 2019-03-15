@@ -12,8 +12,6 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 })
 export class AppComponent{
 
-
-
   status : Status = null;
 
   constructor(protected sessionService : SessionService, private signInService: SignInService) {
@@ -22,18 +20,5 @@ export class AppComponent{
   }
 }
 
-@Component({
-  selector: 'ngbd-modal-basic',
-  templateUrl: './app.component.html'
-})
-export class NgbdModalBasic {
-  closeResult: string;
-
-  constructor(private modalService: NgbModal) {}
-
-  open(content) {
-    this.modalService.open(content), {ariaLabelledBy: 'signInModal'};
-    }
-  }
 
 
