@@ -25,10 +25,16 @@ export class ProfileViewComponent implements OnInit{
 
 	//call onInit above to work (fulfill the contract)
 	ngOnInit(): void {
-		this.loadProfile();
+		this.getDetailedProfile();
 	}
 
-	loadProfile() {
-		this.profileService.getProfileByProfileId().subscribe(reply => this.profile = reply);
+	// loadProfile() {
+	// 	this.profileService.getProfileByProfileId().subscribe(reply => this.profile = reply);
+	// }
+
+	getDetailedProfile(profileId : string) : void {
+		this.profileService.getProfileByProfileId(id).subscribe(reply => {
+			reply.profile = this.profile;
+		})
 	}
 }
