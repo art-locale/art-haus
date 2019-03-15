@@ -2,6 +2,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {SplashComponent} from "./splash/splash.component";
 import{AppComponent} from "./app.component";
 import {SignUpComponent} from "./sign-up/sign-up.component";
+import { SignInComponent} from "./sign-in.component";
 
 import {APP_BASE_HREF} from "@angular/common";
 
@@ -17,7 +18,8 @@ export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent]
 
 export const routes: Routes = [
 	{path: "sign-up", component: SignUpComponent},
-	{path: "splash", component: SplashComponent}
+	{path: "splash", component: SplashComponent},
+	{path: "sign-in", component: SignInComponent}
 ];
 
 export const providers: any[] = [
