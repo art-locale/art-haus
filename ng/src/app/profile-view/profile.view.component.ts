@@ -10,14 +10,15 @@ import {Status} from "../shared/interfaces/status";
 // import {SessionService} from "../shared/services/session.service";
 
 @Component({
-	templateUrl: "./profile.view.component.html",
-	selector: 'profile-view-component'
+	templateUrl: "./profile.view.component.html"
+	// ,
+	// selector: 'profile-view-component'
 })
 
 export class ProfileViewComponent implements OnInit{
 	//create state variable to house all data
-	profile : Profile [] = [];
-	status: Status = (status : null, message: null, type: null};
+	profile : Profile [];
+	// status: Status = (status : null, message: null, type: null);
 
 	constructor(private profileService: ProfileService) {}
 
