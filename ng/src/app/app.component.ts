@@ -12,6 +12,8 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 })
 export class AppComponent{
 
+
+
   status : Status = null;
 
   constructor(protected sessionService : SessionService, private signInService: SignInService) {
@@ -20,5 +22,19 @@ export class AppComponent{
   }
 }
 
+//Sign In Modal//
+
+@Component({
+	selector: 'ngbd-modal-component',
+	templateUrl: './modal-component.html'
+})
+export class NgbdModalComponent {
+	constructor(private modalService: NgbModal) {}
+
+	open() {
+		const modalRef = this.modalService.open(NgbdModalContent);
+		modalRef.componentInstance.name = 'World';
+	}
+}
 
 
