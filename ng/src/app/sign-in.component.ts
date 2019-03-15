@@ -14,7 +14,7 @@ import {SessionService} from "./shared/services/session.service";
 
 // set the template url and the selector for the ng powered html tag
 @Component({
-	templateUrl:"./sign-in.component.html",
+	templateUrl:"./sign.in.component.html",
 	selector: "sign-in-form"
 })
 

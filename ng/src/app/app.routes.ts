@@ -14,12 +14,11 @@ import {ApplaudService} from "./shared/services/applaud.service";
 import {SignInService} from "./shared/services/signIn.service";
 import {SignUpService} from "./shared/services/signUp.service";
 
-export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent];
+export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent, SignInComponent];
 
 export const routes: Routes = [
 	{path: "sign-up", component: SignUpComponent},
 	{path: "splash", component: SplashComponent},
-	{path: "sign-in", component: SignInComponent}
 ];
 
 export const providers: any[] = [
