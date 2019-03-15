@@ -5,6 +5,7 @@
 //import needed modules for the sign-in component
 import {Component, OnInit, ViewChild} from "@angular/core";
 import {Router} from "@angular/router";
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {SignIn} from "./shared/interfaces/sign.in";
@@ -52,5 +53,9 @@ export class SignInComponent implements OnInit {
 					this.router.navigate(["signed-in-homeview.php"])
 				}
 			})
+
 	}
 }
+
+
+

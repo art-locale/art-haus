@@ -1,10 +1,11 @@
 <!-- Sign In Modal -->
+<ng-template #content let-modal>
 <div class="modal fade" id="signInModalOne" tabindex="-1" role="dialog" aria-labelledby="signInModal" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="signInModalTwo">Please Sign In</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')">
 				<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
@@ -29,11 +30,12 @@
 				</form>
 				<!--TODO the working example from ABQ At Night has class of "control" in following div and then the value of "Submit". -->
 				<div class="modal-footer">
-					<input class="btn btn-info" type="submit" value="Sign In" />
+					<input class="btn btn-info" (click)="modal.close('Sign in click') type="submit" value="Sign In" />
 				</div>
 
 			</div>
 		</div>
 	</div>
 </div>
-<!--End of the sign-in modal-->
+
+	<!--End of the sign-in modal-->

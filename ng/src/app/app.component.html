@@ -14,7 +14,7 @@
 						<a class="nav-link" href="sign-up.php">Sign Up</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="sign-in-modal.php" data-toggle="modal" data-target="#signInModal">Sign In</a>
+						<a class="nav-link" href="sign-in.component.html" data-toggle="modal" data-target="#signInModal">Sign In</a>
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" id="navbarGalleryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gallery</a>
@@ -38,6 +38,7 @@
 				<form class="form-inline my-2 my-lg-0">
 					<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
 					<button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+					<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Sign In</button>
 				</form>
 			</div>
 		</nav>
