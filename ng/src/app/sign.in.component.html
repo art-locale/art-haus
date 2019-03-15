@@ -1,5 +1,4 @@
 <!-- Sign In Modal -->
-<div class="modal-body">
 <div class="modal fade" id="signInModalOne" tabindex="-1" role="dialog" aria-labelledby="signInModal" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -10,6 +9,7 @@
 				</button>
 			</div>
 
+			<div class="modal-body">
 				<form (submit)="createSignIn();" [formGroup]="signInForm" class="form-control-lg" id="signInForm" method="post" name="signInForm" novalidate>
 
 				<div class="info">
