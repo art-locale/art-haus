@@ -7,7 +7,7 @@ import {SignInComponent} from "./shared/sign-in-component/sign-in.component";
 import {ImageService} from "./shared/services/image.service";
 import {GalleryService} from "./shared/services/gallery.service";
 import {GalleryCreateComponent} from "./shared/gallery-create-component/gallery-create.component";
-import {AddImageComponent} from "./shared/add-image-component/add-image.component";
+// import {AddImageComponent} from "./shared/add-image-component/add-image.component";
 
 //TODO May need to be more like the contact form George demo'd
 
@@ -31,7 +31,7 @@ export class AppComponent{
   openGalleryCreateModal() {
     const modalRef = this.modalService.open(GalleryCreateComponent);
   }
-  openAddImageModal() {
-    const modalRef = this.modalService.open(AddImageComponent);
-  }
+  // openAddImageModal() {
+  //   const modalRef = this.modalService.open(AddImageComponent);
+  // }
 }

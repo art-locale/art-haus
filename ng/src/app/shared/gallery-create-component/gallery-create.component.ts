@@ -23,24 +23,26 @@ export class GalleryCreateComponent implements OnInit {
 
 	galleryCreateForm: FormGroup;
 
-
 	status: Status = null;
 
 	constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private router: Router, private GalleryService: GalleryService, private sessionService: SessionService) {
 	}
 
 	ngOnInit(): void {
-		this.addGalleryForm = this.formBuilder.group({
-			name: ["", [Validators.maxLength(128), Validators.required]]
+		this.galleryCreateForm = this.formBuilder.group({
+		id: ["", [Validators.maxLength(128), Validators.required]],
+		profileId: ["", [Validators.maxLength(128), Validators.required]],
+		date: ["", [Validators.maxLength(128), Validators.required]],
+		name: ["", [Validators.maxLength(128), Validators.required]]
 		});
 
 		this.status = {status: null, message: null, type: null}
 
 	}
 
-	createSignIn(): void {
-		let gallery: Gallery = {galleryName: this.galleryCreateForm.value.name};
-		this.galleryService.postGalleryCreate(Gallery)
+	createGallery(): void {
+		let gallery: Gallery = {galleryId: null, galleryProfileId: null, galleryDate: null, galleryName: this.galleryCreateForm.value.name};
+		this.GalleryService.createGallery(gallery)
 			.subscribe(status => {
 				this.status = status;
 
