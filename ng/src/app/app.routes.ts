@@ -13,12 +13,14 @@ import {GalleryService} from "./shared/services/gallery.service";
 import {ApplaudService} from "./shared/services/applaud.service";
 import {SignInService} from "./shared/services/signIn.service";
 import {SignUpService} from "./shared/services/signUp.service";
+import {ProfileViewComponent} from "./profile-view/profile.view.component";
 
 export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent, SignInComponent];
 
 export const routes: Routes = [
+	{path: "profile/:profileId", component: ProfileViewComponent},
 	{path: "sign-up", component: SignUpComponent},
-	{path: "splash", component: SplashComponent},
+	{path: "", component: SplashComponent},
 ];
 
 export const providers: any[] = [

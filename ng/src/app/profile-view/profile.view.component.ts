@@ -3,6 +3,7 @@ import {Component, OnInit} from "@angular/core";
 import {ProfileService} from "../shared/services/profile.service";
 import {Profile} from "../shared/interfaces/profile";
 import {Status} from "../shared/interfaces/status";
+import {ActivatedRoute} from "@angular/router";
 // import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 // import {repeat} from "rxjs/operators";
 
@@ -12,8 +13,6 @@ import {Status} from "../shared/interfaces/status";
 
 @Component({
 	templateUrl: "./profile.view.component.html"
-	// ,
-	// selector: 'profile-view-component'
 })
 
 export class ProfileViewComponent implements OnInit{
@@ -27,14 +26,16 @@ export class ProfileViewComponent implements OnInit{
 		profileLongitude: null,
 		profileName: null,
 		profilePassword: null,
-		profileWebsite: null};
+		profileWebsite: null
+	};
+
 	// status: Status = (status : null, message: null, type: null);
 
-	constructor(private profileService: ProfileService) {}
+	constructor(private profileService: ProfileService, private activatedRoute : ActivatedRoute) {}
 
 	//call onInit above to work (fulfill the contract)
 	ngOnInit(): void {
-		this.getDetailedProfile();
+		this.getDetailedProfile(this.activatedRoute.snapshot.params["profileId"]);
 	}
 
 	// loadProfile() {
