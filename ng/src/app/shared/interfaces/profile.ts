@@ -9,4 +9,3 @@ export interface Profile {
 	profilePassword: string,
 	profileWebsite: string
 }
-//TODO do we want the password to be exported?
