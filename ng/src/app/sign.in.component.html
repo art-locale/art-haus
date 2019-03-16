@@ -15,14 +15,16 @@
 			</div>
 
 			<!--Password-->
-			<input class="form-control" formControlName="password" id="password" type="text" name="password" placeholder=" Password" />
+			<input class="form-control" formControlName="password" id="password" type="password" name="password" placeholder=" Password" />
 		</div>
 		<div *ngIf="signInForm.controls.password?.invalid && signInForm.controls.password?.touched" class="alert alert-danger">
 			<p *ngIf="signInForm.controls.password?.errors.required">The password is incorrect.</p>
 		</div>
-
+		<button type="submit" class="btn btn-outline-dark">Sign In</button>
 	</form>
-</div>
-<div class="modal-footer">
-	<button type="submit" class="btn btn-outline-dark" (click)="modal.close('Sign in click')">Sign In</button>
+	<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
+		<button type="button" class="close" aria-label="Close" (click)="status = null;"><span
+			aria-hidden="true">&times;</span></button>
+		{{ status.message }}
+	</div>
 </div>

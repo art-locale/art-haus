@@ -23,7 +23,7 @@ export class SignInComponent implements OnInit {
 
 	signInForm: FormGroup;
 
-	signIn: SignIn = {profileEmail: null, profilePassword: null};
+
 	status: Status = null;
 
 	constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private router: Router, private signInService: SignInService, private sessionService: SessionService) {
@@ -40,12 +40,13 @@ export class SignInComponent implements OnInit {
 	}
 
 	createSignIn(): void {
-
-		this.signInService.postSignIn(this.signIn)
+	let	signIn: SignIn = {profileEmail: this.signInForm.value.email, profilePassword: this.signInForm.value.password};
+		this.signInService.postSignIn(signIn)
 			.subscribe(status => {
 				this.status = status;
 
 				if(this.status.status === 200) {
+					alert("Welcome back to Art Haus!")
 					this.sessionService.setSession();
 					this.signInForm.reset();
 					location.reload();
