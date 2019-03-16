@@ -10,7 +10,7 @@ import {ProfileViewComponent} from "./profile-view/profile.view.component";
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, HttpClientModule, routing, ReactiveFormsModule],
-  declarations: [ ...allAppComponents, AppComponent, SignInComponent, ProfileViewComponent],
+  declarations: [ ...allAppComponents, AppComponent],
   bootstrap:    [ AppComponent ],
   providers: [providers]
 })

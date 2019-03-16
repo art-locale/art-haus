@@ -15,7 +15,7 @@ import {SignInService} from "./shared/services/signIn.service";
 import {SignUpService} from "./shared/services/signUp.service";
 import {ProfileViewComponent} from "./profile-view/profile.view.component";
 
-export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent, SignInComponent];
+export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent, SignInComponent, ProfileViewComponent];
 
 export const routes: Routes = [
 	{path: "profile/:profileId", component: ProfileViewComponent},
