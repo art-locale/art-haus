@@ -8,10 +8,11 @@ import {Router} from "@angular/router";
 import {NgbActiveModal, NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {SignIn} from "./shared/interfaces/sign.in";
-import {Status} from "./shared/interfaces/status";
-import {SignInService} from "./shared/services/signIn.service";
-import {SessionService} from "./shared/services/session.service";
+import {Status} from "../interfaces/status";
+import {SignInService} from "../services/signIn.service";
+import {SessionService} from "../services/session.service";
+import {SignIn} from "../interfaces/sign.in";
+
 
 // set the template url and the selector for the ng powered html tag
 @Component({
@@ -47,7 +48,6 @@ export class SignInComponent implements OnInit {
 
 				if(this.status.status === 200) {
 					alert("Welcome back to Art Haus!")
-					this.sessionService.setSession();
 					this.signInForm.reset();
 					location.reload();
 

@@ -19,7 +19,7 @@
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" id="navbarGalleryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gallery</a>
 						<div class="dropdown-menu" aria-labelledby="navbarProfileDropdown">
-							<a class="dropdown-item" href="gallery-creation-modal.php" data-toggle="modal" data-target="#galleryCreationModal">Add Gallery</a>
+							<a class="dropdown-item" data-toggle="modal"><button class="btn btn-lg btn-outline-primary" (click)="openGalleryCreateModal()">CreateGallery</button></a>
 							<a class="dropdown-item" href="update-gallery-modal.php" data-toggle="modal" data-target="#galleryRenameModal">Update Gallery</a>
 						</div>
 					</li>
@@ -31,7 +31,7 @@
 						</div>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="image-upload-modal.php" data-toggle="modal" data-target="#imageUploadModal">Add Image</a>
+						<a class="nav-link" data-toggle="modal"><button class="btn btn-lg btn-outline-primary" (click)="openAddImageModal()">Add Image</button></a>
 					</li>
 
 				</ul>

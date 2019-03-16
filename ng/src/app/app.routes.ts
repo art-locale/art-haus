@@ -2,7 +2,9 @@ import {RouterModule, Routes} from "@angular/router";
 import {SplashComponent} from "./splash/splash.component";
 import{AppComponent} from "./app.component";
 import {SignUpComponent} from "./sign-up/sign-up.component";
-import { SignInComponent} from "./sign-in.component";
+import { SignInComponent} from "./shared/sign-in-component/sign-in.component";
+import { AddImageComponent} from "./shared/add-image-component/add-image.component";
+import { GalleryCreateComponent} from "./shared/gallery-create-component/gallery-create.component";
 
 import {APP_BASE_HREF} from "@angular/common";
 
@@ -15,7 +17,7 @@ import {SignInService} from "./shared/services/signIn.service";
 import {SignUpService} from "./shared/services/signUp.service";
 import {ProfileViewComponent} from "./profile-view/profile.view.component";
 
-export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent, SignInComponent, ProfileViewComponent];
+export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent, SignInComponent, ProfileViewComponent, AddImageComponent, GalleryCreateComponent];
 
 export const routes: Routes = [
 	{path: "profile/:profileId", component: ProfileViewComponent},
