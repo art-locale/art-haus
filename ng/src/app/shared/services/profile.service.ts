@@ -15,7 +15,7 @@ constructor(protected http : HttpClient ) {}
 private profileUrl =  "/api/profile/";
 
 // call to the Profile API and get a Profile object by its id
-getProfileByProfileId(id: number) : Observable<Profile> {
+getProfileByProfileId(id: string) : Observable<Profile> {
 return(this.http.get<Profile>(this.profileUrl + id));
 }
 

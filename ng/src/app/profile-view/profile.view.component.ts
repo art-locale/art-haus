@@ -18,7 +18,16 @@ import {Status} from "../shared/interfaces/status";
 
 export class ProfileViewComponent implements OnInit{
 	//create state variable to house all data
-	profile : Profile [];
+	profile : Profile = {
+		profileId: null,
+		profileAddress: null,
+		profileDate: null,
+		profileEmail: null,
+		profileLatitude: null,
+		profileLongitude: null,
+		profileName: null,
+		profilePassword: null,
+		profileWebsite: null};
 	// status: Status = (status : null, message: null, type: null);
 
 	constructor(private profileService: ProfileService) {}
@@ -33,8 +42,8 @@ export class ProfileViewComponent implements OnInit{
 	// }
 
 	getDetailedProfile(profileId : string) : void {
-		this.profileService.getProfileByProfileId(id).subscribe(reply => {
-			reply.profile = this.profile;
+		this.profileService.getProfileByProfileId(profileId).subscribe(reply => {
+			reply= this.profile;
 		})
 	}
 }
