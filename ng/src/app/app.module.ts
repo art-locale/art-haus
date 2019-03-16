@@ -9,7 +9,7 @@ import {SignInComponent} from "./sign-in.component";
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, HttpClientModule, routing, ReactiveFormsModule, NgbModule],
-  declarations: [ ...allAppComponents, AppComponent ], //Add SignInComponent back...
+  declarations: [ ...allAppComponents, AppComponent ],
   entryComponents: [SignInComponent],
   bootstrap:    [ AppComponent ],
   providers: [providers]
