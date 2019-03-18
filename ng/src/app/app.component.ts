@@ -5,9 +5,6 @@ import {SignInService} from "./shared/services/signIn.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {SignInComponent} from "./shared/sign-in-component/sign-in.component";
 import {ImageService} from "./shared/services/image.service";
-import {GalleryService} from "./shared/services/gallery.service";
-import {GalleryCreateComponent} from "./shared/gallery-create-component/gallery-create.component";
-import {UpdateGalleryComponent} from "./shared/update-gallery-component/update-gallery.component";
 import {UpdateProfileComponent} from "./shared/update-profile-component/update-profile.component";
 import {AddImageComponent} from "./shared/add-image-component/add-image.component";
 
@@ -22,18 +19,12 @@ export class AppComponent{
 
   status : Status = null;
 
-  constructor(protected sessionService : SessionService, private modalService : NgbModal, private signInService : SignInService, private imageService : ImageService, private galleryService : GalleryService) {
+  constructor(protected sessionService : SessionService, private modalService : NgbModal, private signInService : SignInService, private imageService : ImageService) {
     this.sessionService.setSession()
        .subscribe(status => this.status = status);
   }
   openSignInModal() {
     const modalRef = this.modalService.open(SignInComponent);
-  }
-  openGalleryCreateModal() {
-    const modalRef = this.modalService.open(GalleryCreateComponent);
-  }
-  openUpdateGalleryModal() {
-    const modalRef = this.modalService.open(UpdateGalleryComponent);
   }
   openUpdateProfileModal() {
     const modalRef = this.modalService.open(UpdateProfileComponent);

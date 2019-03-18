@@ -4,7 +4,6 @@ import {FileUploader} from "ng2-file-upload";
 import { CookieService } from 'ngx-cookie';
 
 @Component({
-		selector: 'add-image-form',
 		templateUrl: "./add-image.component.html",
 	}
 )

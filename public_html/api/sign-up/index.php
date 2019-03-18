@@ -78,6 +78,9 @@ try {
 		$profile = new Profile(generateUuidV4(), $profileActivationToken, $requestObject->profileDate, $requestObject->profileEmail, $profileLatitude, $profileLongitude, $requestObject->profileName, $hash, "null");
 		//insert the profile into the database
 		$profile->insert($pdo);
+
+		$gallery = new \ArtLocale\ArtHaus\Gallery(generateUuidV4(), $profile->getProfileId(), new DateTime(),"default");
+		$gallery->insert($pdo);
 		//compose the email message to send with th activation token
 		$messageSubject = "One step closer to Art Haus account activation!";
 		//building the activation link that can travel to another server and still work. This is the link that will be clicked to confirm the account.
