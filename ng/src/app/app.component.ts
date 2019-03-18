@@ -9,7 +9,7 @@ import {UpdateProfileComponent} from "./shared/update-profile-component/update-p
 import {AddImageComponent} from "./shared/add-image-component/add-image.component";
 // import {SplashComponent} from "./splash/splash.component";
 // import {Navbar} from "./shared/navbar/navbar.component";
-// import {NgbdDropdownSplit} from "./shared/ngbd-dropdown-split";
+// import {NgbdDropdownSplit} from "./shared/ngbd-dropdown-split/ngbd-dropdown-split";
 
 
 //TODO May need to be more like the contact form George demo'd
