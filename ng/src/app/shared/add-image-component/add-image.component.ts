@@ -3,6 +3,7 @@ import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FileUploader} from "ng2-file-upload";
 import { CookieService } from 'ngx-cookie';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {SignUp} from "../interfaces/sign.up";
 
 @Component({
 
@@ -34,11 +35,9 @@ export class AddImageComponent implements OnInit{
 		this.activeModalService.dismiss("Cross click")
 	}
 
-	submitImage(){
-		//TODO need an if statement for if form isn't valid don't submit
-		this.uploader.options.additionalParameter = {imageTitle: ""}
+	submitImage(): void {
+		this.uploader.options.additionalParameter = {imageTitle: this.imageCreateForm.value.title};
+		this.uploader.uploadAll();
 	}
-	// insert(){
-	// 	this.image.insert().subscribe(reply => this.images = reply);
-	// }
+
 }
