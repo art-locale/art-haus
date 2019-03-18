@@ -14,24 +14,24 @@
 						<a class="nav-link" href="./sign-up">Sign Up</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" data-toggle="modal"><button class="btn btn-lg" (click)="openSignInModal()">Sign In</button></a>
+						<a class="nav-link" data-toggle="modal"(click)="openSignInModal()">Sign In</a>
 					</li>
 					<li class="nav-item dropdown" ngbDropdown>
 						<a class="nav-link dropdown-toggle" ngbDropdownToggle id="navbarGalleryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gallery</a>
 						<div class="dropdown-menu" ngbDropdownMenu aria-labelledby="navbarProfileDropdown">
-							<a class="dropdown-item" data-toggle="modal" ngbDropdownItem><button class="btn btn-lg" (click)="openGalleryCreateModal()">CreateGallery</button></a>
-							<a class="dropdown-item" data-toggle="modal" ngbDropdownItem><button class="btn btn-lg" (click)="openUpdateGalleryModal()">Update Gallery</button></a>
+							<a class="dropdown-item" data-toggle="modal" ngbDropdownItem (click)="openGalleryCreateModal()">CreateGallery</a>
+							<a class="dropdown-item" data-toggle="modal" ngbDropdownItem (click)="openUpdateGalleryModal()">Update Gallery</a>
 						</div>
 					</li>
 					<li class="nav-item dropdown" ngbDropdown>
 						<a class="nav-link dropdown-toggle" ngbDropdownToggle id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profile</a>
 						<div class="dropdown-menu" ngbDropdownMenu aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" ngbDropdownItem href="profile-view.php">Profile Page</a>
-							<a class="dropdown-item" ngbDropdownItem data-toggle="modal"><button class="btn btn-lg" (click)="openUpdateProfileModal()">Update Profile</button></a>
+							<a class="dropdown-item" ngbDropdownItem href="./profile-view">Profile Page</a>
+							<a class="dropdown-item" ngbDropdownItem data-toggle="modal"(click)="openUpdateProfileModal()">Update Profile</a>
 						</div>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" data-toggle="modal"><button class="btn btn-lg" (click)="openAddImageModal()">Add Image</button></a>
+						<a class="nav-link" data-toggle="modal" (click)="openAddImageModal()">Add Image</a>
 					</li>
 
 				</ul>

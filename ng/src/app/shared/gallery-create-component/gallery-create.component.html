@@ -13,6 +13,9 @@
 			<div class="info">
 				<!--input for new Gallery Name:-->
 				<input class="form-control" formControlName="name" id="name" type="name" name="name" placeholder=" your gallery's name:" />
+				<div *ngIf="updateGalleryForm.controls.name?.invalid && updateGalleryForm.controls.name?.touched" class="alert alert-danger">
+					<p *ngIf="updateGalleryForm.controls.name?.errors.required">Gallery name is incorrect.</p>
+				</div>
 			</div>
 
 		<button type="submit" class="btn btn-outline-dark">Create Gallery</button>
