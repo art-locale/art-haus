@@ -1,37 +1,31 @@
 <header>
-
+   <link href="https://fonts.googleapis.com/css?family=Montserrat+Subrayada" rel="stylesheet">
 	<div class="container-fluid">
 		<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
 
-			<a class="fab fa-2x fa-artstation justify-content-left" href="./home-view.php" id="logo"></a><!--TODO: fix logo anchor to assess whether or not user is logged in-->
+			<a class="fab fa-2x fa-artstation justify-content-left" href="./home-view.php" id="logo"><span class="art-logo">THE ARTS HAUS</span></a><!--TODO: fix logo anchor to assess whether or not user is logged in-->
 
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" >
 				<span class="navbar-toggler-icon"></span>
 			</button>
+
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item">
-						<a class="nav-link" href="./sign-up">Sign Up</a>
+						<a class="nav-link text-info" href="./sign-up">Sign Up</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" data-toggle="modal"(click)="openSignInModal()">Sign In</a>
+						<a class="nav-link text-info" data-toggle="modal"(click)="openSignInModal()">Sign In</a>
 					</li>
 					<li class="nav-item dropdown" ngbDropdown>
-						<a class="nav-link dropdown-toggle" ngbDropdownToggle id="navbarGalleryDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gallery</a>
-						<div class="dropdown-menu" ngbDropdownMenu aria-labelledby="navbarProfileDropdown">
-							<a class="dropdown-item" data-toggle="modal" ngbDropdownItem (click)="openGalleryCreateModal()">CreateGallery</a>
-							<a class="dropdown-item" data-toggle="modal" ngbDropdownItem (click)="openUpdateGalleryModal()">Update Gallery</a>
-						</div>
-					</li>
-					<li class="nav-item dropdown" ngbDropdown>
-						<a class="nav-link dropdown-toggle" ngbDropdownToggle id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profile</a>
+						<a class="nav-link dropdown-toggle text-info" ngbDropdownToggle id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profile</a>
 						<div class="dropdown-menu" ngbDropdownMenu aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" ngbDropdownItem href="./profile-view">Profile Page</a>
 							<a class="dropdown-item" ngbDropdownItem data-toggle="modal"(click)="openUpdateProfileModal()">Update Profile</a>
 						</div>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" data-toggle="modal" (click)="openAddImageModal()">Add Image</a>
+						<a class="nav-link text-info" data-toggle="modal" (click)="openAddImageModal()">Add Image</a>
 					</li>
 
 				</ul>
@@ -60,7 +54,7 @@
 
 			<a href="" target=”_blank” class="fab fa-2x fa-twitter" alt="Twitter (Image courtesy of twitter.com)" title="Twitter (Image courtesy of twitter.com)"></a>
 
-			<footer class="text-secondary">&copy; Art Haus 2019</footer>
+			<footer class="text-primary">&copy; Art Haus 2019</footer>
 
 		</div>
 	</div>
