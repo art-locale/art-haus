@@ -3,13 +3,13 @@
 	<div class="container-fluid">
 		<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
 
-			<a class="fab fa-2x fa-artstation justify-content-left" href="" id="logo"><span class="art-logo"> THE ARTS HAUS</span></a>
+			<a class="fab fa-2x fa-artstation justify-content-left logo-wrapper" href="" id="logo"><span class="art-logo"> THE ARTS HAUS</span></a>
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse" (click)="isNavbarCollapsed = !isNavbarCollapsed" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" >
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
-			<div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarNav">
+			<div [ngbCollapse]="!isNavbarCollapsed" class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item">
 						<a class="nav-link text-primary" href="./sign-up">Sign Up</a>
