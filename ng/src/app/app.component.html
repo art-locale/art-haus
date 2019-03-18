@@ -5,10 +5,10 @@
 
 			<a class="fab fa-2x fa-artstation justify-content-left" href="./home-view.php" id="logo"></a><!--TODO: fix logo anchor to assess whether or not user is logged in-->
 
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" >
+			<button class="navbar-toggler" type="button" data-toggle="collapse" (click)="isNavbarCollapsed = !isNavbarCollapsed" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" >
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse" id="navbarNav">
+			<div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item">
 						<a class="nav-link" href="./sign-up">Sign Up</a>

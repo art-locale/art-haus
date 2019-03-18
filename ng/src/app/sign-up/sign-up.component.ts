@@ -28,12 +28,6 @@ export class SignUpComponent implements OnInit{
 		this.signUpForm = this.formBuilder.group({
 			name: ["", [Validators.maxLength(32), Validators.required]],
 			email: ["", [Validators.maxLength(128), Validators.required]],
-			addressLine1: ["", [Validators.maxLength(32), Validators.required]],
-			addressLine2: ["", [Validators.maxLength(32), Validators.required]],
-			city: ["", [Validators.maxLength(32), Validators.required]],
-			state: ["", [Validators.maxLength(32), Validators.required]],
-			zipCode: ["", [Validators.maxLength(32), Validators.required]],
-			country: ["", [Validators.maxLength(32), Validators.required]],
 			website: ["", [Validators.maxLength(128), Validators.required]],
 			password:["", [Validators.maxLength(97), Validators.required]],
 			passwordConfirm:["", [Validators.maxLength(97), Validators.required]]
@@ -51,12 +45,6 @@ export class SignUpComponent implements OnInit{
 			profileDate: this.signUpForm.value.date,
 			profileName: this.signUpForm.value.name,
 			profileEmail: this.signUpForm.value.email,
-			profileAddressLine1: this.signUpForm.value.addressLine1,
-			profileAddressLine2: this.signUpForm.value.addressLine2,
-			profileCity: this.signUpForm.value.city,
-			profileState: this.signUpForm.value.state,
-			profileZip: this.signUpForm.value.zip,
-			profileCountry: this.signUpForm.value.country,
 			profileWebsite: this.signUpForm.value.website,
 			profilePassword: this.signUpForm.value.password,
 			profilePasswordConfirm: this.signUpForm.value.passwordConfirm

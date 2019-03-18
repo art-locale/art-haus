@@ -40,3 +40,11 @@ export class AppComponent{
 })
 export class NgbdDropdownSplit {
 }
+
+@Component({
+  selector: 'app-navbar',
+  templateUrl: './app.component.html'
+})
+export class navbar {
+  isNavbarCollapsed=true;
+}
