@@ -35,6 +35,6 @@ export class AddImageComponent implements OnInit{
 	}
 
 	submitImage(){
-		//this.uploader.options.additionalParameter = foo;
+		this.uploader.options.additionalParameter = {imageTitle: ""}
 	}
 }
