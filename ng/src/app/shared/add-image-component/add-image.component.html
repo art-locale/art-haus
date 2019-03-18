@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body">
 
-	<form (submit)="createImage();" [formGroup]="imageCreateForm" class="form-control-lg" id="addImageForm" method="post" name="addImageForm" novalidate>
+	<form 		 [formGroup]="imageCreateForm" class="form-control-lg" id="addImageForm" method="post" name="addImageForm" (submit)="submitImage();" novalidate>
 
 		<div class="info">
 			<!--Email-->
@@ -20,6 +20,5 @@
 		<button type="submit" class="btn btn-outline-dark">Add Image</button>
 
 	</form>
-
 </div>
 

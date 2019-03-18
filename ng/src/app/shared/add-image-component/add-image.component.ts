@@ -35,6 +35,10 @@ export class AddImageComponent implements OnInit{
 	}
 
 	submitImage(){
+		//TODO need an if statement for if form isn't valid don't submit
 		this.uploader.options.additionalParameter = {imageTitle: ""}
+	}
+	insert(){
+		this.image.insert().subscribe(reply => this.images = reply);
 	}
 }
