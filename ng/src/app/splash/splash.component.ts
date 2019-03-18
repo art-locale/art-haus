@@ -46,6 +46,7 @@ export class SplashComponent implements OnInit {
 				{name: 'X-XSRF-TOKEN', value: this.cookieService.get('XSRF-TOKEN')},
 				{name: 'X-JWT-TOKEN', value: this.cookieService.get('JWT-TOKEN')}
 			],
+			//TODO Georgie
 			// additionalParameter: this.imageId
 		}
 	);
