@@ -6,7 +6,7 @@ import {allAppComponents, providers, routing} from "./app.routes";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import {SignInComponent} from "./shared/sign-in-component/sign-in.component";
-// import {AddImageComponent} from "./shared/add-image-component/add-image.component";
+import {AddImageComponent} from "./shared/add-image-component/add-image.component";
 import {GalleryCreateComponent} from "./shared/gallery-create-component/gallery-create.component";
 import {CookieModule} from "ngx-cookie";
 import { FileUploadModule } from 'ng2-file-upload';
@@ -16,7 +16,7 @@ import {UpdateProfileComponent} from "./shared/update-profile-component/update-p
 @NgModule({
   imports:      [ BrowserModule, FormsModule, HttpClientModule, routing, ReactiveFormsModule, NgbModule, CookieModule.forRoot(), FileUploadModule],
   declarations: [ ...allAppComponents, AppComponent ],
-  entryComponents: [SignInComponent, GalleryCreateComponent, UpdateGalleryComponent, UpdateProfileComponent],
+  entryComponents: [SignInComponent, GalleryCreateComponent, UpdateGalleryComponent, UpdateProfileComponent, AddImageComponent],
   bootstrap:    [ AppComponent ],
   providers: [providers]
 })

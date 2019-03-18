@@ -9,7 +9,7 @@ import {GalleryService} from "./shared/services/gallery.service";
 import {GalleryCreateComponent} from "./shared/gallery-create-component/gallery-create.component";
 import {UpdateGalleryComponent} from "./shared/update-gallery-component/update-gallery.component";
 import {UpdateProfileComponent} from "./shared/update-profile-component/update-profile.component";
-// import {AddImageComponent} from "./shared/add-image-component/add-image.component";
+import {AddImageComponent} from "./shared/add-image-component/add-image.component";
 
 //TODO May need to be more like the contact form George demo'd
 
@@ -39,9 +39,9 @@ export class AppComponent{
   openUpdateProfileModal() {
     const modalRef = this.modalService.open(UpdateProfileComponent);
   }
-  // openAddImageModal() {
-  //   const modalRef = this.modalService.open(AddImageComponent);
-  // }
+  openAddImageModal() {
+    const modalRef = this.modalService.open(AddImageComponent);
+  }
 }
 
 @Component({

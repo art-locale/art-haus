@@ -40,9 +40,9 @@ export class AddImageComponent implements OnInit {
 
 	}
 
-	createSignIn(): void {
+	editImage(): void {
 		let	image: Image = {imageTitle: this.addImageForm.value.title};
-		this.ImageService.postAddImage(Image)
+		this.ImageService.editImage(Image)
 			.subscribe(status => {
 				this.status = status;
 

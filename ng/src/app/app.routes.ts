@@ -19,8 +19,10 @@ import {ProfileViewComponent} from "./profile-view/profile.view.component";
 import {UpdateProfileComponent} from "./shared/update-profile-component/update-profile.component";
 import {UpdateGalleryComponent} from "./shared/update-gallery-component/update-gallery.component";
 import {GalleryCreateComponent} from "./shared/gallery-create-component/gallery-create.component";
+import {AddImageComponent} from "./shared/add-image-component/add-image.component";
 
-export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent, SignInComponent, ProfileViewComponent, UpdateProfileComponent, UpdateGalleryComponent, GalleryCreateComponent];
+
+export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent, SignInComponent, ProfileViewComponent, UpdateProfileComponent, UpdateGalleryComponent, GalleryCreateComponent, AddImageComponent];
 
 export const routes: Routes = [
 	{path: "profile/:profileId", component: ProfileViewComponent},
@@ -28,6 +30,7 @@ export const routes: Routes = [
 	{path: "update-profile", component: UpdateProfileComponent},
 	{path: "update-gallery", component: UpdateGalleryComponent},
 	{path: "gallery-create", component: GalleryCreateComponent},
+	{path: "add-image", component: AddImageComponent},
 	{path: "", component: SplashComponent},
 ];
 
