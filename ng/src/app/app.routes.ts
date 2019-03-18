@@ -28,7 +28,7 @@ export const routes: Routes = [
 ];
 
 export const providers: any[] = [
-SignUpService, SignInService, SessionService, ProfileService, ImageService, GalleryService, ApplaudService, NgbActiveModal
+SignUpService, SignInService, SessionService, ProfileService, ImageService, GalleryService, ApplaudService, NgbActiveModal,
 	{provide: HTTP_INTERCEPTORS, useClass: DeepDiveInterceptor, multi: true}];
 
 export const routing = RouterModule.forRoot(routes);
