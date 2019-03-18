@@ -3,6 +3,8 @@ import {Component, OnInit} from "@angular/core";
 import {ImageService} from "../shared/services/image.service";
 import {Router} from "@angular/router";
 import {Image} from "../shared/interfaces/image";
+import {Profile} from "../shared/interfaces/profile";
+import {Gallery} from "../shared/interfaces/gallery";
 //TODO the following were in George's working example for image
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {FileUploader} from "ng2-file-upload";
@@ -18,14 +20,10 @@ import {CookieService} from "ngx-cookie";
 
 export class SplashComponent implements OnInit {
 	//TODO seriously not sure about the following three lines.
-	image: Image = {
-		imageId: null,
-		imageGalleryId: null,
-		imageProfileId: null,
-		imageDate: null,
-		imageTitle: null,
-		imageUrl: null
-	};
+	profileId = {profileId: "25062bc2-6054-401b-9f02-97e841663da9"};
+	profile: Profile = {profileId: null, profileDate: null, profileEmail: null, profileLatitude: null, profileLongitude: null, profileName: null, profilePassword: null, profileWebsite: null};
+	galleryId = {galleryId: "12f2ed5f-9341-4450-9174-24eaadd6e3e2"};
+	gallery: Gallery = {galleryId: null, galleryProfileId: null, galleryDate: null, galleryName: null};
 	images: Image[] = [];
 	imageNotSelected: boolean = true;
 
@@ -36,9 +34,9 @@ export class SplashComponent implements OnInit {
 			headers: [
 				//TODO I added JWT-TOKEN per George instructions
 				{name: 'X-XSRF-TOKEN', value: this.cookieService.get('XSRF-TOKEN')},
-				{name: 'X-JWT-TOKEN', value: this.cookieService.get('XSRF-TOKEN')}
+				{name: 'X-JWT-TOKEN', value: this.cookieService.get('JWT-TOKEN')}
 			],
-			additionalParameter: this.image
+			// additionalParameter: this.imageId
 		}
 	);
 
