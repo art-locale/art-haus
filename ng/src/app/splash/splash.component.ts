@@ -20,11 +20,20 @@ import {CookieService} from "ngx-cookie";
 
 export class SplashComponent implements OnInit {
 	//TODO seriously not sure about the following three lines.
-	profileId = {profileId: "25062bc2-6054-401b-9f02-97e841663da9"};
-	profile: Profile = {profileId: null, profileDate: null, profileEmail: null, profileLatitude: null, profileLongitude: null, profileName: null, profilePassword: null, profileWebsite: null};
-	galleryId = {galleryId: "12f2ed5f-9341-4450-9174-24eaadd6e3e2"};
-	gallery: Gallery = {galleryId: null, galleryProfileId: null, galleryDate: null, galleryName: null};
-	images: Image[] = [];
+		profileId = {profileId: "25062bc2-6054-401b-9f02-97e841663da9"};
+		profile: Profile = {
+			profileId: null,
+			profileDate: null,
+			profileEmail: null,
+			profileLatitude: null,
+			profileLongitude: null,
+			profileName: null,
+			profilePassword: null,
+			profileWebsite: null};
+
+		galleryId = {galleryId: "12f2ed5f-9341-4450-9174-24eaadd6e3e2"};
+		gallery: Gallery = {galleryId: null, galleryProfileId: null, galleryDate: null, galleryName: null};
+		images: Image[] = [];
 	imageNotSelected: boolean = true;
 
 	public uploader: FileUploader = new FileUploader(
