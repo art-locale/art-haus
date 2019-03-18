@@ -62,6 +62,6 @@ this.uploader.uploadAll();
 	}
 
 	getAllImages() {
-		this.imageService.getAllImages(this.imageId.imageId).subscribe(reply => this.images = reply);
+		this.imageService.getAllImages().subscribe(reply => this.images = reply);
 	}
 }

@@ -11,6 +11,7 @@ import {UpdateGalleryComponent} from "./shared/update-gallery-component/update-g
 import {UpdateProfileComponent} from "./shared/update-profile-component/update-profile.component";
 import {AddImageComponent} from "./shared/add-image-component/add-image.component";
 
+
 //TODO May need to be more like the contact form George demo'd
 
 @Component({
@@ -18,8 +19,6 @@ import {AddImageComponent} from "./shared/add-image-component/add-image.componen
   templateUrl: "./app.component.html"
 })
 export class AppComponent{
-
-
 
   status : Status = null;
 

@@ -20,7 +20,9 @@ import {UpdateProfileComponent} from "./shared/update-profile-component/update-p
 import {UpdateGalleryComponent} from "./shared/update-gallery-component/update-gallery.component";
 import {GalleryCreateComponent} from "./shared/gallery-create-component/gallery-create.component";
 import {AddImageComponent} from "./shared/add-image-component/add-image.component";
-
+import {NgbActiveModal, } from "@ng-bootstrap/ng-bootstrap";
+import {DeepDiveInterceptor} from "./shared/interceptors/deep.dive.interceptor";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
 
 export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent, SignInComponent, ProfileViewComponent, UpdateProfileComponent, UpdateGalleryComponent, GalleryCreateComponent, AddImageComponent];
 
@@ -35,7 +37,8 @@ export const routes: Routes = [
 ];
 
 export const providers: any[] = [
-SignUpService, SignInService, SessionService, ProfileService, ImageService, GalleryService, ApplaudService
+SignUpService, SignInService, SessionService, ProfileService, ImageService, GalleryService, ApplaudService, NgbActiveModal,
+	{provide: HTTP_INTERCEPTORS, useClass: DeepDiveInterceptor, multi: true},
 	];
 
 export const routing = RouterModule.forRoot(routes);
