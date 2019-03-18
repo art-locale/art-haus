@@ -3,12 +3,13 @@
     "php": "*",
     "ext-json": "*",
     "ext-pdo": "*",
+    "ext-curl": "*",
     "ramsey/uuid": "@stable",
     "phpunit/dbunit": "@stable",
     "phpunit/phpunit": "@stable",
     "swiftmailer/swiftmailer": "@stable",
     "lcobucci/jwt": "3.2",
-    "cloudinary/cloudinary_php": "dev-master"
+    "cloudinary/cloudinary_php": "^1.13"
   },
   "scripts": {
     "phpunit": "./vendor/bin/phpunit -c ./php/Classes/Tests/ --coverage-html coverage"
