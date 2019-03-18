@@ -33,11 +33,13 @@ try {
 	$method = $_SERVER["HTTP_X_HTTP_METHOD"] ?? $_SERVER["REQUEST_METHOD"];
 
 	// sanitize input
-	$id = filter_input(INPUT_GET, "imageId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$galleryId = filter_input(INPUT_GET, "galleryId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$profileId = filter_input(INPUT_GET, "ProfileId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$config = readConfig("/etc/apache2/capstone-mysql/cohort23/arthaus.ini");
-	$cloudinary = json_decode($config["cloudinary"]);
+	//TODO NOT in George's API => START
+//	$config = readConfig("/etc/apache2/capstone-mysql/cohort23/arthaus.ini");
+//	$cloudinary = json_decode($config["cloudinary"]);
+	//TODO NOT in George's API <= END
 	\Cloudinary::config(["cloud_name" => $cloudinary->cloudName, "api_key" => $cloudinary->apiKey, "api_secret" => $cloudinary->apiSecret]);
 
 	// process GET requests
@@ -46,8 +48,14 @@ try {
 		// set XSRF token
 		setXsrfCookie();
 
-		// $tempImage = new Image(generateUuidV4, "eab43086-dbb2-4160-91e0-c53ed7064b3", "2f91f8fd-9a01-4a78-b40b-fc1b69fedfb6", new \DateTime(), "hello world");
-		// $tempImage->insert($pdo);
+		$reply->data = Image::getAllImages($pdo)->toArray();
+	}  elseif($method === "POST") {
+
+		//enforce that the end user has a XSRF token.
+		verifyXsrf();
+
+		//use $_POST super global to grab the needed Id
+		$profileId = filter_input(INPUT_POST, "profileId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 		//get a specific image by id and update reply
 		if(empty($id) === false) {
@@ -59,8 +67,6 @@ try {
 		}
 	} elseif($method === "DELETE") {
 
-		//enforce that the end user has a XSRF token.
-		verifyXsrf();
 
 		// retrieve the Image to be deleted
 		$image = Image::getImageByImageId($pdo, $id);
@@ -107,7 +113,8 @@ try {
 
 		// after sending the image to Cloudinary, create a new image
 		$image = new Image(generateUuidV4(), $galleryId, $cloudinaryResult["signature"], $cloudinaryResult["secure_url"]);
-		$image->update($pdo);
+		$image->insert($pdo);
+		var_dump($image);
 
 		// update reply
 		$reply->message = "Image uploaded successfully";
