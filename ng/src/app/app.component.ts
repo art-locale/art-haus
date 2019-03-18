@@ -49,3 +49,4 @@ export class NgbdDropdownSplit {
 export class navbar {
   isNavbarCollapsed=true;
 }
+
