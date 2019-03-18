@@ -9,7 +9,7 @@ import {SignInComponent} from "./shared/sign-in-component/sign-in.component";
 import {AddImageComponent} from "./shared/add-image-component/add-image.component";
 import {GalleryCreateComponent} from "./shared/gallery-create-component/gallery-create.component";
 import {CookieModule} from "ngx-cookie";
-import { FileUploadModule } from 'ng2-file-upload';
+import { FileUploadModule } from "ng2-file-upload";
 import {UpdateGalleryComponent} from "./shared/update-gallery-component/update-gallery.component";
 import {UpdateProfileComponent} from "./shared/update-profile-component/update-profile.component";
 
