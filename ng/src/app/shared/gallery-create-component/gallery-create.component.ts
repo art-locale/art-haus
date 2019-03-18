@@ -1,12 +1,11 @@
 /*
- this component is for signing in to use the site.
+ this component is for creating a gallery.
  */
 
-//import needed modules for the sign-in component
+//import needed modules for the gallery component
 import {Component, Input, OnInit, ViewChild} from "@angular/core";
 import {Router} from "@angular/router";
 import {NgbActiveModal, NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Status} from "../interfaces/status";
 import {GalleryService} from "../services/gallery.service";
@@ -25,8 +24,12 @@ export class GalleryCreateComponent implements OnInit {
 
 	status: Status = null;
 
-	constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private router: Router, private GalleryService: GalleryService, private sessionService: SessionService) {
-	}
+	constructor(
+		public activeModal: NgbActiveModal,
+		private formBuilder: FormBuilder,
+		private router: Router,
+		private GalleryService: GalleryService,
+		private sessionService: SessionService) {}
 
 	ngOnInit(): void {
 		this.galleryCreateForm = this.formBuilder.group({
@@ -41,7 +44,11 @@ export class GalleryCreateComponent implements OnInit {
 	}
 
 	createGallery(): void {
-		let gallery: Gallery = {galleryId: null, galleryProfileId: null, galleryDate: null, galleryName: this.galleryCreateForm.value.name};
+		let gallery: Gallery = {
+			galleryId: null,
+			galleryProfileId: null,
+			galleryDate: null,
+			galleryName: this.galleryCreateForm.value.name};
 		this.GalleryService.createGallery(gallery)
 			.subscribe(status => {
 				this.status = status;
