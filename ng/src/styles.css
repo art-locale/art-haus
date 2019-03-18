@@ -6,6 +6,11 @@
 /*HEADER:*/
 .art-logo {
 	font-family: 'Montserrat Subrayada', sans-serif;
+	text-decoration: none !important;
+}
+
+.logo-wrapper{
+	text-decoration: none !important;
 }
 
 /*PROFILE VIEW:*/
