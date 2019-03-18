@@ -18,7 +18,7 @@ private imageUrl =  "/api/image/";
 createImage(image : Image) : Observable<Status> {
 return(this.http.post<Status>(this.imageUrl, image));
 }
-//TODO ONLY ONE OF THESE METHODS USED IN GEORGE EXAMPLE AND DIDN"T CORRESPOND TO THE GET IMAGE METHODS IN THE PHP CLASS
+//TODO ONLY ONE OF THESE METHODS USED IN GEORGE EXAMPLE AND DIDN"T CORRESPOND TO HIS GET IMAGE METHODS IN THE PHP CLASS
 //call the image API and get by image id
 getImageByImageId(imageId : string) : Observable <Image[]> {
 return (this.http.get<Image[]>(this.imageUrl, {params: new HttpParams().set("imageId", imageId)}));

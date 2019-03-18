@@ -7,7 +7,8 @@ import { SignInComponent} from "./shared/sign-in-component/sign-in.component";
 import { GalleryCreateComponent} from "./shared/gallery-create-component/gallery-create.component";
 
 import {APP_BASE_HREF} from "@angular/common";
-
+import {DeepDiveInterceptor} from "./shared/interceptors/deep.dive.interceptor";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {SessionService} from "./shared/services/session.service";
 import {ProfileService} from "./shared/services/profile.service";
 import {ImageService} from "./shared/services/image.service";
@@ -15,7 +16,8 @@ import {GalleryService} from "./shared/services/gallery.service";
 import {ApplaudService} from "./shared/services/applaud.service";
 import {SignInService} from "./shared/services/signIn.service";
 import {SignUpService} from "./shared/services/signUp.service";
-import {ProfileViewComponent} from "./shared/profile-view/profile.view.component";
+import {ProfileViewComponent} from "./profile-view/profile.view.component";
+import {NgbActiveModal, } from "@ng-bootstrap/ng-bootstrap";
 
 export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent, SignInComponent, ProfileViewComponent, GalleryCreateComponent];
 
@@ -26,7 +28,7 @@ export const routes: Routes = [
 ];
 
 export const providers: any[] = [
-SignUpService, SignInService, SessionService, ProfileService, ImageService, GalleryService, ApplaudService
-	];
+SignUpService, SignInService, SessionService, ProfileService, ImageService, GalleryService, ApplaudService, NgbActiveModal
+	{provide: HTTP_INTERCEPTORS, useClass: DeepDiveInterceptor, multi: true}];
 
 export const routing = RouterModule.forRoot(routes);
