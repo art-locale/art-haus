@@ -10,7 +10,7 @@
 
 		<div class="info">
 			<!--Email-->
-			<input class="form-control" formControlName="title" id="title" type="text" name="title" placeholder=" Title" />
+			<input class="form-control" formControlName="imageTitle" id="title" type="text" name="title" placeholder=" Title" />
 
 			<div *ngIf="imageCreateForm.title?.invalid && imageCreateForm.controls.title?.touched" class="alert alert-danger">
 				<p *ngIf="imageCreateForm.controls.title?.errors.required">Image title is incorrect.</p>

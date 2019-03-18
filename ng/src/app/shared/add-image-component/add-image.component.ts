@@ -5,11 +5,8 @@ import { CookieService } from 'ngx-cookie';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
-<<<<<<< HEAD
-		templateUrl: "./add-image.component.html",
-=======
+
 		templateUrl: "./add-image.component.html"
->>>>>>> retreiving changes made from billy @gkephart
 	}
 )
 
@@ -23,7 +20,7 @@ export class AddImageComponent implements OnInit{
 
 
 	ngOnInit(): void {
-		this.imageCreateForm = this.formBuilder.group({imageTitle: ["", Validators.maxLength(32), Validators.required]});
+		this.imageCreateForm = this.formBuilder.group({imageTitle: ["",[ Validators.maxLength(32), Validators.required]]});
 		this.uploader = new FileUploader(
 			{
 				itemAlias: 'image',
@@ -38,5 +35,6 @@ export class AddImageComponent implements OnInit{
 	}
 
 	submitImage(){
+		//this.uploader.options.additionalParameter = foo;
 	}
 }
