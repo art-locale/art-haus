@@ -1,31 +1,31 @@
-<!--MODAL HEADER:-->
-<div class="modal-header">
-	<h4 class="modal-title">Create A Gallery!</h4>
-	<button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-		<span aria-hidden="true">&times;</span>
-	</button>
-</div>
+<!--&lt;!&ndash;MODAL HEADER:&ndash;&gt;-->
+<!--<div class="modal-header">-->
+	<!--<h4 class="modal-title">Create A Gallery!</h4>-->
+	<!--<button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">-->
+		<!--<span aria-hidden="true">&times;</span>-->
+	<!--</button>-->
+<!--</div>-->
 
-<!--MODAL BODY:-->
-<div class="modal-body">
-	<form (submit)="createGallery();" [formGroup]="galleryCreateForm" class="form-control-lg" id="galleryCreateForm" method="post" name="galleryCreateForm" novalidate>
+<!--&lt;!&ndash;MODAL BODY:&ndash;&gt;-->
+<!--<div class="modal-body">-->
+	<!--<form (submit)="createGallery();" [formGroup]="galleryCreateForm" class="form-control-lg" id="galleryCreateForm" method="post" name="galleryCreateForm" novalidate>-->
 
-			<div class="info">
-				<!--input for new Gallery Name:-->
-				<input class="form-control" formControlName="name" id="name" type="name" name="name" placeholder=" your gallery's name:" />
-				<div *ngIf="updateGalleryForm.controls.name?.invalid && updateGalleryForm.controls.name?.touched" class="alert alert-danger">
-					<p *ngIf="updateGalleryForm.controls.name?.errors.required">Gallery name is incorrect.</p>
-				</div>
-			</div>
+			<!--<div class="info">-->
+				<!--&lt;!&ndash;input for new Gallery Name:&ndash;&gt;-->
+				<!--<input class="form-control" formControlName="name" id="name" type="name" name="name" placeholder=" your gallery's name:" />-->
+				<!--<div *ngIf="updateGalleryForm.controls.name?.invalid && updateGalleryForm.controls.name?.touched" class="alert alert-danger">-->
+					<!--<p *ngIf="updateGalleryForm.controls.name?.errors.required">Gallery name is incorrect.</p>-->
+				<!--</div>-->
+			<!--</div>-->
 
-		<button type="submit" class="btn btn-outline-dark">Create Gallery</button>
-	</form>
+		<!--<button type="submit" class="btn btn-outline-dark">Create Gallery</button>-->
+	<!--</form>-->
 
-	<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
-		<button type="button" class="close" aria-label="Close" (click)="status = null;"><span
-			aria-hidden="true">&times;</span></button>
-		{{ status.message }}
-	</div>
+	<!--<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">-->
+		<!--<button type="button" class="close" aria-label="Close" (click)="status = null;"><span-->
+			<!--aria-hidden="true">&times;</span></button>-->
+		<!--{{ status.message }}-->
+	<!--</div>-->
 
-</div><!--END MODAL BODY-->
+<!--</div>&lt;!&ndash;END MODAL BODY&ndash;&gt;-->
 

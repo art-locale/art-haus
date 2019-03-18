@@ -7,7 +7,9 @@ import {SignInComponent} from "./shared/sign-in-component/sign-in.component";
 import {ImageService} from "./shared/services/image.service";
 import {UpdateProfileComponent} from "./shared/update-profile-component/update-profile.component";
 import {AddImageComponent} from "./shared/add-image-component/add-image.component";
-import {SplashComponent} from "./splash/splash.component";
+// import {SplashComponent} from "./splash/splash.component";
+// import {Navbar} from "./shared/navbar/navbar.component";
+// import {NgbdDropdownSplit} from "./shared/ngbd-dropdown-split";
 
 
 //TODO May need to be more like the contact form George demo'd
@@ -34,19 +36,3 @@ export class AppComponent{
     const modalRef = this.modalService.open(AddImageComponent);
   }
 }
-
-@Component({
-  selector: 'ngbd-dropdown-split',
-  templateUrl: './app.component.html'
-})
-export class NgbdDropdownSplit {
-}
-
-@Component({
-  selector: 'app-navbar',
-  templateUrl: './app.component.html'
-})
-export class navbar {
-  isNavbarCollapsed=true;
-}
-
