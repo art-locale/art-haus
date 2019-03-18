@@ -25,8 +25,12 @@ export class GalleryCreateComponent implements OnInit {
 
 	status: Status = null;
 
-	constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private router: Router, private GalleryService: GalleryService, private sessionService: SessionService) {
-	}
+	constructor(
+		public activeModal: NgbActiveModal,
+		private formBuilder: FormBuilder,
+		private router: Router,
+		private GalleryService: GalleryService,
+		private sessionService: SessionService) {}
 
 	ngOnInit(): void {
 		this.galleryCreateForm = this.formBuilder.group({
@@ -41,7 +45,11 @@ export class GalleryCreateComponent implements OnInit {
 	}
 
 	createGallery(): void {
-		let gallery: Gallery = {galleryId: null, galleryProfileId: null, galleryDate: null, galleryName: this.galleryCreateForm.value.name};
+		let gallery: Gallery = {
+			galleryId: null,
+			galleryProfileId: null,
+			galleryDate: null,
+			galleryName: this.galleryCreateForm.value.name};
 		this.GalleryService.createGallery(gallery)
 			.subscribe(status => {
 				this.status = status;
