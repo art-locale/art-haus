@@ -26,6 +26,10 @@ export class AddImageComponent implements OnInit{
 			{
 				itemAlias: 'image',
 				url: './api/image/',
+				headers: [
+					{name: 'X-XSRF-TOKEN', value: this.cookieService.get('XSRF-TOKEN')},
+					{name: 'X-JWT-TOKEN', value: this.cookieService.get('JWT-TOKEN')}
+				],
 				additionalParameter: {}
 			}
 		);

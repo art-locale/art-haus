@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body">
 
-	<form 		 [formGroup]="imageCreateForm" class="form-control-lg" id="addImageForm" method="post" name="addImageForm" (submit)="submitImage();" novalidate>
+	<form [formGroup]="imageCreateForm" class="form-control-lg" id="addImageForm" method="post" name="addImageForm" novalidate>
 
 		<div class="info">
 			<!--Email-->
@@ -14,6 +14,21 @@
 
 			<div *ngIf="imageCreateForm.title?.invalid && imageCreateForm.controls.title?.touched" class="alert alert-danger">
 				<p *ngIf="imageCreateForm.controls.title?.errors.required">Image title is incorrect.</p>
+			</div>
+			<div class="my-1">
+				<button type="button" class="btn btn-success btn-s"
+						  (click)="submitImage()" [disabled]="!uploader.getNotUploadedItems().length">
+					<span class="glyphicon glyphicon-upload"></span> Upload
+				</button>
+			</div>
+			<div class="inline">
+				<input
+					type="file"
+					accept="image/*"
+					ng2FileSelect
+					[uploader]="uploader"
+					aria-describedby="petHelp"
+				/>
 			</div>
 		</div>
 
