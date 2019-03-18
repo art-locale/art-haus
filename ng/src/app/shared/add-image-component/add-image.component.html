@@ -1,30 +1,31 @@
-<!--<div class="modal-header">-->
-	<!--<h4 class="modal-title">Please Sign In!</h4>-->
-	<!--<button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">-->
-		<!--<span aria-hidden="true">&times;</span>-->
-	<!--</button>-->
-<!--</div>-->
-<!--<div class="modal-body">-->
-	<!--<form (submit)="createSignIn();" [formGroup]="signInForm" class="form-control-lg" id="signInForm" method="post" name="signInForm" novalidate>-->
+<div class="modal-header">
+	<h4 class="modal-title">Add An Image!</h4>
+	<button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="modal-body">
 
-		<!--<div class="info">-->
-			<!--&lt;!&ndash;Email&ndash;&gt;-->
-			<!--<input class="form-control" formControlName="email" id="email" type="email" name="email" placeholder=" Email" />-->
-			<!--<div *ngIf="signInForm.controls.email?.invalid && signInForm.controls.email?.touched" class="alert alert-danger">-->
-				<!--<p *ngIf="signInForm.controls.email?.errors.required">The email is incorrect.</p>-->
-			<!--</div>-->
+	<form (submit)="createImage();" [formGroup]="addImageForm" class="form-control-lg" id="addImageForm" method="post" name="addImageForm" novalidate>
 
-			<!--&lt;!&ndash;Password&ndash;&gt;-->
-			<!--<input class="form-control" formControlName="password" id="password" type="password" name="password" placeholder=" Password" />-->
-		<!--</div>-->
-		<!--<div *ngIf="signInForm.controls.password?.invalid && signInForm.controls.password?.touched" class="alert alert-danger">-->
-			<!--<p *ngIf="signInForm.controls.password?.errors.required">The password is incorrect.</p>-->
-		<!--</div>-->
-		<!--<button type="submit" class="btn btn-outline-dark">Sign In</button>-->
-	<!--</form>-->
-	<!--<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">-->
-		<!--<button type="button" class="close" aria-label="Close" (click)="status = null;"><span-->
-			<!--aria-hidden="true">&times;</span></button>-->
-		<!--{{ status.message }}-->
-	<!--</div>-->
-<!--</div>-->
+		<div class="info">
+			<!--Email-->
+			<input class="form-control" formControlName="title" id="title" type="text" name="title" placeholder=" Title" />
+
+			<div *ngIf="addImageForm.controls.title?.invalid && addImageForm.controls.title?.touched" class="alert alert-danger">
+				<p *ngIf="addImageForm.controls.title?.errors.required">Image title is incorrect.</p>
+			</div>
+		</div>
+
+		<button type="submit" class="btn btn-outline-dark">Add Image</button>
+
+	</form>
+
+	<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
+		<button type="button" class="close" aria-label="Close" (click)="status = null;"><span
+			aria-hidden="true">&times;</span></button>
+		{{ status.message }}
+	</div>
+
+</div>
+
