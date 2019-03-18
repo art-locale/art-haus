@@ -46,7 +46,6 @@ return(this.http.put<Status>(this.imageUrl, image));
 
 //call to the image API and get all images
 		getAllImages() : Observable<Image[]> {
-			return(this.http.get<Image[]>(this.imageUrl, {params:new HttpParams().set ("imageId",imageId)}));
-		)
+			return(this.http.get<Image[]>(this.imageUrl));
 	}
 }
