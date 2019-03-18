@@ -55,16 +55,16 @@ try {
 		verifyXsrf();
 
 		//use $_POST super global to grab the needed Id
-		$profileId = filter_input(INPUT_POST, "profileId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		$imageId = filter_input(INPUT_POST, "imageId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 		//get a specific image by id and update reply
-		if(empty($id) === false) {
-			$image = Image::getImageByImageId($pdo, $id);
-		} elseif(empty($galleryId) === false) {
-			$reply->data = Image::getImageByImageGalleryId($pdo, $galleryId)->toArray();
-		} elseif(empty($profileId) === false) {
-			$reply->data = Image::getImageByImageProfileId($pdo, $profileId)->toArray();
-		}
+//		if(empty($id) === false) {
+//			$image = Image::getImageByImageId($pdo, $id);
+//		} elseif(empty($galleryId) === false) {
+//			$reply->data = Image::getImageByImageGalleryId($pdo, $galleryId)->toArray();
+//		} elseif(empty($profileId) === false) {
+//			$reply->data = Image::getImageByImageProfileId($pdo, $profileId)->toArray();
+//		}
 	} elseif($method === "DELETE") {
 
 
