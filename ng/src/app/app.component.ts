@@ -7,6 +7,7 @@ import {SignInComponent} from "./shared/sign-in-component/sign-in.component";
 import {ImageService} from "./shared/services/image.service";
 import {UpdateProfileComponent} from "./shared/update-profile-component/update-profile.component";
 import {AddImageComponent} from "./shared/add-image-component/add-image.component";
+import {SplashComponent} from "./splash/splash.component";
 
 
 //TODO May need to be more like the contact form George demo'd

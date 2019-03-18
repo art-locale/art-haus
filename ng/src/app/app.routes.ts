@@ -4,7 +4,6 @@ import{AppComponent} from "./app.component";
 import {SignUpComponent} from "./sign-up/sign-up.component";
 import { SignInComponent} from "./shared/sign-in-component/sign-in.component";
 // import { AddImageComponent} from "./shared/add-image-component/add-image.component";
-// import { GalleryCreateComponent} from "./shared/gallery-create-component/gallery-create.component";
 
 import {APP_BASE_HREF} from "@angular/common";
 
@@ -25,6 +24,7 @@ export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent,
 
 export const routes: Routes = [
 	{path: "profile/:profileId", component: ProfileViewComponent},
+	{path: "profile-view", component: ProfileViewComponent},
 	{path: "sign-up", component: SignUpComponent},
 	{path: "", component: SplashComponent},
 ];

@@ -1,6 +1,5 @@
 export interface Profile {
 	profileId: number,
-	// profileAddress: string,
 	profileDate: string,
 	profileEmail: string,
 	profileLatitude: number,
