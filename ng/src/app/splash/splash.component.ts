@@ -29,8 +29,8 @@ export class SplashComponent implements OnInit {
 			profileLongitude: null,
 			profileName: null,
 			profilePassword: null,
-			profileWebsite: null,
-			profileAddress: null};
+			profileWebsite: null
+		};
 
 		galleryId = {galleryId: "12f2ed5f-9341-4450-9174-24eaadd6e3e2"};
 		gallery: Gallery = {galleryId: null, galleryProfileId: null, galleryDate: null, galleryName: null};
