@@ -6,26 +6,20 @@
 </div>
 <div class="modal-body">
 
-	<form (submit)="createImage();" [formGroup]="addImageForm" class="form-control-lg" id="addImageForm" method="post" name="addImageForm" novalidate>
+	<form (submit)="createImage();" [formGroup]="imageCreateForm" class="form-control-lg" id="addImageForm" method="post" name="addImageForm" novalidate>
 
 		<div class="info">
 			<!--Email-->
 			<input class="form-control" formControlName="title" id="title" type="text" name="title" placeholder=" Title" />
 
-			<div *ngIf="addImageForm.controls.title?.invalid && addImageForm.controls.title?.touched" class="alert alert-danger">
-				<p *ngIf="addImageForm.controls.title?.errors.required">Image title is incorrect.</p>
+			<div *ngIf="imageCreateForm.title?.invalid && imageCreateForm.controls.title?.touched" class="alert alert-danger">
+				<p *ngIf="imageCreateForm.controls.title?.errors.required">Image title is incorrect.</p>
 			</div>
 		</div>
 
 		<button type="submit" class="btn btn-outline-dark">Add Image</button>
 
 	</form>
-
-	<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
-		<button type="button" class="close" aria-label="Close" (click)="status = null;"><span
-			aria-hidden="true">&times;</span></button>
-		{{ status.message }}
-	</div>
 
 </div>
 
