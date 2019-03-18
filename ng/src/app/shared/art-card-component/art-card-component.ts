@@ -1,5 +1,5 @@
 /*
- this component is for signing in to use the site.
+ this component is for displaying multiple cards
  */
 
 //import needed modules for the sign-in component

@@ -15,7 +15,7 @@ import {GalleryService} from "./shared/services/gallery.service";
 import {ApplaudService} from "./shared/services/applaud.service";
 import {SignInService} from "./shared/services/signIn.service";
 import {SignUpService} from "./shared/services/signUp.service";
-import {ProfileViewComponent} from "./profile-view/profile.view.component";
+import {ProfileViewComponent} from "./shared/profile-view/profile.view.component";
 
 export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent, SignInComponent, ProfileViewComponent, GalleryCreateComponent];
 
