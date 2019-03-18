@@ -15,13 +15,13 @@ import {Gallery} from "../interfaces/gallery";
 
 // set the template url and the selector for the ng powered html tag
 @Component({
-	templateUrl:"./gallery-create.component.html",
-	selector: "gallery-create-form"
+	templateUrl:"./update-gallery.component.html",
+	selector: "update-gallery-form"
 })
 
-export class GalleryCreateComponent implements OnInit {
+export class UpdateGalleryComponent implements OnInit {
 
-	galleryCreateForm: FormGroup;
+	updateGalleryForm: FormGroup;
 
 	status: Status = null;
 
@@ -29,10 +29,10 @@ export class GalleryCreateComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.galleryCreateForm = this.formBuilder.group({
-			id: ["", [Validators.maxLength(128), Validators.required]],
-			profileId: ["", [Validators.maxLength(128), Validators.required]],
-			date: ["", [Validators.maxLength(128), Validators.required]],
+		this.updateGalleryForm = this.formBuilder.group({
+			// id: ["", [Validators.maxLength(128), Validators.required]],
+			// profileId: ["", [Validators.maxLength(128), Validators.required]],
+			// date: ["", [Validators.maxLength(128), Validators.required]],
 			name: ["", [Validators.maxLength(128), Validators.required]]
 		});
 
@@ -40,15 +40,15 @@ export class GalleryCreateComponent implements OnInit {
 
 	}
 
-	createGallery(): void {
-		let gallery: Gallery = {galleryId: null, galleryProfileId: null, galleryDate: null, galleryName: this.galleryCreateForm.value.name};
-		this.GalleryService.createGallery(gallery)
+	editGallery(): void {
+		let gallery: Gallery = {galleryId: null, galleryProfileId: null, galleryDate: null, galleryName: this.updateGalleryForm.value.name};
+		this.GalleryService.editGallery(gallery)
 			.subscribe(status => {
 				this.status = status;
 
 				if(this.status.status === 200) {
-					alert("Thanks for creating a gallery!")
-					this.galleryCreateForm.reset();
+					alert("Thanks for updating your gallery!")
+					this.updateGalleryForm.reset();
 					location.reload();
 
 					this.router.navigate(["signed-in-homeview.php"])

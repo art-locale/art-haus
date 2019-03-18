@@ -19,7 +19,7 @@ export class ProfileViewComponent implements OnInit{
 	//create state variable to house all data
 	profile : Profile = {
 		profileId: null,
-		profileAddress: null,
+		// profileAddress: null,
 		profileDate: null,
 		profileEmail: null,
 		profileLatitude: null,

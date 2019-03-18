@@ -30,12 +30,11 @@ export class UpdateProfileComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.updateProfileForm = this.formBuilder.group({
-			id: ["", [Validators.maxLength(128), Validators.required]],
-			profileAddress: ["", [Validators.maxLength(128), Validators.required]],
-			profileDate: ["", [Validators.maxLength(128), Validators.required]],
+			// id: ["", [Validators.maxLength(128), Validators.required]],
+			// profileDate: ["", [Validators.maxLength(128), Validators.required]],
 			profileEmail: ["", [Validators.maxLength(128), Validators.required]],
-			profileLatitude: ["", [Validators.maxLength(128), Validators.required]],
-			profileLongitude: ["", [Validators.maxLength(128), Validators.required]],
+			// profileLatitude: ["", [Validators.maxLength(128), Validators.required]],
+			// profileLongitude: ["", [Validators.maxLength(128), Validators.required]],
 			profileName: ["", [Validators.maxLength(128), Validators.required]],
 			profilePassword: ["", [Validators.maxLength(128), Validators.required]],
 			profileWebsite: ["", [Validators.maxLength(128), Validators.required]],
@@ -45,8 +44,8 @@ export class UpdateProfileComponent implements OnInit {
 
 	}
 
-	updateProfile(): void {
-		let profile: Profile = {profileId: null, profileAddress: this.updateProfileForm.value.address, profileDate: null, profileEmail: this.updateProfileForm.value.email, profileLatitude: this.updateProfileForm.value.latitude, profileLongitude: this.updateProfileForm.value.longitude, profileName: this.updateProfileForm.value.name, profilePassword: this.updateProfileForm.value.password, profileWebsite: this.updateProfileForm.value.website};
+	editProfile(): void {
+		let profile: Profile = {profileId: null, profileDate: null, profileEmail: this.updateProfileForm.value.email, profileLatitude: null, profileLongitude: null, profileName: this.updateProfileForm.value.name, profilePassword: this.updateProfileForm.value.password, profileWebsite: this.updateProfileForm.value.website};
 		this.ProfileService.editProfile(profile)
 			.subscribe(status => {
 				this.status = status;
