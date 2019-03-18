@@ -18,14 +18,16 @@ import {SignUpService} from "./shared/services/signUp.service";
 import {ProfileViewComponent} from "./profile-view/profile.view.component";
 import {UpdateProfileComponent} from "./shared/update-profile-component/update-profile.component";
 import {UpdateGalleryComponent} from "./shared/update-gallery-component/update-gallery.component";
+import {GalleryCreateComponent} from "./shared/gallery-create-component/gallery-create.component";
 
-export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent, SignInComponent, ProfileViewComponent, UpdateProfileComponent, UpdateGalleryComponent]; //Add GalleryCreateComponent
+export const allAppComponents = [AppComponent, SplashComponent, SignUpComponent, SignInComponent, ProfileViewComponent, UpdateProfileComponent, UpdateGalleryComponent, GalleryCreateComponent];
 
 export const routes: Routes = [
 	{path: "profile/:profileId", component: ProfileViewComponent},
 	{path: "sign-up", component: SignUpComponent},
 	{path: "update-profile", component: UpdateProfileComponent},
 	{path: "update-gallery", component: UpdateGalleryComponent},
+	{path: "gallery-create", component: GalleryCreateComponent},
 	{path: "", component: SplashComponent},
 ];
 
