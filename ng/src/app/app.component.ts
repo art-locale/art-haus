@@ -7,6 +7,9 @@ import {SignInComponent} from "./shared/sign-in-component/sign-in.component";
 import {ImageService} from "./shared/services/image.service";
 import {GalleryService} from "./shared/services/gallery.service";
 import {GalleryCreateComponent} from "./shared/gallery-create-component/gallery-create.component";
+import {UpdateGalleryComponent} from "./shared/update-gallery-component/update-gallery.component";
+import {UpdateProfileComponent} from "./shared/update-profile-component/update-profile.component";
+import {AddImageComponent} from "./shared/add-image-component/add-image.component";
 // import {AddImageComponent} from "./shared/add-image-component/add-image.component";
 
 //TODO May need to be more like the contact form George demo'd
@@ -31,7 +34,23 @@ export class AppComponent{
   openGalleryCreateModal() {
     const modalRef = this.modalService.open(GalleryCreateComponent);
   }
+  openUpdateGalleryModal() {
+    const modalRef = this.modalService.open(UpdateGalleryComponent);
+  }
+  openUpdateProfileModal() {
+    const modalRef = this.modalService.open(UpdateProfileComponent);
+  }
+  openAddImageModal() {
+    const modalRef = this.modalService.open(AddImageComponent);
+  }
   // openAddImageModal() {
   //   const modalRef = this.modalService.open(AddImageComponent);
   // }
+}
+
+@Component({
+  selector: 'ngbd-dropdown-split',
+  templateUrl: './app.component.html'
+})
+export class NgbdDropdownSplit {
 }
