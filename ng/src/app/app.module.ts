@@ -10,9 +10,23 @@ import {AddImageComponent} from "./shared/add-image-component/add-image.componen
 import {CookieModule} from "ngx-cookie";
 import { FileUploadModule } from "ng2-file-upload";
 import {UpdateProfileComponent} from "./shared/update-profile-component/update-profile.component";
+import {JwtModule} from "@auth0/angular-jwt";
+
+//configure the parameters fot the JwtModule
+const JwtHelper = JwtModule.forRoot({
+  config: {
+    tokenGetter: () => {
+      return localStorage.getItem("jwt-token");
+    },
+    skipWhenExpired:true,
+    whitelistedDomains: ["localhost:4200", "https://bootcamp-coders.cnm.edu/"],
+    headerName:"X-JWT-TOKEN",
+    authScheme: ""
+  },
+});
 
 @NgModule({
-  imports:      [ BrowserModule, FormsModule, HttpClientModule, routing, ReactiveFormsModule, NgbModule, CookieModule.forRoot(), FileUploadModule],
+  imports:      [ BrowserModule, FormsModule, HttpClientModule, routing, ReactiveFormsModule, NgbModule, CookieModule.forRoot(), FileUploadModule, JwtHelper],
   declarations: [ ...allAppComponents, AppComponent ],
   entryComponents: [SignInComponent, UpdateProfileComponent, AddImageComponent],
   bootstrap:    [ AppComponent ],

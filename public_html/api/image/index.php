@@ -14,7 +14,7 @@ use ArtLocale\ArtHaus\ {Image, Gallery, Profile};
  * @author Brandon Huffman
  * @version 1.0
  */
-// start session
+// verify or start session
 if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
@@ -36,7 +36,9 @@ try {
 	$id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$galleryId = filter_input(INPUT_GET, "galleryId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$profileId = filter_input(INPUT_GET, "ProfileId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-
+	$date =  filter_input(INPUT_GET, "imageDate", self::validateDateTime($imageDate));
+	$title = filter_input(INPUT_GET, "imageTitle", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$url = filter_input(INPUT_GET,"imageUrl", FILTER_SANITIZE_URL);
 	\Cloudinary::config(["cloud_name" => $cloudinary->cloudName, "api_key" => $cloudinary->apiKey, "api_secret" => $cloudinary->apiSecret]);
 
 	// process GET requests
@@ -50,19 +52,36 @@ try {
 
 			verifyXsrf();
 
-			$imageId = filter_input(INPUT_POST, "imageId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			$imageTitle = filter_input(INPUT_POST, "imageTitle", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
 			$tempUserFileName = $_FILES["image"]["temp_name"];
+
 			$cloudinaryResult = \Cloudinary\Uploader::upload($tempUserFileName, array("width" => 200, "crop" => "scale"));
-			$image = new Image(generateUuidV4(), $imageId, $imageGalleryId, $imageProfileId, $imageDate, $imageTitle, $cloudinaryResult["secure_url"]);
+			$image = new Image(generateUuidV4(), $imageId, $_SESSION["gallery"] -> getGalleryId(), $_SESSION["profile"] -> getProfileId(), $imageDate, $imageTitle, $cloudinaryResult["secure_url"]);
 			$image->insert($pdo);
 			var_dump($image);
 			$reply->message = "Image uploaded!";
 		}
-	} catch(Exception $exception) {
-		$reply->status = $exception->getCode();
-		$reply->message = $exception->getMessage();
-	}
+}
 
+
+catch(Exception $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+	$reply->trace = $exception->getTraceAsString();
+}
+//TODO the following four lines of code break sign-in
+//catch(TypeError $typeError) {
+//	$reply->status = $typeError->getCode();
+//	$reply->message = $typeError->getMessage();
+//	}
+
+	//the Exceptions are caught and the $reply object is updated with the data from the caught exception. Note that $reply->status will be updated with the correct error code in the case of an Exception.
 header("Content-Type: application/json");
+
+// sets up the response header.
+if($reply->data === null) {
+	unset($reply->data);
+}
 
 echo json_encode($reply);
