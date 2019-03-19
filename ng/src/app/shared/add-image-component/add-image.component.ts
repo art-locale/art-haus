@@ -27,10 +27,9 @@ export class AddImageComponent implements OnInit{
 				itemAlias: 'image',
 				url: './api/image/',
 				headers: [
-					{name: 'X-XSRF-TOKEN', value: this.cookieService.get('XSRF-TOKEN')},
-					{name: 'X-JWT-TOKEN', value: this.cookieService.get('JWT-TOKEN')}
+					{name: 'X-XSRF-TOKEN', value: this.cookieService.get('XSRF-TOKEN')}
+				//	{name: 'X-JWT-TOKEN', value: this.cookieService.get('JWT-TOKEN')}
 				],
-				additionalParameter: {}
 			}
 		);
 	}
@@ -40,6 +39,8 @@ export class AddImageComponent implements OnInit{
 	}
 
 	submitImage(): void {
+
+		console.log(this.uploader);
 		this.uploader.options.additionalParameter = {imageTitle: this.imageCreateForm.value.title};
 		this.uploader.uploadAll();
 	}

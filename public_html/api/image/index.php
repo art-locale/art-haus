@@ -7,7 +7,6 @@ require_once dirname(__DIR__, 3) . "/php/lib/jwt.php";
 require_once("/etc/apache2/capstone-mysql/Secrets.php");
 use ArtLocale\ArtHaus\ {Image, Gallery, Profile};
 
-
 /**
  * Cloudinary API for Images
  *
@@ -36,9 +35,9 @@ try {
 	$id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$galleryId = filter_input(INPUT_GET, "galleryId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$profileId = filter_input(INPUT_GET, "ProfileId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$date =  filter_input(INPUT_GET, "imageDate", self::validateDateTime($imageDate));
-	$title = filter_input(INPUT_GET, "imageTitle", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$url = filter_input(INPUT_GET,"imageUrl", FILTER_SANITIZE_URL);
+//	$date =  filter_input(INPUT_GET, "imageDate", self::validateDateTime($imageDate));
+//	$title = filter_input(INPUT_GET, "imageTitle", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+//	$url = filter_input(INPUT_GET,"imageUrl", FILTER_SANITIZE_URL);
 	\Cloudinary::config(["cloud_name" => $cloudinary->cloudName, "api_key" => $cloudinary->apiKey, "api_secret" => $cloudinary->apiSecret]);
 
 	// process GET requests
@@ -54,16 +53,16 @@ try {
 
 			$imageTitle = filter_input(INPUT_POST, "imageTitle", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
-			$tempUserFileName = $_FILES["image"]["temp_name"];
+			$tempUserFileName = $_FILES["image"]["tmp_name"];
+			var_dump($tempUserFileName);
 
 			$cloudinaryResult = \Cloudinary\Uploader::upload($tempUserFileName, array("width" => 200, "crop" => "scale"));
-			$image = new Image(generateUuidV4(), $imageId, $_SESSION["gallery"] -> getGalleryId(), $_SESSION["profile"] -> getProfileId(), $imageDate, $imageTitle, $cloudinaryResult["secure_url"]);
+			$image = new Image(generateUuidV4(), $_SESSION["gallery"] -> getGalleryId(), $_SESSION["profile"] -> getProfileId(), $imageDate, $imageTitle, $cloudinaryResult["secure_url"]);
 			$image->insert($pdo);
 			var_dump($image);
 			$reply->message = "Image uploaded!";
 		}
 }
-
 
 catch(Exception $exception) {
 	$reply->status = $exception->getCode();
