@@ -53,8 +53,8 @@ try {
 
 			$imageTitle = filter_input(INPUT_POST, "imageTitle", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
-			$tempUserFileName = $_FILES["image"];
-			var_dump($tempUserFileName);
+			$tempUserFileName = $_FILES["image"]['tmp_name'];
+			//var_dump($tempUserFileName);
 
 			$cloudinaryResult = \Cloudinary\Uploader::upload($tempUserFileName, array("width" => 200, "crop" => "scale"));
 			$image = new Image(generateUuidV4(), $_SESSION["gallery"] -> getGalleryId(), $_SESSION["profile"] -> getProfileId(), $imageDate, $imageTitle, $cloudinaryResult["secure_url"]);
