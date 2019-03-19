@@ -53,7 +53,7 @@ try {
 
 			$imageTitle = filter_input(INPUT_POST, "imageTitle", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
-			$tempUserFileName = $_FILES["image"]["tmp_name"];
+			$tempUserFileName = $_FILES["image"];
 			var_dump($tempUserFileName);
 
 			$cloudinaryResult = \Cloudinary\Uploader::upload($tempUserFileName, array("width" => 200, "crop" => "scale"));
