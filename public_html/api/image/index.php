@@ -34,12 +34,9 @@ try {
 
 	// sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$galleryId = filter_input(INPUT_GET, "galleryId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+//	$galleryId = filter_input(INPUT_GET, "galleryId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$profileId = filter_input(INPUT_GET, "ProfileId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	//TODO NOT in George's API => START
-//	$config = readConfig("/etc/apache2/capstone-mysql/cohort23/arthaus.ini");
-//	$cloudinary = json_decode($config["cloudinary"]);
-	//TODO NOT in George's API <= END
+
 	\Cloudinary::config(["cloud_name" => $cloudinary->cloudName, "api_key" => $cloudinary->apiKey, "api_secret" => $cloudinary->apiSecret]);
 
 	// process GET requests
@@ -51,82 +48,31 @@ try {
 		$reply->data = Image::getAllImages($pdo)->toArray();
 	}  elseif($method === "POST") {
 
-		//enforce that the end user has a XSRF token.
-		verifyXsrf();
-		//TODO NOT in George's API => START
+			verifyXsrf();
 
+			$imageId = filter_input(INPUT_POST, "imageId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
-		//use $_POST super global to grab the needed Id
-		$imageId = filter_input(INPUT_POST, "imageId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			$tempUserFileName = $_FILES["image"]["temp_name"];
 
-		//get a specific image by id and update reply
-//		if(empty($id) === false) {
-//			$image = Image::getImageByImageId($pdo, $id);
-//		} elseif(empty($galleryId) === false) {
-//			$reply->data = Image::getImageByImageGalleryId($pdo, $galleryId)->toArray();
-//		} elseif(empty($profileId) === false) {
-//			$reply->data = Image::getImageByImageProfileId($pdo, $profileId)->toArray();
-//		}
-	} elseif($method === "DELETE") {
+			$cloudinaryResult = \Cloudinary\Uploader::upload($tempUserFileName, array("width" => 200, "crop" => "scale"));
 
+			$image = new Image(generateUuidV4(), $photoId, $cloudinaryResult["signature"], $cloudinaryResult["secure_url"]);
 
-		// retrieve the Image to be deleted
-		$image = Image::getImageByImageId($pdo, $id);
-		if($image === null) {
-			throw(new RuntimeException("Image does not exist", 404));
+			$image->insert($pdo);
+
+			var_dump($image);
+
+			$reply->message = "Image uploaded!";
+
 		}
+	} catch(Exception $exception) {
 
-		//enforce the user is signed in and only trying to edit their own image
-		// use the image id to get the imageProfile id to compare it to the session profile id
-		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId() !== Gallery::getGalleryByGalleryId($pdo, $image->getImageGalleryId())->getGallerybyProfileId()) {
-			throw(new \InvalidArgumentException("You are not allowed to delete this image", 403));
-		}
+		$reply->status = $exception->getCode();
 
-		//enforce the end user has a JWT token
-		validateJwtHeader();
+		$reply->message = $exception->getMessage();
 
-		// delete image from cloudinary
-		$cloudinaryResult = \Cloudinary\Uploader::destroy($image->getImageCloudinaryToken());
-
-		// delete image database
-		$image->delete($pdo);
-
-		// update reply
-		$reply->message = "Image successfully deleted";
-	} elseif($method === "POST" || $method === "PUT") {
-
-		//enforce that the end user has a XSRF token.
-		verifyXsrf();
-
-		// verify the user is logged in
-		if(empty($_SESSION["profile"]) === true) {
-			throw (new \InvalidArgumentException("you must be logged in to post or update images", 401));
-
-			// verify user is logged into the profile before uploading an image
-		} elseif($_SESSION["profile"]->getProfileId() !== Gallery::getGalleryByGalleryId($pdo, $galleryId)->getGalleryProfileId()) {
-			throw(new \InvalidArgumentException("You cannot post or update images to someone else's profile", 403));
-		}
-		//TODO NOT in George's API <= END
-		// assigning variable to the user profile, add image extension
-		$tempUserFileName = $_FILES["image"]["tmp_name"];
-
-		// upload image to cloudinary and get public id
-		$cloudinaryResult = \Cloudinary\Uploader::upload($tempUserFileName, array("width" => 500, "crop" => "scale"));
-
-		// after sending the image to Cloudinary, create a new image
-//		TODO may want to adjust galleryId here?
-		$image = new Image(generateUuidV4(), $galleryId, $cloudinaryResult["signature"], $cloudinaryResult["secure_url"]);
-		$image->insert($pdo);
-		var_dump($image);
-
-		// update reply
-		$reply->message = "Image uploaded successfully";
 	}
-} catch(Exception $exception) {
-	$reply->status = $exception->getCode();
-	$reply->message = $exception->getMessage();
-}
+
 header("Content-Type: application/json");
 
-// encode and return reply to front end caller
 echo json_encode($reply);
