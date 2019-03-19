@@ -51,26 +51,16 @@ try {
 			verifyXsrf();
 
 			$imageId = filter_input(INPUT_POST, "imageId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-
 			$tempUserFileName = $_FILES["image"]["temp_name"];
-
 			$cloudinaryResult = \Cloudinary\Uploader::upload($tempUserFileName, array("width" => 200, "crop" => "scale"));
-
-			$image = new Image(generateUuidV4(), $imageId, $cloudinaryResult["signature"], $cloudinaryResult["secure_url"]);
-
+			$image = new Image(generateUuidV4(), $imageId, $imageGalleryId, $imageProfileId, $imageDate, $imageTitle, $cloudinaryResult["secure_url"]);
 			$image->insert($pdo);
-
 			var_dump($image);
-
 			$reply->message = "Image uploaded!";
-
 		}
 	} catch(Exception $exception) {
-
 		$reply->status = $exception->getCode();
-
 		$reply->message = $exception->getMessage();
-
 	}
 
 header("Content-Type: application/json");
