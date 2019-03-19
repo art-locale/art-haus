@@ -13,6 +13,9 @@
 	text-decoration: none !important;
 }
 
+.navbar-toggler {
+	outline: none !important;
+}
 
 /*PROFILE VIEW:*/
 
