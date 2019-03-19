@@ -13,6 +13,9 @@
 	text-decoration: none !important;
 }
 
+.navbar-toggler {
+	outline: none !important;
+}
 
 /*PROFILE VIEW:*/
 
@@ -21,10 +24,6 @@
 }
 
 /*@media only screen and (max-width: 550px){*/
-/*.carousel-inner {*/
-/**/
-/*}*/
-/*}*/
 
 .carousel-item {
 
@@ -42,11 +41,6 @@ img {
 	object-fit: contain;
 	margin-top: 1rem;
 }
-
-/* .jumbotron,
-.jumbotron-fluid {
-  margin-top: 5.5rem;
-} */
 
 .row {
 	margin-right: 0;
