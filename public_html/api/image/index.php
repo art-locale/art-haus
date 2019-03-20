@@ -40,7 +40,7 @@ try {
 //	$url = filter_input(INPUT_GET,"imageUrl", FILTER_SANITIZE_URL);
 	\Cloudinary::config(["cloud_name" => $cloudinary->cloudName, "api_key" => $cloudinary->apiKey, "api_secret" => $cloudinary->apiSecret]);
 
-	// process GET requests
+	// process GET requests *************************************************************************
 	if($method === "GET") {
 
 		// set XSRF token
