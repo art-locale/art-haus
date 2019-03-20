@@ -46,8 +46,15 @@ img {
 	margin-right: 0;
 	margin-left: 0;
 }
-
 /*NAVBAR:*/
 
-
 /*FOOTER*/
+
+/*SPLASH*/
+/*!*Fixes for Brandon's (Doesn't work, also to test add the class container-brandon to the appropriate div)*!*/
+/*.container-brandon {*/
+	/*margin-bottom: 5rem !important;*/
+/*}*/
+/*.jumbotron {*/
+	/*padding-bottom: 5rem !important;*/
+/*}*/
