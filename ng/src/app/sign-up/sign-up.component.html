@@ -1,6 +1,8 @@
 <main>
 
-	<div class="container bg-primary h-100">
+	<div class="bg">
+
+		<div class="container bg-primary h-100" id="backgroundPattern">
 		<h1 class="text-center pt-5 mt-5">Sign Up For The Arts Haus!</h1>
 
 		<form [formGroup]="signUpForm" class="form-control-lg" id="form" action="" method="post" (submit)="createSignUp();" novalidate>
@@ -36,6 +38,8 @@
 			<button type="button" class="close" aria-label="Close" (click)="status = null;"><span aria-hidden="true">&times;</span></button>
 			{{ status.message }}
 		</div>
+
+	</div>
 
 	</div>
 
