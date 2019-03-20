@@ -45,6 +45,7 @@
 
 .pics-wrapper .row {
 	justify-content: center;
+	margin-top: 0 !important;
 }
 
 .card {
