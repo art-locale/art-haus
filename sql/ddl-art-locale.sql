@@ -11,8 +11,12 @@ ALTER DATABASE arthaus CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 # DROP TABLE gallery;
 # DROP TABLE profile;
 
--- To delete a specific image
-DELETE FROM image WHERE imageUrl = "https://res.cloudinary.com/drfjidr03/image/upload/v1553110532/uucdtmfqcirepkcsakmr.png";
+-- To delete a specific image, notice all letters must be lower case.
+DELETE FROM image WHERE imageId = UNHEX("0E397A118AE2418596B2314275AF5E81");
+-- To delete a specific gallery, notice all letters must be lower case. NOTE: Must delete the gallery then too
+DELETE FROM gallery WHERE galleryProfileId = UNHEX("a28354a1f093445eb01e178fac7b05aa");
+-- To delete a specific profile, notice all letters must be lower case. NOTE: Must delete the gallery then too
+DELETE FROM profile WHERE profileName = "Brandonius Maximus";
 
 -- this creates the profile entity
 CREATE TABLE profile (
