@@ -15,7 +15,13 @@ import {AddImageComponent} from "./shared/add-image-component/add-image.componen
 
 //TODO May need to be more like the contact form George demo'd
 
+/* *
+* Component applies to the <app-root></app-root> component of the index.html.
+* The selector directive "app-root" will create app-root directive instance for all elements that have a "app-root" attribute.
+* */
+
 @Component({
+  //
   selector: "app-root",
   templateUrl: "./app.component.html"
 })
