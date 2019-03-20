@@ -12,7 +12,7 @@ ALTER DATABASE arthaus CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 # DROP TABLE profile;
 
 -- To delete a specific image
-DELETE FROM image WHERE imageId = UNHEX("0963B439A26F464B908611952B047FC3");
+DELETE FROM image WHERE imageUrl = "https://res.cloudinary.com/drfjidr03/image/upload/v1553110532/uucdtmfqcirepkcsakmr.png";
 
 -- this creates the profile entity
 CREATE TABLE profile (
