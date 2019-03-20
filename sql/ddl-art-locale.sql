@@ -5,12 +5,14 @@ ALTER DATABASE arthaus CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 -- Code for dropping tables (was used to change spelling of image attribute "imgage" to "image".
 
 
-
+-- To drop the whole database
 # DROP TABLE applaud;
 # DROP TABLE image;
 # DROP TABLE gallery;
 # DROP TABLE profile;
 
+-- To delete a specific image
+# DELETE FROM image WHERE imageId = UNHEX("54CBB7C3A82742ECB2C7C371F7F9D923");
 
 -- this creates the profile entity
 CREATE TABLE profile (
