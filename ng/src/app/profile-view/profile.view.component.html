@@ -56,15 +56,17 @@
 
 		<!--Closes main container-->
 
-		<div class="container-fluid">
-			<div class="row">
+	<div class="container-fluid d-flex justify-content-center">
 
-				<div class="card card-images d-inline m-2" *ngFor="let image of images">
+		<!--<div class="pics-wrapper w-100 border d-flex justify-content-center align-content-center">-->
+		<div class="row">
+			<div class="card-columns">
+				<div class="card card-images rounded" *ngFor="let image of images">
 
-					<img [src]="image.imageUrl" class="card-img" width="200px" height="200px" alt="">
+					<img [src]="image.imageUrl" class="card-img"  alt="">
 				</div>
-
 			</div>
 		</div>
+	</div>
 
 </main>
