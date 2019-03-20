@@ -1,25 +1,28 @@
-import {Component, OnInit} from "@angular/core";
-// import {Router} from "@angular/router";
-import {ProfileService} from "../shared/services/profile.service";
-import {Profile} from "../shared/interfaces/profile";
-import {Status} from "../shared/interfaces/status";
-import {ActivatedRoute} from "@angular/router";
-// import {FormGroup, FormBuilder, Validators} from "@angular/forms";
-// import {repeat} from "rxjs/operators";
 
-// import {AuthService} from "../shared/services/auth.service";
-// import {el} from "@angular/platform-browser/testing/src/browser_util";
-// import {SessionService} from "../shared/services/session.service";
+import {Component, OnInit} from "@angular/core";
+import {ImageService} from "../shared/services/image.service";
+import {Router} from "@angular/router";
+import {Image} from "../shared/interfaces/image";
+import {Profile} from "../shared/interfaces/profile";
+import {Gallery} from "../shared/interfaces/gallery";
+//TODO the following were in George's working example for image
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {FileUploader} from "ng2-file-upload";
+import {CookieService} from "ngx-cookie";
+//following from Georges was unused as well, but it was CreateTweetComponent
+// import {AddImageComponent} from "../shared/add-image-component/add-image.component"
+
+//TODO there is some code that seemed unnecessary for our use that George did have. See his example.
 
 @Component({
 	templateUrl: "./profile.view.component.html"
 })
 
-export class ProfileViewComponent implements OnInit{
-	//create state variable to house all data
-	profile : Profile = {
+export class ProfileViewComponent implements OnInit {
+	//TODO seriously not sure about the following three lines.
+	profileId = {profileId: "25062bc2-6054-401b-9f02-97e841663da9"};
+	profile: Profile = {
 		profileId: null,
-		// profileAddress: null,
 		profileDate: null,
 		profileEmail: null,
 		profileLatitude: null,
@@ -29,22 +32,45 @@ export class ProfileViewComponent implements OnInit{
 		profileWebsite: null
 	};
 
-	// status: Status = (status : null, message: null, type: null);
+	galleryId = {galleryId: "12f2ed5f-9341-4450-9174-24eaadd6e3e2"};
+	gallery: Gallery = {galleryId: null, galleryProfileId: null, galleryDate: null, galleryName: null};
+	images: Image[] = [];
+	imageNotSelected: boolean = true;
 
-	constructor(private profileService: ProfileService, private activatedRoute : ActivatedRoute) {}
+	public uploader: FileUploader = new FileUploader(
+		{
+			itemAlias: 'image',
+			url: './api/image/',
+			headers: [
+				//TODO I added JWT-TOKEN per George instructions
+				{name: 'X-XSRF-TOKEN', value: this.cookieService.get('XSRF-TOKEN')},
+				{name: 'X-JWT-TOKEN', value: this.cookieService.get('JWT-TOKEN')}
+			],
+			//TODO Georgie
+			// additionalParameter: this.imageId
+		}
+	);
 
-	//call onInit above to work (fulfill the contract)
-	ngOnInit(): void {
-		this.getDetailedProfile(this.activatedRoute.snapshot.params["profileId"]);
+	constructor(protected imageService: ImageService, private router: Router, private modalService: NgbModal, private cookieService: CookieService) {
 	}
 
-	// loadProfile() {
-	// 	this.profileService.getProfileByProfileId().subscribe(reply => this.profile = reply);
-	// }
+	ngOnInit(): void {
+		//TODO did not have imageservice in his example just this.getImageBy... Also wasn't sure if we could use getAllImages here
+		this.getAllImages();
+		//TODO may want to delete console.log later
+		console.log(this.uploader);
+	}
 
-	getDetailedProfile(profileId : string) : void {
-		this.profileService.getProfileByProfileId(profileId).subscribe(reply => {
-			reply= this.profile;
-		})
+//TODO this also was not in his...
+// 	getDetailedView(image : Image) : void {
+// 		this.router.navigate(["/detailed-user/", image.imageId]);
+// 	}
+
+	uploadImage(): void {
+		this.uploader.uploadAll();
+	}
+
+	getAllImages() {
+		this.imageService.getAllImages().subscribe(reply => this.images = reply);
 	}
 }
