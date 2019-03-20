@@ -14,49 +14,6 @@
 		</div>
 
 	</div>
-	<!--&lt;!&ndash;CAROUSEL BAR:&ndash;&gt;-->
-	<!--<div class="carousel-bar containter-fluid">-->
-
-	<!--&lt;!&ndash;CAROUSEL:&ndash;&gt;-->
-	<!--<div id="carousel" class="carousel slide bg-dark" data-ride="carousel">-->
-	<!--<div class="carousel-inner">-->
-	<!--&lt;!&ndash;GALLERY 1:&ndash;&gt;-->
-	<!--<div class="carousel-item active">-->
-	<!--<img class="d-block w-100" src="../ng/src/assets/img/sample-image-1.jpg" alt="First slide">-->
-	<!--<div class="carousel-caption mx-auto bg-dark">-->
-	<!--<h5>{{ gallery.galleryName }}</h5>-->
-	<!--</div>-->
-	<!--</div>-->
-	<!--&lt;!&ndash;GALLERY 2:&ndash;&gt;-->
-	<!--<div class="carousel-item">-->
-	<!--<img class="d-block w-100" src="../ng/src/assets/img/sample-image-2.jpg" alt="Second slide">-->
-	<!--<div class="carousel-caption mx-auto bg-dark">-->
-	<!--<h5>{{ gallery.galleryName }}</h5>-->
-	<!--</div>-->
-	<!--</div>-->
-	<!--&lt;!&ndash;GALLERY 3:&ndash;&gt;-->
-	<!--<div class="carousel-item">-->
-	<!--<img class="d-block w-100" src="../ng/src/assets/img/sample-image-3.jpg" alt="Third slide">-->
-	<!--<div class="carousel-caption mx-auto bg-dark ">-->
-	<!--<h5>{{ gallery.galleryName }}</h5>-->
-	<!--</div>-->
-	<!--</div>-->
-	<!--&lt;!&ndash;CONTROLS, PREVIOUS:&ndash;&gt;-->
-	<!--<a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">-->
-	<!--<span class="carousel-control-prev-icon text-muted" aria-hidden="true"></span>-->
-	<!--<span class="sr-only text-muted">Previous</span>-->
-	<!--</a>-->
-	<!--&lt;!&ndash;CONTROLS, NEXT:&ndash;&gt;-->
-	<!--<a class="carousel-control-next" href="#carousel" role="button" data-slide="next">-->
-	<!--<span class="carousel-control-next-icon text-muted" aria-hidden="true"></span>-->
-	<!--<span class="sr-only text-muted">Next</span>-->
-	<!--</a>-->
-
-	<!--</div>-->
-	<!--</div>-->
-	<!--</div>-->
-
-	<!--Closes main container-->
 
 	<div class="container-fluid d-flex justify-content-center">
 
@@ -64,11 +21,27 @@
 			<div class="card-columns">
 				<div class="card card-images rounded" *ngFor="let image of images">
 
-					<img [src]="image.imageUrl" class="card-img" alt="">
+					<img [src]="image.imageUrl" class="card-img"  alt="">
 				</div>
 			</div>
 		</div>
 
 	</div>
+
+
+	<!--TODO For image polaroid style. Future use, please do not delete-->
+
+	<!--<div class="container-fluid">-->
+		<!--<div class="pics-wrapper border d-flex justify-space-between p-3 my-3">-->
+			<!--<div class="row pb-5">-->
+
+				<!--<div class="card card-images d-flex mt-0 pt-3 py-3 my-3 mb-5 pb-5 shadow-none" *ngFor="let image of images">-->
+
+					<!--<img [src]="image.imageUrl" class="card-img pb-5" width="200px" height="200px" alt="">-->
+				<!--</div>-->
+
+			<!--</div>-->
+		<!--</div>-->
+	<!--</div>-->
 
 </main>
