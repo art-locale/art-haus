@@ -40,7 +40,7 @@ export class SignUpComponent implements OnInit{
 
 	createSignUp(): void {
 
-		let signUp : SignUp = {
+		let signUp: SignUp = {
 			profileId: this.signUpForm.value.null,
 			profileDate: this.signUpForm.value.date,
 			profileName: this.signUpForm.value.name,
@@ -48,16 +48,17 @@ export class SignUpComponent implements OnInit{
 			profileWebsite: this.signUpForm.value.website,
 			profilePassword: this.signUpForm.value.password,
 			profilePasswordConfirm: this.signUpForm.value.passwordConfirm
-      };
+		};
+
+		this.status = {status: null, message: null, type: null}
+
 
 		this.signUpService.createProfile(signUp)
 			.subscribe(status => {
 				this.status = status;
 
-				// if(this.status.status === 200) {
-					// alert(status.message);
-					//this.router.navigate([""]);
-				// }
-			});
+				// this.router.navigate([""])
+
+				});
 	}
 }
