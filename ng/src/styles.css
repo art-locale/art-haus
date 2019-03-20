@@ -17,45 +17,35 @@
 	outline: none !important;
 }
 
-/*PROFILE VIEW:*/
-
-.carousel-inner {
-	margin: auto;
+#logo img {
+	height: 25px;
 }
 
-/*@media only screen and (max-width: 550px){*/
-
-.carousel-item {
-
+.navbar {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.carousel-caption {
-	opacity: .75;
-	height: 4rem;
-	width: 15rem;
-}
-
-img {
-	height: 29rem;
-	width: auto;
-	object-fit: contain;
-	margin-top: 1rem;
-}
-
-.row {
-	margin-right: 0;
-	margin-left: 0;
-}
-/*NAVBAR:*/
 
 /*JUMBOTRON:*/
-.jumbotron h1 {
+.jumbotron {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	text-align: center;
+}
+
+.jumbotron h1, .jumbotron p {
 	font-family: "Raleway", sans-serif;
 }
 
-/*FOOTER*/
-
 /*SPLASH*/
+.pics-wrapper {
+	display: flex;
+	justify-content: center !important;
+	align-items: center !important;
+}
+
+.pics-wrapper .row {
+
+}
 
 .card {
 	height: 350px;
@@ -80,22 +70,4 @@ img {
 
 	}
 
-#logo img {
-	height: 25px;
-}
 
-.navbar {
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.jumbotron {
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-	text-align: center;
-	}
-/*!*Fixes for Brandon's (Doesn't work, also to test add the class container-brandon to the appropriate div)*!*/
-/*.container-brandon {*/
-	/*margin-bottom: 5rem !important;*/
-/*}*/
-/*.jumbotron {*/
-	/*padding-bottom: 5rem !important;*/
-/*}*/

@@ -16,14 +16,18 @@
 
 	</div>
 
-	<div class="container-fluid">
-		<div class="row">
+	<div class="container">
+		<div class="pics-wrapper w-100 border d-flex justify-content-center align-content-center">
+         <div class="row">
 
-			<div class="card card-images d-flex m-3" *ngFor="let image of images">
+            <div class="card card-images d-flex m-3" *ngFor="let image of images">
 
-				<img [src]="image.imageUrl" class="card-img" width="200px" height="200px" alt="">
-			</div>
+               <img [src]="image.imageUrl" class="card-img" width="200px" height="200px" alt="">
+            </div>
 
+         </div>
+      </div>
+   </div>
 			<!--<div class="sm-col-4 col-3 my-3">-->
 				<!--<div class="card bg-primary">-->
 						<!--<img src="https://res.cloudinary.com/drfjidr03/image/upload/v1553093408/the-long-road-to-santa-fe-art-west.jpg" class="card-img"  alt="">-->
@@ -95,8 +99,5 @@
 						<!--<img src="https://res.cloudinary.com/drfjidr03/image/upload/v1553094252/1645445-EAMGUYXE-7.jpg" class="card-img" width="200px" height="200px" alt="">-->
 				<!--</div>-->
 			<!--</div>-->
-
-			</div>
-	</div>
 
 </main>
