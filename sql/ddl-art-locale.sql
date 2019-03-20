@@ -12,7 +12,7 @@ ALTER DATABASE arthaus CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 # DROP TABLE profile;
 
 -- To delete a specific image, notice all letters must be lower case.
-DELETE FROM image WHERE imageId = UNHEX("0E397A118AE2418596B2314275AF5E81");
+DELETE FROM image WHERE imageId = UNHEX("6e3318177d0441148f1c39294c5117e1");
 -- To delete a specific gallery, notice all letters must be lower case. NOTE: Must delete the gallery then too
 DELETE FROM gallery WHERE galleryProfileId = UNHEX("a28354a1f093445eb01e178fac7b05aa");
 -- To delete a specific profile, notice all letters must be lower case. NOTE: Must delete the gallery then too
