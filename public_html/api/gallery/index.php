@@ -23,9 +23,16 @@ $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
 try {
+
+
 	//grab the mySQL connection
 	$secrets = new \Secrets("/etc/apache2/capstone-mysql/cohort23/arthaus.ini");
   $pdo = $secrets->getPdoObject();
+
+  $profile = Profile::getProfileByEmail($pdo, "william.isengard@gmail.com");
+  $gallery = new Gallery(generateUuidV4(), $profile->getProfileId(), new DateTime(), "I have the master profile");
+  $gallery->insert($pdo);
+  echo $gallery->getGalleryId()->toString();
 	//determine which HTTP method was used
 	$method = $_SERVER["HTTP_X_HTTP_METHOD"] ?? $_SERVER["REQUEST_METHOD"];
 	// sanitize input

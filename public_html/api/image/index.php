@@ -58,11 +58,8 @@ try {
 
 			$cloudinaryResult = \Cloudinary\Uploader::upload($tempUserFileName, array("width" => 200, "crop" => "scale"));
 
-			$gallery = Gallery::getGalleryByGalleryProfileId($pdo, $_SESSION["profile"]->getProfileId());
-
-			$image = new Image(generateUuidV4(),$gallery[0]->getGalleryId, $_SESSION["profile"] -> getProfileId(), $imageDate, $imageTitle, $cloudinaryResult["secure_url"]);
+			$image = new Image(generateUuidV4(),"fd78ebdf-a03d-4c4c-bbf6-85d3e7a4273c", $_SESSION["profile"] -> getProfileId(), new DateTime(), $imageTitle, $cloudinaryResult["secure_url"]);
 			$image->insert($pdo);
-			var_dump($image);
 			$reply->message = "Image uploaded!";
 		}
 }

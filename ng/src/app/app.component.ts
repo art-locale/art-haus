@@ -3,6 +3,7 @@ import {Status} from "./shared/interfaces/status";
 import {SessionService} from "./shared/services/session.service";
 import {SignInService} from "./shared/services/signIn.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {Router} from "@angular/router";
 import {SignInComponent} from "./shared/sign-in-component/sign-in.component";
 import {ImageService} from "./shared/services/image.service";
 import {UpdateProfileComponent} from "./shared/update-profile-component/update-profile.component";
@@ -35,4 +36,24 @@ export class AppComponent{
   openAddImageModal() {
     const modalRef = this.modalService.open(AddImageComponent);
   }
-}
+
+signOut() : void {
+  this.signInService.getSignOut()
+
+     .subscribe(status => {
+       this.status = status;
+       if(status.status === 200) {
+
+         // //delete cookies and jwt
+         // this.cookieService.deleteAll();
+         // localStorage.clear();
+
+         if(this.status.status === 200) {
+           alert("Thanks for visiting the Arts Haus!")
+           location.reload();
+
+           // this.router.navigate([""])
+         }
+       }
+     })
+}}
