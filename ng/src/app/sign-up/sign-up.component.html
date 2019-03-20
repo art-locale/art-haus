@@ -1,6 +1,6 @@
 <main>
 
-	<div class="container bg-secondary h-100">
+	<div class="container bg-primary h-100">
 		<h1 class="text-center pt-5 mt-5">Sign Up For The Arts Haus!</h1>
 
 		<form [formGroup]="signUpForm" class="form-control-lg" id="form" action="" method="post" (submit)="createSignUp();" novalidate>
@@ -29,7 +29,7 @@
 				<input type="password" class="d-flex justify-content-start form-control" formControlName="passwordConfirm" id="passwordConfirm" placeholder="Confirm Password">
 			</div>
 
-			<button type="submit" class="btn btn-info">Submit</button>
+			<button type="submit" class="btn btn-warning"><strong>Submit</strong></button>
 		</form>
 
       <div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">

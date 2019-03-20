@@ -57,14 +57,31 @@ img {
 	width: 350px;
 	padding: 0;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+}
+
+.card-body {
+
 }
 
 .card img {
-	height: 325px;
-	display: block;
-	margin: auto;
-	vertical-align: middle;
+	max-height: 300px;
+	width: 300px;
+	/*display: block;*/
+	margin-top: 0 !important;
+
 	}
+
+#logo img {
+	height: 25px;
+}
+
+.navbar {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 
 .jumbotron {
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
