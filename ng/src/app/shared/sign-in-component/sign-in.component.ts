@@ -6,7 +6,6 @@
 import {Component, Input, OnInit, ViewChild} from "@angular/core";
 import {Router} from "@angular/router";
 import {NgbActiveModal, NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Status} from "../interfaces/status";
 import {SignInService} from "../services/signIn.service";
@@ -23,7 +22,6 @@ import {SignIn} from "../interfaces/sign.in";
 export class SignInComponent implements OnInit {
 
 	signInForm: FormGroup;
-
 
 	status: Status = null;
 
