@@ -53,6 +53,18 @@
 		<!--</div>-->
 
 		<!--Closes main container-->
+
+		<div class="container-fluid">
+			<div class="row">
+
+				<div class="card card-images d-inline" *ngFor="let image of images">
+
+					<img [src]="image.imageUrl" class="card-img" width="200px" height="200px" alt="">
+				</div>
+
+			</div>
+		</div>
+
 	</div>
 
 </main>
