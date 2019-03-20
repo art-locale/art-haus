@@ -86,6 +86,7 @@ try {
 			if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $gallery->getGalleryProfileId()->toString()) {
 				throw(new \InvalidArgumentException("You are not allowed to edit this gallery", 403));
 			}
+
 			// validateJwtHeader();
 			// update all attributes
 			//$gallery->setGalleryDate($requestObject->galleryDate);
