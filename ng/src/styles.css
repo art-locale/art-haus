@@ -62,8 +62,13 @@ img {
 .card img {
 	height: 325px;
 	display: block;
-	margin: 0;
+	margin: auto;
 	vertical-align: middle;
+	}
+
+.jumbotron {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	text-align: center;
 	}
 /*!*Fixes for Brandon's (Doesn't work, also to test add the class container-brandon to the appropriate div)*!*/
 /*.container-brandon {*/
