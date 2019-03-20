@@ -56,15 +56,20 @@
 
 		<!--Closes main container-->
 
-		<div class="container-fluid">
-			<div class="row">
+	<div class="container-fluid">
+		<div class="pics-wrapper border d-flex justify-space-between p-3 my-3">
+			<div class="row pb-5">
 
-				<div class="card card-images d-inline m-2" *ngFor="let image of images">
+				<div class="card card-images d-flex h-100 mt-0 pt-3 my-3 mb-5 pb-5" *ngFor="let image of images">
 
-					<img [src]="image.imageUrl" class="card-img" width="200px" height="200px" alt="">
+					<img [src]="image.imageUrl" class="card-img pb-5" width="200px" height="200px" alt="">
+				</div>
+				<div class="">
+					<p>Hidden</p>
 				</div>
 
 			</div>
 		</div>
+	</div>
 
 </main>
