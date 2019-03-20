@@ -1,11 +1,11 @@
 <header>
-   <link href="https://fonts.googleapis.com/css?family=Montserrat+Subrayada" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat+Subrayada" rel="stylesheet">
 	<div class="container-fluid">
 		<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
 
-			<a class="justify-content-left logo-wrapper" href="" id="logo"><span class="art-logo"> <img class="m-auto" src="https://res.cloudinary.com/drfjidr03/image/upload/v1553096286/art-haus-icon.png" alt="The Art Haus Icon"/> THE ARTS HAUS</span></a>
+			<a class="justify-content-left logo-wrapper" href="" id="logo"><span class="art-logo"> <img class="m-auto" src="https://res.cloudinary.com/drfjidr03/image/upload/v1553096286/art-haus-icon.png" alt="The Art Haus Icon" /> THE ARTS HAUS</span></a>
 
-			<button class="navbar-toggler btn-primary mt-1" type="button" data-toggle="collapse" (click)="isNavbarCollapsed = !isNavbarCollapsed" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" >
+			<button class="navbar-toggler btn-primary mt-1" type="button" data-toggle="collapse" (click)="isNavbarCollapsed = !isNavbarCollapsed" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
@@ -15,7 +15,7 @@
 						<a class="nav-link dropdown-toggle text-primary" ngbDropdownToggle id="navbarDropdownAccount" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
 						<div class="dropdown-menu" ngbDropdownMenu aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" ngbDropdownItem href="./sign-up">Sign Up</a>
-							<a class="dropdown-item" ngbDropdownItem data-toggle="modal"(click)="openSignInModal()">Sign In</a>
+							<a class="dropdown-item" ngbDropdownItem data-toggle="modal" (click)="openSignInModal()">Sign In</a>
 							<a class="dropdown-item" ngbDropdownItem href="" routerLink="" (click)="signOut();">Sign Out</a>
 						</div>
 					</li>
@@ -23,7 +23,7 @@
 						<a class="nav-link dropdown-toggle text-primary" ngbDropdownToggle id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profile</a>
 						<div class="dropdown-menu" ngbDropdownMenu aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" ngbDropdownItem href="./profile-view">Profile Page</a>
-							<a class="dropdown-item" ngbDropdownItem data-toggle="modal"(click)="openUpdateProfileModal()">Update Profile</a>
+							<a class="dropdown-item" ngbDropdownItem data-toggle="modal" (click)="openUpdateProfileModal()">Update Profile</a>
 						</div>
 					</li>
 					<li class="nav-item">
@@ -61,5 +61,3 @@
 		</div>
 	</div>
 </footer>
-
-

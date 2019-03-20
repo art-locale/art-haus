@@ -17,18 +17,11 @@
 			</div>
 
 			<div class="inline">
-				<input
-					type="file"
-					accept="image/*"
-					ng2FileSelect
-					[uploader]="uploader"
-					aria-describedby="petHelp"
-				/>
+				<input type="file" accept="image/*" ng2FileSelect [uploader]="uploader" aria-describedby="petHelp" />
 			</div>
 
 			<div class="my-1">
-				<button type="button" class="btn btn-warning btn-s"
-						  (click)="submitImage()" [disabled]="!uploader.getNotUploadedItems().length">
+				<button type="button" class="btn btn-warning btn-s" (click)="submitImage()" [disabled]="!uploader.getNotUploadedItems().length">
 					<span class="glyphicon glyphicon-upload"></span><strong>Upload</strong>
 				</button>
 			</div>
@@ -37,4 +30,3 @@
 	</form>
 
 </div>
-
