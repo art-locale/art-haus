@@ -13,4 +13,24 @@
 
 	</div>
 
+	<div class="container">
+		<div class="row">
+			<div class="sm-col-6 col-4">
+				<div class="card bg-info">
+					<div class="card-body">
+						<p class="card-text">{{image.imageTitle}}</p>
+									</div>
+				</div>
+			</div>
+			<div class="col-6">
+				<div class="card-columns">
+					<div class="card card-images d-inline" *ngFor="let image of images">
+
+						<img [src]="image.imageUrl" class="card-img" width="200px" height="200px" alt="">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </main>
