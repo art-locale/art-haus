@@ -144,7 +144,7 @@ EOF;
 			throw(new RuntimeException("unable to send email", 400));
 		}
 		// update reply
-		$reply->message = "Thank you for creating an account with Art Haus!<br/>Please check your email and activate your account to continue.";
+		$reply->message = "Thank you for creating an account with Art Haus! Please check your email and activate your account to continue.";
 	} else {
 		throw (new InvalidArgumentException("invalid http request"));
 	}
