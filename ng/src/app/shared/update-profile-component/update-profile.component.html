@@ -1,36 +1,36 @@
-			<div class="modal-header bg-primary">
-					<h5 class="modal-title" id="profileUpdateModal">Update Your Profile</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-					<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body bg-primary">
-					<form (submit)="editProfile();" [formGroup]="updateProfileForm" class="form-control-lg" id="updateProfileForm" method="post" name="updateProfileForm" novalidate>
-											<div class="info">
-							<input class="form-control m-2" id="newProfileName" type="text" name="newProfileName" placeholder="Profile Name" />
-												<div *ngIf="updateProfileForm.controls.name?.invalid && updateProfileForm.controls.name?.touched" class="alert alert-danger">
-													<p *ngIf="updateProfileForm.controls.name?.errors.required">Name is incorrect.</p>
-												</div>
+<div class="modal-header bg-primary">
+	<h5 class="modal-title" id="profileUpdateModal">Update Your Profile</h5>
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="modal-body bg-primary">
+	<form (submit)="editProfile();" [formGroup]="updateProfileForm" class="form-control-lg" id="updateProfileForm" method="post" name="updateProfileForm" novalidate>
+		<div class="info">
+			<input class="form-control m-2" id="newProfileName" type="text" name="newProfileName" placeholder="Profile Name" />
+			<div *ngIf="updateProfileForm.controls.name?.invalid && updateProfileForm.controls.name?.touched" class="alert alert-danger">
+				<p *ngIf="updateProfileForm.controls.name?.errors.required">Name is incorrect.</p>
+			</div>
 
-							<input class="form-control m-2" id="newEmail" type="text" name="newEmail" placeholder="Email" />
-												<div *ngIf="updateProfileForm.controls.email?.invalid && updateProfileForm.controls.email?.touched" class="alert alert-danger">
-													<p *ngIf="updateProfileForm.controls.email?.errors.required">Email is incorrect.</p>
-												</div>
-							<input class="form-control m-2" id="newWebsite" type="text" name="newWebsite" placeholder="Website" />
-												<div *ngIf="updateProfileForm.controls.website?.invalid && updateProfileForm.controls.website?.touched" class="alert alert-danger">
-													<p *ngIf="updateProfileForm.controls.website?.errors.required">Website is incorrect.</p>
-												</div>
-								<input class="form-control m-2" id="newPassword" type="password" name="newPassword" placeholder="New Password" />
-												<div *ngIf="updateProfileForm.controls.password?.invalid && updateProfileForm.controls.password?.touched" class="alert alert-danger">
-													<p *ngIf="updateProfileForm.controls.password?.errors.required">Current password is incorrect.</p>
-												</div>
-						</div>
-						<button type="submit" class="btn btn-outline-dark bg-warning"><strong>Submit Updates</strong></button>
-					</form>
-					<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
-						<button type="button" class="close" aria-label="Close" (click)="status = null;"><span
-							aria-hidden="true">&times;</span></button>
-						{{ status.message }}
-					</div>
-				</div>
+			<input class="form-control m-2" id="newEmail" type="text" name="newEmail" placeholder="Email" />
+			<div *ngIf="updateProfileForm.controls.email?.invalid && updateProfileForm.controls.email?.touched" class="alert alert-danger">
+				<p *ngIf="updateProfileForm.controls.email?.errors.required">Email is incorrect.</p>
+			</div>
+			<input class="form-control m-2" id="newWebsite" type="text" name="newWebsite" placeholder="Website" />
+			<div *ngIf="updateProfileForm.controls.website?.invalid && updateProfileForm.controls.website?.touched" class="alert alert-danger">
+				<p *ngIf="updateProfileForm.controls.website?.errors.required">Website is incorrect.</p>
+			</div>
+			<input class="form-control m-2" id="newPassword" type="password" name="newPassword" placeholder="New Password" />
+			<div *ngIf="updateProfileForm.controls.password?.invalid && updateProfileForm.controls.password?.touched" class="alert alert-danger">
+				<p *ngIf="updateProfileForm.controls.password?.errors.required">Current password is incorrect.</p>
+			</div>
+		</div>
+		<button type="submit" class="btn btn-outline-dark bg-warning"><strong>Submit Updates</strong></button>
+	</form>
+	<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
+		<button type="button" class="close" aria-label="Close" (click)="status = null;"><span
+			aria-hidden="true">&times;</span></button>
+		{{ status.message }}
+	</div>
+</div>
 

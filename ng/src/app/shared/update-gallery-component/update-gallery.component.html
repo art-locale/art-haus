@@ -1,27 +1,27 @@
-				<div class="modal-header">
-					<h5 class="modal-title" id="galleryRenameModal">Update A Gallery</h5>
-					<button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<form (submit)="editGallery();" [formGroup]="updateGalleryForm" class="form-control-lg" id="updateGalleryForm" method="post" name="updateGalleryForm" novalidate>
-						<div class="info">
-							<input class="form-control" id="galleryName" type="text" name="galleryName" placeholder="Gallery Name" />
-							<div *ngIf="updateGalleryForm.controls.name?.invalid && updateGalleryForm.controls.name?.touched" class="alert alert-danger">
-								<p *ngIf="updateGalleryForm.controls.name?.errors.required">Gallery name is incorrect.</p>
-							</div>
-							<input class="form-control" id="newGalleryName" type="text" name="newGalleryName" placeholder="New Gallery Name" />
-							<div *ngIf="updateGalleryForm.controls.newName?.invalid && updateGalleryForm.controls.newName?.touched" class="alert alert-danger">
-								<p *ngIf="updateGalleryForm.controls.newName?.errors.required">New gallery name is incorrect.</p>
-							</div>
-						</div>
-						<button type="submit" class="btn btn-outline-dark">Submit Updates</button>
-					</form>
-					<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
-						<button type="button" class="close" aria-label="Close" (click)="status = null;"><span
-							aria-hidden="true">&times;</span></button>
-						{{ status.message }}
-					</div>
-				</div>
+<div class="modal-header">
+	<h5 class="modal-title" id="galleryRenameModal">Update A Gallery</h5>
+	<button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="modal-body">
+	<form (submit)="editGallery();" [formGroup]="updateGalleryForm" class="form-control-lg" id="updateGalleryForm" method="post" name="updateGalleryForm" novalidate>
+		<div class="info">
+			<input class="form-control" id="galleryName" type="text" name="galleryName" placeholder="Gallery Name" />
+			<div *ngIf="updateGalleryForm.controls.name?.invalid && updateGalleryForm.controls.name?.touched" class="alert alert-danger">
+				<p *ngIf="updateGalleryForm.controls.name?.errors.required">Gallery name is incorrect.</p>
+			</div>
+			<input class="form-control" id="newGalleryName" type="text" name="newGalleryName" placeholder="New Gallery Name" />
+			<div *ngIf="updateGalleryForm.controls.newName?.invalid && updateGalleryForm.controls.newName?.touched" class="alert alert-danger">
+				<p *ngIf="updateGalleryForm.controls.newName?.errors.required">New gallery name is incorrect.</p>
+			</div>
+		</div>
+		<button type="submit" class="btn btn-outline-dark">Submit Updates</button>
+	</form>
+	<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
+		<button type="button" class="close" aria-label="Close" (click)="status = null;"><span
+			aria-hidden="true">&times;</span></button>
+		{{ status.message }}
+	</div>
+</div>
 
