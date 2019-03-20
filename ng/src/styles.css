@@ -44,7 +44,7 @@
 }
 
 .pics-wrapper .row {
-
+	justify-content: center;
 }
 
 .card {
