@@ -44,13 +44,8 @@ export class SignInComponent implements OnInit {
 			.subscribe(status => {
 				this.status = status;
 
-				if(this.status.status === 200) {
-					alert("Welcome back to Art Haus!")
-					this.signInForm.reset();
-					location.reload();
+					this.router.navigate(["./profile-view"])
 
-					this.router.navigate(["signed-in-homeview.php"])
-				}
 			});
 	}
 }
