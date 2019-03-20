@@ -1,32 +1,32 @@
 <main>
-   <!--google font import:-->
-   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+	<!--google font import:-->
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 
 	<div class="container">
 
-   <div class="container bg-white h-100 mt-5 pt-5">
-      <div class="jumbotron jumbotron-fluid bg-primary">
-         <div class="container">
-            <h1 class="display-4"><strong>Welcome to the Arts Haus!</strong></h1>
-					<br/>
-				<p class="lead"><strong>Enjoy the amazing art from local artists!<br/><br/>Sign in to share your own art and applaud art you want to support.</strong></p>
-         </div>
-      </div>
-   </div>
+		<div class="container bg-white h-100 mt-5 pt-5">
+			<div class="jumbotron jumbotron-fluid bg-primary">
+				<div class="container">
+					<h1 class="display-4"><strong>Welcome to the Arts Haus!</strong></h1>
+					<br />
+					<p class="lead"><strong>Enjoy the amazing art from local artists!<br /><br />Sign in to share your own art and applaud art you want to support.</strong></p>
+				</div>
+			</div>
+		</div>
 
 	</div>
 
 	<div class="container-fluid d-flex justify-content-center">
 
 		<!--<div class="pics-wrapper w-100 border d-flex justify-content-center align-content-center">-->
-         <div class="row">
-				<div class="card-columns">
-            <div class="card card-images rounded" *ngFor="let image of images">
+		<div class="row">
+			<div class="card-columns">
+				<div class="card card-images rounded" *ngFor="let image of images">
 
-               <img [src]="image.imageUrl" class="card-img"  alt="">
-            </div>
+					<img [src]="image.imageUrl" class="card-img" alt="">
 				</div>
-         </div>
-      </div>
+			</div>
+		</div>
+	</div>
 
 </main>
