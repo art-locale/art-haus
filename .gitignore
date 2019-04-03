@@ -2,6 +2,6 @@
 .DS_Store
 /.vendor
 */proxy.conf.json
-/.docker-composer-lesson.env
-/.georges-secret.php
-/php/secrets/secrets.php
+/.docker-compose-lesson.env
+/georges-secret.php
+/php/secrets/Secrets.php
