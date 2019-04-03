@@ -3,5 +3,5 @@
 /.vendor
 */proxy.conf.json
 /.docker-compose-lesson.env
-/georges-secret.php
+/.georges-secret.php
 /php/secrets/Secrets.php
