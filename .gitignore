@@ -2,3 +2,4 @@
 .DS_Store
 /.vendor
 */proxy.conf.json
+/.docker-composer-lesson.env
