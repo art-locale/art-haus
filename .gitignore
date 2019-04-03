@@ -4,3 +4,4 @@
 */proxy.conf.json
 /.docker-composer-lesson.env
 /.georges-secret.php
+/.secrets.php

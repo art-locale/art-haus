@@ -11,7 +11,7 @@ class Secrets {
 	 * password used for decrypting and encrypting
 	 * @var string $password
 	 **/
-	private $password = "--PASSWORD--";
+	private $password = "4658ff0d9c4e41fdb162ec020296b7a5860c855fe68c42d3afa495743225b6b7";
 
 	/**
 	 * path to where the .ini file lives on the server.
